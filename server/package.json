@@ -1,0 +1,22 @@
+{
+  "name": "utl-server",
+  "version": "0.0.0",
+  "description": "Under the limits",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thenkei/UnderTheLimits.git"
+  },
+  "author": "Thenkei, jeffladiray",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Thenkei/UnderTheLimits/issues"
+  },
+  "homepage": "https://github.com/Thenkei/UnderTheLimits#readme",
+  "devDependencies": {
+    "nodemon": "^1.18.8"
+  }
+}
