@@ -18,5 +18,8 @@
   "homepage": "https://github.com/Thenkei/UnderTheLimits#readme",
   "devDependencies": {
     "nodemon": "^1.18.8"
+  },
+  "dependencies": {
+    "socket.io": "^2.2.0"
   }
 }

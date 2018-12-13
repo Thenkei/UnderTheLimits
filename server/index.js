@@ -1,18 +1,14 @@
-// content of index.js
-const http = require('http');
-const port = 3000;
+const io = require('socket.io')();
 
-const requestHandler = (request, response) => {
-    console.log(request.url);
-    response.end('OK');
-}
-
-const server = http.createServer(requestHandler);
-
-server.listen(port, (err) => {
-    if (err) {
-        return console.log('something bad happened', err)
-    }
-
-    console.log(`server is listening on ${port}`)
+io.on('connection', (client) => {
+    client.on('subscribeToTimer', (interval) => {
+        console.log('client is subscribing to timer with interval ', interval);
+        setInterval(() => {
+            client.emit('timer', new Date());
+        }, interval);
+    });
 });
+
+const port = 3000;
+io.listen(port);
+console.log('listening on port ', port);
