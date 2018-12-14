@@ -1,4 +1,3 @@
-
 async function start() {
   const io = require('socket.io')(); // eslint-disable-line global-require
   const Channel = require('./src/channel'); // eslint-disable-line global-require
