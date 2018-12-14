@@ -4,6 +4,8 @@ WORKDIR /server
 
 ADD package.json /server/package.json
 
+COPY . /server
+
 RUN yarn
 
 ENV NODE_PATH=/server/node_modules

@@ -9,18 +9,19 @@ services:
     links:
       - mysql
     volumes:
-      - ./server:/server
+      - ./server/scripts:/server/scripts
+      - ./server/src:/server/src
     command: nodemon /server/index.js
 
   client:
     container_name: utl-client-dev
     build:
         context: ./client
-    restart: always
     ports:
       - "3000:3000"
     volumes:
-      - ./client:/client
+      - ./client/public:/client/public
+      - ./client/src:/client/src
     command: npm start
 
   phpmyadmin:
