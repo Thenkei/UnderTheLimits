@@ -4,6 +4,8 @@
   "description": "@TODO",
   "main": "index.js",
   "scripts": {
+    "postinstall": "./server/scripts/postinstall.sh",
+    "start:dev": "docker-compose -f docker-compose-dev.yml up --force-recreate --build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "npx eslint --fix --ignore-path .gitignore ."
   },
@@ -25,7 +27,8 @@
     "eslint-plugin-flowtype": "^3.2.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
-    "eslint-plugin-react": "^7.11.1"
+    "eslint-plugin-react": "^7.11.1",
+    "node-cipher": "^6.3.3"
 },
   "private": true,
   "workspaces": ["client", "server"]

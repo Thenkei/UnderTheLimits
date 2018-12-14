@@ -1,4 +1,6 @@
 server/node_modules
+server/scripts/populate_answer.sql
+server/scripts/populate_question.sql
 client/node_modules
 node_modules
 .DS_Store
