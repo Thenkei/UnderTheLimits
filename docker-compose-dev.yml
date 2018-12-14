@@ -8,9 +8,10 @@ services:
      - "3001:3001"
     links:
       - mysql
+    restart: always
     volumes:
-      - ./server/scripts:/server/scripts
-      - ./server/src:/server/src
+      - ./server:/server
+      - /server/node_modules
     command: nodemon /server/index.js
 
   client:
@@ -20,8 +21,8 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./client/public:/client/public
-      - ./client/src:/client/src
+      - ./client:/client
+      - /client/node_modules
     command: npm start
 
   phpmyadmin:
