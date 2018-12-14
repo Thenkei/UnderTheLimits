@@ -7,7 +7,7 @@ async function start() {
       db: 'utl',
       db_user: 'user',
       db_pwd: 'pwd',
-      db_host: '0.0.0.0',
+      db_host: 'mysql',
       db_log: false,
     };
 

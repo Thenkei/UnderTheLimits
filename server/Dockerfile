@@ -1,11 +1,16 @@
 FROM node:10.14.2-jessie
 
-ENV NODE_PATH=/client/node_modules
-ENV PATH=$PATH:/client/node_modules/.bin
-
-COPY . /server
 WORKDIR /server
 
+ADD package.json /server/package.json
+
+RUN yarn
+
+ENV NODE_PATH=/server/node_modules
+ENV PATH=$PATH:/server/node_modules/.bin
+
+COPY . /server
+
 EXPOSE 3001
-RUN npm install
+
 CMD npm start

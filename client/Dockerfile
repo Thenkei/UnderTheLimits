@@ -1,13 +1,15 @@
 FROM node:10.14.2-jessie
 
-ADD package.json /package.json
+WORKDIR /client
+
+ADD package.json /client/package.json
+
+RUN yarn
 
 ENV NODE_PATH=/client/node_modules
 ENV PATH=$PATH:/client/node_modules/.bin
-RUN npm install
 
-WORKDIR /client
-ADD . /client
+COPY . /client
 
 EXPOSE 3000
 EXPOSE 35729
