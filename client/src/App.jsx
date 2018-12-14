@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { subscribeToTimer } from './Api';
+import { subscribeToTimer, createPlayer } from './Api';
 
 class App extends Component {
+
+  state = {
+    timestamp: 'no timestamp yet',
+    playerName: ''
+  };
 
   constructor(props) {
     super(props);
@@ -12,19 +17,24 @@ class App extends Component {
     }));
   }
 
-  state = {
-    timestamp: 'no timestamp yet'
-  };
-
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
             <div className="App">
-              <p className="App-intro">
-              This is the timer value: {this.state.timestamp}
-              </p>
+              <input type="text" value={ this.state.playerName || "" } onChange={(e) => {
+                  this.setState( { playerName: e.target.value } );
+              } }
+              />
+            <button onClick={() => {
+                  createPlayer( this.state.playerName, ( player ) => {
+                    this.setState({ player });
+                  } )
+                }}
+            >
+              ok
+            </button>
             </div>
         </header>
       </div>
