@@ -1,7 +1,9 @@
+const IO = require('socket.io');
+const Channel = require('./src/channel');
+const Player = require('./src/player');
+
 async function start() {
-  const io = require('socket.io')(); // eslint-disable-line global-require
-  const Channel = require('./src/channel'); // eslint-disable-line global-require
-  const Player = require('./src/player'); // eslint-disable-line global-require
+  const io = IO();
   try {
     const config = {
       db: 'utl',

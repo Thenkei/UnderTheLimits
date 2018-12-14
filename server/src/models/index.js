@@ -1,8 +1,10 @@
-module.exports = async (config) => {
-  const Sequelize = require('sequelize');
+const Sequelize = require('sequelize');
+const Answer = require('./answer');
+const Question = require('./question');
 
+module.exports = async (config) => {
   try {
-    //init sequelize
+    // init sequelize
     const db = new Sequelize(
       config.db,
       config.db_user,
@@ -15,13 +17,13 @@ module.exports = async (config) => {
           max: 5,
           min: 0,
           acquire: 30000,
-          idle: 10000
-        }
-      }
+          idle: 10000,
+        },
+      },
     );
 
-    require('./answer')(db, Sequelize);
-    require('./question')(db, Sequelize);
+    Answer(db, Sequelize);
+    Question(db, Sequelize);
 
     await db.sync({ force: config.forceSync });
 
