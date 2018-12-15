@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import { error, createPlayer, updateLobby } from './Api';
 
+const DEFAULT_ERROR_TIMEOUT = 3000;
+
 class App extends Component {
 
   state = {
@@ -11,9 +13,14 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    error((errMsg) => this.setState({
-      error: errMsg
-    }));
+    error((errMsg) => {
+      this.setState({
+        error: errMsg
+      });
+      setTimeout( (() => {
+           this.setState({error:''});
+      }), DEFAULT_ERROR_TIMEOUT);
+    });
 
     updateLobby((err, lobby) => {
       console.warn( lobby );
