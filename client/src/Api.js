@@ -8,7 +8,7 @@ function init(cb) {
 
 function createPlayer(playerName, cb) {
   socket.emit('createPlayer', playerName );
-  socket.on( 'playerCreated', lobbyResponse => cb(null, lobbyResponse.player, lobbyResponse.lobby ));
+  socket.on( 'playerCreated', lobbyResponse => cb(null, lobbyResponse.player ));
 }
 
 function updateLobby(cb) {

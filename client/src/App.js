@@ -32,9 +32,9 @@ class App extends Component {
           } }
           />
           <button onClick={() => {
-                createPlayer( this.state.playerName, ( err, player, lobby ) => {
+                createPlayer( this.state.playerName, ( err, player ) => {
                   localStorage.setItem('utl-player', player);
-                  this.setState({ player, lobby });
+                  this.setState({ player });
                 } )
               }}
           >
