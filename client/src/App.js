@@ -20,8 +20,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <img src={logo} className="App-logo" alt="logo" />
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
             <div className="App">
               <input type="text" value={ this.state.playerName || "" } onChange={(e) => {
                   this.setState( { playerName: e.target.value } );

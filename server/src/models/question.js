@@ -2,9 +2,9 @@ module.exports = (db, Sequelize) => {
   db.define('Question', {
     id: {
       type: Sequelize.INTEGER,
-      primaryKey: true
+      primaryKey: true,
     },
-    text: Sequelize.STRING
+    text: Sequelize.STRING,
   }, {
     timestamps: false,
   });
