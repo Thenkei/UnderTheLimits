@@ -1,14 +1,24 @@
 import openSocket from 'socket.io-client';
 const  socket = openSocket('http://localhost:3001');
 
-function subscribeToTimer(cb) {
+function init(cb) {
   socket.on('timer', timestamp => cb(null, timestamp));
-  socket.on('playerCreated', player => cb(null, player));
   socket.emit('subscribeToTimer', 1000);
 }
 
 function createPlayer(playerName, cb) {
   socket.emit('createPlayer', playerName );
+  socket.on( 'playerCreated', lobbyResponse => cb(null, lobbyResponse.player, lobbyResponse.lobby ));
 }
 
-export { subscribeToTimer, createPlayer };
+function updateLobby(cb) {
+  socket.on('updateLobby', lobbyResponse => {
+    cb(null, lobbyResponse.lobby );
+  });
+}
+
+function error(cb) {
+  socket.on('err', errMsg => cb( errMsg ) );
+}
+
+export { init, createPlayer, updateLobby, error };

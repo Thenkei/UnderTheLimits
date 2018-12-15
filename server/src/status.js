@@ -1,0 +1,6 @@
+const PLAYER_STATUS = {
+  LOBBY: 'LOBBY',
+  WAITING_CHANNEL: 'WAITING_CHANNEL',
+};
+
+module.exports = { PLAYER_STATUS };
