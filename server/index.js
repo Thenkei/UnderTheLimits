@@ -19,6 +19,8 @@ async function start() {
     const CONNECTED_PLAYERS = [];
     const CHANNELS = [];
 
+    const dataBase = await require('./src/models')(config); // eslint-disable-line global-require
+
     await require('./src/models')(config); // eslint-disable-line global-require
     io.on('connection', (client) => {
       client.on('disconnect', () => {
@@ -65,7 +67,7 @@ async function start() {
           client.emit('err', 'failed to create new channel - no more space for new channel');
         } else {
           const currentPlayer = CONNECTED_PLAYERS.find(p => p.id === client.id);
-          const newChannel = new Channel([currentPlayer], channelName);
+          const newChannel = new Channel([currentPlayer], channelName, dataBase);
           CHANNELS.push(newChannel);
           console.warn(`channel ${channelName} created`);
           io.sockets.emit('updateLobby', {
@@ -74,6 +76,17 @@ async function start() {
             },
           });
         }
+      });
+      client.on('startGame', (channelName) => {
+        const waitingPlayers = CONNECTED_PLAYERS.filter(p => p.currentStatus === 'LOBBY');
+        const currentLobby = CHANNELS.find(c => c.name === channelName);
+        currentLobby.initializePlayersCards();
+        io.sockets.emit('updateLobby', {
+          lobby: {
+            waitingPlayers,
+            channels: CHANNELS,
+          },
+        });
       });
     });
   } catch (err) {

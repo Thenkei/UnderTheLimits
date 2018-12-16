@@ -21,8 +21,12 @@ function createChannel(channelName) {
   socket.emit('createChannel', channelName);
 }
 
+function startGame(channelName) {
+  socket.emit('startGame', channelName);
+}
+
 function error(cb) {
   socket.on('err', errMsg => cb( errMsg ) );
 }
 
-export { init, createPlayer, updateLobby, createChannel, error };
+export { init, createPlayer, updateLobby, createChannel, startGame, error };

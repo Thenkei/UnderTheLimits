@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { error, createPlayer, updateLobby, createChannel } from './Api';
+import { error, createPlayer, updateLobby, createChannel, startGame } from './Api';
 import {
   Col,
   Button,
@@ -60,6 +60,7 @@ class App extends Component {
 
   onCreateChannel( channelName ) {
     createChannel( channelName );
+    startGame( channelName );
   }
 
   renderStep() {

@@ -6,12 +6,12 @@ const MIN_PLAYER_COUNT = 3;
 const PLAYER_CARD_COUNT = 4;
 
 class Channel {
-  constructor(players, name) {
+  constructor(players, name, dataBase) {
     this.id = Math.floor(Math.random() * Math.floor(100));
     this.players = players || [];
     this.name = name || '';
-    this.deckAnswers = [];
-    this.deckQuestions = [];
+    this.deckAnswers = dataBase.models.Answers || [];
+    this.deckQuestions = dataBase.models.Questions || [];
     this.currentStatus = CHANNEL_STATUS.WAITING_GAME;
   }
 
@@ -57,13 +57,6 @@ class Channel {
   }
 
   //----
-
-  async init() {
-    const db = await require('./src/models')(config);
-
-    this.Questions = db.models.Questions;
-    this.deckAnswers = db.models.Answers;
-  }
 
   initializePlayersCards() {
     this.players.forEach((p) => {
