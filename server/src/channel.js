@@ -1,7 +1,7 @@
 const { CHANNEL_STATUS } = require('./status');
 
 const MAX_PLAYERS_COUNT = 6;
-// const MIN_PLAYER_COUNT = 3;
+const MIN_PLAYER_COUNT = 3;
 
 const PLAYER_CARD_COUNT = 4;
 
@@ -19,6 +19,12 @@ class Channel {
       this.players.push(player);
     } else {
       throw new Error('Can\'t add more player to channel');
+    }
+
+    if (this.players.length >= MIN_PLAYER_COUNT) {
+      this.currentStatus = CHANNEL_STATUS.GAMING;
+    } else {
+      this.currentStatus = CHANNEL_STATUS.WAITING_GAME;
     }
   }
 
@@ -50,6 +56,13 @@ class Channel {
   }
 
   //----
+
+  async init() {
+    const db = await require('./src/models')(config);
+
+    this.Questions = db.models.Questions;
+    this.deckAnswers = db.models.Answers;
+  }
 
   initializePlayersCards() {
     this.players.forEach((p) => {
