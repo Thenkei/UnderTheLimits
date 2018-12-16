@@ -68,19 +68,20 @@ async function start() {
         } else {
           try {
             const currentPlayer = CONNECTED_PLAYERS.find(p => p.id === client.id);
-            const newChannel = new Channel([currentPlayer], channelName, dataBase);
+            const newChannel = new Channel([currentPlayer], channelName, currentPlayer);
+            currentPlayer.currentStatus = 'WAITING_GAME';
             await newChannel.init(dataBase);
             CHANNELS.push(newChannel);
             console.warn(`channel ${channelName} created`);
+            io.sockets.emit('updateLobby', {
+              lobby: {
+                channels: CHANNELS,
+              },
+            });
+            client.emit('inChannel', { channel: newChannel });
           } catch (err) {
             console.error(err);
           }
-
-          io.sockets.emit('updateLobby', {
-            lobby: {
-              channels: CHANNELS,
-            },
-          });
         }
       });
       client.on('startGame', (channelName) => {
@@ -93,6 +94,12 @@ async function start() {
             channels: CHANNELS,
           },
         });
+      });
+      client.on('gotoChannel', (channelId) => {
+        const channel = CHANNELS.find(c => c.id === channelId);
+        channel.addPlayer(CONNECTED_PLAYERS.find(p => p.id === client.id));
+        client.emit('inChannel', { channel });
+        io.sockets.emit('updateChannel', { channel });
       });
     });
   } catch (err) {

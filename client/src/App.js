@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
-import { error, createPlayer, updateLobby, createChannel/*, startGame */ } from './Api';
+import {
+  error,
+  createPlayer,
+  updateLobby,
+  createChannel,
+  inChannel,
+  gotoChannel
+/*, startGame */
+} from './Api';
 import {
   Col,
   Button,
@@ -55,6 +63,12 @@ class App extends Component {
       });
     })
 
+    inChannel((err, channel) => {
+      this.setState({
+        currentChannel: channel
+      });
+    })
+
     this.onCreateChannel = this.onCreateChannel.bind(this);
   }
 
@@ -88,6 +102,10 @@ class App extends Component {
           </Form>
         </React.Fragment>
       );
+    } else if ( this.state.currentChannel ) {
+      return (
+        <p>{this.state.currentChannel.name}</p>
+      );
     } else {
       return (
         <Row>
@@ -106,7 +124,16 @@ class App extends Component {
             <h1><Label>CHANNELS</Label></h1>
             {
               this.state.lobby.channels.map( (p,i)=>{
-                return (<p key={i}>{p.name}</p>)
+                return (
+                  <Form inline>
+                    <p key={i}>{p.name}</p>
+                  <Button onClick={()=> {
+                      gotoChannel(p.id, (err, channel) => {
+                        this.setState({ currentChannel: channel });
+                      });
+                    }}>Join</Button>
+                  </Form>
+                )
               })
             }
           </Col>

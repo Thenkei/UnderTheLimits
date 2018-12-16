@@ -6,8 +6,9 @@ const MIN_PLAYER_COUNT = 3;
 const PLAYER_CARD_COUNT = 4;
 
 class Channel {
-  constructor(players, name) {
+  constructor(players, name, admin) {
     this.id = Math.floor(Math.random() * Math.floor(100));
+    this.admin = admin;
     this.players = players || [];
     this.name = name || '';
     this.currentStatus = CHANNEL_STATUS.WAITING_GAME;
@@ -38,7 +39,7 @@ class Channel {
   }
 
   addPlayer(player) {
-    if (this.players.length >= MAX_PLAYERS_COUNT) {
+    if (this.players.length <= MAX_PLAYERS_COUNT) {
       this.players.push(player);
     } else {
       throw new Error('Can\'t add more player to channel');
