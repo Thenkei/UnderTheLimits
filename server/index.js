@@ -1,7 +1,9 @@
 const IO = require('socket.io');
 const Player = require('./src/player');
+const Channel = require('./src/channel');
 
 const MAX_PLAYERS_IN_LOBBY = 10;
+const MAX_CHANNEL_COUNT = 10;
 
 async function start() {
   const io = IO();
@@ -15,6 +17,7 @@ async function start() {
     };
 
     const CONNECTED_PLAYERS = [];
+    const CHANNELS = [];
 
     await require('./src/models')(config); // eslint-disable-line global-require
     io.on('connection', (client) => {
@@ -46,10 +49,30 @@ async function start() {
           client.emit('playerCreated', { player });
           CONNECTED_PLAYERS.push(player);
           waitingPlayers.push(player);
-          io.sockets.emit('updateLobby', { lobby: { waitingPlayers } });
+          io.sockets.emit('updateLobby', {
+            lobby: {
+              waitingPlayers,
+              channels: CHANNELS,
+            },
+          });
         } else {
           console.warn(`Failed adding ${playerName} to lobby, already exist`);
           client.emit('err', 'failed to create new player - name already exist');
+        }
+      });
+      client.on('createChannel', (channelName) => {
+        if (CHANNELS.length >= MAX_CHANNEL_COUNT) {
+          client.emit('err', 'failed to create new channel - no more space for new channel');
+        } else {
+          const currentPlayer = CONNECTED_PLAYERS.find(p => p.id === client.id);
+          const newChannel = new Channel([currentPlayer], channelName);
+          CHANNELS.push(newChannel);
+          console.warn(`channel ${channelName} created`);
+          io.sockets.emit('updateLobby', {
+            lobby: {
+              channels: CHANNELS,
+            },
+          });
         }
       });
     });

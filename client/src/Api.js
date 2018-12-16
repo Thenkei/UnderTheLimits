@@ -17,8 +17,12 @@ function updateLobby(cb) {
   });
 }
 
+function createChannel(channelName) {
+  socket.emit('createChannel', channelName);
+}
+
 function error(cb) {
   socket.on('err', errMsg => cb( errMsg ) );
 }
 
-export { init, createPlayer, updateLobby, error };
+export { init, createPlayer, updateLobby, createChannel, error };
