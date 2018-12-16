@@ -3,4 +3,9 @@ const PLAYER_STATUS = {
   WAITING_CHANNEL: 'WAITING_CHANNEL',
 };
 
-module.exports = { PLAYER_STATUS };
+const CHANNEL_STATUS = {
+  GAMING: 'GAMING',
+  WAITING_GAME: 'WAITING_GAME',
+};
+
+module.exports = { PLAYER_STATUS, CHANNEL_STATUS };
