@@ -1,5 +1,5 @@
 const fs = require('fs-extra'); // eslint-disable-line import/no-extraneous-dependencies
-const Models = require('../src/models');
+const DB = require('../src/models');
 
 (async () => {
   try {
@@ -13,7 +13,7 @@ const Models = require('../src/models');
     };
 
     console.log('Connection to db...'); // eslint-disable-line no-console
-    const db = await Models(config);
+    const db = await DB(config);
 
     console.log('Populate...'); // eslint-disable-line no-console
     let sql = await fs.readFile(`${__dirname}/populate_answer.sql`, 'utf8');
@@ -25,6 +25,6 @@ const Models = require('../src/models');
     console.log('Populate done'); // eslint-disable-line no-console
     process.exit();
   } catch (err) {
-    throw err;
+    console.error(err);
   }
 })();

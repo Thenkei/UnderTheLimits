@@ -6,13 +6,34 @@ const MIN_PLAYER_COUNT = 3;
 const PLAYER_CARD_COUNT = 4;
 
 class Channel {
-  constructor(players, name, dataBase) {
+  constructor(players, name) {
     this.id = Math.floor(Math.random() * Math.floor(100));
     this.players = players || [];
     this.name = name || '';
-    this.deckAnswers = dataBase.models.Answers || [];
-    this.deckQuestions = dataBase.models.Questions || [];
     this.currentStatus = CHANNEL_STATUS.WAITING_GAME;
+
+    this.deckAnswers = [];
+    this.deckQuestions = [];
+  }
+
+  async init(dataBase) {
+    try {
+      this.deckAnswers = await dataBase.models.Answer.findAll({
+        order: [
+          dataBase.Sequelize.fn('RAND'),
+        ],
+        raw: true,
+      });
+      this.deckQuestions = await dataBase.models.Question.findAll({
+        order: [
+          dataBase.Sequelize.fn('RAND'),
+        ],
+        raw: true,
+      });
+      console.log(this.deckAnswers);
+    } catch (err) {
+      throw err;
+    }
   }
 
   addPlayer(player) {

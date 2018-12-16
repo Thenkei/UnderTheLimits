@@ -1,6 +1,7 @@
 const IO = require('socket.io');
 const Player = require('./src/player');
 const Channel = require('./src/channel');
+const DataBase = require('./src/models');
 
 const MAX_PLAYERS_IN_LOBBY = 10;
 const MAX_CHANNEL_COUNT = 10;
@@ -19,9 +20,8 @@ async function start() {
     const CONNECTED_PLAYERS = [];
     const CHANNELS = [];
 
-    const dataBase = await require('./src/models')(config); // eslint-disable-line global-require
+    const dataBase = await DataBase(config);
 
-    await require('./src/models')(config); // eslint-disable-line global-require
     io.on('connection', (client) => {
       client.on('disconnect', () => {
         const disconnectedPlayerIndex = CONNECTED_PLAYERS.findIndex(p => p.id === client.id);
@@ -62,14 +62,20 @@ async function start() {
           client.emit('err', 'failed to create new player - name already exist');
         }
       });
-      client.on('createChannel', (channelName) => {
+      client.on('createChannel', async (channelName) => {
         if (CHANNELS.length >= MAX_CHANNEL_COUNT) {
           client.emit('err', 'failed to create new channel - no more space for new channel');
         } else {
-          const currentPlayer = CONNECTED_PLAYERS.find(p => p.id === client.id);
-          const newChannel = new Channel([currentPlayer], channelName, dataBase);
-          CHANNELS.push(newChannel);
-          console.warn(`channel ${channelName} created`);
+          try {
+            const currentPlayer = CONNECTED_PLAYERS.find(p => p.id === client.id);
+            const newChannel = new Channel([currentPlayer], channelName, dataBase);
+            await newChannel.init(dataBase);
+            CHANNELS.push(newChannel);
+            console.warn(`channel ${channelName} created`);
+          } catch (err) {
+            console.error(err);
+          }
+
           io.sockets.emit('updateLobby', {
             lobby: {
               channels: CHANNELS,
