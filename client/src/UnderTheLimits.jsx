@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import {
   ToggleButtonGroup,
+  ButtonToolbar,
   Button,
   Row
 } from 'react-bootstrap';
@@ -11,27 +12,38 @@ class UnderTheLimits extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
-      value: []
+      value: [],
+      answerSelectNum: 1
     };
 
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(e) {
-    this.setState({ value: e });
+  handleChange(change) {
+      const index = this.state.value.indexOf(change);
+      if (index < 0) {
+          if (this.state.value.length >= this.state.answerSelectNum) {
+            console.warn(`Can't select more answers for this question`); // TODO Change with <Alert color="primary">
+          }else {
+            this.state.value.push(change);
+          }
+      } else {
+          this.state.value.splice(index, 1);
+      }
+      console.warn(this.state.value);
+      this.setState({ value: [...this.state.value] });
+  }
+
+  handleQuestion() {
+     //return this.props.currentChannel.deckQuestions[0].replace('______', this.state.answerSelected);
   }
 
   componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
-    if (this.props.userID !== prevProps.userID) {
-      this.fetchData(this.props.userID);
-    }
   }
 
   render() {
-     console.warn(this.props.player);
-     console.warn(this.props.player.hand);
     if(this.props.player && this.props.player.hand) {
     return (
     <React.Fragment>
@@ -39,6 +51,7 @@ class UnderTheLimits extends Component {
       <Button bsStyle="warning" size="lg" active>{this.props.currentChannel.deckQuestions[0]}</Button>
       </Row>
       <Row>
+      <ButtonToolbar>
       <ToggleButtonGroup
         type="checkbox"
         value={this.state.value}
@@ -47,9 +60,10 @@ class UnderTheLimits extends Component {
       {
           this.props.player.hand.map((answer) =>
               <AnswerCard key={answer.toString()}
-                    value={answer}/>
+                    value={answer} onChange={this.handleChange}/>
       )}
       </ToggleButtonGroup>
+      </ButtonToolbar>
     </Row>
     </React.Fragment>
     );
