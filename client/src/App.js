@@ -5,9 +5,10 @@ import {
   createPlayer,
   updateLobby,
   createChannel,
+  updateChannel,
   inChannel,
-  gotoChannel
-/*, startGame */
+  gotoChannel,
+  startGame
 } from './Api';
 import {
   Col,
@@ -20,6 +21,8 @@ import {
   Form
 } from 'react-bootstrap';
 import CreateChannel from './CreateChannel';
+import UnderTheLimits from './UnderTheLimits';
+
 
 const DEFAULT_ERROR_TIMEOUT = 3000;
 
@@ -63,6 +66,19 @@ class App extends Component {
       });
     })
 
+    updateChannel((err, channel) => {
+        if (channel && channel.players) {
+            let me = channel.players.find(c => c.id === this.state.player.id);
+            this.setState({
+                player: me
+            });
+        }
+
+      this.setState({
+        currentChannel: channel
+      });
+    })
+
     inChannel((err, channel) => {
       this.setState({
         currentChannel: channel
@@ -74,7 +90,6 @@ class App extends Component {
 
   onCreateChannel( channelName ) {
     createChannel( channelName );
-    //startGame( channelName );
   }
 
   renderStep() {
@@ -102,9 +117,37 @@ class App extends Component {
           </Form>
         </React.Fragment>
       );
+
     } else if ( this.state.currentChannel ) {
+
+        console.warn(this.state.currentChannel);
       return (
-        <p>{this.state.currentChannel.name}</p>
+      <Grid>
+        <Row>
+          <Col sm={4}>
+            <Button onClick={()=> {
+                startGame( this.state.currentChannel.id );
+            }}>Start Game</Button>
+          </Col>
+          <Col sm={4}>
+            <h1><Label>{this.state.currentChannel.name}</Label></h1>
+            <p>Channel </p>
+            {
+            <dl>
+            {this.state.currentChannel.players.map(item => (
+                // Without the `key`, React will fire a key warning
+                <React.Fragment key={item.id}>
+                    <dt>{item.name}</dt>
+                </React.Fragment>
+            ))}
+            </dl>
+            }
+          </Col>
+        </Row>
+        <Row>
+            <UnderTheLimits player={this.state.player} currentChannel={this.state.currentChannel}/>
+        </Row>
+      </Grid>
       );
     } else {
       return (

@@ -83,7 +83,7 @@ class Channel {
 
   initializePlayersCards() {
     this.players.forEach((p) => {
-      p.hand.push(...this.deckAnswers.splice(1, PLAYER_CARD_COUNT - p.hand.length));
+      p.hand.push(...this.deckAnswers.splice(0, PLAYER_CARD_COUNT - p.hand.length));
       // or use pop() or shift()
     });
   }
@@ -93,7 +93,7 @@ class Channel {
   }
 
   getQuestionCard() {
-    return this.deckQuestions[1];
+    return this.deckQuestions[0];
   }
 }
 

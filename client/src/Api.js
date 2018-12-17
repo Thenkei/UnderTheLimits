@@ -17,6 +17,12 @@ function updateLobby(cb) {
   });
 }
 
+function updateChannel(cb) {
+  socket.on('updateChannel', channelResponse => {
+    cb(null, channelResponse.channel );
+  });
+}
+
 function inChannel(cb) {
   socket.on('inChannel', channelResponse => {
     cb(null, channelResponse.channel );
@@ -31,8 +37,8 @@ function createChannel(channelName) {
   socket.emit('createChannel', channelName);
 }
 
-function startGame(channelName) {
-  socket.emit('startGame', channelName);
+function startGame(channelId) {
+  socket.emit('startGame', channelId);
 }
 
 function error(cb) {
@@ -43,6 +49,7 @@ export {
   init,
   createPlayer,
   updateLobby,
+  updateChannel,
   createChannel,
   startGame,
   inChannel,

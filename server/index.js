@@ -84,16 +84,12 @@ async function start() {
           }
         }
       });
-      client.on('startGame', (channelName) => {
-        const waitingPlayers = CONNECTED_PLAYERS.filter(p => p.currentStatus === 'LOBBY');
-        const currentLobby = CHANNELS.find(c => c.name === channelName);
-        currentLobby.initializePlayersCards();
-        io.sockets.emit('updateLobby', {
-          lobby: {
-            waitingPlayers,
-            channels: CHANNELS,
-          },
-        });
+      client.on('startGame', (channelId) => {
+        const channel = CHANNELS.find(c => c.id === channelId);
+        channel.initializePlayersCards();
+        console.warn(`channel ${channel.name} game starting...`);
+        client.emit('inChannel', { channel });
+        io.sockets.emit('updateChannel', { channel });
       });
       client.on('gotoChannel', (channelId) => {
         const channel = CHANNELS.find(c => c.id === channelId);
