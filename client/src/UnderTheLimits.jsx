@@ -46,7 +46,7 @@ class UnderTheLimits extends Component {
 
   renderQuestion() {
       let questionText = this.props.currentChannel.deckQuestions[0];
-      this.state.value.map((i) => questionText.replace('______', this.props.player.hand[i]));
+      this.state.value.map((i) => questionText = questionText.replace('______', this.props.player.hand[i]));
 
       return questionText;
  }
