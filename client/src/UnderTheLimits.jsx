@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
 import {
-  ToggleButtonGroup,
-  ButtonToolbar,
-  Button,
   Row
 } from 'react-bootstrap';
 import AnswerCard from './AnswerCard';
+import QuestionCard from './QuestionCard';
+
 
 class UnderTheLimits extends Component {
 
@@ -21,13 +20,22 @@ class UnderTheLimits extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(change) {
-      const index = this.state.value.indexOf(change);
+  renderAnswerCard(text, i) {
+      return <AnswerCard key={text} value={text} onClick={() => this.handleChange(i)}/>;
+  }
+
+  renderQuestionCard() {
+      return <QuestionCard key='questioncard' value={this.renderQuestion()}/>;
+  }
+
+  handleChange(i) {
+      const index = this.state.value.indexOf(i);
+      console.warn(i);
       if (index < 0) {
           if (this.state.value.length >= this.state.answerSelectNum) {
             console.warn(`Can't select more answers for this question`); // TODO Change with <Alert color="primary">
           }else {
-            this.state.value.push(change);
+            this.state.value.push(i);
           }
       } else {
           this.state.value.splice(index, 1);
@@ -36,35 +44,27 @@ class UnderTheLimits extends Component {
       this.setState({ value: [...this.state.value] });
   }
 
-  handleQuestion() {
-     //return this.props.currentChannel.deckQuestions[0].replace('______', this.state.answerSelected);
-  }
+  renderQuestion() {
+      let questionText = this.props.currentChannel.deckQuestions[0];
+      this.state.value.map((i) => questionText.replace('______', this.props.player.hand[i]));
 
-  componentDidUpdate(prevProps) {
-  }
+      return questionText;
+ }
 
   render() {
     if(this.props.player && this.props.player.hand) {
     return (
     <React.Fragment>
-    <Row>
-      <Button bsStyle="warning" size="lg" active>{this.props.currentChannel.deckQuestions[0]}</Button>
-      </Row>
-      <Row>
-      <ButtonToolbar>
-      <ToggleButtonGroup
-        type="checkbox"
-        value={this.state.value}
-        onChange={this.handleChange}
-      >
-      {
-          this.props.player.hand.map((answer) =>
-              <AnswerCard key={answer.toString()}
-                    value={answer} onChange={this.handleChange}/>
-      )}
-      </ToggleButtonGroup>
-      </ButtonToolbar>
-    </Row>
+        <Row>
+        {
+            this.renderQuestionCard()
+        }
+        </Row>
+        <Row>
+        {
+            this.props.player.hand.map((answer, index) => this.renderAnswerCard(answer, index))
+        }
+        </Row>
     </React.Fragment>
     );
     } else {

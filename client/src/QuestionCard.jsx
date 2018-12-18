@@ -4,15 +4,15 @@ import {
   Button
 } from 'react-bootstrap';
 
-class AnswerCard extends Component {
+class QuestionCard extends Component {
 
   render() {
     return (
       <React.Fragment>
-        <Button bsStyle="primary" size="lg" onClick={() => this.props.onClick()}>{this.props.value}</Button>
+        <Button bsStyle="warning" size="lg" active>{this.props.value}</Button>
       </React.Fragment>
     );
   }
 }
 
-export default AnswerCard;
+export default QuestionCard;
