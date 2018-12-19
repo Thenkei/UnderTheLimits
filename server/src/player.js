@@ -12,7 +12,9 @@ class Player {
   }
 
   clearAnswers() {
-    this.answers = [];
+    this.answers.forEach((i) => {
+      this.hand.splice(i, 1);
+    });
   }
 
   scored() {

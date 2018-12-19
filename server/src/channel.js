@@ -75,10 +75,6 @@ class Channel {
   //----
   nextRound() {
     this.initializePlayersCards();
-    if (this.currentStatus === CHANNEL_STATUS.JUDGING_CARD) {
-      this.nextQuestionCard();
-    }
-
     this.currentStatus = CHANNEL_STATUS.PLAYING_CARD;
   }
 
@@ -88,8 +84,8 @@ class Channel {
 
   initializePlayersCards() {
     this.players.forEach((p) => {
-      p.hand.push(...this.deckAnswers.splice(0, PLAYER_CARD_COUNT - p.hand.length));
       p.clearAnswers();
+      p.hand.push(...this.deckAnswers.splice(0, PLAYER_CARD_COUNT - p.hand.length));
     });
   }
 
@@ -104,6 +100,7 @@ class Channel {
   judge(judgment) {
     const winner = this.players.find(p => p.id === judgment);
     winner.scored();
+    this.nextQuestionCard();
     this.currentStatus = CHANNEL_STATUS.WAITING_GAME;
   }
 }

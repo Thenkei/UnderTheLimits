@@ -36,8 +36,8 @@ class UnderTheLimits extends Component {
       return (
         <React.Fragment>
         {this.props.currentChannel.players.map(player => (
-          <QuestionCard
-          key='questioncard'
+          <AnswerCard
+          key={'p'+player.id}
           value={this.renderQuestion(player.answers, player.hand)}
           onClick={() => selectedJudgment(this.props.currentChannel.id, player.id)}
           />
