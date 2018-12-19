@@ -88,10 +88,15 @@ async function start() {
         const channel = CHANNELS.find(c => c.id === channelId);
         channel.initializePlayersCards();
         console.warn(`channel ${channel.name} game starting...`);
-        client.emit('inChannel', { channel });
         io.sockets.emit('updateChannel', { channel });
       });
       client.on('gotoChannel', (channelId) => {
+        const channel = CHANNELS.find(c => c.id === channelId);
+        channel.addPlayer(CONNECTED_PLAYERS.find(p => p.id === client.id));
+        client.emit('inChannel', { channel });
+        io.sockets.emit('updateChannel', { channel });
+      });
+      client.on('selectedAnswer', (channelId) => {
         const channel = CHANNELS.find(c => c.id === channelId);
         channel.addPlayer(CONNECTED_PLAYERS.find(p => p.id === client.id));
         client.emit('inChannel', { channel });

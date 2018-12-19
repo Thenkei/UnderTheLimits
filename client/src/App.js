@@ -69,14 +69,14 @@ class App extends Component {
     updateChannel((err, channel) => {
         if (channel && channel.players) {
             let me = channel.players.find(c => c.id === this.state.player.id);
-            this.setState({
-                player: me
-            });
-        }
 
-      this.setState({
-        currentChannel: channel
-      });
+            if ( me != null ) {
+                this.setState({
+                    player: me,
+                    currentChannel: channel
+                });
+            }
+        }
     })
 
     inChannel((err, channel) => {
