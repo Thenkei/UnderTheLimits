@@ -124,11 +124,16 @@ class App extends Component {
       return (
       <Grid>
         <Row>
-          <Col sm={4}>
-            <Button onClick={()=> {
-                startGame( this.state.currentChannel.id );
-            }}>Start Game</Button>
-          </Col>
+        {this.state.player.name === this.state.currentChannel.admin.name ? (
+            <Col sm={4}>
+              <Button onClick={()=> {
+                  startGame( this.state.currentChannel.id );
+              }}>Start Game</Button>
+            </Col>
+          ) : (
+        <div>You're just a regular man.</div>
+        )}
+
           <Col sm={4}>
             <h1><Label>{this.state.currentChannel.name}</Label></h1>
             <p>Channel </p>
