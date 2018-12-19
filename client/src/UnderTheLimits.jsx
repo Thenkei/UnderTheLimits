@@ -29,7 +29,7 @@ class UnderTheLimits extends Component {
   }
 
   renderQuestionCard() {
-      return <QuestionCard key='questioncard' value={this.renderQuestion(this.state.value, this.props.player.hand)}/>;
+      return <QuestionCard key='questioncard' value={this.renderQuestion(this.props.player.answers, this.props.player.hand)}/>;
   }
 
   renderPlayersQuestionCard() {
@@ -47,20 +47,20 @@ class UnderTheLimits extends Component {
   }
 
   handleChange(i) {
-      const index = this.state.value.indexOf(i);
+      const index = this.props.player.answers.indexOf(i);
       console.warn(i);
       if (index < 0) {
-          if (this.state.value.length >= this.state.answerSelectNum) {
+          if (this.props.player.answers.length >= this.state.answerSelectNum) {
             console.warn(`Can't select more answers for this question`); // TODO Change with <Alert color="primary">
           }else {
-            this.state.value.push(i);
+            this.props.player.answers.push(i);
           }
       } else {
-          this.state.value.splice(index, 1);
+          this.props.player.answers.splice(index, 1);
       }
-      this.setState({ value: [...this.state.value] });
+      this.setState({ value: [...this.props.player.answers] });
 
-      selectedAnswers(this.props.currentChannel.id, this.state.value);
+      selectedAnswers(this.props.currentChannel.id, this.props.player.answers);
   }
 
   renderQuestion(keys, values) {

@@ -15,6 +15,7 @@ class Player {
     this.answers.forEach((i) => {
       this.hand.splice(i, 1);
     });
+    this.answers = [];
   }
 
   scored() {
