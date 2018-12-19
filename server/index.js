@@ -84,11 +84,13 @@ async function start() {
           }
         }
       });
-      client.on('startGame', (channelId) => {
+      client.on('nextRound', (channelId) => {
         const channel = CHANNELS.find(c => c.id === channelId);
-        channel.initializePlayersCards();
-        console.warn(`channel ${channel.name} game starting...`);
+        channel.nextRound();
+        console.warn(`channel ${channel.name} next round starting...`);
         io.sockets.emit('updateChannel', { channel });
+
+        setTimeout(() => { channel.judgementState(); io.sockets.emit('updateChannel', { channel }); }, 30000);
       });
       client.on('gotoChannel', (channelId) => {
         const channel = CHANNELS.find(c => c.id === channelId);
@@ -96,10 +98,15 @@ async function start() {
         client.emit('inChannel', { channel });
         io.sockets.emit('updateChannel', { channel });
       });
-      client.on('selectedAnswer', (channelId) => {
+      client.on('selectedAnswers', (channelId, answers) => {
         const channel = CHANNELS.find(c => c.id === channelId);
-        channel.addPlayer(CONNECTED_PLAYERS.find(p => p.id === client.id));
-        client.emit('inChannel', { channel });
+        const currentPlayer = channel.players.find(p => p.id === client.id);
+        currentPlayer.answers = answers;
+        io.sockets.emit('updateChannel', { channel });
+      });
+      client.on('selectedJudgment', (channelId, judgment) => {
+        const channel = CHANNELS.find(c => c.id === channelId);
+        channel.judge(judgment);
         io.sockets.emit('updateChannel', { channel });
       });
     });

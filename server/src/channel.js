@@ -1,7 +1,6 @@
 const { CHANNEL_STATUS } = require('./status');
 
 const MAX_PLAYERS_COUNT = 6;
-const MIN_PLAYER_COUNT = 3;
 
 const PLAYER_CARD_COUNT = 4;
 
@@ -44,12 +43,6 @@ class Channel {
     } else {
       throw new Error('Can\'t add more player to channel');
     }
-
-    if (this.players.length >= MIN_PLAYER_COUNT) {
-      this.currentStatus = CHANNEL_STATUS.GAMING;
-    } else {
-      this.currentStatus = CHANNEL_STATUS.WAITING_GAME;
-    }
   }
 
   removePlayerById(id) {
@@ -80,11 +73,23 @@ class Channel {
   }
 
   //----
+  nextRound() {
+    this.initializePlayersCards();
+    if (this.currentStatus === CHANNEL_STATUS.JUDGING_CARD) {
+      this.nextQuestionCard();
+    }
+
+    this.currentStatus = CHANNEL_STATUS.PLAYING_CARD;
+  }
+
+  judgementState() {
+    this.currentStatus = CHANNEL_STATUS.JUDGING_CARD;
+  }
 
   initializePlayersCards() {
     this.players.forEach((p) => {
       p.hand.push(...this.deckAnswers.splice(0, PLAYER_CARD_COUNT - p.hand.length));
-      // or use pop() or shift()
+      p.clearAnswers();
     });
   }
 
@@ -94,6 +99,12 @@ class Channel {
 
   getQuestionCard() {
     return this.deckQuestions[0];
+  }
+
+  judge(judgment) {
+    const winner = this.players.find(p => p.id === judgment);
+    winner.scored();
+    this.currentStatus = CHANNEL_STATUS.WAITING_GAME;
   }
 }
 

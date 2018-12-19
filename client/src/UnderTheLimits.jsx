@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
+import{
+selectedAnswers,
+selectedJudgment
+} from './Api';
 import {
   Row
 } from 'react-bootstrap';
@@ -25,7 +29,21 @@ class UnderTheLimits extends Component {
   }
 
   renderQuestionCard() {
-      return <QuestionCard key='questioncard' value={this.renderQuestion()}/>;
+      return <QuestionCard key='questioncard' value={this.renderQuestion(this.state.value, this.props.player.hand)}/>;
+  }
+
+  renderPlayersQuestionCard() {
+      return (
+        <React.Fragment>
+        {this.props.currentChannel.players.map(player => (
+          <QuestionCard
+          key='questioncard'
+          value={this.renderQuestion(player.answers, player.hand)}
+          onClick={() => selectedJudgment(this.props.currentChannel.id, player.id)}
+          />
+        ))}
+      </React.Fragment>
+    );
   }
 
   handleChange(i) {
@@ -40,33 +58,54 @@ class UnderTheLimits extends Component {
       } else {
           this.state.value.splice(index, 1);
       }
-      console.warn(this.state.value);
       this.setState({ value: [...this.state.value] });
+
+      selectedAnswers(this.props.currentChannel.id, this.state.value);
   }
 
-  renderQuestion() {
+  renderQuestion(keys, values) {
       let questionText = this.props.currentChannel.deckQuestions[0];
-      this.state.value.map((i) => questionText = questionText.replace('______', this.props.player.hand[i]));
+      keys.map((i) => questionText = questionText.replace('______', values[i]));
 
       return questionText;
  }
 
   render() {
     if(this.props.player && this.props.player.hand) {
-    return (
-    <React.Fragment>
-        <Row>
-        {
-            this.renderQuestionCard()
-        }
-        </Row>
-        <Row>
-        {
-            this.props.player.hand.map((answer, index) => this.renderAnswerCard(answer, index))
-        }
-        </Row>
-    </React.Fragment>
-    );
+        if(this.props.currentChannel.currentStatus === 'JUDGING_CARD') {
+        return (
+        <React.Fragment>
+            <Row>
+            {
+                this.renderPlayersQuestionCard()
+            }
+            </Row>
+        </React.Fragment>
+        );
+    }else if(this.props.currentChannel.currentStatus === 'WAITING_GAME') {
+        return (
+        <React.Fragment>
+            <Row>
+            Wait for next round !!
+            </Row>
+        </React.Fragment>
+        );
+    }else{
+        return (
+        <React.Fragment>
+            <Row>
+            {
+                this.renderQuestionCard()
+            }
+            </Row>
+            <Row>
+            {
+                this.props.player.hand.map((answer, index) => this.renderAnswerCard(answer, index))
+            }
+            </Row>
+        </React.Fragment>
+        );
+    }
     } else {
      return null;
     }

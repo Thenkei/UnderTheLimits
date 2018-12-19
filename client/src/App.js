@@ -128,7 +128,7 @@ class App extends Component {
             <Col sm={4}>
               <Button onClick={()=> {
                   startGame( this.state.currentChannel.id );
-              }}>Start Game</Button>
+              }}>Next round</Button>
             </Col>
           ) : (
         <div>You're just a regular man.</div>

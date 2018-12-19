@@ -38,7 +38,15 @@ function createChannel(channelName) {
 }
 
 function startGame(channelId) {
-  socket.emit('startGame', channelId);
+  socket.emit('nextRound', channelId);
+}
+
+function selectedAnswers(channelId, answers) {
+  socket.emit('selectedAnswers', channelId, answers);
+}
+
+function selectedJudgment(channelId, winnerId) {
+  socket.emit('selectedJudgment', channelId, winnerId);
 }
 
 function error(cb) {
@@ -52,6 +60,8 @@ export {
   updateChannel,
   createChannel,
   startGame,
+  selectedAnswers,
+  selectedJudgment,
   inChannel,
   gotoChannel,
   error

@@ -7,7 +7,16 @@ class Player {
     this.name = name || '#VISITOR';
     this.score = 0;
     this.hand = [];
+    this.answers = [];
     this.currentStatus = PLAYER_STATUS.LOBBY;
+  }
+
+  clearAnswers() {
+    this.answers = [];
+  }
+
+  scored() {
+    this.score = this.score + 1;
   }
 }
 
