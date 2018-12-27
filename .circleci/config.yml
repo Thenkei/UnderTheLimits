@@ -1,0 +1,30 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/UnderTheLimits
+    docker: # run the steps with Docker
+      - image: circleci/node:lts-stretch
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile --ignore-scripts
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run:
+          name: Lint
+          command: yarn lint
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - deploy
