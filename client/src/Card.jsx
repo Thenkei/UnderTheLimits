@@ -4,7 +4,7 @@ import {
     Col
 } from 'react-bootstrap';
 
-class AnswerCard extends Component {
+class Card extends Component {
 
   render() {
     return (
@@ -21,4 +21,4 @@ class AnswerCard extends Component {
   }
 }
 
-export default AnswerCard;
+export default Card;

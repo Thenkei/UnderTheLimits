@@ -7,9 +7,7 @@ selectedJudgment
 import {
   Row
 } from 'react-bootstrap';
-import AnswerCard from './AnswerCard';
-import QuestionCard from './QuestionCard';
-
+import Card from './Card';
 
 class UnderTheLimits extends Component {
 
@@ -25,18 +23,18 @@ class UnderTheLimits extends Component {
   }
 
   renderAnswerCard(text, i) {
-      return <AnswerCard key={text} value={text} onClick={() => this.handleChange(i)}/>;
+      return <Card key={text} value={text} onClick={() => this.handleChange(i)}/>;
   }
 
   renderQuestionCard() {
-      return <QuestionCard key='questioncard' value={this.renderQuestion(this.props.player.answers, this.props.player.hand)}/>;
+      return <Card key='questioncard' value={this.renderQuestion(this.props.player.answers, this.props.player.hand)}/>;
   }
 
   renderPlayersQuestionCard() {
       return (
         <React.Fragment>
         {this.props.currentChannel.players.map(player => (
-          <AnswerCard
+          <Card
           key={'p'+player.id}
           value={this.renderQuestion(player.answers, player.hand)}
           onClick={() => selectedJudgment(this.props.currentChannel.id, player.id)}
