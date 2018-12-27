@@ -28,12 +28,13 @@ const DEFAULT_ERROR_TIMEOUT = 3000;
 
 class App extends Component {
 
-  state = {
-    timestamp: 'no timestamp yet'
-  };
-
   constructor(props) {
     super(props);
+
+    this.state = {
+        player: JSON.parse(localStorage.getItem('utl-player')) || []
+    };
+
     error((errMsg) => {
       this.setState({
         error: errMsg
@@ -93,7 +94,7 @@ class App extends Component {
   }
 
   renderStep() {
-    if( !this.state.player || !this.state.player.name || !this.state.lobby ) {
+    if( !this.state.player || !this.state.player.name ) {
       return (
         <React.Fragment>
           <Form inline>
@@ -107,7 +108,7 @@ class App extends Component {
               />
               <Button  bsStyle="success" onClick={() => {
                     createPlayer( this.state.playerName, ( err, player ) => {
-                      localStorage.setItem('utl-player', player);
+                      localStorage.setItem('utl-player', JSON.stringify(player));
                       this.setState({ player });
                     } )
                   }}
@@ -154,7 +155,7 @@ class App extends Component {
         </Row>
       </Grid>
       );
-    } else {
+  } else if( this.state.lobby ) {
       return (
         <Row>
           <Col sm={4}>
@@ -187,6 +188,10 @@ class App extends Component {
           </Col>
         </Row>
       );
+    } else {
+        return (
+            <h1><Label>ERROR CALL FOR Mr. T</Label></h1>
+            );
     }
   }
 
