@@ -49,6 +49,7 @@ class Channel {
     const toBeRemovedId = this.players.findIndex(p => p.id === id);
     if (toBeRemovedId !== -1) {
       this.players.splice(toBeRemovedId, 1);
+      console.log('Player removed from channel');
     }
   }
 
@@ -56,6 +57,7 @@ class Channel {
     const toBeRemovedId = this.players.findIndex(p => p.name === name);
     if (toBeRemovedId !== -1) {
       this.players.splice(toBeRemovedId, 1);
+      console.log('Player removed from channel');
     }
   }
 

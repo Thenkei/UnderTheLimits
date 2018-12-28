@@ -1,9 +1,9 @@
 import openSocket from 'socket.io-client';
 const  socket = openSocket('http://localhost:3001');
 
-function init(cb) {
-  socket.on('timer', timestamp => cb(null, timestamp));
-  socket.emit('subscribeToTimer', 1000);
+function initPlayer(playerName, cb) {
+  socket.emit('initPlayer', playerName );
+  socket.on( 'playerCreated', lobbyResponse => cb(null, lobbyResponse.player ));
 }
 
 function createPlayer(playerName, cb) {
@@ -19,12 +19,6 @@ function updateLobby(cb) {
 
 function updateChannel(cb) {
   socket.on('updateChannel', channelResponse => {
-    cb(null, channelResponse.channel );
-  });
-}
-
-function inChannel(cb) {
-  socket.on('inChannel', channelResponse => {
     cb(null, channelResponse.channel );
   });
 }
@@ -54,7 +48,7 @@ function error(cb) {
 }
 
 export {
-  init,
+  initPlayer,
   createPlayer,
   updateLobby,
   updateChannel,
@@ -62,7 +56,6 @@ export {
   startGame,
   selectedAnswers,
   selectedJudgment,
-  inChannel,
   gotoChannel,
   error
 };

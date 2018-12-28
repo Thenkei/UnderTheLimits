@@ -6,7 +6,6 @@ import {
   updateLobby,
   createChannel,
   updateChannel,
-  inChannel,
   gotoChannel,
   startGame
 } from './Api';
@@ -68,22 +67,12 @@ class App extends Component {
     })
 
     updateChannel((err, channel) => {
-        if (channel && channel.players) {
-            let me = channel.players.find(c => c.id === this.state.player.id);
+        let me = channel.players.find(c => c.id === this.state.player.id);
 
-            if ( me != null ) {
-                this.setState({
-                    player: me,
-                    currentChannel: channel
-                });
-            }
-        }
-    })
-
-    inChannel((err, channel) => {
-      this.setState({
-        currentChannel: channel
-      });
+        this.setState({
+            player: me,
+            currentChannel: channel
+        });
     })
 
     this.onCreateChannel = this.onCreateChannel.bind(this);
@@ -189,8 +178,13 @@ class App extends Component {
         </Row>
       );
     } else {
+        createPlayer( this.state.playerName, ( err, player ) => {
+          localStorage.setItem('utl-player', JSON.stringify(player));
+          this.setState({ player });
+        });
+
         return (
-            <h1><Label>ERROR CALL FOR Mr. T</Label></h1>
+            <h1><Label>Waiting for Mr. T</Label></h1>
             );
     }
   }
