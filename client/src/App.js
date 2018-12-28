@@ -178,7 +178,7 @@ class App extends Component {
         </Row>
       );
     } else {
-        createPlayer( this.state.playerName, ( err, player ) => {
+        createPlayer( this.state.player.name, ( err, player ) => {
           localStorage.setItem('utl-player', JSON.stringify(player));
           this.setState({ player });
         });
