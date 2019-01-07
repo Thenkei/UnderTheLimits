@@ -71,30 +71,31 @@ class UnderTheLimits extends Component {
   render() {
     if(this.props.player && this.props.player.hand) {
         if(this.props.currentChannel.currentStatus === 'JUDGING_CARD') {
-        return (
-        <React.Fragment>
-            <Row>
-            {
-                this.renderPlayersQuestionCard()
+            if(this.props.player.isGameMaster) {
+                return (
+                <React.Fragment>
+                    <Row>
+                    {
+                        this.renderPlayersQuestionCard()
+                    }
+                    </Row>
+                </React.Fragment>
+                );
+            }else{
+                return (
+                <React.Fragment>
+                    <Row>
+                    Game master is judging...
+                    </Row>
+                </React.Fragment>
+                );
             }
-            </Row>
-        </React.Fragment>
-        );
+
     }else if(this.props.currentChannel.currentStatus === 'WAITING_GAME') {
         return (
         <React.Fragment>
             <Row>
-            Wait for next round !!
-            </Row>
-        </React.Fragment>
-        );
-    }else{
-        return (
-        <React.Fragment>
-            <Row>
-            {
-                this.renderQuestionCard()
-            }
+            Waiting for next round. . .
             </Row>
             <Row>
             {
@@ -103,6 +104,36 @@ class UnderTheLimits extends Component {
             </Row>
         </React.Fragment>
         );
+    } else {
+        if(this.props.player.isGameMaster) {
+            return (
+            <React.Fragment>
+                <Row>
+                {
+                    this.renderQuestionCard()
+                }
+                </Row>
+                <Row>
+                Waiting for player decision. . .
+                </Row>
+            </React.Fragment>
+            );
+        } else {
+            return (
+            <React.Fragment>
+                <Row>
+                {
+                    this.renderQuestionCard()
+                }
+                </Row>
+                <Row>
+                {
+                    this.props.player.hand.map((answer, index) => this.renderAnswerCard(answer, index))
+                }
+                </Row>
+            </React.Fragment>
+            );
+        }
     }
     } else {
      return null;

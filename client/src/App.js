@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import './App.css';
 import {
   error,
+  reconnectPlayer,
   createPlayer,
   updateLobby,
   createChannel,
   updateChannel,
-  inChannel,
   gotoChannel,
   startGame
 } from './Api';
@@ -68,22 +68,12 @@ class App extends Component {
     })
 
     updateChannel((err, channel) => {
-        if (channel && channel.players) {
-            let me = channel.players.find(c => c.id === this.state.player.id);
+        let me = channel.players.find(c => c.id === this.state.player.id);
 
-            if ( me != null ) {
-                this.setState({
-                    player: me,
-                    currentChannel: channel
-                });
-            }
-        }
-    })
-
-    inChannel((err, channel) => {
-      this.setState({
-        currentChannel: channel
-      });
+        this.setState({
+            player: me,
+            currentChannel: channel
+        });
     })
 
     this.onCreateChannel = this.onCreateChannel.bind(this);
@@ -125,19 +115,19 @@ class App extends Component {
       return (
       <Grid>
         <Row>
-        {this.state.player.name === this.state.currentChannel.admin.name ? (
+        {this.state.player.name === this.state.currentChannel.admin.name && this.state.currentChannel.currentStatus === 'WAITING_GAME'? (
             <Col sm={4}>
               <Button onClick={()=> {
                   startGame( this.state.currentChannel.id );
               }}>Next round</Button>
             </Col>
           ) : (
-        <div>You're just a regular man.</div>
+        <div></div>
         )}
 
           <Col sm={4}>
             <h1><Label>{this.state.currentChannel.name}</Label></h1>
-            <p>Channel </p>
+            <p>{this.state.player.isGameMaster ? 'You\'re just a regular man' : 'YOU ARE THE GAME MAAAASSSSSSTER'}</p>
             {
             <dl>
             {this.state.currentChannel.players.map(item => (
@@ -189,8 +179,21 @@ class App extends Component {
         </Row>
       );
     } else {
+
         return (
-            <h1><Label>ERROR CALL FOR Mr. T</Label></h1>
+            <Button onClick={()=> {
+                reconnectPlayer( this.state.player.name, ( err, player ) => {
+
+                    if ( player ) {
+                        this.setState({ player });
+                        localStorage.setItem('utl-player', JSON.stringify(player));
+                    } else {
+                        this.setState({ player: null });
+                        localStorage.removeItem('utl-player');
+                    }
+
+                });
+            }}>Welcome</Button>
             );
     }
   }
