@@ -2,7 +2,7 @@ const { CHANNEL_STATUS } = require('./status');
 
 const MAX_PLAYERS_COUNT = 6;
 
-const PLAYER_CARD_COUNT = 4;
+const PLAYER_CARD_COUNT = 10;
 
 class Channel {
   constructor(players, name, admin) {
@@ -14,6 +14,8 @@ class Channel {
 
     this.deckAnswers = [];
     this.deckQuestions = [];
+
+    this.players[0].setGameMaster(true);
   }
 
   async init(dataBase) {
@@ -104,6 +106,8 @@ class Channel {
   judge(judgment) {
     const winner = this.players.find(p => p.id === judgment);
     winner.scored();
+    this.players.forEach(p => p.setGameMaster(false));
+    winner.setGameMaster(true);
     this.nextQuestionCard();
     this.currentStatus = CHANNEL_STATUS.WAITING_GAME;
   }

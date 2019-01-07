@@ -8,6 +8,7 @@ class Player {
     this.score = 0;
     this.hand = [];
     this.answers = [];
+    this.isGameMaster = false;
     this.currentStatus = PLAYER_STATUS.LOBBY;
   }
 
@@ -20,6 +21,10 @@ class Player {
 
   scored() {
     this.score = this.score + 1;
+  }
+
+  setGameMaster(isGameMaster) {
+    this.isGameMaster = isGameMaster;
   }
 }
 
