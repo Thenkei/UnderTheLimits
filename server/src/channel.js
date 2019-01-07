@@ -58,7 +58,9 @@ class Channel {
     if (toBeRemovedId !== -1) {
       this.players.splice(toBeRemovedId, 1);
       console.log('Player removed from channel');
+      return this.id;
     }
+    return -1;
   }
 
   getPlayersCount() {

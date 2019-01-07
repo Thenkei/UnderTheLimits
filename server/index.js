@@ -18,6 +18,7 @@ async function start() {
     };
 
     const CONNECTED_PLAYERS = [];
+    const DECONNECTED_PLAYERS = [];
     const CHANNELS = [];
 
     const dataBase = await DataBase(config);
@@ -26,12 +27,38 @@ async function start() {
       client.on('disconnect', () => {
         const disconnectedPlayerIndex = CONNECTED_PLAYERS.findIndex(p => p.id === client.id);
         if (disconnectedPlayerIndex !== -1) {
-          CONNECTED_PLAYERS.splice(disconnectedPlayerIndex, 1);
-          CHANNELS.forEach(c => c.removePlayerById(client.id));
-          console.log('Player got disconnected from lobby');
+          DECONNECTED_PLAYERS.push(CONNECTED_PLAYERS.splice(disconnectedPlayerIndex, 1)[0]);
+          CHANNELS.forEach((c) => {
+            const channelId = c.removePlayerById(client.id);
+            if (channelId !== -1) io.to(channelId).emit('updateChannel', { c });
+            console.log('Player', disconnectedPlayerIndex, ' got disconnected from lobby');
+          });
         }
         const waitingPlayers = CONNECTED_PLAYERS.filter(p => p.currentStatus === 'LOBBY');
         io.sockets.emit('updateLobby', { lobby: { waitingPlayers } });
+      });
+
+      client.on('reconnectPlayer', (playerName) => {
+        if (!playerName) {
+          return;
+        }
+
+        console.warn(`Try to reconnect player ${playerName}`);
+
+        const playerReco = DECONNECTED_PLAYERS.find(p => p.name === playerName);
+
+        if (playerReco) {
+          const disconnectedPIndex = DECONNECTED_PLAYERS.findIndex(p => p.id === playerReco.id);
+          DECONNECTED_PLAYERS.splice(disconnectedPIndex, 1);
+          playerReco.id = client.id;
+          CONNECTED_PLAYERS.push(playerReco);
+          console.warn(`Reconnecting player ${playerName} to lobby`);
+          client.emit('playerReconnected', { playerReco });
+        } else {
+          console.warn(`Failed reconnecting player ${playerName} to lobby`);
+          client.emit('err', 'failed to reconnect ', playerName);
+          client.emit('playerReconnected', { player: null });
+        }
       });
 
       client.on('createPlayer', (playerName) => {

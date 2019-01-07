@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import {
   error,
+  reconnectPlayer,
   createPlayer,
   updateLobby,
   createChannel,
@@ -178,13 +179,22 @@ class App extends Component {
         </Row>
       );
     } else {
-        createPlayer( this.state.player.name, ( err, player ) => {
-          localStorage.setItem('utl-player', JSON.stringify(player));
-          this.setState({ player });
-        });
+        if( !this.state.playerName ){
+            reconnectPlayer( this.state.player.name, ( err, player ) => {
+
+                if ( player ) {
+                    localStorage.setItem('utl-player', JSON.stringify(player));
+                    this.setState({ player });
+                }else {
+                    localStorage.removeItem('utl-player');
+                    this.setState({ player: null });
+                }
+
+            });
+        }
 
         return (
-            <h1><Label>Waiting for Mr. T</Label></h1>
+            <h1><Label>Connection lost</Label></h1>
             );
     }
   }
