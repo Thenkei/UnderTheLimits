@@ -22,28 +22,6 @@ class UnderTheLimits extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  renderAnswerCard(text, i) {
-      return <Card key={text} value={text} onClick={() => this.handleChange(i)}/>;
-  }
-
-  renderQuestionCard() {
-      return <Card key='questioncard' value={this.renderQuestion(this.props.player.answers, this.props.player.hand)}/>;
-  }
-
-  renderPlayersQuestionCard() {
-      return (
-        <React.Fragment>
-        {this.props.currentChannel.players.map(player => (
-          <Card
-          key={'p'+player.id}
-          value={this.renderQuestion(player.answers, player.hand)}
-          onClick={() => selectedJudgment(this.props.currentChannel.id, player.id)}
-          />
-        ))}
-      </React.Fragment>
-    );
-  }
-
   handleChange(i) {
       const index = this.props.player.answers.indexOf(i);
       console.warn(i);
@@ -75,9 +53,15 @@ class UnderTheLimits extends Component {
                 return (
                 <React.Fragment>
                     <Row>
-                    {
-                        this.renderPlayersQuestionCard()
-                    }
+                    <React.Fragment>
+                    {this.props.currentChannel.players.map(player => (
+                      <Card
+                      key={'p'+player.id}
+                      value={this.renderQuestion(player.answers, player.hand)}
+                      onClick={this.props.player.isGameMaster?() => selectedJudgment(this.props.currentChannel.id, player.id):() => {}}
+                      />
+                    ))}
+                    </React.Fragment>
                     </Row>
                 </React.Fragment>
                 );
@@ -99,41 +83,24 @@ class UnderTheLimits extends Component {
             </Row>
             <Row>
             {
-                this.props.player.hand.map((answer, index) => this.renderAnswerCard(answer, index))
+                this.props.player.hand.map((answer, index) => (<Card key={answer} value={answer} onClick={() => {}}/>))
             }
             </Row>
         </React.Fragment>
         );
     } else {
-        if(this.props.player.isGameMaster) {
-            return (
-            <React.Fragment>
-                <Row>
-                {
-                    this.renderQuestionCard()
-                }
-                </Row>
-                <Row>
-                Waiting for player decision. . .
-                </Row>
-            </React.Fragment>
-            );
-        } else {
-            return (
-            <React.Fragment>
-                <Row>
-                {
-                    this.renderQuestionCard()
-                }
-                </Row>
-                <Row>
-                {
-                    this.props.player.hand.map((answer, index) => this.renderAnswerCard(answer, index))
-                }
-                </Row>
-            </React.Fragment>
-            );
-        }
+        return (
+        <React.Fragment>
+            <Row>
+                <Card key='questioncard' value={this.renderQuestion(this.props.player.answers, this.props.player.hand)}/>
+            </Row>
+            <Row>
+            {
+                this.props.player.hand.map((answer, index) => (<Card key={answer} value={answer} onClick={this.props.player.isGameMaster?() => {}:() => this.handleChange(index)}/>))
+            }
+            </Row>
+        </React.Fragment>
+        );
     }
     } else {
      return null;
