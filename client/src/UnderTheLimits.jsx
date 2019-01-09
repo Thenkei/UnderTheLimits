@@ -53,13 +53,16 @@ class UnderTheLimits extends Component {
             <React.Fragment>
                 <Row>
                 <React.Fragment>
-                {this.props.currentChannel.players.map(player => (
+                {this.props.currentChannel.players.map(player => {
+                if (!player.isGameMaster){ return(
                   <Card
                   key={'p'+player.id}
                   value={this.renderQuestion(player.answers, player.hand)}
                   onClick={this.props.player.isGameMaster?() => selectedJudgment(this.props.currentChannel.id, player.id):() => {}}
                   />
-                ))}
+              )}else{
+                  return null;
+              }})}
                 </React.Fragment>
                 </Row>
             </React.Fragment>

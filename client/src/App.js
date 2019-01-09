@@ -67,7 +67,6 @@ class App extends Component {
     })
 
     updateChannel((err, channel) => {
-        console.log( channel );
         let me = channel.players.find(c => c.id === this.state.player.id);
 
         this.setState({
