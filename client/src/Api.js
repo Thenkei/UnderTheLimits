@@ -6,11 +6,6 @@ function initPlayer(playerName, cb) {
   socket.on( 'playerCreated', lobbyResponse => cb(null, lobbyResponse.player ));
 }
 
-function reconnectPlayer(playerName, cb) {
-    socket.emit('reconnectPlayer', playerName );
-    socket.on( 'playerReconnected', lobbyResponse => cb(null, lobbyResponse.player ));
-}
-
 function createPlayer(playerName, cb) {
   socket.emit('createPlayer', playerName );
   socket.on( 'playerCreated', lobbyResponse => cb(null, lobbyResponse.player ));
@@ -54,7 +49,6 @@ function error(cb) {
 
 export {
   initPlayer,
-  reconnectPlayer,
   createPlayer,
   updateLobby,
   updateChannel,

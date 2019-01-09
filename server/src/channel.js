@@ -52,7 +52,14 @@ class Channel {
     if (toBeRemovedId !== -1) {
       this.players.splice(toBeRemovedId, 1);
       console.log('Player removed from channel');
+
+      if (this.admin.id === id) {
+        [this.admin] = this.players;
+      }
+
+      return this.id;
     }
+    return -1;
   }
 
   removePlayerByName(name) {
@@ -60,6 +67,11 @@ class Channel {
     if (toBeRemovedId !== -1) {
       this.players.splice(toBeRemovedId, 1);
       console.log('Player removed from channel');
+
+      if (this.admin.name === name) {
+        [this.admin] = this.players;
+      }
+
       return this.id;
     }
     return -1;

@@ -18,7 +18,6 @@ async function start() {
     };
 
     const CONNECTED_PLAYERS = [];
-    const DECONNECTED_PLAYERS = [];
     const CHANNELS = [];
 
     const dataBase = await DataBase(config);
@@ -27,53 +26,31 @@ async function start() {
       client.on('disconnect', () => {
         const disconnectedPlayerIndex = CONNECTED_PLAYERS.findIndex(p => p.id === client.id);
         if (disconnectedPlayerIndex !== -1) {
-          DECONNECTED_PLAYERS.push(CONNECTED_PLAYERS.splice(disconnectedPlayerIndex, 1)[0]);
-          CHANNELS.forEach((c) => {
+          console.log('Player', CONNECTED_PLAYERS.splice(disconnectedPlayerIndex, 1)[0].name, ' got disconnected from lobby');
+
+          CHANNELS.forEach((c, index, array) => {
             const channelId = c.removePlayerById(client.id);
-            if (channelId !== -1) io.to(channelId).emit('updateChannel', { c });
-            console.log('Player', disconnectedPlayerIndex, ' got disconnected from lobby');
+            if (channelId !== -1) {
+              io.to(c.id).emit('updateChannel', { channel: c });
+
+              if (c.players.length === 0) {
+                array.splice(index, 1);
+                console.log('Remove channel ', c.name);
+              }
+            }
           });
         }
+
         const waitingPlayers = CONNECTED_PLAYERS.filter(p => p.currentStatus === 'LOBBY');
-        io.sockets.emit('updateLobby', { lobby: { waitingPlayers } });
-      });
-
-      client.on('reconnectPlayer', (playerName) => {
-        if (!playerName) {
-          return;
-        }
-
-        console.warn(`Try to reconnect player ${playerName}`);
-
-        const playerReco = DECONNECTED_PLAYERS.find(p => p.name === playerName);
-
-        if (playerReco) {
-          const disconnectedPIndex = DECONNECTED_PLAYERS.findIndex(p => p.id === playerReco.id);
-
-          DECONNECTED_PLAYERS.splice(disconnectedPIndex, 1);
-          playerReco.id = client.id;
-          playerReco.currentStatus = 'LOBBY';
-
-          const waitingPlayers = CONNECTED_PLAYERS.filter(p => p.currentStatus === 'LOBBY');
-          CONNECTED_PLAYERS.push(playerReco);
-          waitingPlayers.push(playerReco);
-          console.warn(`Reconnecting player ${playerReco.name} to lobby`);
-
-          io.sockets.emit('updateLobby', {
-            lobby: {
-              waitingPlayers,
-              channels: CHANNELS.map(c => ({
-                name: c.name,
-                id: c.id,
-              })),
-            },
-          });
-          client.emit('playerReconnected', { player: playerReco });
-        } else {
-          console.warn(`Failed reconnecting player ${playerName} to lobby`);
-          client.emit('err', 'failed to reconnect ', playerName);
-          client.emit('playerReconnected', { player: null });
-        }
+        io.sockets.emit('updateLobby', {
+          lobby: {
+            waitingPlayers,
+            channels: CHANNELS.map(c => ({
+              name: c.name,
+              id: c.id,
+            })),
+          },
+        });
       });
 
       client.on('createPlayer', (playerName) => {
@@ -137,6 +114,7 @@ async function start() {
       });
 
       client.on('gotoChannel', (channelId) => {
+        // TODO Check channel not running
         const channel = CHANNELS.find(c => c.id === channelId);
         channel.addPlayer(CONNECTED_PLAYERS.find(p => p.id === client.id));
         io.sockets.emit('updateLobby', {
