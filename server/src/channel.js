@@ -1,7 +1,7 @@
 const { CHANNEL_STATUS } = require('./status');
 
 const MAX_PLAYERS_COUNT = 6;
-
+const PLAYER_MAX_POINT = 5;
 const PLAYER_CARD_COUNT = 10;
 
 class Channel {
@@ -10,7 +10,7 @@ class Channel {
     this.admin = admin;
     this.players = players || [];
     this.name = name || '';
-    this.currentStatus = CHANNEL_STATUS.WAITING_GAME;
+    this.currentStatus = CHANNEL_STATUS.IDLE;
 
     this.deckAnswers = [];
     this.deckQuestions = [];
@@ -121,7 +121,18 @@ class Channel {
     this.players.forEach(p => p.setGameMaster(false));
     winner.setGameMaster(true);
     this.nextQuestionCard();
-    this.currentStatus = CHANNEL_STATUS.WAITING_GAME;
+    const resultat = this.players.find(p => p.score >= PLAYER_MAX_POINT);
+    if (resultat) {
+      this.currentStatus = CHANNEL_STATUS.IDLE;
+    } else {
+      this.currentStatus = CHANNEL_STATUS.WAITING_GAME;
+    }
+
+    return resultat;
+  }
+
+  isRunning() {
+    return this.currentStatus !== CHANNEL_STATUS.IDLE;
   }
 }
 

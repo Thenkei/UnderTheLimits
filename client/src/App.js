@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import {
   error,
+  success,
   createPlayer,
   updateLobby,
   createChannel,
@@ -24,6 +25,7 @@ import UnderTheLimits from './UnderTheLimits';
 
 
 const DEFAULT_ERROR_TIMEOUT = 3000;
+const DEFAULT_SUCCESS_TIMEOUT = 10000;
 
 class App extends Component {
 
@@ -41,6 +43,15 @@ class App extends Component {
       setTimeout( (() => {
            this.setState({error:''});
       }), DEFAULT_ERROR_TIMEOUT);
+    });
+
+    success((successMsg) => {
+      this.setState({
+        success: successMsg
+      });
+      setTimeout( (() => {
+           this.setState({success:''});
+      }), DEFAULT_SUCCESS_TIMEOUT);
     });
 
     updateLobby((err, responseLobby) => {
@@ -184,6 +195,7 @@ class App extends Component {
           <h1>Under the limits</h1>
           <header className="App-header">
             { this.state.error ? <Alert bsStyle="danger">{this.state.error}</Alert> : <p></p> }
+            { this.state.success ? <Alert bsStyle="success">{this.state.success}</Alert> : <p></p> }
               <div className="App">
                 { this.renderStep() }
               </div>

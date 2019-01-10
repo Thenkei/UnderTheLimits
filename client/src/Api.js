@@ -47,6 +47,11 @@ function error(cb) {
   socket.on('err', errMsg => cb( errMsg ) );
 }
 
+function success(cb) {
+  socket.on('success', successMsg => cb( successMsg ) );
+}
+
+
 export {
   initPlayer,
   createPlayer,
@@ -57,5 +62,6 @@ export {
   selectedAnswers,
   selectedJudgment,
   gotoChannel,
-  error
+  error,
+  success
 };

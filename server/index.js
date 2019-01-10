@@ -114,8 +114,12 @@ async function start() {
       });
 
       client.on('gotoChannel', (channelId) => {
-        // TODO Check channel not running
         const channel = CHANNELS.find(c => c.id === channelId);
+        // Check channel not running
+        if (channel.isRunning()) {
+          client.emit('err', 'Can\'t connect to channel - Ongoing party');
+          return;
+        }
         channel.addPlayer(CONNECTED_PLAYERS.find(p => p.id === client.id));
         io.sockets.emit('updateLobby', {
           lobby: {
@@ -149,7 +153,10 @@ async function start() {
 
       client.on('selectedJudgment', (channelId, judgment) => {
         const channel = CHANNELS.find(c => c.id === channelId);
-        channel.judge(judgment);
+        const resultat = channel.judge(judgment);
+        if (resultat) {
+          io.to(channelId).emit('success', 'The winner is ', resultat.name);
+        }
         io.to(channelId).emit('updateChannel', { channel });
       });
     });
