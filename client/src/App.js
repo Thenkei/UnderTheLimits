@@ -99,7 +99,7 @@ class App extends Component {
       return (
       <Grid>
         <Row>
-        {this.state.player.name === this.state.currentChannel.admin.name && this.state.currentChannel.currentStatus === 'WAITING_GAME'? (
+        {this.state.player.name === this.state.currentChannel.admin.name && (this.state.currentChannel.currentStatus === 'WAITING_GAME' || this.state.currentChannel.currentStatus === 'IDLE')? (
             <Col sm={4}>
               <Button onClick={()=> {
                   startGame( this.state.currentChannel.id );
@@ -111,7 +111,7 @@ class App extends Component {
 
           <Col sm={4}>
             <h1><Label>{this.state.currentChannel.name}</Label></h1>
-            <h3>{this.state.player.isGameMaster ?'YOU ARE THE GAME MAAAASSSSSSTER' : 'You\'re just a regular man for this round'}</h3>
+            <h3>{this.state.player.isGameMaster ?`${this.state.player.name} YOU ARE THE GAME MAAAASSSSSSTER` : `${this.state.player.name} you're just a regular man for this round`}</h3>
             {
             <dl>
             {this.state.currentChannel.players.map(item => (

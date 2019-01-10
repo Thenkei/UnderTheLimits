@@ -90,6 +90,7 @@ async function start() {
         } else {
           try {
             const currentPlayer = CONNECTED_PLAYERS.find(p => p.id === client.id);
+            if (!currentPlayer) return;
             const newChannel = new Channel([currentPlayer], channelName, currentPlayer);
             currentPlayer.currentStatus = 'WAITING_GAME';
             await newChannel.init(dataBase);
@@ -115,6 +116,7 @@ async function start() {
 
       client.on('gotoChannel', (channelId) => {
         const channel = CHANNELS.find(c => c.id === channelId);
+        if (!channel) return;
         // Check channel not running
         if (channel.isRunning()) {
           client.emit('err', 'Can\'t connect to channel - Ongoing party');
@@ -136,6 +138,7 @@ async function start() {
 
       client.on('nextRound', (channelId) => {
         const channel = CHANNELS.find(c => c.id === channelId);
+        if (!channel) return;
         channel.nextRound();
         console.warn(`channel ${channel.name} next round starting...`);
 
@@ -145,6 +148,7 @@ async function start() {
 
       client.on('selectedAnswers', (channelId, answers) => {
         const channel = CHANNELS.find(c => c.id === channelId);
+        if (!channel) return;
         const currentPlayer = channel.players.find(p => p.id === client.id);
         currentPlayer.answers = answers;
 
@@ -153,9 +157,12 @@ async function start() {
 
       client.on('selectedJudgment', (channelId, judgment) => {
         const channel = CHANNELS.find(c => c.id === channelId);
+        if (!channel) return;
         const resultat = channel.judge(judgment);
-        if (resultat) {
-          io.to(channelId).emit('success', 'The winner is ', resultat.name);
+        if (resultat.gameWinner) {
+          io.to(channelId).emit('success', `The winner is ${resultat.winner.name}`);
+        } else {
+          io.to(channelId).emit('success', `${resultat.winner.name} win this round`);
         }
         io.to(channelId).emit('updateChannel', { channel });
       });

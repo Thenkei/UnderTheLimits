@@ -131,7 +131,12 @@ class Channel {
       this.currentStatus = CHANNEL_STATUS.WAITING_GAME;
     }
 
-    return resultat;
+    const gameWinner = resultat || winner;
+
+    return {
+      winner: gameWinner,
+      gameWinner: gameWinner === resultat,
+    };
   }
 
   isRunning() {
