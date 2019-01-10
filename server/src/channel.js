@@ -139,6 +139,10 @@ class Channel {
     };
   }
 
+  hasAllPlayersAnswers() {
+    return this.players.find(p => p.answers.length === 0) == null;
+  }
+
   isRunning() {
     return this.currentStatus !== CHANNEL_STATUS.IDLE;
   }

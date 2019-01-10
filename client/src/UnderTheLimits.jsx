@@ -22,6 +22,13 @@ class UnderTheLimits extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.currentChannel.deckQuestions[0] !== prevProps.currentChannel.deckQuestions[0]) {
+      const occurences = (this.props.currentChannel.deckQuestions[0].match(/______/g) || []).length;
+      this.setState({ answerSelectNum: occurences });
+    }
+  }
+
   handleChange(i) {
       const index = this.props.player.answers.indexOf(i);
       console.warn(i);
