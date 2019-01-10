@@ -124,6 +124,9 @@ class Channel {
     const resultat = this.players.find(p => p.score >= PLAYER_MAX_POINT);
     if (resultat) {
       this.currentStatus = CHANNEL_STATUS.IDLE;
+      this.players.forEach((p) => {
+        p.reset();
+      });
     } else {
       this.currentStatus = CHANNEL_STATUS.WAITING_GAME;
     }
