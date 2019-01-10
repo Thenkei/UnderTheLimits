@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import {
   error,
-  reconnectPlayer,
+  success,
   createPlayer,
   updateLobby,
   createChannel,
@@ -25,6 +25,7 @@ import UnderTheLimits from './UnderTheLimits';
 
 
 const DEFAULT_ERROR_TIMEOUT = 3000;
+const DEFAULT_SUCCESS_TIMEOUT = 10000;
 
 class App extends Component {
 
@@ -32,7 +33,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-        player: JSON.parse(localStorage.getItem('utl-player')) || []
+        playerName: (JSON.parse(localStorage.getItem('utl-player')) || []).name || ""
     };
 
     error((errMsg) => {
@@ -42,6 +43,15 @@ class App extends Component {
       setTimeout( (() => {
            this.setState({error:''});
       }), DEFAULT_ERROR_TIMEOUT);
+    });
+
+    success((successMsg) => {
+      this.setState({
+        success: successMsg
+      });
+      setTimeout( (() => {
+           this.setState({success:''});
+      }), DEFAULT_SUCCESS_TIMEOUT);
     });
 
     updateLobby((err, responseLobby) => {
@@ -84,38 +94,12 @@ class App extends Component {
   }
 
   renderStep() {
-    if( !this.state.player || !this.state.player.name ) {
-      return (
-        <React.Fragment>
-          <Form inline>
-              <FormControl
-                type="text"
-                value={ this.state.playerName || "" }
-                placeholder="Name"
-                onChange={(e) => {
-                    this.setState( { playerName: e.target.value } );
-                } }
-              />
-              <Button  bsStyle="success" onClick={() => {
-                    createPlayer( this.state.playerName, ( err, player ) => {
-                      localStorage.setItem('utl-player', JSON.stringify(player));
-                      this.setState({ player });
-                    } )
-                  }}
-              >
-                Ok
-              </Button>
-          </Form>
-        </React.Fragment>
-      );
+    if ( this.state.currentChannel ) {
 
-    } else if ( this.state.currentChannel ) {
-
-        console.warn(this.state.currentChannel);
       return (
       <Grid>
         <Row>
-        {this.state.player.name === this.state.currentChannel.admin.name && this.state.currentChannel.currentStatus === 'WAITING_GAME'? (
+        {this.state.player.name === this.state.currentChannel.admin.name && (this.state.currentChannel.currentStatus === 'WAITING_GAME' || this.state.currentChannel.currentStatus === 'IDLE')? (
             <Col sm={4}>
               <Button onClick={()=> {
                   startGame( this.state.currentChannel.id );
@@ -127,7 +111,7 @@ class App extends Component {
 
           <Col sm={4}>
             <h1><Label>{this.state.currentChannel.name}</Label></h1>
-            <p>{this.state.player.isGameMaster ? 'You\'re just a regular man' : 'YOU ARE THE GAME MAAAASSSSSSTER'}</p>
+            <h3>{this.state.player.isGameMaster ?`${this.state.player.name} YOU ARE THE GAME MAAAASSSSSSTER` : `${this.state.player.name} you're just a regular man for this round`}</h3>
             {
             <dl>
             {this.state.currentChannel.players.map(item => (
@@ -145,7 +129,7 @@ class App extends Component {
         </Row>
       </Grid>
       );
-  } else if( this.state.lobby ) {
+  } else if( this.state.lobby && this.state.player ) {
       return (
         <Row>
           <Col sm={4}>
@@ -162,16 +146,15 @@ class App extends Component {
           <Col sm={4}>
             <h1><Label>CHANNELS</Label></h1>
             {
-              this.state.lobby.channels.map( (p,i)=>{
+              this.state.lobby.channels.map( (c,i)=>{
                 return (
-                  <Form inline>
-                    <p key={i}>{p.name}</p>
-                  <Button onClick={()=> {
-                      gotoChannel(p.id, (err, channel) => {
+                    <Form inline>
+                    <Button key={i} onClick={()=> {
+                      gotoChannel(c.id, (err, channel) => {
                         this.setState({ currentChannel: channel });
                       });
-                    }}>Join</Button>
-                  </Form>
+                    }}>{c.name}</Button>
+                    </Form>
                 )
               })
             }
@@ -179,22 +162,29 @@ class App extends Component {
         </Row>
       );
     } else {
-
         return (
-            <Button onClick={()=> {
-                reconnectPlayer( this.state.player.name, ( err, player ) => {
-
-                    if ( player ) {
-                        this.setState({ player });
+          <React.Fragment>
+            <Form inline>
+                <FormControl
+                  type="text"
+                  value={ this.state.playerName || "" }
+                  placeholder="Name"
+                  onChange={(e) => {
+                      this.setState( { playerName: e.target.value } );
+                  } }
+                />
+                <Button  bsStyle="success" onClick={() => {
+                      createPlayer( this.state.playerName, ( err, player ) => {
                         localStorage.setItem('utl-player', JSON.stringify(player));
-                    } else {
-                        this.setState({ player: null });
-                        localStorage.removeItem('utl-player');
-                    }
-
-                });
-            }}>Welcome</Button>
-            );
+                        this.setState({ player });
+                      } )
+                    }}
+                >
+                  Ok
+                </Button>
+            </Form>
+          </React.Fragment>
+        );
     }
   }
 
@@ -205,6 +195,7 @@ class App extends Component {
           <h1>Under the limits</h1>
           <header className="App-header">
             { this.state.error ? <Alert bsStyle="danger">{this.state.error}</Alert> : <p></p> }
+            { this.state.success ? <Alert bsStyle="success">{this.state.success}</Alert> : <p></p> }
               <div className="App">
                 { this.renderStep() }
               </div>

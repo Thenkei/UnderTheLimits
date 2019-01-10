@@ -26,6 +26,12 @@ class Player {
   setGameMaster(isGameMaster) {
     this.isGameMaster = isGameMaster;
   }
+
+  reset() {
+    this.score = 0;
+    this.hand = [];
+    this.answers = [];
+  }
 }
 
 module.exports = Player;

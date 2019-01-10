@@ -1,7 +1,7 @@
 const { CHANNEL_STATUS } = require('./status');
 
 const MAX_PLAYERS_COUNT = 6;
-
+const PLAYER_MAX_POINT = 5;
 const PLAYER_CARD_COUNT = 10;
 
 class Channel {
@@ -10,7 +10,7 @@ class Channel {
     this.admin = admin;
     this.players = players || [];
     this.name = name || '';
-    this.currentStatus = CHANNEL_STATUS.WAITING_GAME;
+    this.currentStatus = CHANNEL_STATUS.IDLE;
 
     this.deckAnswers = [];
     this.deckQuestions = [];
@@ -52,7 +52,14 @@ class Channel {
     if (toBeRemovedId !== -1) {
       this.players.splice(toBeRemovedId, 1);
       console.log('Player removed from channel');
+
+      if (this.admin.id === id) {
+        [this.admin] = this.players;
+      }
+
+      return this.id;
     }
+    return -1;
   }
 
   removePlayerByName(name) {
@@ -60,6 +67,11 @@ class Channel {
     if (toBeRemovedId !== -1) {
       this.players.splice(toBeRemovedId, 1);
       console.log('Player removed from channel');
+
+      if (this.admin.name === name) {
+        [this.admin] = this.players;
+      }
+
       return this.id;
     }
     return -1;
@@ -109,7 +121,26 @@ class Channel {
     this.players.forEach(p => p.setGameMaster(false));
     winner.setGameMaster(true);
     this.nextQuestionCard();
-    this.currentStatus = CHANNEL_STATUS.WAITING_GAME;
+    const resultat = this.players.find(p => p.score >= PLAYER_MAX_POINT);
+    if (resultat) {
+      this.currentStatus = CHANNEL_STATUS.IDLE;
+      this.players.forEach((p) => {
+        p.reset();
+      });
+    } else {
+      this.currentStatus = CHANNEL_STATUS.WAITING_GAME;
+    }
+
+    const gameWinner = resultat || winner;
+
+    return {
+      winner: gameWinner,
+      gameWinner: gameWinner === resultat,
+    };
+  }
+
+  isRunning() {
+    return this.currentStatus !== CHANNEL_STATUS.IDLE;
   }
 }
 
