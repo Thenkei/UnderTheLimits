@@ -4,9 +4,10 @@ services:
     container_name: utl-server
     build:
         context: ./server
+    environment:
+      DB_PORT: 3306
     ports:
      - "3001:3001"
-     - "3008:3008"
     links:
       - mysql
     restart: always
@@ -33,7 +34,7 @@ services:
       - mysql
     environment:
       PMA_HOST: mysql
-      PMA_PORT: 3308
+      PMA_PORT: 3306
     ports:
       - '8080:80'
 
@@ -48,8 +49,6 @@ services:
       MYSQL_PASSWORD: pwd
       MYSQL_DATABASE: utl
     restart: always
-    ports:
-      - 3308:3306
 
 volumes:
   db_data:
