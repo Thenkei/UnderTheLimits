@@ -1,4 +1,5 @@
 version: '3'
+version: '3'
 services:
   server:
     container_name: utl-server-dev
@@ -6,7 +7,8 @@ services:
         context: ./server
     ports:
      - "3001:3001"
-      - "3306:3306"
+    links:
+      - mysql
     restart: always
     volumes:
       - ./server:/server
@@ -23,6 +25,31 @@ services:
       - ./client:/client
       - /client/node_modules
     command: npm start
+
+  phpmyadmin:
+    container_name: utl-phpmyadmin-dev
+    image: phpmyadmin/phpmyadmin
+    links:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    ports:
+      - '8080:80'
+
+  mysql:
+    container_name: utl-mysql-dev
+    image: mysql:5.7.24
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pwd
+      MYSQL_DATABASE: utl
+    restart: always
+    ports:
+      - 3306:3306
 
 volumes:
   db_data:
