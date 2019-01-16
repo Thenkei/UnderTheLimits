@@ -111,7 +111,7 @@ class App extends Component {
 
           <Col sm={4}>
             <h1><Label>{this.state.currentChannel.name}</Label></h1>
-            <h3>{this.state.player.isGameMaster ?`${this.state.player.name} YOU ARE THE GAME MAAAASSSSSSTER` : `${this.state.player.name} you're just a regular man for this round`}</h3>
+            <h3>{this.state.player.isGameMaster ?`${this.state.player.name} c'est vous le patron !` : `${this.state.player.name} à vous de jouer !`}</h3>
             {
             <dl>
             {this.state.currentChannel.players.map(item => (
