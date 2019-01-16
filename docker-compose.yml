@@ -1,21 +1,32 @@
 version: '3'
 services:
   server:
-    container_name: utl-server
-    build: ./server
+    container_name: utl-server-dev
+    build:
+        context: ./server
     ports:
      - "3001:3001"
     links:
       - mysql
+    restart: always
+    volumes:
+      - ./server:/server
+      - /server/node_modules
+    command: nodemon /server/index.js
 
   client:
-    container_name: utl-client
-    build: ./client
+    container_name: utl-client-dev
+    build:
+        context: ./client
     ports:
-     - "3000:3000"
+      - "3000:3000"
+    volumes:
+      - ./client:/client
+      - /client/node_modules
+    command: npm start
 
   phpmyadmin:
-    container_name: utl-phpmyadmin
+    container_name: utl-phpmyadmin-dev
     image: phpmyadmin/phpmyadmin
     links:
       - mysql
@@ -26,7 +37,7 @@ services:
       - '8080:80'
 
   mysql:
-    container_name: utl-mysql
+    container_name: utl-mysql-dev
     image: mysql:5.7.24
     volumes:
       - db_data:/var/lib/mysql
