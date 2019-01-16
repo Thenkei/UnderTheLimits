@@ -6,6 +6,7 @@ services:
         context: ./server
     ports:
      - "3001:3001"
+     - "3008:3008"
     links:
       - mysql
     restart: always
@@ -32,7 +33,7 @@ services:
       - mysql
     environment:
       PMA_HOST: mysql
-      PMA_PORT: 3306
+      PMA_PORT: 3308
     ports:
       - '8080:80'
 
@@ -48,7 +49,7 @@ services:
       MYSQL_DATABASE: utl
     restart: always
     ports:
-      - 3306:3306
+      - 3308:3306
 
 volumes:
   db_data:
