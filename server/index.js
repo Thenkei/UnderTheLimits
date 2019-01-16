@@ -3,8 +3,8 @@ const Player = require('./src/player');
 const Channel = require('./src/channel');
 const DataBase = require('./src/models');
 
-const MAX_PLAYERS_IN_LOBBY = 10;
-const MAX_CHANNEL_COUNT = 10;
+const MAX_PLAYERS_IN_LOBBY = 100;
+const MAX_CHANNEL_COUNT = 6;
 
 async function start() {
   const io = IO();
@@ -60,7 +60,7 @@ async function start() {
         const waitingPlayers = CONNECTED_PLAYERS.filter(p => p.currentStatus === 'LOBBY');
 
         if (waitingPlayers.length >= MAX_PLAYERS_IN_LOBBY) {
-          client.emit('err', 'failed to create new player - lobby is full !');
+          client.emit('err', 'Impossible de créer un nouveau joueur, le lobby est plein !');
         }
         const doesNameAlreadyExist = CONNECTED_PLAYERS.find(p => p.name === playerName);
         if (!doesNameAlreadyExist) {
@@ -80,13 +80,13 @@ async function start() {
           });
         } else {
           console.warn(`Failed adding ${playerName} to lobby, already exist`);
-          client.emit('err', 'failed to create new player - name already exist');
+          client.emit('err', 'Ce nom existe déjà !');
         }
       });
 
       client.on('createChannel', async (channelName) => {
         if (CHANNELS.length >= MAX_CHANNEL_COUNT) {
-          client.emit('err', 'failed to create new channel - no more space for new channel');
+          client.emit('err', `Plus de place dans le salon ${channelName} !`);
         } else {
           try {
             const currentPlayer = CONNECTED_PLAYERS.find(p => p.id === client.id);
@@ -119,7 +119,7 @@ async function start() {
         if (!channel) return;
         // Check channel not running
         if (channel.isRunning()) {
-          client.emit('err', 'Can\'t connect to channel - Ongoing party');
+          client.emit('err', 'Partie en cours, impossible de rejoindre ce salon.');
           return;
         }
         channel.addPlayer(CONNECTED_PLAYERS.find(p => p.id === client.id));
@@ -160,9 +160,9 @@ async function start() {
         if (!channel) return;
         const resultat = channel.judge(judgment);
         if (resultat.gameWinner) {
-          io.to(channelId).emit('success', `The winner is ${resultat.winner.name}`);
+          io.to(channelId).emit('success', `Le vainqueur est ${resultat.winner.name}`);
         } else {
-          io.to(channelId).emit('success', `${resultat.winner.name} win this round`);
+          io.to(channelId).emit('success', `${resultat.winner.name} remporte la manche !`);
         }
         io.to(channelId).emit('updateChannel', { channel });
       });

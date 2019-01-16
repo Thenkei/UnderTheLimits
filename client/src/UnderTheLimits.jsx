@@ -34,7 +34,7 @@ class UnderTheLimits extends Component {
       console.warn(i);
       if (index < 0) {
           if (this.props.player.answers.length >= this.state.answerSelectNum) {
-            console.warn(`Can't select more answers for this question`); // TODO Change with <Alert color="primary">
+            console.warn(`Vous ne pouvez pas jouer davantage de réponses pour cette question !`); // TODO Change with <Alert color="primary">
           }else {
             this.props.player.answers.push(i);
           }
@@ -79,7 +79,7 @@ class UnderTheLimits extends Component {
             return (
             <React.Fragment>
                 <Row>
-                Waiting for next round. . .
+                Changement de question...
                 </Row>
                 <Row>
                 {
