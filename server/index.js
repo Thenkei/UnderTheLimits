@@ -10,9 +10,9 @@ async function start() {
   const io = IO();
   try {
     const config = {
-      db: 'utl',
-      db_user: 'user',
-      db_pwd: 'pwd',
+      db: process.env.DB || 'utl',
+      db_user: process.env.DB_USER || 'user',
+      db_pwd: process.env.DB_PWD || 'pwd',
       db_host: 'mysql',
       db_log: false,
     };
