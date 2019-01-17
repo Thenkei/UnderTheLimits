@@ -38,14 +38,14 @@ class CreateChannel extends Component {
         </Button>
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Create channel</Modal.Title>
+            <Modal.Title>Créer un salon</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form inline>
               <FormControl
                 type="text"
                 value={ this.state.channelName || "" }
-                placeholder="Channel name"
+                placeholder="Nom du salon"
                 onChange={(e) => {
                     this.setState( { channelName: e.target.value } );
                 } }
@@ -53,7 +53,7 @@ class CreateChannel extends Component {
               <Button onClick={() => {
                 this.props.onCreateChannel( this.state.channelName );
                 this.handleClose();
-              }}>Ok</Button>
+              }}>Valider</Button>
             </Form>
           </Modal.Body>
         </Modal>

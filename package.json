@@ -6,6 +6,7 @@
   "scripts": {
     "postinstall": "./server/scripts/postinstall.sh",
     "start:dev": "docker-compose -f docker-compose-dev.yml up --force-recreate --build",
+    "start:prod": "docker-compose -f docker-compose.yml up --force-recreate --build",
     "populate:dev": "docker exec -it utl-server-dev npm run populate",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "npx eslint --fix --ignore-path .gitignore ."
