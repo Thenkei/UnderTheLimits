@@ -146,8 +146,8 @@ async function start() {
       client.on('nextRound', (channelId) => {
         const channel = CHANNELS.find(c => c.id === channelId);
         if (!channel) return;
-        // Check channel not full
-        if (channel.canStart()) {
+        // Check channel cannot start
+        if (!channel.canStart()) {
           client.emit('err', 'Il n\'y a pas assez de joueurs dans ce salon !');
           return;
         }
