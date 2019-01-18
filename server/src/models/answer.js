@@ -5,6 +5,7 @@ module.exports = (db, Sequelize) => {
       primaryKey: true,
     },
     text: Sequelize.STRING,
+    definition: Sequelize.STRING,
   }, {
     timestamps: false,
   });
