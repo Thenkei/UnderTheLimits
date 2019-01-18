@@ -1,6 +1,7 @@
 const { CHANNEL_STATUS } = require('./status');
 
 const MAX_PLAYERS_COUNT = 6;
+const MIN_PLAYERS_COUNT = 3;
 const PLAYER_MAX_POINT = 5;
 const PLAYER_CARD_COUNT = 10;
 
@@ -145,6 +146,14 @@ class Channel {
 
   isRunning() {
     return this.currentStatus !== CHANNEL_STATUS.IDLE;
+  }
+
+  isFull() {
+    return this.players.length > MAX_PLAYERS_COUNT;
+  }
+
+  canStart() {
+    return this.players.length > MIN_PLAYERS_COUNT;
   }
 }
 

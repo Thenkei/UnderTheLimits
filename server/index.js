@@ -4,7 +4,7 @@ const Channel = require('./src/channel');
 const DataBase = require('./src/models');
 
 const MAX_PLAYERS_IN_LOBBY = 100;
-const MAX_CHANNEL_COUNT = 6;
+const MAX_CHANNEL_COUNT = 7;
 
 async function start() {
   const io = IO();
@@ -87,7 +87,7 @@ async function start() {
 
       client.on('createChannel', async (channelName) => {
         if (CHANNELS.length >= MAX_CHANNEL_COUNT) {
-          client.emit('err', `Plus de place dans le salon ${channelName} !`);
+          client.emit('err', 'Le serveur est complet, attendez qu\'un salon se libère !');
         } else {
           try {
             const currentPlayer = CONNECTED_PLAYERS.find(p => p.id === client.id);
@@ -123,6 +123,12 @@ async function start() {
           client.emit('err', 'Partie en cours, impossible de rejoindre ce salon.');
           return;
         }
+        // Check channel not full
+        if (channel.isFull()) {
+          client.emit('err', `Plus de place dans le salon ${channel.name} !`);
+          return;
+        }
+
         channel.addPlayer(CONNECTED_PLAYERS.find(p => p.id === client.id));
         io.sockets.emit('updateLobby', {
           lobby: {
@@ -140,6 +146,12 @@ async function start() {
       client.on('nextRound', (channelId) => {
         const channel = CHANNELS.find(c => c.id === channelId);
         if (!channel) return;
+        // Check channel not full
+        if (channel.canStart()) {
+          client.emit('err', 'Il n\'y a pas assez de joueurs dans ce salon !');
+          return;
+        }
+
         channel.nextRound();
         console.warn(`channel ${channel.name} next round starting...`);
 
