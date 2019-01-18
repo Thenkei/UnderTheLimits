@@ -114,10 +114,10 @@ class App extends Component {
             <h3>{this.state.player.isGameMaster ?`${this.state.player.name} c'est vous le patron !` : `${this.state.player.name} à vous de jouer !`}</h3>
             {
             <dl>
-            {this.state.currentChannel.players.map(item => (
+            {this.state.currentChannel.players.map(p => (
                 // Without the `key`, React will fire a key warning
-                <React.Fragment key={item.id}>
-                    <dt>{item.name}</dt>
+                <React.Fragment key={p.id}>
+                    <dt> {p.isGameMaster ? <font color="yellow">`${p.name} ${p.score}`</font> : `${p.name} ${p.score}`} </dt>
                 </React.Fragment>
             ))}
             </dl>
