@@ -47,8 +47,6 @@ services:
       MYSQL_PASSWORD: pwd
       MYSQL_DATABASE: utl
     restart: always
-    ports:
-      - 3306:3306
 
 volumes:
   db_data:
