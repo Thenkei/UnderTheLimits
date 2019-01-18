@@ -18,10 +18,10 @@ const DB = require('../src/models');
 
     console.log('Populate...'); // eslint-disable-line no-console
     let sql = await fs.readFile(`${__dirname}/populate_answer.sql`, 'utf8');
-    db.query(sql);
+    await db.query(sql);
 
     sql = await fs.readFile(`${__dirname}/populate_question.sql`, 'utf8');
-    db.query(sql);
+    await db.query(sql);
 
     console.log('Populate done'); // eslint-disable-line no-console
     process.exit();
