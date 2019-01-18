@@ -8,5 +8,5 @@
 git clone https://github.com/Thenkei/UnderTheLimits
 cd UnderTheLimits
 yarn
-yarn start
+yarn start:dev
 ```
