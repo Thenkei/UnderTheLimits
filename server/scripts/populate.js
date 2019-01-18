@@ -4,10 +4,11 @@ const DB = require('../src/models');
 (async () => {
   try {
     const config = {
-      db: 'utl',
-      db_user: 'user',
-      db_pwd: 'pwd',
-      db_host: 'mysql',
+      db: process.env.DB || 'utl',
+      db_user: process.env.DB_USER || 'user',
+      db_pwd: process.env.DB_PWD || 'pwd',
+      db_host: process.env.DB_HOST || 'mysql',
+      db_port: process.env.DB_PORT || 3306,
       db_log: false,
       forceSync: true,
     };
