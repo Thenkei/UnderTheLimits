@@ -41,7 +41,14 @@ class CreateChannel extends Component {
             <Modal.Title>Créer un salon</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form inline>
+            <Form
+              onSubmit={(e) => {
+                e.preventDefault();
+                this.props.onCreateChannel( this.state.channelName );
+                this.handleClose();
+              }}
+              inline
+            >
               <FormControl
                 type="text"
                 value={ this.state.channelName || "" }
@@ -50,10 +57,7 @@ class CreateChannel extends Component {
                     this.setState( { channelName: e.target.value } );
                 } }
               />
-              <Button onClick={() => {
-                this.props.onCreateChannel( this.state.channelName );
-                this.handleClose();
-              }}>Valider</Button>
+            <Button type="submit">Valider</Button>
             </Form>
           </Modal.Body>
         </Modal>

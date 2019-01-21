@@ -166,7 +166,13 @@ class App extends Component {
     } else {
         return (
           <React.Fragment>
-            <Form inline>
+            <Form onSubmit={(e) => {
+                  e.preventDefault()
+                  createPlayer( this.state.playerName, ( err, player ) => {
+                    localStorage.setItem('utl-player', JSON.stringify(player));
+                    this.setState({ player });
+                  } )
+                }} inline>
                 <FormControl
                   type="text"
                   value={ this.state.playerName || "" }
@@ -175,13 +181,14 @@ class App extends Component {
                       this.setState( { playerName: e.target.value } );
                   } }
                 />
-                <Button  bsStyle="success" onClick={() => {
-                      createPlayer( this.state.playerName, ( err, player ) => {
-                        localStorage.setItem('utl-player', JSON.stringify(player));
-                        this.setState({ player });
-                      } )
-                    }}
-                >
+                {
+                  // onClick mandatory to avoid page reload.
+                  // Remove the line when adding react-router
+                }
+              <Button
+                bsStyle="success"
+                type="submit"
+              >
                   Ok
                 </Button>
             </Form>
