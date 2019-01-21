@@ -148,12 +148,14 @@ class App extends Component {
             {
               this.state.lobby.channels.map( (c,i)=>{
                 return (
-                    <Form inline>
-                    <Button key={i} onClick={()=> {
-                      gotoChannel(c.id, (err, channel) => {
-                        this.setState({ currentChannel: channel });
-                      });
-                    }}>{c.name}</Button>
+                    <Form key={i} inline>
+                      <Button onClick={()=> {
+                        gotoChannel(c.id, (err, channel) => {
+                          this.setState({ currentChannel: channel });
+                        });
+                      }}>
+                        {c.name}
+                      </Button>
                     </Form>
                 )
               })
