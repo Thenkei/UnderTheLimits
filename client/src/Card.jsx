@@ -10,9 +10,9 @@ class Card extends Component {
     return (
       <React.Fragment>
           <Col sm={6} md={3}>
-          <div class="card" style={{ width: '20rem'}} onClick={() => this.props.onClick()}>
-            <div class="card-body">
-                <p class="card-text">{this.props.value}</p>
+          <div className="card" style={{ width: '20rem'}} onClick={() => this.props.onClick && this.props.onClick()}>
+            <div className="card-body">
+                <p className="card-text">{this.props.value}</p>
             </div>
           </div>
           </Col>
