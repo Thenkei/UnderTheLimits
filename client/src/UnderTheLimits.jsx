@@ -57,7 +57,6 @@ class UnderTheLimits extends Component {
  }
 
   render() {
-    console.warn( this.props.player.hand );
     if(this.props.player && this.props.player.hand) {
         if(this.props.currentChannel.currentStatus === 'JUDGING_CARD') {
             return (

@@ -22,7 +22,8 @@ import {
 } from 'react-bootstrap';
 import CreateChannel from './CreateChannel';
 import UnderTheLimits from './UnderTheLimits';
-
+import Score from './Score';
+import Player from './Player';
 
 const DEFAULT_ERROR_TIMEOUT = 3000;
 const DEFAULT_SUCCESS_TIMEOUT = 10000;
@@ -112,16 +113,7 @@ class App extends Component {
           <Col sm={4}>
             <h1><Label>{this.state.currentChannel.name}</Label></h1>
             <h3>{this.state.player.isGameMaster ?`${this.state.player.name} c'est vous le patron !` : `${this.state.player.name} à vous de jouer !`}</h3>
-            {
-            <dl>
-            {this.state.currentChannel.players.map(p => (
-                // Without the `key`, React will fire a key warning
-                <React.Fragment key={p.id}>
-                    <dt> {`${p.isGameMaster ? ">" : ""} ${p.name} ${p.score} pt(s)`} </dt>
-                </React.Fragment>
-            ))}
-            </dl>
-            }
+            <Score players={this.state.currentChannel.players} />
           </Col>
         </Row>
         <Row>
@@ -139,7 +131,9 @@ class App extends Component {
             <h1><Label>PLAYERS</Label></h1>
             {
               this.state.lobby.waitingPlayers.map( (p,i)=>{
-                return (<p key={i}>{p.name}</p>)
+                return (
+                  <Player value={p} noScore />
+                );
               })
             }
           </Col>
