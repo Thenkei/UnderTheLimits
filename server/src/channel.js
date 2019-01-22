@@ -33,8 +33,8 @@ class Channel {
         ],
         raw: true,
       });
-      this.deckAnswers = this.deckAnswers.map(a => a.text);
-      this.deckQuestions = this.deckQuestions.map(q => q.text);
+      this.deckAnswers = this.deckAnswers.map(a => a);
+      this.deckQuestions = this.deckQuestions.map(q => q);
     } catch (err) {
       throw err;
     }

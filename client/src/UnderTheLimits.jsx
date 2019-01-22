@@ -23,15 +23,16 @@ class UnderTheLimits extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.currentChannel.deckQuestions[0] !== prevProps.currentChannel.deckQuestions[0]) {
-      const occurences = (this.props.currentChannel.deckQuestions[0].match(/______/g) || []).length;
+    const currentDeckQuestion = this.props.currentChannel.deckQuestions[0].text;
+    const prevDeckQuestion = prevProps.currentChannel.deckQuestions[0].text;
+    if ( currentDeckQuestion !== prevDeckQuestion) {
+      const occurences = (currentDeckQuestion.match(/______/g) || []).length;
       this.setState({ answerSelectNum: occurences });
     }
   }
 
   handleChange(i) {
       const index = this.props.player.answers.indexOf(i);
-      console.warn(i);
       if (index < 0) {
           if (this.props.player.answers.length >= this.state.answerSelectNum) {
             console.warn(`Vous ne pouvez pas jouer davantage de réponses pour cette question !`); // TODO Change with <Alert color="primary">
@@ -41,19 +42,22 @@ class UnderTheLimits extends Component {
       } else {
           this.props.player.answers.splice(index, 1);
       }
-      this.setState({ value: [...this.props.player.answers] });
-
+      let selectedCard = i;
+      if (this.state.selectedCard === i) {
+        selectedCard = null;
+      }
+      this.setState({ selectedCard });
       selectedAnswers(this.props.currentChannel.id, this.props.player.answers);
   }
 
-  renderQuestion(keys, values) {
-      let questionText = this.props.currentChannel.deckQuestions[0];
+  getFilledQuestionText(keys, values) {
+      let questionText = this.props.currentChannel.deckQuestions[0].text;
       keys.map((i) => questionText = questionText.replace('______', values[i]));
-
       return questionText;
  }
 
   render() {
+    console.warn( this.props.player.hand );
     if(this.props.player && this.props.player.hand) {
         if(this.props.currentChannel.currentStatus === 'JUDGING_CARD') {
             return (
@@ -64,7 +68,7 @@ class UnderTheLimits extends Component {
                 if (!player.isGameMaster){ return(
                   <Card
                   key={'p'+player.id}
-                  value={this.renderQuestion(player.answers, player.hand)}
+                  value={this.getFilledQuestionText(player.answers, player.hand)}
                   onClick={this.props.player.isGameMaster?() => selectedJudgment(this.props.currentChannel.id, player.id):() => {}}
                   />
               )}else{
@@ -83,7 +87,14 @@ class UnderTheLimits extends Component {
                 </Row>
                 <Row>
                 {
-                    this.props.player.hand.map((answer, index) => (<Card key={answer} value={answer} onClick={() => {}}/>))
+                    this.props.player.hand.map((answer, index) => (
+                      <Card
+                        key={answer.text}
+                        value={answer.text}
+                        definition={answer.definition}
+                        onClick={() => {}}
+                      />
+                    ))
                 }
                 </Row>
             </React.Fragment>
@@ -92,11 +103,19 @@ class UnderTheLimits extends Component {
             return (
             <React.Fragment>
                 <Row>
-                    <Card key='questioncard' value={this.renderQuestion(this.props.player.answers, this.props.player.hand)}/>
+                    <Card key='questioncard' value={this.getFilledQuestionText(this.props.player.answers, this.props.player.hand)}/>
                 </Row>
                 <Row>
                 {
-                    this.props.player.hand.map((answer, index) => (<Card key={answer} value={answer} onClick={this.props.player.isGameMaster?() => {}:() => this.handleChange(index)}/>))
+                    this.props.player.hand.map((answer, index) => (
+                      <Card
+                        key={answer.text}
+                        value={answer.text}
+                        definition={answer.definition}
+                        onClick={this.props.player.isGameMaster?() => {}:() => this.handleChange(index)}
+                        checked={index === this.state.selectedCard}
+                      />
+                    ))
                 }
                 </Row>
             </React.Fragment>
