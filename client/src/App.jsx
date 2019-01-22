@@ -117,7 +117,7 @@ class App extends Component {
             {this.state.currentChannel.players.map(p => (
                 // Without the `key`, React will fire a key warning
                 <React.Fragment key={p.id}>
-                    <dt> {p.isGameMaster ? `>${p.name} ${p.score}`: `${p.name} ${p.score}`} </dt>
+                    <dt> {`${p.isGameMaster ? ">" : ""} ${p.name} ${p.score} pt(s)`} </dt>
                 </React.Fragment>
             ))}
             </dl>
