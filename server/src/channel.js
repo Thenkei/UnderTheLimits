@@ -1,7 +1,7 @@
 const { CHANNEL_STATUS } = require('./status');
 
 const MAX_PLAYERS_COUNT = 6;
-const MIN_PLAYERS_COUNT = 3;
+const MIN_PLAYERS_COUNT = 2;
 const PLAYER_MAX_POINT = 5;
 const PLAYER_CARD_COUNT = 10;
 
@@ -33,8 +33,8 @@ class Channel {
         ],
         raw: true,
       });
-      this.deckAnswers = this.deckAnswers.map(a => a.text);
-      this.deckQuestions = this.deckQuestions.map(q => q.text);
+      this.deckAnswers = this.deckAnswers.map(a => a);
+      this.deckQuestions = this.deckQuestions.map(q => q);
     } catch (err) {
       throw err;
     }
@@ -149,11 +149,11 @@ class Channel {
   }
 
   isFull() {
-    return this.players.length > MAX_PLAYERS_COUNT;
+    return this.players.length >= MAX_PLAYERS_COUNT;
   }
 
   canStart() {
-    return this.players.length > MIN_PLAYERS_COUNT;
+    return this.players.length >= MIN_PLAYERS_COUNT;
   }
 }
 
