@@ -27,7 +27,7 @@ class UnderTheLimits extends Component {
     const prevDeckQuestion = prevProps.currentChannel.deckQuestions[0].text;
     if ( currentDeckQuestion !== prevDeckQuestion) {
       const occurences = (currentDeckQuestion.match(/______/g) || []).length;
-      this.setState({ answerSelectNum: occurences });
+      this.setState({ answerSelectNum: occurences, selectedCard: [] });
     }
   }
 
