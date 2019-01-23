@@ -43,7 +43,7 @@ class UnderTheLimits extends Component {
           this.props.player.answers.splice(index, 1);
       }
       let selectedCard = i;
-      if (this.state.selectedCard === i) {
+      if (this.state.selectedCard.includes(i)) {
         selectedCard = null;
       }
       this.setState({ selectedCard });
@@ -112,7 +112,7 @@ class UnderTheLimits extends Component {
                         value={answer.text}
                         definition={answer.definition}
                         onClick={this.props.player.isGameMaster?() => {}:() => this.handleChange(index)}
-                        checked={index === this.state.selectedCard}
+                        checked={this.state.selectedCard.includes(index)}
                       />
                     ))
                 }
