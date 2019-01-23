@@ -52,7 +52,7 @@ class UnderTheLimits extends Component {
 
   getFilledQuestionText(keys, values) {
       let questionText = this.props.currentChannel.deckQuestions[0].text;
-      keys.map((i) => questionText = questionText.replace('______', values[i]));
+      keys.map((i) => questionText = questionText.replace('______', values[i].text));
       return questionText;
  }
 
