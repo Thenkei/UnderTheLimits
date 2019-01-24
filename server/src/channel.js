@@ -160,7 +160,7 @@ class Channel {
   }
 
   getAnwersTime() {
-    return 40000 + 5000 * (getQuestionCard().text.match(/______/g) || []).length;
+    return 40000 + 5000 * (this.getQuestionCard().text.match(/______/g) || []).length;
   }
 }
 
