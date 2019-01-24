@@ -92,7 +92,7 @@ class Channel {
   //----
   nextRound() {
     if (this.currentStatus === CHANNEL_STATUS.IDLE) {
-      const j = Math.floor(Math.random() * (this.players.length - 1));
+      const j = Math.floor(Math.random() * this.players.length);
 
       this.players.forEach((p) => {
         p.reset();
