@@ -54,11 +54,17 @@ class UnderTheLimits extends Component {
   render() {
     if(this.props.player && this.props.player.hand) {
         if(this.props.currentChannel.currentStatus === 'JUDGING_CARD') {
+            const playersShuffle = this.props.currentChannel.players.slice();
+            for (let i = playersShuffle.length - 1; i > 0; i -= 1) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [playersShuffle[i], playersShuffle[j]] = [playersShuffle[j], playersShuffle[i]];
+            }
+
             return (
             <React.Fragment>
                 <Row>
                 <React.Fragment>
-                {this.props.currentChannel.players.map(player => {
+                {playersShuffle.map(player => {
                 if (!player.isGameMaster){ return(
                   <Card
                   key={'p'+player.id}
