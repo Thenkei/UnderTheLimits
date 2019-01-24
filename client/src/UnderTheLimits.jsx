@@ -15,7 +15,6 @@ class UnderTheLimits extends Component {
     super(props);
 
     this.state = {
-      value: [],
       answerSelectNum: 1
     };
 
@@ -27,7 +26,7 @@ class UnderTheLimits extends Component {
     const prevDeckQuestion = prevProps.currentChannel.deckQuestions[0].text;
     if ( currentDeckQuestion !== prevDeckQuestion) {
       const occurences = (currentDeckQuestion.match(/______/g) || []).length;
-      this.setState({ answerSelectNum: occurences, selectedCard: [] });
+      this.setState({ answerSelectNum: occurences });
     }
   }
 
@@ -42,11 +41,7 @@ class UnderTheLimits extends Component {
       } else {
           this.props.player.answers.splice(index, 1);
       }
-      let selectedCard = i;
-      if (this.state.selectedCard.includes(i)) {
-        selectedCard = null;
-      }
-      this.setState({ selectedCard });
+
       selectedAnswers(this.props.currentChannel.id, this.props.player.answers);
   }
 
@@ -112,7 +107,7 @@ class UnderTheLimits extends Component {
                         value={answer.text}
                         definition={answer.definition}
                         onClick={this.props.player.isGameMaster?() => {}:() => this.handleChange(index)}
-                        checked={this.state.selectedCard.includes(index)}
+                        checked={this.props.player.answers.indexOf(index) >= 0}
                       />
                     ))
                 }
