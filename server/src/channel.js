@@ -15,8 +15,6 @@ class Channel {
 
     this.deckAnswers = [];
     this.deckQuestions = [];
-
-    this.players[0].setGameMaster(true);
   }
 
   async init(dataBase) {
@@ -93,12 +91,21 @@ class Channel {
 
   //----
   nextRound() {
-    this.initializePlayersCards();
+    if (this.currentStatus === CHANNEL_STATUS.IDLE) {
+      const j = Math.floor(Math.random() * (this.players.length - 1));
 
-    for (let i = this.players.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [this.players[i], this.players[j]] = [this.players[j], this.players[i]];
+      this.players.forEach((p) => {
+        p.reset();
+      });
+
+      this.players[j].setGameMaster(true);
     }
+
+    this.deckQuestions.shift();
+    this.players.forEach((p) => {
+      p.clearAnswers();
+      p.hand.push(...this.deckAnswers.splice(0, PLAYER_CARD_COUNT - p.hand.length));
+    });
 
     this.currentStatus = CHANNEL_STATUS.PLAYING_CARD;
   }
@@ -107,33 +114,23 @@ class Channel {
     this.currentStatus = CHANNEL_STATUS.JUDGING_CARD;
   }
 
-  initializePlayersCards() {
-    this.players.forEach((p) => {
-      p.clearAnswers();
-      p.hand.push(...this.deckAnswers.splice(0, PLAYER_CARD_COUNT - p.hand.length));
-    });
-  }
-
-  nextQuestionCard() {
-    this.deckQuestions.shift();
-  }
-
   getQuestionCard() {
     return this.deckQuestions[0];
   }
 
   judge(judgment) {
     const winner = this.players.find(p => p.id === judgment);
+
+    this.players.forEach((p) => {
+      p.setGameMaster(false);
+    });
+
     winner.scored();
-    this.players.forEach(p => p.setGameMaster(false));
     winner.setGameMaster(true);
-    this.nextQuestionCard();
+
     const resultat = this.players.find(p => p.score >= PLAYER_MAX_POINT);
     if (resultat) {
       this.currentStatus = CHANNEL_STATUS.IDLE;
-      this.players.forEach((p) => {
-        p.reset();
-      });
     } else {
       this.currentStatus = CHANNEL_STATUS.WAITING_GAME;
     }

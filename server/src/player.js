@@ -31,6 +31,7 @@ class Player {
     this.score = 0;
     this.hand = [];
     this.answers = [];
+    this.isGameMaster = false;
   }
 }
 
