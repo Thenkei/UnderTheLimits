@@ -5,6 +5,7 @@ const DataBase = require('./src/models');
 
 const MAX_PLAYERS_IN_LOBBY = 100;
 const MAX_CHANNEL_COUNT = 7;
+const SOCKET_ROOM_LOBBY = 'LOBBY';
 
 async function start() {
   const io = IO();
@@ -24,6 +25,7 @@ async function start() {
     const dataBase = await DataBase(config);
 
     io.on('connection', (client) => {
+      client.join(SOCKET_ROOM_LOBBY);
       client.on('disconnect', () => {
         const disconnectedPlayerIndex = CONNECTED_PLAYERS.findIndex(p => p.id === client.id);
         if (disconnectedPlayerIndex !== -1) {
@@ -43,7 +45,7 @@ async function start() {
         }
 
         const waitingPlayers = CONNECTED_PLAYERS.filter(p => p.currentStatus === 'LOBBY');
-        io.sockets.emit('updateLobby', {
+        io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', {
           lobby: {
             waitingPlayers,
             channels: CHANNELS.map(c => ({
@@ -70,7 +72,7 @@ async function start() {
           client.emit('playerCreated', { player });
           CONNECTED_PLAYERS.push(player);
           waitingPlayers.push(player);
-          io.sockets.emit('updateLobby', {
+          io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', {
             lobby: {
               waitingPlayers,
               channels: CHANNELS.map(c => ({
@@ -99,7 +101,7 @@ async function start() {
             console.warn(`channel ${channelName} created`);
 
             const waitingPlayers = CONNECTED_PLAYERS.filter(p => p.currentStatus === 'LOBBY');
-            io.sockets.emit('updateLobby', {
+            io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', {
               lobby: {
                 waitingPlayers,
                 channels: CHANNELS.map(c => ({
@@ -108,6 +110,7 @@ async function start() {
                 })),
               },
             });
+            client.leave(SOCKET_ROOM_LOBBY);
             client.join(newChannel.id);
 
             client.emit('updateChannel', { channel: newChannel });
@@ -138,7 +141,7 @@ async function start() {
         channel.addPlayer(currentPlayer);
 
         const waitingPlayers = CONNECTED_PLAYERS.filter(p => p.currentStatus === 'LOBBY');
-        io.sockets.emit('updateLobby', {
+        io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', {
           lobby: {
             waitingPlayers,
             channels: CHANNELS.map(c => ({
@@ -147,6 +150,7 @@ async function start() {
             })),
           },
         });
+        client.leave(SOCKET_ROOM_LOBBY);
         client.join(channelId);
 
         io.to(channelId).emit('updateChannel', { channel });
@@ -165,7 +169,7 @@ async function start() {
         console.warn(`channel ${channel.name} next round starting...`);
 
         io.to(channelId).emit('updateChannel', { channel });
-        setTimeout(() => { channel.judgementState(); io.to(channelId).emit('updateChannel', { channel }); }, 30000);
+        setTimeout(() => { channel.judgementState(); io.to(channelId).emit('updateChannel', { channel }); }, channel.getAnwersTime());
       });
 
       client.on('selectedAnswers', (channelId, answers) => {

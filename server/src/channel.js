@@ -158,6 +158,10 @@ class Channel {
   canStart() {
     return this.players.length >= MIN_PLAYERS_COUNT;
   }
+
+  getAnwersTime() {
+    return 40000 + 5000 * (this.getQuestionCard().text.match(/______/g) || []).length;
+  }
 }
 
 module.exports = Channel;
