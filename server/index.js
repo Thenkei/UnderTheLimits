@@ -93,13 +93,15 @@ async function start() {
             const currentPlayer = CONNECTED_PLAYERS.find(p => p.id === client.id);
             if (!currentPlayer) return;
             const newChannel = new Channel([currentPlayer], channelName, currentPlayer);
-            currentPlayer.currentStatus = 'WAITING_GAME';
+            currentPlayer.currentStatus = 'IN_CHANNEL';
             await newChannel.init(dataBase);
             CHANNELS.push(newChannel);
             console.warn(`channel ${channelName} created`);
 
+            const waitingPlayers = CONNECTED_PLAYERS.filter(p => p.currentStatus === 'LOBBY');
             io.sockets.emit('updateLobby', {
               lobby: {
+                waitingPlayers,
                 channels: CHANNELS.map(c => ({
                   name: c.name,
                   id: c.id,
@@ -129,9 +131,14 @@ async function start() {
           return;
         }
 
-        channel.addPlayer(CONNECTED_PLAYERS.find(p => p.id === client.id));
+        const currentPlayer = CONNECTED_PLAYERS.find(p => p.id === client.id);
+        currentPlayer.currentStatus = 'IN_CHANNEL';
+        channel.addPlayer(currentPlayer);
+
+        const waitingPlayers = CONNECTED_PLAYERS.filter(p => p.currentStatus === 'LOBBY');
         io.sockets.emit('updateLobby', {
           lobby: {
+            waitingPlayers,
             channels: CHANNELS.map(c => ({
               name: c.name,
               id: c.id,
