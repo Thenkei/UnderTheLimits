@@ -13,6 +13,7 @@ class Player {
   }
 
   clearAnswers() {
+    this.answers.sort(function(a,b){ return b - a; });
     this.answers.forEach((i) => {
       this.hand.splice(i, 1);
     });
