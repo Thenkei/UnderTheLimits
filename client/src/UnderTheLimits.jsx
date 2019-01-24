@@ -80,10 +80,20 @@ class UnderTheLimits extends Component {
             );
 
         }else if(this.props.currentChannel.currentStatus === 'WAITING_GAME') {
+
+            const player = this.props.currentChannel.players.find((p) => {return p.isGameMaster;});
+
             return (
             <React.Fragment>
                 <Row>
-                Changement de question...
+                <p>Le gagnant de la manche est {player.name} :</p>
+                {
+                <Card
+                key={'p'+player.id}
+                value={this.getFilledQuestionText(player.answers, player.hand)}
+                onClick={() => {}}
+                />
+                }
                 </Row>
                 <Row>
                 {
