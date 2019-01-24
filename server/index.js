@@ -119,7 +119,10 @@ async function start() {
 
       client.on('gotoChannel', (channelId) => {
         const channel = CHANNELS.find(c => c.id === channelId);
+        const currentPlayer = CONNECTED_PLAYERS.find(p => p.id === client.id);
         if (!channel) return;
+        if (!currentPlayer) return;
+
         // Check channel not running
         if (channel.isRunning()) {
           client.emit('err', 'Partie en cours, impossible de rejoindre ce salon.');
@@ -131,7 +134,6 @@ async function start() {
           return;
         }
 
-        const currentPlayer = CONNECTED_PLAYERS.find(p => p.id === client.id);
         currentPlayer.currentStatus = 'IN_CHANNEL';
         channel.addPlayer(currentPlayer);
 
