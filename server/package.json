@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "lint": "$(npm bin)/eslint src",
     "populate": "node ./scripts/populate.js"
   },
   "repository": {
@@ -17,13 +18,15 @@
     "url": "https://github.com/Thenkei/UnderTheLimits/issues"
   },
   "homepage": "https://github.com/Thenkei/UnderTheLimits#readme",
-  "devDependencies": {
-    "fs-extra": "^7.0.1",
-    "nodemon": "^1.18.8"
-  },
   "dependencies": {
     "mysql2": "^1.6.4",
     "sequelize": "^4.42.0",
     "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "eslint": "5.6.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "fs-extra": "^7.0.1",
+    "nodemon": "^1.18.8"
   }
 }

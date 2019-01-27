@@ -10,7 +10,9 @@
     "populate:dev": "docker exec -it utl-server-dev npm run populate",
     "populate:prod": "docker exec -it utl-server npm run populate",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "npx eslint --fix --ignore-path .gitignore ."
+    "lint:client": "cd client && yarn lint",
+    "lint:server": "cd server && yarn lint",
+    "lint": "yarn lint:client && yarn lint:server"
   },
   "repository": {
     "type": "git",
@@ -23,14 +25,6 @@
   },
   "homepage": "https://github.com/Thenkei/UnderTheLimits#readme",
   "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.10.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-config-react-app": "^3.0.5",
-    "eslint-plugin-flowtype": "^3.2.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "^6.1.2",
-    "eslint-plugin-react": "^7.11.1",
     "node-cipher": "^6.3.3"
 },
   "private": true,

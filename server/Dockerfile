@@ -4,14 +4,12 @@ WORKDIR /server
 
 ADD package.json /server/package.json
 
-COPY . /server
-
 RUN yarn
+
+COPY . /server
 
 ENV NODE_PATH=/server/node_modules
 ENV PATH=$PATH:/server/node_modules/.bin
-
-COPY . /server
 
 EXPOSE 3001
 

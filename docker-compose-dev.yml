@@ -12,7 +12,7 @@ services:
     volumes:
       - ./server:/server
       - /server/node_modules
-    command: nodemon /server/index.js
+    command: node /server/index.js
 
   client:
     container_name: utl-client-dev
@@ -23,6 +23,8 @@ services:
     volumes:
       - ./client:/client
       - /client/node_modules
+    environment:
+      SKIP_PREFLIGHT_CHECK: "true"
     command: npm start
 
   phpmyadmin:
