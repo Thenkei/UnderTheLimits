@@ -21,9 +21,35 @@ jobs:
       - run:
           name: Lint
           command: yarn lint
+  dockerize_client:
+    working_directory: ~/UnderTheLimits
+    docker:
+      - image: circleci/node:lts-stretch
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Building client
+          command: cd client && docker build -t utl-client:$CIRCLE_BRANCH-$CIRCLE_SHA1 -f Dockerfile .
+  dockerize_server:
+    working_directory: ~/UnderTheLimits
+    docker:
+      - image: circleci/node:lts-stretch
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Building server
+          command: cd server && docker build -t utl-server:$CIRCLE_BRANCH-$CIRCLE_SHA1 -f Dockerfile .
 
 workflows:
   version: 2
-  build_and_test:
+  build_and_dockerize:
     jobs:
       - build
+      - dockerize_client:
+          requires:
+            - build
+      - dockerize_server:
+          requires:
+            - build
