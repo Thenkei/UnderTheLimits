@@ -34,7 +34,7 @@ async function start() {
           CHANNELS.forEach((c, index, array) => {
             const channelId = c.removePlayerById(client.id);
             if (channelId !== -1) {
-              io.to(c.id).emit('updateChannel', { channel: c });
+              io.to(c.id).emit('updateChannel', c.serialize());
 
               if (c.players.length === 0) {
                 array.splice(index, 1);
@@ -113,7 +113,7 @@ async function start() {
             client.leave(SOCKET_ROOM_LOBBY);
             client.join(newChannel.id);
 
-            client.emit('updateChannel', { channel: newChannel });
+            client.emit('updateChannel', newChannel.serialize());
           } catch (err) {
             console.error(err);
           }
@@ -153,7 +153,7 @@ async function start() {
         client.leave(SOCKET_ROOM_LOBBY);
         client.join(channelId);
 
-        io.to(channelId).emit('updateChannel', { channel });
+        io.to(channelId).emit('updateChannel', channel.serialize());
       });
 
       client.on('nextRound', (channelId) => {
@@ -168,8 +168,10 @@ async function start() {
         channel.nextRound();
         console.warn(`channel ${channel.name} next round starting...`);
 
-        io.to(channelId).emit('updateChannel', { channel });
-        setTimeout(() => { channel.judgementState(); io.to(channelId).emit('updateChannel', { channel }); }, channel.getAnwersTime());
+        io.to(channelId).emit('updateChannel', channel.serialize());
+
+        channel.interval = setInterval(() => { channel.timer -= 1; io.to(channelId).emit('updateChannel', channel.serialize()); }, 1000);
+        setTimeout(() => { clearInterval(channel.interval); channel.judgementState(); io.to(channelId).emit('updateChannel', channel.serialize()); }, channel.getAnwersTime());
       });
 
       client.on('selectedAnswers', (channelId, answers) => {
@@ -178,7 +180,7 @@ async function start() {
         const currentPlayer = channel.players.find(p => p.id === client.id);
         currentPlayer.answers = answers;
 
-        io.to(channelId).emit('updateChannel', { channel });
+        io.to(channelId).emit('updateChannel', channel.serialize());
       });
 
       client.on('selectedJudgment', (channelId, judgment) => {
@@ -190,7 +192,7 @@ async function start() {
         } else {
           io.to(channelId).emit('success', `${resultat.winner.name} remporte la manche !`);
         }
-        io.to(channelId).emit('updateChannel', { channel });
+        io.to(channelId).emit('updateChannel', channel.serialize());
       });
     });
   } catch (err) {

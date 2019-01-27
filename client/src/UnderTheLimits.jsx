@@ -22,8 +22,8 @@ class UnderTheLimits extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const currentDeckQuestion = this.props.currentChannel.deckQuestions[0].text;
-    const prevDeckQuestion = prevProps.currentChannel.deckQuestions[0].text;
+    const currentDeckQuestion = this.props.currentChannel.deckQuestion.text;
+    const prevDeckQuestion = prevProps.currentChannel.deckQuestion.text;
     if ( currentDeckQuestion !== prevDeckQuestion) {
       const occurences = (currentDeckQuestion.match(/______/g) || []).length;
       this.setState({ answerSelectNum: occurences });
@@ -46,7 +46,7 @@ class UnderTheLimits extends Component {
   }
 
   getFilledQuestionText(keys, values) {
-      let questionText = this.props.currentChannel.deckQuestions[0].text;
+      let questionText = this.props.currentChannel.deckQuestion.text;
       keys.map((i) => questionText = questionText.replace('______', values[i].text));
       return questionText;
  }
@@ -112,6 +112,7 @@ class UnderTheLimits extends Component {
         } else {
             return (
             <React.Fragment>
+                <h3>Il reste {this.props.currentChannel.timer}s</h3>
                 <Row>
                     <Card key='questioncard' value={this.getFilledQuestionText(this.props.player.answers, this.props.player.hand)}/>
                 </Row>

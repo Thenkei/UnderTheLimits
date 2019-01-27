@@ -15,6 +15,7 @@ class Channel {
 
     this.deckAnswers = [];
     this.deckQuestions = [];
+    this.timer = 0;
   }
 
   async init(dataBase) {
@@ -107,6 +108,7 @@ class Channel {
       p.hand.push(...this.deckAnswers.splice(0, PLAYER_CARD_COUNT - p.hand.length));
     });
 
+    this.timer = 40 + 5 * (this.getQuestionCard().text.match(/______/g) || []).length;
     this.currentStatus = CHANNEL_STATUS.PLAYING_CARD;
   }
 
@@ -160,7 +162,22 @@ class Channel {
   }
 
   getAnwersTime() {
-    return 40000 + 5000 * (this.getQuestionCard().text.match(/______/g) || []).length;
+    return this.timer * 1000;
+  }
+
+  serialize() {
+    return {
+      channel:
+        {
+          id: this.id,
+          admin: this.admin,
+          name: this.name,
+          players: this.players,
+          currentStatus: this.currentStatus,
+          timer: this.timer,
+          deckQuestion: this.deckQuestions[0],
+        },
+    };
   }
 }
 
