@@ -1,0 +1,38 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: mysql
+  namespace: utl-qa
+spec:
+  selector:
+    run: mysql
+  ports:
+    - protocol: TCP
+    port: 3306
+    targetPort: 3306
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: utl-qa
+spec:
+  template:
+    metadata:
+      labels:
+        run: mysql
+    spec:
+      containers:
+      – name: mysql
+        image: mysql
+        ports:
+        – containerPort: 3306
+    env:
+    - name: MYSQL_ROOT_PASSWORD
+      value: "JeSuIsMoMo!"
+    - name: MYSQL_USER
+      value: "user"
+    - name: MYSQL_PASSWORD
+      value: "pwd"
+    - name: MYSQL_DATABASE
+      value: "utl"

@@ -7,6 +7,5 @@
 ```bash
 git clone https://github.com/Thenkei/UnderTheLimits
 cd UnderTheLimits
-yarn
 yarn start:dev
 ```
