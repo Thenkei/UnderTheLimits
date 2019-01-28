@@ -108,7 +108,7 @@ class Channel {
       p.hand.push(...this.deckAnswers.splice(0, PLAYER_CARD_COUNT - p.hand.length));
     });
 
-    this.timer = 40 + 5 * (this.getQuestionCard().text.match(/______/g) || []).length;
+    this.timer = 40 + 5 * (this.deckQuestions[0].text.match(/______/g) || []).length;
     this.currentStatus = CHANNEL_STATUS.PLAYING_CARD;
   }
 
