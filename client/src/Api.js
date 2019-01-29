@@ -1,5 +1,5 @@
 import openSocket from 'socket.io-client';
-const  socket = openSocket(process.env.SOCKET || 'http://localhost:3001');
+const  socket = openSocket('http://10.7.243.187:3001');
 
 function initPlayer(playerName, cb) {
   socket.emit('initPlayer', playerName );

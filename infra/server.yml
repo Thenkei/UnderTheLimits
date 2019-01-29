@@ -10,7 +10,7 @@ spec:
   ports:
   - protocol: TCP
     port: 80
-    targetPort: http
+    targetPort: 3001
 ---
 kind: Deployment
 apiVersion: apps/v1
