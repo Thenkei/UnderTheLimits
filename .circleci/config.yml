@@ -21,6 +21,8 @@ jobs:
       - run:
           name: Lint
           command: yarn lint
+  # Quite ugly code duplication, only for client/server differences ...
+  # Didn't find a better way to achieve this :/
   dockerize_client:
     working_directory: ~/UnderTheLimits
     docker:
@@ -47,11 +49,18 @@ jobs:
       - run: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
       - run: gcloud --quiet config set project ${GCP_PROJECT}
       - run: gcloud docker -- push eu.gcr.io/${GCP_PROJECT}/utl-server:master-latest
-
-
-
-
-
+  deploy_qa:
+    working_directory: ~/UnderTheLimits
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - run: curl -L https://github.com/kubernetes/kompose/releases/download/v1.17.0/kompose-linux-amd64 -o kompose
+      - run: chmod +x kompose
+      - run: sudo mv ./kompose /usr/local/bin/kompose
+      - run: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
+      - run: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+      - run: gcloud --quiet config set project ${GCP_PROJECT}
+      - run: kompose up
 workflows:
   version: 2
   build_and_dockerize:
@@ -63,3 +72,7 @@ workflows:
       - dockerize_server:
           requires:
             - build
+      - deploy_qa:
+          requires:
+            - dockerize_server
+            - dockerize_client

@@ -1,6 +1,6 @@
 ### Under the limits ( WIP )
 
-  Mainly maid for fun & to learn more about socket.io. Please don't judge github network, we're actually testing a few things
+  Made with :heart:
 
 #### Run dev-env
 
