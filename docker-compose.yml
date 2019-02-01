@@ -27,6 +27,7 @@ services:
     command: nodemon /server/index.js
     labels:
       kompose.service.type: LoadBalancer
+      kompose.service.image-pull-policy: Always
   client:
     container_name: utl-client
     image: eu.gcr.io/spry-cat-229914/utl-client:master-latest

@@ -1,6 +1,6 @@
 ### Under the limits ( WIP )
 
-  Made with :heart:
+  :heart: Made with :heart:
 
 #### Run dev-env
 

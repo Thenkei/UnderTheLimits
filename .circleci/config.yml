@@ -29,7 +29,8 @@ jobs:
       - image: google/cloud-sdk
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
       - run: cd client && docker build --rm=false -t eu.gcr.io/${GCP_PROJECT}/utl-client:$CIRCLE_BRANCH-$CIRCLE_SHA1 .
       - run: docker tag eu.gcr.io/${GCP_PROJECT}/utl-client:$CIRCLE_BRANCH-$CIRCLE_SHA1 eu.gcr.io/${GCP_PROJECT}/utl-client:master-latest
@@ -42,7 +43,8 @@ jobs:
       - image: google/cloud-sdk
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
       - run: cd server && docker build --rm=false -t eu.gcr.io/${GCP_PROJECT}/utl-server:$CIRCLE_BRANCH-$CIRCLE_SHA1 .
       - run: docker tag eu.gcr.io/${GCP_PROJECT}/utl-server:$CIRCLE_BRANCH-$CIRCLE_SHA1 eu.gcr.io/${GCP_PROJECT}/utl-server:master-latest
@@ -53,25 +55,40 @@ jobs:
     working_directory: ~/UnderTheLimits
     docker:
       - image: google/cloud-sdk
+    environment:
+      - GCZ: "europe-west1-b"
+      - CLUSTER_NAME: "qa-utl"
     steps:
+      - checkout
       - run: curl -L https://github.com/kubernetes/kompose/releases/download/v1.17.0/kompose-linux-amd64 -o kompose
       - run: chmod +x kompose
-      - run: sudo mv ./kompose /usr/local/bin/kompose
+      - run: mv ./kompose /usr/local/bin/kompose
       - run: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
       - run: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
       - run: gcloud --quiet config set project ${GCP_PROJECT}
-      - run: kompose up
+      - run: gcloud --quiet config set compute/zone ${GCZ}
+      - run: gcloud container clusters get-credentials ${CLUSTER_NAME}
+      - run: kompose convert
+      - run: kubectl apply -f client-deployment.yaml
+      - run: kubectl apply -f server-deployment.yaml
 workflows:
   version: 2
   build_and_dockerize:
     jobs:
       - build
+      # Since dockerize need approval, no need to check for master branch
+      - request_dockerize:
+          type: approval
+          requires:
+            - build
       - dockerize_client:
           requires:
             - build
+            - request_dockerize
       - dockerize_server:
           requires:
             - build
+            - request_dockerize
       - deploy_qa:
           requires:
             - dockerize_server
