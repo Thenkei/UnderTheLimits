@@ -2,7 +2,7 @@ version: '2'
 services:
   mysql:
     container_name: utl-mysql
-    image: mysql:5.7.24
+    image: mysql:5.6
     volumes:
       - db_data:/var/lib/mysql
     environment:
@@ -13,28 +13,32 @@ services:
     restart: always
   server:
     container_name: utl-server
-    build:
-        context: ./server
+    image: eu.gcr.io/spry-cat-229914/utl-server:master-latest
     environment:
       DB: utl
       DB_USER: user
       DB_PWD: pwd
       DB_HOST: mysql
     ports:
-     - "3001:3001"
+     - "3001:3000"
     links:
       - mysql
     restart: always
     command: nodemon /server/index.js
-
+    labels:
+      kompose.service.type: LoadBalancer
   client:
     container_name: utl-client
-    build:
-        context: ./client
-        dockerfile: Dockerfile
+    image: eu.gcr.io/spry-cat-229914/utl-client:master-latest
     ports:
       - "3000:3000"
+    environment:
+      SOCKET: "server:3001"
+    links:
+      - server
     command: npm start
-
+    labels:
+      kompose.service.type: LoadBalancer
+      kompose.service.image-pull-policy: Always
 volumes:
   db_data:
