@@ -45,11 +45,11 @@ function selectedJudgment(channelId, winnerId) {
 }
 
 function error(cb) {
-  socket.on('err', errMsg => cb( errMsg ) );
+  socket.on('err', errMsg => cb(errMsg));
 }
 
 function success(cb) {
-  socket.on('success', successMsg => cb( successMsg ) );
+  socket.on('success', successMsg => cb(successMsg));
 }
 
 
@@ -64,5 +64,5 @@ export {
   selectedJudgment,
   gotoChannel,
   error,
-  success
+  success,
 };
