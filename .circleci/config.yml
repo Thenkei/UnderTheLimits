@@ -21,6 +21,9 @@ jobs:
       - run:
           name: Lint
           command: yarn lint
+      - run:
+          name: Test
+          command: cd client && yarn test
   # Quite ugly code duplication, only for client/server differences ...
   # Didn't find a better way to achieve this :/
   dockerize_client:
