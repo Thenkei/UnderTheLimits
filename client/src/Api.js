@@ -1,30 +1,31 @@
 import openSocket from 'socket.io-client';
-const  socket = openSocket(process.env.SOCKET || 'http://localhost:3001');
+
+const socket = openSocket('ws://0.0.0.0:3001');
 
 function initPlayer(playerName, cb) {
-  socket.emit('initPlayer', playerName );
-  socket.on( 'playerCreated', lobbyResponse => cb(null, lobbyResponse.player ));
+  socket.emit('initPlayer', playerName);
+  socket.on('playerCreated', lobbyResponse => cb(null, lobbyResponse.player));
 }
 
 function createPlayer(playerName, cb) {
-  socket.emit('createPlayer', playerName );
-  socket.on( 'playerCreated', lobbyResponse => cb(null, lobbyResponse.player ));
+  socket.emit('createPlayer', playerName);
+  socket.on('playerCreated', lobbyResponse => cb(null, lobbyResponse.player));
 }
 
 function updateLobby(cb) {
-  socket.on('updateLobby', lobbyResponse => {
-    cb(null, lobbyResponse.lobby );
+  socket.on('updateLobby', (lobbyResponse) => {
+    cb(null, lobbyResponse.lobby);
   });
 }
 
 function updateChannel(cb) {
-  socket.on('updateChannel', channelResponse => {
-    cb(null, channelResponse.channel );
+  socket.on('updateChannel', (channelResponse) => {
+    cb(null, channelResponse.channel);
   });
 }
 
-function gotoChannel( channelId, cb ) {
-  socket.emit('gotoChannel', channelId );
+function gotoChannel(channelId) {
+  socket.emit('gotoChannel', channelId);
 }
 
 function createChannel(channelName) {
@@ -44,11 +45,11 @@ function selectedJudgment(channelId, winnerId) {
 }
 
 function error(cb) {
-  socket.on('err', errMsg => cb( errMsg ) );
+  socket.on('err', errMsg => cb(errMsg));
 }
 
 function success(cb) {
-  socket.on('success', successMsg => cb( successMsg ) );
+  socket.on('success', successMsg => cb(successMsg));
 }
 
 
@@ -63,5 +64,5 @@ export {
   selectedJudgment,
   gotoChannel,
   error,
-  success
+  success,
 };

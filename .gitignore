@@ -4,6 +4,7 @@ server/scripts/populate_question.sql
 server/scripts/encrypt_db.sh
 client/node_modules
 client/build
+client/dist
 node_modules
 .DS_Store
 *npm-debug.log*

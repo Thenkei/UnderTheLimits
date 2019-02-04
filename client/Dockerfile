@@ -4,14 +4,14 @@ WORKDIR /client
 
 ADD package.json /client/package.json
 
-RUN yarn
+ENV NODE_ENV=development
+RUN yarn install
 
 ENV NODE_PATH=/client/node_modules
 ENV PATH=$PATH:/client/node_modules/.bin
-
 COPY . /client
 
 EXPOSE 3000
 EXPOSE 35729
 
-CMD npm start
+CMD yarn start:dev
