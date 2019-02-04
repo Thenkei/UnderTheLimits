@@ -10,6 +10,7 @@ services:
       - mysql
     restart: always
     environment:
+      DOMAIN: 0.0.0.0/server
       DB: utl
       DB_USER: user
       DB_PWD: pwd
@@ -29,6 +30,7 @@ services:
       - ./client:/client
       - /client/node_modules
     environment:
+      DOMAIN: 0.0.0.0/client
       SOCKET: "localhost:3001"
     command: yarn start:dev
 
@@ -55,5 +57,14 @@ services:
       MYSQL_DATABASE: utl
     restart: always
 
+  proxy:
+    container_name: utl-proxy-dev
+    image: sosedoff/docker-gateway
+    ports:
+      - "80:2377"
+    restart: always
+    environment:
+      DOCKER_HOST: tcp://172.17.42.1:2375
+      GW_DOMAIN: 0.0.0.0
 volumes:
   db_data:
