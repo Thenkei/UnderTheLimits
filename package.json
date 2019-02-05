@@ -6,8 +6,10 @@
   "scripts": {
     "postinstall": "./server/scripts/postinstall.sh",
     "start:dev": "docker-compose -f docker-compose-dev.yml up --force-recreate --build",
+    "start:qa": "node index.js",
     "start:prod": "docker-compose -f docker-compose.yml up --force-recreate --build",
     "populate:dev": "docker exec -it utl-server-dev npm run populate",
+    "populate:qa": "node server/scripts/populate.js",
     "populate:prod": "docker exec -it utl-server npm run populate",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint:client": "cd client && yarn lint",
@@ -26,7 +28,13 @@
   "homepage": "https://github.com/Thenkei/UnderTheLimits#readme",
   "devDependencies": {
     "node-cipher": "^6.3.3"
-},
+  },
   "private": true,
-  "workspaces": ["client", "server"]
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "dependencies": {
+    "express": "^4.16.4"
+  }
 }

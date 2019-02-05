@@ -22,13 +22,13 @@ class Channel {
     try {
       this.deckAnswers = await dataBase.models.Answer.findAll({
         order: [
-          dataBase.Sequelize.fn('RAND'),
+          dataBase.Sequelize.fn('random'),
         ],
         raw: true,
       });
       this.deckQuestions = await dataBase.models.Question.findAll({
         order: [
-          dataBase.Sequelize.fn('RAND'),
+          dataBase.Sequelize.fn('random'),
         ],
         raw: true,
       });

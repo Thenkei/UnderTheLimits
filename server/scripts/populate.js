@@ -1,18 +1,14 @@
 const fs = require('fs-extra'); // eslint-disable-line import/no-extraneous-dependencies
 const DB = require('../src/models');
+const createDBConfig = require('../createDBConfig');
 
-(async () => {
+module.exports = (async () => {
   try {
-    const config = {
-      db: process.env.DB || 'utl',
-      db_user: process.env.DB_USER || 'user',
-      db_pwd: process.env.DB_PWD || 'pwd',
-      db_host: process.env.DB_HOST || 'mysql',
-      db_port: process.env.DB_PORT || 3306,
-      db_log: false,
-      forceSync: true,
-    };
-
+    const config = createDBConfig();
+    // Force no log ouput for db
+    config.db_log = false;
+    // Force db to sync data
+    config.forceSync = true;
     console.log('Connection to db...'); // eslint-disable-line no-console
     const db = await DB(config);
 
