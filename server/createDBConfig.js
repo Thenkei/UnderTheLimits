@@ -11,4 +11,5 @@ module.exports = (env = process.env.NODE_ENV) => (env === 'production' ? {
   db_dialect: process.env.DB_DIALECT || 'sqlite',
   db_storage: process.env.DB_STORAGE || `${__dirname}/db.sqlite3`,
   db_log: true,
+  forceSync: true,
 });
