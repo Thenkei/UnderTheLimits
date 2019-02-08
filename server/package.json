@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/Thenkei/UnderTheLimits#readme",
   "dependencies": {
-    "mysql2": "^1.6.4",
     "sequelize": "^4.42.0",
     "socket.io": "^2.2.0",
     "sqlite3": "^4.0.6"

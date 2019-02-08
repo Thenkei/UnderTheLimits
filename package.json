@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "./server/scripts/postinstall.sh",
+    "clean": "rm -rf server/db.sqlite3; rm -rf server/scripts/*.sql; rm -rf server/node_modules; rm -rf client/node_modules && rm -rf node_modules",
+    "install:qa": "yarn --ignore-scripts --cwd client; yarn --ignore-scripts --cwd server; yarn --ignore-scripts",
     "start:dev": "docker-compose -f docker-compose-dev.yml up --force-recreate --build",
-    "start:qa": "node index.js",
+    "start:qa": "yarn --cwd client build:qa && node index.js",
     "start:prod": "docker-compose -f docker-compose.yml up --force-recreate --build",
     "populate:dev": "docker exec -it utl-server-dev npm run populate",
     "populate:qa": "node server/scripts/populate.js",

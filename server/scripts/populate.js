@@ -22,6 +22,6 @@ module.exports = (async () => {
     console.log('Populate done'); // eslint-disable-line no-console
     process.exit();
   } catch (err) {
-    console.error(err);
+    console.error(err.message);
   }
 })();

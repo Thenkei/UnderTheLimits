@@ -23,37 +23,20 @@ jobs:
           command: yarn lint
       - run:
           name: Test
-          command: cd client && yarn test
-  # Quite ugly code duplication, only for client/server differences ...
-  # Didn't find a better way to achieve this :/
-  dockerize_client:
+          command: yarn --cwd client test
+  dockerize:
     working_directory: ~/UnderTheLimits
     docker:
       - image: google/cloud-sdk
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
       - run: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
-      - run: cd client && docker build --rm=false -t eu.gcr.io/${GCP_PROJECT}/utl-client:$CIRCLE_BRANCH-$CIRCLE_SHA1 .
-      - run: docker tag eu.gcr.io/${GCP_PROJECT}/utl-client:$CIRCLE_BRANCH-$CIRCLE_SHA1 eu.gcr.io/${GCP_PROJECT}/utl-client:master-latest
+      - run: docker build -f Dockerfile --rm=false -t eu.gcr.io/${GCP_PROJECT}/utl:$CIRCLE_BRANCH-$CIRCLE_SHA1 .
+      - run: docker tag eu.gcr.io/${GCP_PROJECT}/utl:$CIRCLE_BRANCH-$CIRCLE_SHA1 eu.gcr.io/${GCP_PROJECT}/utl:master-latest
       - run: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
       - run: gcloud --quiet config set project ${GCP_PROJECT}
-      - run: gcloud docker -- push eu.gcr.io/${GCP_PROJECT}/utl-client:master-latest
-  dockerize_server:
-    working_directory: ~/UnderTheLimits
-    docker:
-      - image: google/cloud-sdk
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
-      - run: cd server && docker build --rm=false -t eu.gcr.io/${GCP_PROJECT}/utl-server:$CIRCLE_BRANCH-$CIRCLE_SHA1 .
-      - run: docker tag eu.gcr.io/${GCP_PROJECT}/utl-server:$CIRCLE_BRANCH-$CIRCLE_SHA1 eu.gcr.io/${GCP_PROJECT}/utl-server:master-latest
-      - run: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
-      - run: gcloud --quiet config set project ${GCP_PROJECT}
-      - run: gcloud docker -- push eu.gcr.io/${GCP_PROJECT}/utl-server:master-latest
+      - run: gcloud docker -- push eu.gcr.io/${GCP_PROJECT}/utl:master-latest
   deploy_qa:
     working_directory: ~/UnderTheLimits
     docker:
@@ -71,9 +54,6 @@ jobs:
       - run: gcloud --quiet config set project ${GCP_PROJECT}
       - run: gcloud --quiet config set compute/zone ${GCZ}
       - run: gcloud container clusters get-credentials ${CLUSTER_NAME}
-      - run: kompose convert
-      - run: kubectl apply -f client-deployment.yaml
-      - run: kubectl apply -f server-deployment.yaml
 workflows:
   version: 2
   build_and_dockerize:
@@ -84,15 +64,10 @@ workflows:
           type: approval
           requires:
             - build
-      - dockerize_client:
-          requires:
-            - build
-            - request_dockerize
-      - dockerize_server:
+      - dockerize:
           requires:
             - build
             - request_dockerize
       - deploy_qa:
           requires:
-            - dockerize_server
-            - dockerize_client
+            - dockerize
