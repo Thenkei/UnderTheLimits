@@ -54,6 +54,7 @@ jobs:
       - run: gcloud --quiet config set project ${GCP_PROJECT}
       - run: gcloud --quiet config set compute/zone ${GCZ}
       - run: gcloud container clusters get-credentials ${CLUSTER_NAME}
+      - run: kompose convert
 workflows:
   version: 2
   build_and_dockerize:

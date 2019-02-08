@@ -1,6 +1,6 @@
 import openSocket from 'socket.io-client';
 
-const socket = openSocket('ws://localhost');
+const socket = openSocket(process.env.SOCKET_URL);
 
 function initPlayer(playerName, cb) {
   socket.emit('initPlayer', playerName);

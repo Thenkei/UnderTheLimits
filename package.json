@@ -29,7 +29,8 @@
   },
   "homepage": "https://github.com/Thenkei/UnderTheLimits#readme",
   "devDependencies": {
-    "node-cipher": "^6.3.3"
+    "node-cipher": "^6.3.3",
+    "node-sass": "^4.11.0"
   },
   "private": true,
   "workspaces": [
@@ -37,7 +38,6 @@
     "server"
   ],
   "dependencies": {
-    "express": "^4.16.4",
-    "sqlite3": "^4.0.6"
+    "express": "^4.16.4"
   }
 }
