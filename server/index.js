@@ -194,9 +194,7 @@ async function start(existingServer) {
   } catch (err) {
     console.error(err);
   }
-  const port = 3001;
-  io.listen(port);
-  console.warn('listening on port ', port);
+  return io;
 }
 
-module.exports = (async () => start());
+module.exports = start;

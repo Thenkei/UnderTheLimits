@@ -5,3 +5,5 @@ services:
     ports:
      - "80:80"
     restart: always
+    label:
+      kompose.image-pull-policy: always
