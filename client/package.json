@@ -44,9 +44,8 @@
     "lint": "$(npm bin)/eslint src",
     "test": "$(npm bin)/jest",
     "build:clean": "rm -rf dist",
-    "build:dev": "yarn build:clean && webpack --mode development --module-bind js=babel-loader",
+    "build:dev": "webpack --mode development --module-bind js=babel-loader --watch",
     "build:qa": "yarn build:clean && webpack --mode development --module-bind js=babel-loader --display=verbose",
-    "build:prod": "yarn build:clean && webpack --mode production --module-bind js=babel-loader --display=verbose",
     "build": "yarn build:prod",
     "start:dev": "webpack-dev-server --mode development --port 3000 --hot --host 0.0.0.0"
   },
