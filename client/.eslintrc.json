@@ -3,6 +3,11 @@
   "plugins": ["jest"],
   "env": {
     "browser": true,
-    "node": true
-  } 
+    "node": true,
+    "jest": true
+  },
+  "rules": {
+    "react/destructuring-assignment": false,
+    "react/prefer-stateless-function": false
+  }
 }

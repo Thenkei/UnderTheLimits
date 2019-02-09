@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "lint": "$(npm bin)/eslint src",
+    "lint": "$(npm bin)/eslint src/**.js",
     "populate": "node ./scripts/populate.js"
   },
   "repository": {

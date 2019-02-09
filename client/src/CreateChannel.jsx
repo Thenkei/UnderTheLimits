@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import {
   Modal,
   Button,
   Form,
-  FormControl
+  FormControl,
 } from 'react-bootstrap';
 
 class CreateChannel extends Component {
-
-  state = {
-    show: false
-  };
-
   constructor(props) {
     super(props);
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
+
+    this.state = {
+      show: false,
+    };
   }
 
   handleClose() {
@@ -32,7 +33,8 @@ class CreateChannel extends Component {
       <React.Fragment>
         <Button
           bsStyle="success"
-          onClick={this.handleShow}>
+          onClick={this.handleShow}
+        >
           Create channel
         </Button>
         <Modal show={this.state.show} onHide={this.handleClose}>
@@ -43,20 +45,20 @@ class CreateChannel extends Component {
             <Form
               onSubmit={(e) => {
                 e.preventDefault();
-                this.props.onCreateChannel( this.state.channelName );
+                this.props.onCreateChannel(this.state.channelName);
                 this.handleClose();
               }}
               inline
             >
               <FormControl
                 type="text"
-                value={ this.state.channelName || "" }
+                value={this.state.channelName || ''}
                 placeholder="Nom du salon"
                 onChange={(e) => {
-                    this.setState( { channelName: e.target.value } );
-                } }
+                  this.setState({ channelName: e.target.value });
+                }}
               />
-            <Button type="submit">Valider</Button>
+              <Button type="submit">Valider</Button>
             </Form>
           </Modal.Body>
         </Modal>
@@ -64,5 +66,14 @@ class CreateChannel extends Component {
     );
   }
 }
+
+CreateChannel.defaultProps = {
+  onCreateChannel: null,
+};
+
+CreateChannel.propTypes = {
+  onCreateChannel: PropTypes.func,
+};
+
 
 export default CreateChannel;

@@ -1,10 +1,11 @@
-import React from "react";
-import { Row } from "react-bootstrap";
-import Player from "./Player";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const Score = ({ players }) => {
-  return (
-    <dl>
+import { Row } from 'react-bootstrap';
+import Player from './Player';
+
+const Score = ({ players }) => (
+  <dl>
     {
       players.map(p => (
         // Without the `key`, React will fire a key warning
@@ -13,9 +14,15 @@ const Score = ({ players }) => {
         </Row>
       ))
     }
-    </dl>
-  );
-}
+  </dl>
+);
 
+Score.defaultProps = {
+  players: [],
+};
+
+Score.propTypes = {
+  players: PropTypes.arrayOf(PropTypes.shape({})),
+};
 
 export default Score;
