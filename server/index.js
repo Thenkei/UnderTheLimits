@@ -3,21 +3,17 @@ const Player = require('./src/player');
 const Channel = require('./src/channel');
 const DataBase = require('./src/models');
 
+const createDBConfig = require('./createDBConfig');
+
+
 const MAX_PLAYERS_IN_LOBBY = 100;
 const MAX_CHANNEL_COUNT = 7;
 const SOCKET_ROOM_LOBBY = 'LOBBY';
 
-async function start() {
-  const io = IO();
+async function start(existingServer) {
+  const io = IO(existingServer);
   try {
-    const config = {
-      db: process.env.DB || 'utl',
-      db_user: process.env.DB_USER || 'user',
-      db_pwd: process.env.DB_PWD || 'pwd',
-      db_host: process.env.DB_HOST || 'mysql',
-      db_port: process.env.DB_PORT || 3306,
-      db_log: false,
-    };
+    const config = createDBConfig();
 
     const CONNECTED_PLAYERS = [];
     const CHANNELS = [];
@@ -198,11 +194,7 @@ async function start() {
   } catch (err) {
     console.error(err);
   }
-  const port = 3001;
-  io.listen(port);
-  console.warn('listening on port ', port);
+  return io;
 }
 
-(async () => {
-  start();
-})();
+module.exports = start;

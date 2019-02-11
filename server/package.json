@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "lint": "$(npm bin)/eslint src",
+    "lint": "$(npm bin)/eslint src/**.js",
     "populate": "node ./scripts/populate.js"
   },
   "repository": {
@@ -19,9 +19,9 @@
   },
   "homepage": "https://github.com/Thenkei/UnderTheLimits#readme",
   "dependencies": {
-    "mysql2": "^1.6.4",
     "sequelize": "^4.42.0",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "sqlite3": "^4.0.6"
   },
   "devDependencies": {
     "eslint": "5.6.0",

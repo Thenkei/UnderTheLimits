@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: utl-deployment
+spec:
+  selector:
+    matchLabels:
+      app: utl
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: utl
+    spec:
+      containers:
+      - name: utl
+        image: eu.gcr.io/${GCP_PROJECT}/utl:master-latest
+        ports:
+        - containerPort: 80

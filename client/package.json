@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "prop-types": "^15.6.2",
     "react": "^16.6.3",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.6.3",
@@ -41,14 +42,13 @@
     "webpack-dev-server": "^3.1.14"
   },
   "scripts": {
-    "lint": "$(npm bin)/eslint src",
+    "lint": "$(npm bin)/eslint src/*.jsx",
     "test": "$(npm bin)/jest",
     "build:clean": "rm -rf dist",
-    "build:dev": "yarn build:clean && webpack --mode development --module-bind js=babel-loader",
-    "build:prod": "yarn build:clean && webpack --mode production --module-bind js=babel-loader --display=verbose",
+    "build:dev": "webpack --mode development --module-bind js=babel-loader --watch",
+    "build:qa": "yarn build:clean && webpack --mode development --module-bind js=babel-loader --display=verbose",
     "build": "yarn build:prod",
-    "start:dev": "webpack-dev-server --mode development --port 3000 --hot --host 0.0.0.0",
-    "serve": "npx serve dist"
+    "start:dev": "webpack-dev-server --mode development --port 3000 --hot --host 0.0.0.0"
   },
   "browserslist": [
     ">0.2%",

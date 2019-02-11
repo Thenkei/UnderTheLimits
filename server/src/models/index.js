@@ -10,7 +10,8 @@ module.exports = async (config) => {
       config.db_user,
       config.db_pwd, {
         host: config.db_host,
-        dialect: 'mysql',
+        dialect: config.db_dialect,
+        storage: config.db_storage,
         port: config.db_port,
         operatorsAliases: false,
         logging: config.db_log,
