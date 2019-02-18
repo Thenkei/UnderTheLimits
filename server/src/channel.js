@@ -127,22 +127,21 @@ class Channel {
     const winner = this.players.find(p => p.id === judgment);
 
     this.players.forEach((p) => {
-      if (p.isGameMaster())
-        continue;
-      // Machine learning data training set creation
-      const machineLearningAnswers = [];
-      p.answers.forEach((a) => {
-        machineLearningAnswers.push(p.hand[a].id);
-      });
+      if (!p.isGameMaster()) {
+        // Machine learning data training set creation
+        const machineLearningAnswers = [];
+        p.answers.forEach((a) => {
+          machineLearningAnswers.push(p.hand[a].id);
+        });
 
-      this.dataBase.models.MLAnswer.create(
-        {
-          questionId: this.deckQuestions[0].id,
-          answerIds: machineLearningAnswers.toString(),
-          chosen: (winner.id === p.id),
-        },
-      );
-
+        this.dataBase.models.MLAnswer.create(
+          {
+            questionId: this.deckQuestions[0].id,
+            answerIds: machineLearningAnswers.toString(),
+            chosen: (winner.id === p.id),
+          },
+        );
+      }
       p.setGameMaster(false);
     });
 
