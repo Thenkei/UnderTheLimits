@@ -1,6 +1,6 @@
 {
   "extends":"airbnb",
-  "plugins": ["jest"],
+  "plugins": ["jest", "babel"],
   "env": {
     "browser": true,
     "node": true,

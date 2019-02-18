@@ -1,6 +1,6 @@
 import openSocket from 'socket.io-client';
 
-const socket = openSocket(`ws://${window.location.hostname}`);
+const socket = openSocket(`ws://${window.location.hostname}:3000`);
 
 function initPlayer(playerName, cb) {
   socket.emit('initPlayer', playerName);
@@ -51,7 +51,6 @@ function error(cb) {
 function success(cb) {
   socket.on('success', successMsg => cb(successMsg));
 }
-
 
 export {
   initPlayer,
