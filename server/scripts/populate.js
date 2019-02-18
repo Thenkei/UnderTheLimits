@@ -16,6 +16,7 @@ module.exports = (async () => {
     let sql = await fs.readFile(`${__dirname}/populate_answer.sql`, 'utf8');
     await db.query(sql);
 
+    console.log('Populate...'); // eslint-disable-line no-console
     sql = await fs.readFile(`${__dirname}/populate_question.sql`, 'utf8');
     await db.query(sql);
 
