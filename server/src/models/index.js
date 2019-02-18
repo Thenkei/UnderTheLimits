@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const Answer = require('./answer');
 const Question = require('./question');
+const MLAnswer = require('./mlAnswer');
 
 module.exports = async (config) => {
   try {
@@ -26,6 +27,7 @@ module.exports = async (config) => {
 
     Answer(db, Sequelize);
     Question(db, Sequelize);
+    MLAnswer(db, Sequelize);
 
     await db.sync({ force: config.forceSync });
 
