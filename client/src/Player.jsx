@@ -12,7 +12,7 @@ const Player = ({ value, noScore }) => (
         <Badge>
           {value.score}
           {' '}
-pt(s)
+          pt(s)
         </Badge>
       ) }
     </dt>

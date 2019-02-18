@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -8,64 +8,47 @@ import {
   FormControl,
 } from 'react-bootstrap';
 
-class CreateChannel extends Component {
-  constructor(props) {
-    super(props);
-    this.handleShow = this.handleShow.bind(this);
-    this.handleClose = this.handleClose.bind(this);
 
-    this.state = {
-      show: false,
-    };
-  }
+const CreateChannel = ({ onCreateChannel }) => {
+  const [show, setShow] = useState(false);
+  const [channelName, setChannelName] = useState('');
 
-  handleClose() {
-    this.setState({ show: false });
-  }
-
-  handleShow() {
-    this.setState({ show: true });
-  }
-
-
-  render() {
-    return (
-      <React.Fragment>
-        <Button
-          bsStyle="success"
-          onClick={this.handleShow}
-        >
-          Create channel
-        </Button>
-        <Modal show={this.state.show} onHide={this.handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Créer un salon</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form
-              onSubmit={(e) => {
-                e.preventDefault();
-                this.props.onCreateChannel(this.state.channelName);
-                this.handleClose();
+  return (
+    <React.Fragment>
+      <Button
+        bsStyle="success"
+        onClick={() => setShow(true)}
+      >
+        Create channel
+      </Button>
+      <Modal show={show} onHide={() => setShow(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Créer un salon</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form
+            onSubmit={(e) => {
+              e.preventDefault();
+              onCreateChannel(channelName);
+              setShow(false);
+            }}
+            inline
+          >
+            <FormControl
+              type="text"
+              value={channelName}
+              placeholder="Nom du salon"
+              onChange={({ target }) => {
+                setChannelName(target.value);
               }}
-              inline
-            >
-              <FormControl
-                type="text"
-                value={this.state.channelName || ''}
-                placeholder="Nom du salon"
-                onChange={(e) => {
-                  this.setState({ channelName: e.target.value });
-                }}
-              />
-              <Button type="submit">Valider</Button>
-            </Form>
-          </Modal.Body>
-        </Modal>
-      </React.Fragment>
-    );
-  }
-}
+            />
+            <Button type="submit">Valider</Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+    </React.Fragment>
+  );
+};
 
 CreateChannel.defaultProps = {
   onCreateChannel: null,
@@ -74,6 +57,5 @@ CreateChannel.defaultProps = {
 CreateChannel.propTypes = {
   onCreateChannel: PropTypes.func,
 };
-
 
 export default CreateChannel;

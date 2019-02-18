@@ -104,7 +104,7 @@ class App extends Component {
                   startGame(this.state.currentChannel.id);
                 }}
                 >
-Next round
+                  Next round
                 </Button>
               </Col>
             ) : (
@@ -179,7 +179,7 @@ Next round
           {
                   // onClick mandatory to avoid page reload.
                   // Remove the line when adding react-router
-                }
+          }
           <Button
             bsStyle="success"
             type="submit"
