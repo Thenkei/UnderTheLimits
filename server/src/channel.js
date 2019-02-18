@@ -127,7 +127,7 @@ class Channel {
     const winner = this.players.find(p => p.id === judgment);
 
     this.players.forEach((p) => {
-      if (!p.isGameMaster()) {
+      if (!p.isGameMaster) {
         // Machine learning data training set creation
         const machineLearningAnswers = [];
         p.answers.forEach((a) => {
