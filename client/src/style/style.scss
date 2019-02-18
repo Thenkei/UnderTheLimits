@@ -1,12 +1,11 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+//
+// General style for Under The Limits
+// Import root files
+// --------------------------------------------------
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-}
+// Import core variables
+@import 'variables/variables';
+
+// Import reset files for better integration accross navigators
+// and set base style for app
+@import 'reset/reset';
