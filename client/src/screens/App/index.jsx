@@ -19,10 +19,10 @@ import {
   gotoChannel,
   startGame,
 } from '../../services/Api';
-import CreateChannel from '../../screens/CreateChannel/CreateChannel';
-import UnderTheLimits from '../../screens/UnderTheLimits/UnderTheLimits';
-import Score from '../Score/Score';
-import Player from '../Player/Player';
+import CreateChannel from '../../components/CreateChannel';
+import UnderTheLimits from '../../components/UnderTheLimits';
+import Score from '../../components/Score';
+import Player from '../../components/Player';
 //
 import './App.scss';
 

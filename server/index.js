@@ -11,7 +11,7 @@ const MAX_CHANNEL_COUNT = 7;
 const SOCKET_ROOM_LOBBY = 'LOBBY';
 
 async function start(existingServer) {
-  const io = IO(existingServer);
+  const io = IO(existingServer, { path: '/api/socket.io' });
   try {
     const config = createDBConfig();
 
