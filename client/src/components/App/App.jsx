@@ -18,11 +18,13 @@ import {
   updateChannel,
   gotoChannel,
   startGame,
-} from './Api';
-import CreateChannel from './CreateChannel';
-import UnderTheLimits from './UnderTheLimits';
-import Score from './Score';
-import Player from './Player';
+} from '../../services/Api';
+import CreateChannel from '../../screens/CreateChannel/CreateChannel';
+import UnderTheLimits from '../../screens/UnderTheLimits/UnderTheLimits';
+import Score from '../Score/Score';
+import Player from '../Player/Player';
+//
+import './App.scss';
 
 const DEFAULT_ERROR_TIMEOUT = 3000;
 const DEFAULT_SUCCESS_TIMEOUT = 10000;

@@ -7,7 +7,6 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const devMode = process.env.NODE_ENV !== 'production';
 
-
 const webpackConfig = {
   module: {
     rules: [
@@ -38,7 +37,7 @@ const webpackConfig = {
   },
   plugins: [
     new HtmlWebPackPlugin({
-      template: './src/index.html',
+      template: './public/index.html',
       filename: './index.html',
     }),
     new CopyWebpackPlugin([

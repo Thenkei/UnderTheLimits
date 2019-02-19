@@ -10,29 +10,29 @@
     "socket.io-client": "^2.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
+    "@babel/core": "^7.3.3",
     "@babel/plugin-proposal-class-properties": "^7.3.3",
     "@babel/plugin-proposal-object-rest-spread": "^7.3.1",
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
+    "babel-jest": "^24.1.0",
     "babel-loader": "^8.0.5",
     "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^2.1.0",
     "eslint": "5.6.0",
     "eslint-config-airbnb": "^17.1.0",
-    "eslint-config-react-app": "^3.0.5",
     "eslint-plugin-babel": "^5.3.0",
-    "eslint-plugin-flowtype": "^3.2.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jest": "^22.2.2",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
-    "jest": "^24.0.0",
+    "jest": "24.1.0",
     "mini-css-extract-plugin": "^0.5.0",
     "node-sass": "^4.11.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "react-test-renderer": "^16.8.2",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "terser-webpack-plugin": "^1.2.2",
@@ -43,7 +43,7 @@
   },
   "scripts": {
     "lint": "$(npm bin)/eslint src/*.jsx",
-    "test": "$(npm bin)/jest",
+    "test": "$(npm bin)/jest --detectOpenHandles",
     "build:clean": "rm -rf dist",
     "build:dev": "webpack --mode development --module-bind js=babel-loader --watch",
     "build:qa": "yarn build:clean && webpack --mode development --module-bind js=babel-loader --display=verbose",
@@ -55,5 +55,12 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "jest": {
+    "verbose": true,
+    "moduleFileExtensions": ["js", "jsx"],
+    "moduleNameMapper": {
+      "\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"
+    }
+  }
 }

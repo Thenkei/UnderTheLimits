@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Row } from 'react-bootstrap';
-import Player from './Player';
+import Player from '../Player/Player';
 
 const Score = ({ players }) => (
   <dl>

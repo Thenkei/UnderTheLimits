@@ -1,0 +1,30 @@
+//
+// Typography
+// --------------------------------------------------
+
+
+$font-family-sans-serif: 'Roboto', Helvetica, Arial, sans-serif;
+$font-family-headings: 'Gobold', Helvetica, Arial, sans-serif;
+
+$font-family-base: $font-family-sans-serif;
+
+// Sizing.
+//
+$font-size-base: 16px;
+$line-height-base: 1.5;
+
+$font-weight-normal: normal;
+$font-weight-bold: bold;
+
+$font-weight-base: $font-weight-normal;
+
+// Link.
+//
+$link-decoration: none;
+$link-hover-decoration: none;
+
+// Margin.
+//
+$headings-margin-bottom: 25px;
+$paragraph-margin-bottom: 10px;
+$label-margin-bottom: 15px;
