@@ -50,7 +50,7 @@ const webpackConfig = {
     }),
     new StyleLintPlugin({
       configFile: '.stylelintrc.js',
-      files: './src/**/*.scss',
+      files: '**/*.scss',
       syntax: 'scss'
     }),
   ],

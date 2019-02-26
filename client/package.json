@@ -51,6 +51,7 @@
     "webpack-dev-server": "^3.1.14"
   },
   "scripts": {
+    "fix:style": "stylelint **/*.scss --fix",
     "lint": "$(npm bin)/eslint src/*.jsx",
     "test": "$(npm bin)/jest --detectOpenHandles",
     "build:clean": "rm -rf dist",
