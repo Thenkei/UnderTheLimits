@@ -7,6 +7,7 @@
     "react": "^16.8.2",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.8.2",
+    "react-router-dom": "^4.3.1",
     "socket.io-client": "^2.2.0"
   },
   "devDependencies": {
@@ -58,7 +59,10 @@
   ],
   "jest": {
     "verbose": true,
-    "moduleFileExtensions": ["js", "jsx"],
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
     "moduleNameMapper": {
       "\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"
     }
