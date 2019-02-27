@@ -6,6 +6,7 @@
   "scripts": {
     "postinstall": "./server/scripts/postinstall.sh",
     "clean": "rm -rf server/db.sqlite3; rm -rf server/scripts/*.sql; rm -rf server/node_modules; rm -rf client/node_modules && rm -rf node_modules",
+    "fix:style": "cd client && yarn fix:style",
     "start:dev": "yarn --cwd client build:dev & nodemon index.js && fg",
     "start:qa": "yarn --cwd client build:qa && node index.js",
     "populate:dev": "node server/scripts/populate.js",
