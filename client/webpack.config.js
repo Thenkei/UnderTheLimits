@@ -70,6 +70,7 @@ const webpackConfig = {
   },
   devServer: {
     contentBase: `${__dirname}/public'`,
+    historyApiFallback: true,
     port: 3000,
   },
 };
