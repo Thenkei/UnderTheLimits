@@ -134,10 +134,16 @@ class Channel {
           machineLearningAnswers.push(p.hand[a].id);
         });
 
+        const machineLearningHandAnswers = [];
+        p.hand.forEach((a) => {
+          machineLearningHandAnswers.push(a.id);
+        });
+
         this.dataBase.models.MLAnswer.create(
           {
             questionId: this.deckQuestions[0].id,
             answerIds: machineLearningAnswers.toString(),
+            handIds: machineLearningHandAnswers.toString(),
             chosen: (winner.id === p.id),
           },
         );
