@@ -195,18 +195,13 @@ class App extends Component {
 
   render() {
     return (
-      <Grid>
-        <Row className="App">
-          <h1>Under the limits</h1>
-          <header className="App-header">
-            { this.state.error ? <Alert bsStyle="danger">{this.state.error}</Alert> : <p /> }
-            { this.state.success ? <Alert bsStyle="success">{this.state.success}</Alert> : <p /> }
-            <div className="App">
-              { this.renderStep() }
-            </div>
-          </header>
-        </Row>
-      </Grid>
+      <header className="App-header">
+        { this.state.error ? <Alert bsStyle="danger">{this.state.error}</Alert> : <p /> }
+        { this.state.success ? <Alert bsStyle="success">{this.state.success}</Alert> : <p /> }
+        <div className="App">
+          { this.renderStep() }
+        </div>
+      </header>
     );
   }
 }
