@@ -1,6 +1,6 @@
 const { CHANNEL_STATUS } = require('./status');
 
-const MAX_PLAYERS_COUNT = 6;
+const MAX_PLAYERS_COUNT = 8;
 const MIN_PLAYERS_COUNT = 2;
 const PLAYER_MAX_POINT = 5;
 const PLAYER_CARD_COUNT = 10;
