@@ -5,6 +5,23 @@ import { Row } from 'react-bootstrap';
 import { selectedAnswers, selectedJudgment } from '../../services/Api';
 import Card from '../Card';
 
+function DisplayTimer(prop) {
+  return (
+    <h3>
+      Il reste
+      {` ${prop.timer}s`}
+    </h3>
+  );
+}
+
+function DisplayIdle() {
+  return (
+    <h3>
+      En attente..
+    </h3>
+  );
+}
+
 class UnderTheLimits extends Component {
   constructor(props) {
     super(props);
@@ -61,7 +78,7 @@ class UnderTheLimits extends Component {
           const j = Math.floor(Math.random() * (i + 1));
           [playersShuffle[i], playersShuffle[j]] = [
             playersShuffle[j],
-            playersShuffle[i]
+            playersShuffle[i],
           ];
         }
 
@@ -98,7 +115,7 @@ class UnderTheLimits extends Component {
       }
       if (this.props.currentChannel.currentStatus === 'WAITING_GAME') {
         const player = this.props.currentChannel.players.find(
-          p => p.isGameMaster
+          p => p.isGameMaster,
         );
 
         return (
@@ -132,12 +149,15 @@ class UnderTheLimits extends Component {
           </React.Fragment>
         );
       }
+      let timer;
+      if (this.props.currentChannel.currentStatus === 'PLAYING_CARD') {
+        timer = <DisplayTimer timer={this.props.currentChannel.timer} />;
+      } else {
+        timer = <DisplayIdle />;
+      }
       return (
         <React.Fragment>
-          <h3>
-            Il reste
-            {`${this.props.currentChannel.timer}s`}
-          </h3>
+          {timer}
           <Row>
             <Card
               key="questioncard"
