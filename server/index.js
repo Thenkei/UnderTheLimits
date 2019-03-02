@@ -27,17 +27,19 @@ async function start(existingServer) {
         if (disconnectedPlayerIndex !== -1) {
           console.log('Player', CONNECTED_PLAYERS.splice(disconnectedPlayerIndex, 1)[0].name, ' got disconnected from lobby');
 
-          CHANNELS.forEach((c, index, array) => {
-            const channelId = c.removePlayerById(client.id);
-            if (channelId !== -1) {
-              io.to(c.id).emit('updateChannel', c.serialize());
+          setTimeout(() => {
+            CHANNELS.forEach((c, index, array) => {
+              const removed = c.removePlayerById(client.id);
+              if (removed !== -1) {
+                io.to(c.id).emit('updateChannel', c.serialize());
 
-              if (c.players.length === 0) {
-                array.splice(index, 1);
-                console.log('Remove channel ', c.name);
+                if (c.players.length === 0) {
+                  array.splice(index, 1);
+                  console.log('Remove channel ', c.name);
+                }
               }
-            }
-          });
+            });
+          }, 60000);
         }
 
         const waitingPlayers = CONNECTED_PLAYERS.filter(p => p.currentStatus === 'LOBBY');
@@ -122,19 +124,25 @@ async function start(existingServer) {
         if (!channel) return;
         if (!currentPlayer) return;
 
+        const canReconnect = channel.canReconnect(currentPlayer.name);
         // Check channel not running
-        if (channel.isRunning()) {
+        if (!canReconnect && channel.isRunning()) {
           client.emit('err', 'Partie en cours, impossible de rejoindre ce salon.');
           return;
         }
         // Check channel not full
-        if (channel.isFull()) {
+        if (!canReconnect && channel.isFull()) {
           client.emit('err', `Plus de place dans le salon ${channel.name} !`);
           return;
         }
 
         currentPlayer.currentStatus = 'IN_CHANNEL';
-        channel.addPlayer(currentPlayer);
+        if (canReconnect) {
+          const oldPlayer = channel.players.find(p => p.name === currentPlayer.name);
+          oldPlayer.id = client.id;
+        } else {
+          channel.addPlayer(currentPlayer);
+        }
 
         const waitingPlayers = CONNECTED_PLAYERS.filter(p => p.currentStatus === 'LOBBY');
         io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', {
