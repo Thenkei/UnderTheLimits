@@ -2,7 +2,8 @@
 // Base colors defnition
 // --------------------------------------------------
 
-$brand-primary: #003d70;
+$brand-primary: #172736;
+$brand-primary-dark: #000f1e;
 $brand-secondary: #728697;
 $brand-success: #4aaf31;
 $brand-warning: #f0ad4e;
@@ -17,10 +18,10 @@ $black: black;
 // --------------------------------------------------
 
 //body
-$body-bg: $white;
+$body-bg: $brand-primary;
 
 //type
 
 $text-color: $black;
-$link-color: $brand-primary;
-$link-hover-color: lighten( $brand-primary, 5% );
+$link-color: $brand-secondary;
+$link-hover-color: lighten( $link-color, 10% );

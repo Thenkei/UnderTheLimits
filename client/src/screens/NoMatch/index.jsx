@@ -2,8 +2,6 @@
 
 import React from 'react';
 
-
-
 const NoMatch = () => (
   <p>
     404

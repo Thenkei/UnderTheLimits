@@ -1,90 +1,112 @@
+//
+// App style
+// --------------------------------------------------
+
+@import '../../style/variables/variables';
+
 .App {
+	width: 100%;
+	min-height: 100vh;
+	background-image: linear-gradient( 45deg, $brand-primary, $brand-primary-dark );
 	text-align: center;
+
+	&:before {
+		content: '';
+		position: absolute;
+		z-index: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		transform: scale3d( 1.1, 1.1, 1.1 );
+		transform-origin: center 40%;
+		animation: bckgrdEntrance 6s ease-out;
+		opacity: .15;
+		background-image: url( '/public/images/MainBckgrd.svg' );
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: 100%;
+		pointer-events: none;
+	}
+}
+
+@keyframes bckgrdEntrance {
+	from {
+		transform: scale3d( .1, .1, .1 );
+		animation-timing-function: cubic-bezier( .55, .055, .675, .19 );
+		opacity: 0;
+	}
+
+	8% {
+		transform: scale3d( .9, .9, .9 );
+		animation-timing-function: cubic-bezier( .175, .885, .32, 1 );
+		opacity: .15;
+	}
 }
 
 .App-header {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	width: 100%;
-	min-height: 100vh;
-	background-color: #282c34;
-	color: white;
+	padding: 150px 0 100px;
 }
 
-.App-link {
-	color: #61dafb;
+.App-logo {
+	animation: incominglogo .8s ease;
 }
 
-.card {
-	display: flex;
-	position: relative;
-	flex-direction: column;
-	-webkit-backface-visibility: hidden;
-	backface-visibility: hidden;
-	transition: all .235s ease 0s;
-	border: 2px solid #e6e7e9;
-	box-shadow: 15px 28px 25px -18px rgba( 0, 0, 0, .2 );
-	word-wrap: break-word;
-	will-change: transform;
-}
-
-.card:hover {
-	-webkit-transform: translate3d( 0, 2px, 0 );
-	transform: translate3d( 0, 2px, 0 );
-	box-shadow: 2px 8px 8px -5px rgba( 0, 0, 0, .3 );
-}
-
-.card .card-footer,
-.card .card-header {
-	padding: .75rem 1.25rem;
-	background-color: rgba( 0, 0, 0, .03 );
-}
-
-.card .card-header {
-	border-bottom: 2px solid #e6e7e9;
-}
-
-.card .card-footer {
-	border-top: 2px solid #e6e7e9;
-}
-
-.card .card-body {
-	flex: 1 1 auto;
-	padding: 1.25rem;
-}
-
-.card .card-body .card-title,
-.card .card-body h4 {
-	margin-top: 0;
-	margin-bottom: .5rem;
-}
-
-.card .card-body .card-subtitle,
-.card .card-body h5 {
-	margin-top: 0;
-	margin-bottom: .5rem;
-	color: #0071de;
-}
-
-.card .card-body .card-text,
-.card .card-body p {
-	margin-top: 0;
-	margin-bottom: 1rem;
-}
-
-.card .card-body .card-link + .card-link,
-.card .card-body a + a {
-	margin-left: 1.25rem;
-}
-
-@keyframes App-logo-spin {
+@keyframes incominglogo {
 	from {
-		transform: rotate( 0deg );
+		transform: scale( .1 ) rotate( 30deg );
+		transform-origin: center bottom;
+		opacity: 0;
+	}
+
+	50% {
+		transform: scale( 1.25 ) rotate( -10deg );
+	}
+
+	70% {
+		transform: scale( .75 ) rotate( 3deg );
 	}
 
 	to {
-		transform: rotate( 360deg );
+		transform: scale( 1 );
+		opacity: 1;
+	}
+}
+
+.App-footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	padding: 20px 10px;
+}
+
+.App-legalLink {
+	margin: 0 10px;
+}
+
+// Will move to dedicated stylesheet
+.Form_animated {
+	margin-top: 50px;
+	animation: fadeInDown 2s ease;
+}
+
+@keyframes fadeInDown {
+	0% {
+		transform: translate3d( 0, -250%, 0 );
+		opacity: 0;
+	}
+
+	40% {
+		transform: translate3d( 0, -250%, 0 );
+		opacity: 0;
+	}
+
+	50% {
+		opacity: 0;
+	}
+
+	100% {
+		transform: translate3d( 0, 0, 0 );
+		opacity: 1;
 	}
 }

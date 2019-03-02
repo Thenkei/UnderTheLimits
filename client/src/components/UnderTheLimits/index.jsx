@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Row } from 'react-bootstrap';
 import { selectedAnswers, selectedJudgment } from '../../services/Api';
 import Card from '../Card';
 
@@ -84,32 +83,28 @@ class UnderTheLimits extends Component {
 
         return (
           <React.Fragment>
-            <Row>
-              <React.Fragment>
-                {playersShuffle.map((player) => {
-                  if (!player.isGameMaster) {
-                    return (
-                      <Card
-                        key={`p${player.id}`}
-                        value={this.getFilledQuestionText(
-                          player.answers,
-                          player.hand,
-                        )}
-                        onClick={
-                          this.props.player.isGameMaster
-                            ? () => selectedJudgment(
-                              this.props.currentChannel.id,
-                              player.id,
-                            )
-                            : () => {}
-                        }
-                      />
-                    );
-                  }
-                  return null;
-                })}
-              </React.Fragment>
-            </Row>
+            {playersShuffle.map((player) => {
+              if (!player.isGameMaster) {
+                return (
+                  <Card
+                    key={`p${player.id}`}
+                    value={this.getFilledQuestionText(
+                      player.answers,
+                      player.hand,
+                    )}
+                    onClick={
+                      this.props.player.isGameMaster
+                        ? () => selectedJudgment(
+                          this.props.currentChannel.id,
+                          player.id,
+                        )
+                        : () => {}
+                    }
+                  />
+                );
+              }
+              return null;
+            })}
           </React.Fragment>
         );
       }

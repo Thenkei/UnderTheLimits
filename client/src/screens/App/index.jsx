@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Col,
   Button,
@@ -7,7 +8,7 @@ import {
   Grid,
   Alert,
   Label,
-  Form,
+  Form
 } from 'react-bootstrap';
 import {
   error,
@@ -17,12 +18,13 @@ import {
   createChannel,
   updateChannel,
   gotoChannel,
-  startGame,
+  startGame
 } from '../../services/Api';
 import CreateChannel from '../../components/CreateChannel';
 import UnderTheLimits from '../../components/UnderTheLimits';
 import Score from '../../components/Score';
 import Player from '../../components/Player';
+import Particles from '../../components/Particles';
 //
 import './App.scss';
 
@@ -34,25 +36,26 @@ class App extends Component {
     super(props);
 
     this.state = {
-      playerName: (JSON.parse(localStorage.getItem('utl-player')) || []).name || '',
+      playerName:
+        (JSON.parse(localStorage.getItem('utl-player')) || []).name || ''
     };
 
-    error((errMsg) => {
+    error(errMsg => {
       this.setState({
-        error: errMsg,
+        error: errMsg
       });
-      setTimeout((() => {
+      setTimeout(() => {
         this.setState({ error: '' });
-      }), DEFAULT_ERROR_TIMEOUT);
+      }, DEFAULT_ERROR_TIMEOUT);
     });
 
-    success((successMsg) => {
+    success(successMsg => {
       this.setState({
-        success: successMsg,
+        success: successMsg
       });
-      setTimeout((() => {
+      setTimeout(() => {
         this.setState({ success: '' });
-      }), DEFAULT_SUCCESS_TIMEOUT);
+      }, DEFAULT_SUCCESS_TIMEOUT);
     });
 
     updateLobby((err, responseLobby) => {
@@ -74,7 +77,7 @@ class App extends Component {
       }
 
       this.setState({
-        lobby,
+        lobby
       });
     });
 
@@ -83,7 +86,7 @@ class App extends Component {
 
       this.setState({
         player: me,
-        currentChannel: channel,
+        currentChannel: channel
       });
     });
 
@@ -100,11 +103,14 @@ class App extends Component {
       return (
         <Grid>
           <Row>
-            {this.state.player.name === this.state.currentChannel.admin.name && (this.state.currentChannel.currentStatus === 'WAITING_GAME' || this.state.currentChannel.currentStatus === 'IDLE') ? (
+            {this.state.player.name === this.state.currentChannel.admin.name &&
+            (this.state.currentChannel.currentStatus === 'WAITING_GAME' ||
+              this.state.currentChannel.currentStatus === 'IDLE') ? (
               <Col sm={4}>
-                <Button onClick={() => {
-                  startGame(this.state.currentChannel.id);
-                }}
+                <Button
+                  onClick={() => {
+                    startGame(this.state.currentChannel.id);
+                  }}
                 >
                   Next round
                 </Button>
@@ -114,94 +120,132 @@ class App extends Component {
             )}
 
             <Col sm={4}>
-              <h1><Label>{this.state.currentChannel.name}</Label></h1>
-              <h3>{this.state.player.isGameMaster ? `${this.state.player.name} c'est vous le patron !` : `${this.state.player.name} à vous de jouer !`}</h3>
+              <h1>
+                <Label>{this.state.currentChannel.name}</Label>
+              </h1>
+              <h3>
+                {this.state.player.isGameMaster
+                  ? `${this.state.player.name} c'est vous le patron !`
+                  : `${this.state.player.name} à vous de jouer !`}
+              </h3>
               <Score players={this.state.currentChannel.players} />
             </Col>
           </Row>
           <Row>
-            <UnderTheLimits player={this.state.player} currentChannel={this.state.currentChannel} />
+            <UnderTheLimits
+              player={this.state.player}
+              currentChannel={this.state.currentChannel}
+            />
           </Row>
         </Grid>
       );
-    } if (this.state.lobby && this.state.player) {
+    }
+    if (this.state.lobby && this.state.player) {
       return (
         <Row>
           <Col sm={4}>
             <CreateChannel onCreateChannel={this.onCreateChannel} />
           </Col>
           <Col sm={4}>
-            <h1><Label>PLAYERS</Label></h1>
-            {
-              this.state.lobby.waitingPlayers.map(p => (
-                <Player value={p} noScore />
-              ))
-            }
+            <h1>
+              <Label>PLAYERS</Label>
+            </h1>
+            {this.state.lobby.waitingPlayers.map(p => (
+              <Player value={p} noScore />
+            ))}
           </Col>
           <Col sm={4}>
-            <h1><Label>CHANNELS</Label></h1>
-            {
-              this.state.lobby.channels.map(c => (
-                <Form inline>
-                  <Button onClick={() => {
+            <h1>
+              <Label>CHANNELS</Label>
+            </h1>
+            {this.state.lobby.channels.map(c => (
+              <Form inline>
+                <Button
+                  onClick={() => {
                     gotoChannel(c.id, (err, channel) => {
                       this.setState({ currentChannel: channel });
                     });
                   }}
-                  >
-                    {c.name}
-                  </Button>
-                </Form>
-              ))
-            }
+                >
+                  {c.name}
+                </Button>
+              </Form>
+            ))}
           </Col>
         </Row>
       );
     }
     return (
-      <React.Fragment>
-        <Form
-          onSubmit={(e) => {
-            e.preventDefault();
-            createPlayer(this.state.playerName, (err, player) => {
-              localStorage.setItem('utl-player', JSON.stringify(player));
-              this.setState({ player });
-            });
+      <Form
+        onSubmit={e => {
+          e.preventDefault();
+          createPlayer(this.state.playerName, (err, player) => {
+            localStorage.setItem('utl-player', JSON.stringify(player));
+            this.setState({ player });
+          });
+        }}
+        inline
+        className='Form_animated'
+      >
+        <FormControl
+          type='text'
+          value={this.state.playerName || ''}
+          placeholder='Name'
+          onChange={e => {
+            this.setState({ playerName: e.target.value });
           }}
-          inline
-        >
-          <FormControl
-            type="text"
-            value={this.state.playerName || ''}
-            placeholder="Name"
-            onChange={(e) => {
-              this.setState({ playerName: e.target.value });
-            }}
-          />
-          {
-                  // onClick mandatory to avoid page reload.
-                  // Remove the line when adding react-router
-          }
-          <Button
-            bsStyle="success"
-            type="submit"
-          >
-                  Ok
-          </Button>
-        </Form>
-      </React.Fragment>
+        />
+        {
+          // onClick mandatory to avoid page reload.
+          // Remove the line when adding react-router
+        }
+        <Button bsStyle='success' type='submit'>
+          Ok
+        </Button>
+      </Form>
     );
   }
 
   render() {
     return (
-      <header className="App-header">
-        { this.state.error ? <Alert bsStyle="danger">{this.state.error}</Alert> : <p /> }
-        { this.state.success ? <Alert bsStyle="success">{this.state.success}</Alert> : <p /> }
-        <div className="App">
-          { this.renderStep() }
-        </div>
-      </header>
+      <div className='App'>
+        {this.state.error ? (
+          <Alert bsStyle='danger'>{this.state.error}</Alert>
+        ) : (
+          null
+        )}
+        {this.state.success ? (
+          <Alert bsStyle='success'>{this.state.success}</Alert>
+        ) : (
+          null
+        )}
+        <header className='App-header'>
+          <img
+          src='/public/images/UTL_Logo.png'
+          alt='under-the-limits'
+          className='App-logo'
+          />
+        </header>
+        <main>
+          {this.renderStep()}
+        </main>
+        <footer className='App-footer'>
+          <Link
+            className='App-legalLink'
+            to='/mentions-legales'
+          >
+            Mention légales
+          </Link>
+          <a
+            className='App-legalLink'
+            href='https://github.com/Thenkei/UnderTheLimits'
+            target='_blank'
+          >
+            Github
+          </a>
+        </footer>
+        {/* <Particles /> */}
+      </div>
     );
   }
 }
