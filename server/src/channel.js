@@ -185,6 +185,10 @@ class Channel {
     return this.players.length >= MIN_PLAYERS_COUNT;
   }
 
+  canReconnect(playerName) {
+    return this.players.find(p => (p.name === playerName));
+  }
+
   getAnwersTime() {
     return this.timer * 1000;
   }
