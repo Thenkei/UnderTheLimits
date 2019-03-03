@@ -51,7 +51,7 @@ const webpackConfig = {
     new StyleLintPlugin({
       configFile: '.stylelintrc.js',
       files: '**/*.scss',
-      syntax: 'scss'
+      syntax: 'scss',
     }),
   ],
   optimization: {

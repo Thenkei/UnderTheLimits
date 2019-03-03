@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import {
   Col,
   Button,
@@ -9,7 +12,15 @@ import {
   Alert,
   Label,
   Form,
+  ProgressBar,
 } from 'react-bootstrap';
+
+import CreateChannel from '../../components/CreateChannel';
+import UnderTheLimits from '../../components/UnderTheLimits';
+import Score from '../../components/Score';
+import Player from '../../components/Player';
+// import Particles from '../../components/Particles';
+
 import {
   error,
   success,
@@ -20,11 +31,9 @@ import {
   gotoChannel,
   startGame,
 } from '../../services/Api';
-import CreateChannel from '../../components/CreateChannel';
-import UnderTheLimits from '../../components/UnderTheLimits';
-import Score from '../../components/Score';
-import Player from '../../components/Player';
-// import Particles from '../../components/Particles';
+
+import { init } from '../../reducers/app';
+
 //
 import './App.scss';
 
@@ -85,6 +94,10 @@ class App extends Component {
     });
 
     this.onCreateChannel = this.onCreateChannel.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.init();
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -210,6 +223,7 @@ class App extends Component {
         </header>
         <main>
           {this.renderStep()}
+          {this.props.isLoading && <ProgressBar style={{ width: '50%', display: 'inline-block' }} striped animated='true' now={90} />}
         </main>
         <footer className='App-footer'>
           <Link
@@ -233,4 +247,21 @@ class App extends Component {
   }
 }
 
-export default App;
+App.propTypes = {
+  init: PropTypes.func.isRequired,
+
+  isLoading: PropTypes.bool.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  const { isLoading } = state.app;
+  return { isLoading };
+};
+
+const mapDispatchToProps = dispatch => ({
+  init: () => {
+    dispatch(init());
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
