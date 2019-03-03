@@ -29,8 +29,6 @@ class UnderTheLimits extends Component {
     this.state = {
       answerSelectNum: 1,
     };
-
-    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -52,7 +50,7 @@ class UnderTheLimits extends Component {
     return questionText;
   }
 
-  handleChange(i) {
+  handleChange = (i) => {
     const index = this.props.player.answers.indexOf(i);
     if (index < 0) {
       if (this.props.player.answers.length >= this.state.answerSelectNum) {

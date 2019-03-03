@@ -92,16 +92,13 @@ class App extends Component {
         currentChannel: channel,
       });
     });
-
-    this.onCreateChannel = this.onCreateChannel.bind(this);
   }
 
   componentDidMount() {
     this.props.init();
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  onCreateChannel(channelName) {
+  onCreateChannel = (channelName) => {
     createChannel(channelName);
   }
 
