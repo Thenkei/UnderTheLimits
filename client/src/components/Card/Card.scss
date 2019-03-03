@@ -3,63 +3,64 @@
 // --------------------------------------------------
 
 .card {
-	display: flex;
-	position: relative;
-	flex-direction: column;
-	-webkit-backface-visibility: hidden;
-	backface-visibility: hidden;
-	transition: all .235s ease 0s;
-	border: 2px solid #e6e7e9;
-	box-shadow: 15px 28px 25px -18px rgba( 0, 0, 0, .2 );
-	word-wrap: break-word;
-	will-change: transform;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  margin: 15px;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transition: all .235s ease 0s;
+  border: 2px solid #e6e7e9;
+  box-shadow: 15px 28px 25px -18px rgba( 0, 0, 0, .2 );
+  word-wrap: break-word;
+  will-change: transform;
 }
 
 .card:hover {
-	-webkit-transform: translate3d( 0, 2px, 0 );
-	transform: translate3d( 0, 2px, 0 );
-	box-shadow: 2px 8px 8px -5px rgba( 0, 0, 0, .3 );
+  -webkit-transform: translate3d( 0, 2px, 0 );
+  transform: translate3d( 0, 2px, 0 );
+  box-shadow: 2px 8px 8px -5px rgba( 0, 0, 0, .3 );
 }
 
 .card .card-footer,
 .card .card-header {
-	padding: .75rem 1.25rem;
-	background-color: rgba( 0, 0, 0, .03 );
+  padding: .75rem 1.25rem;
+  background-color: rgba( 0, 0, 0, .03 );
 }
 
 .card .card-header {
-	border-bottom: 2px solid #e6e7e9;
+  border-bottom: 2px solid #e6e7e9;
 }
 
 .card .card-footer {
-	border-top: 2px solid #e6e7e9;
+  border-top: 2px solid #e6e7e9;
 }
 
 .card .card-body {
-	flex: 1 1 auto;
-	padding: 1.25rem;
+  flex: 1 1 auto;
+  padding: 1.25rem;
 }
 
 .card .card-body .card-title,
 .card .card-body h4 {
-	margin-top: 0;
-	margin-bottom: .5rem;
+  margin-top: 0;
+  margin-bottom: .5rem;
 }
 
 .card .card-body .card-subtitle,
 .card .card-body h5 {
-	margin-top: 0;
-	margin-bottom: .5rem;
-	color: #0071de;
+  margin-top: 0;
+  margin-bottom: .5rem;
+  color: #0071de;
 }
 
 .card .card-body .card-text,
 .card .card-body p {
-	margin-top: 0;
-	margin-bottom: 1rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
 }
 
 .card .card-body .card-link + .card-link,
 .card .card-body a + a {
-	margin-left: 1.25rem;
+  margin-left: 1.25rem;
 }

@@ -16,14 +16,14 @@
 *,
 *:before,
 *:after {
-	box-sizing: border-box; // 1
+  box-sizing: border-box; // 1
 }
 
 html {
-	font-family: sans-serif; // 2
-	line-height: 1.15; // 3
-	-webkit-text-size-adjust: 100%; // 4
-	-webkit-tap-highlight-color: rgba( $black, 0 ); // 5
+  font-family: sans-serif; // 2
+  line-height: 1.15; // 3
+  -webkit-text-size-adjust: 100%; // 4
+  -webkit-tap-highlight-color: rgba( $black, 0 ); // 5
 }
 
 // Shim for "new" HTML5 structural elements to display correctly (IE10, older browsers)
@@ -39,7 +39,7 @@ hgroup,
 main,
 nav,
 section {
-	display: block;
+  display: block;
 }
 
 // Body
@@ -50,15 +50,14 @@ section {
 //    the `inherit` value on things like `<th>` elements.
 
 body {
-	margin: 0; // 1
-	overflow: hidden;
-	background-color: $body-bg; // 2
-	color: $text-color;
-	font-family: $font-family-base;
-	font-size: $font-size-base;
-	font-weight: $font-weight-base;
-	line-height: $line-height-base;
-	text-align: left; // 3
+  margin: 0; // 1
+  background-color: $body-bg; // 2
+  color: $text-color;
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  font-weight: $font-weight-base;
+  line-height: $line-height-base;
+  text-align: left; // 3
 }
 
 // Suppress the focus outline on elements that cannot be accessed via keyboard.
@@ -67,7 +66,7 @@ body {
 //
 // Credit: https://github.com/suitcss/base
 [tabindex='-1']:focus {
-	outline: 0 !important;
+  outline: 0 !important;
 }
 
 // Content grouping
@@ -76,9 +75,9 @@ body {
 // 2. Show the overflow in Edge and IE.
 
 hr {
-	box-sizing: content-box; // 1
-	height: 0; // 1
-	overflow: visible; // 2
+  box-sizing: content-box; // 1
+  height: 0; // 1
+  overflow: visible; // 2
 }
 
 //
@@ -96,8 +95,8 @@ h3,
 h4,
 h5,
 h6 {
-	margin-top: 0;
-	margin-bottom: $headings-margin-bottom;
+  margin-top: 0;
+  margin-bottom: $headings-margin-bottom;
 }
 
 // Reset margins on paragraphs
@@ -105,19 +104,19 @@ h6 {
 // Similarly, the top margin on `<p>`s get reset. However, we also reset the
 // bottom margin to use `rem` units instead of `em`.
 p {
-	margin-top: 0;
-	margin-bottom: $paragraph-margin-bottom;
+  margin-top: 0;
+  margin-bottom: $paragraph-margin-bottom;
 }
 
 //
 
 b,
 strong {
-	font-weight: $font-weight-bold; // Add the correct font weight in Chrome, Edge, and Safari
+  font-weight: $font-weight-bold; // Add the correct font weight in Chrome, Edge, and Safari
 }
 
 small {
-	font-size: 80%; // Add the correct font size in all browsers
+  font-size: 80%; // Add the correct font size in all browsers
 }
 
 //
@@ -125,14 +124,14 @@ small {
 //
 
 a {
-	background-color: transparent; // Remove the gray background on active links in IE 10.
-	color: $link-color;
-	text-decoration: $link-decoration;
+  background-color: transparent; // Remove the gray background on active links in IE 10.
+  color: $link-color;
+  text-decoration: $link-decoration;
 
-	&:hover {
-		color: $link-hover-color;
-		text-decoration: $link-hover-decoration;
-	}
+  &:hover {
+    color: $link-hover-color;
+    text-decoration: $link-hover-decoration;
+  }
 }
 
 //
@@ -140,15 +139,15 @@ a {
 //
 
 img {
-	border-style: none; // Remove the border on images inside links in IE 10-.
-	vertical-align: middle;
+  border-style: none; // Remove the border on images inside links in IE 10-.
+  vertical-align: middle;
 }
 
 svg {
-	// Workaround for the SVG overflow bug in IE10/11 is still required.
-	// See https://github.com/twbs/bootstrap/issues/26878
-	overflow: hidden;
-	vertical-align: middle;
+  // Workaround for the SVG overflow bug in IE10/11 is still required.
+  // See https://github.com/twbs/bootstrap/issues/26878
+  overflow: hidden;
+  vertical-align: middle;
 }
 
 //
@@ -156,17 +155,17 @@ svg {
 //
 
 label {
-	// Allow labels to use `margin` for spacing.
-	display: inline-block;
-	margin-bottom: $label-margin-bottom;
+  // Allow labels to use `margin` for spacing.
+  display: inline-block;
+  margin-bottom: $label-margin-bottom;
 }
 
 // Remove the default `border-radius` that macOS Chrome adds.
 //
 // Details at https://github.com/twbs/bootstrap/issues/24093
 button {
-	// stylelint-disable-next-line property-blacklist
-	border-radius: 0;
+  // stylelint-disable-next-line property-blacklist
+  border-radius: 0;
 }
 
 // Work around a Firefox/IE bug where the transparent `button` background
@@ -174,8 +173,8 @@ button {
 //
 // Credit: https://github.com/suitcss/base/
 button:focus {
-	outline: 1px dotted;
-	outline: 5px auto -webkit-focus-ring-color;
+  outline: 1px dotted;
+  outline: 5px auto -webkit-focus-ring-color;
 }
 
 input,
@@ -183,27 +182,27 @@ button,
 select,
 optgroup,
 textarea {
-	margin: 0; // Remove the margin in Firefox and Safari
-	font-family: inherit;
-	font-size: inherit;
-	line-height: inherit;
+  margin: 0; // Remove the margin in Firefox and Safari
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
 }
 
 button,
 input {
-	overflow: visible; // Show the overflow in Edge
+  overflow: visible; // Show the overflow in Edge
 }
 
 button,
 select {
-	text-transform: none; // Remove the inheritance of text transform in Firefox
+  text-transform: none; // Remove the inheritance of text transform in Firefox
 }
 
 // Remove the inheritance of word-wrap in Safari.
 //
 // Details at https://github.com/twbs/bootstrap/issues/24990
 select {
-	word-wrap: normal;
+  word-wrap: normal;
 }
 
 // 1. Prevent a WebKit bug where (2) destroys native `audio` and `video'
@@ -214,10 +213,10 @@ button,
 [type='button'],
 [type='reset'],
 [type='submit'] {
-	-webkit-appearance: button; // 2
-	&:not( :disabled ) {
-		cursor: pointer;
-	}
+  -webkit-appearance: button; // 2
+  &:not( :disabled ) {
+    cursor: pointer;
+  }
 }
 
 // Remove inner border and padding from Firefox, but don't restore the outline like Normalize.
@@ -225,78 +224,78 @@ button::-moz-focus-inner,
 [type='button']::-moz-focus-inner,
 [type='reset']::-moz-focus-inner,
 [type='submit']::-moz-focus-inner {
-	padding: 0;
-	border-style: none;
+  padding: 0;
+  border-style: none;
 }
 
 input[type='radio'],
 input[type='checkbox'] {
-	box-sizing: border-box; // 1. Add the correct box sizing in IE 10-
-	padding: 0; // 2. Remove the padding in IE 10-
+  box-sizing: border-box; // 1. Add the correct box sizing in IE 10-
+  padding: 0; // 2. Remove the padding in IE 10-
 }
 
 input[type='date'],
 input[type='time'],
 input[type='datetime-local'],
 input[type='month'] {
-	// Remove the default appearance of temporal inputs to avoid a Mobile Safari
-	// bug where setting a custom line-height prevents text from being vertically
-	// centered within the input.
-	// See https://bugs.webkit.org/show_bug.cgi?id=139848
-	// and https://github.com/twbs/bootstrap/issues/11266
-	-webkit-appearance: listbox;
+  // Remove the default appearance of temporal inputs to avoid a Mobile Safari
+  // bug where setting a custom line-height prevents text from being vertically
+  // centered within the input.
+  // See https://bugs.webkit.org/show_bug.cgi?id=139848
+  // and https://github.com/twbs/bootstrap/issues/11266
+  -webkit-appearance: listbox;
 }
 
 textarea {
-	overflow: auto; // Remove the default vertical scrollbar in IE.
-	// Textareas should really only resize vertically so they don't break their (horizontal) containers.
-	resize: vertical;
+  overflow: auto; // Remove the default vertical scrollbar in IE.
+  // Textareas should really only resize vertically so they don't break their (horizontal) containers.
+  resize: vertical;
 }
 
 fieldset {
-	// Browsers set a default `min-width: min-content;` on fieldsets,
-	// unlike e.g. `<div>`s, which have `min-width: 0;` by default.
-	// So we reset that to ensure fieldsets behave more like a standard block element.
-	// See https://github.com/twbs/bootstrap/issues/12359
-	// and https://html.spec.whatwg.org/multipage/#the-fieldset-and-legend-elements
-	min-width: 0;
-	margin: 0;
-	// Reset the default outline behavior of fieldsets so they don't affect page layout.
-	padding: 0;
-	border: 0;
+  // Browsers set a default `min-width: min-content;` on fieldsets,
+  // unlike e.g. `<div>`s, which have `min-width: 0;` by default.
+  // So we reset that to ensure fieldsets behave more like a standard block element.
+  // See https://github.com/twbs/bootstrap/issues/12359
+  // and https://html.spec.whatwg.org/multipage/#the-fieldset-and-legend-elements
+  min-width: 0;
+  margin: 0;
+  // Reset the default outline behavior of fieldsets so they don't affect page layout.
+  padding: 0;
+  border: 0;
 }
 
 // 1. Correct the text wrapping in Edge and IE.
 // 2. Correct the color inheritance from `fieldset` elements in IE.
 legend {
-	display: block;
-	width: 100%;
-	max-width: 100%; // 1
-	margin-bottom: .5rem;
-	padding: 0;
-	color: inherit; // 2
-	font-size: 1.5rem;
-	line-height: inherit;
-	white-space: normal; // 1
+  display: block;
+  width: 100%;
+  max-width: 100%; // 1
+  margin-bottom: .5rem;
+  padding: 0;
+  color: inherit; // 2
+  font-size: 1.5rem;
+  line-height: inherit;
+  white-space: normal; // 1
 }
 
 progress {
-	vertical-align: baseline; // Add the correct vertical alignment in Chrome, Firefox, and Opera.
+  vertical-align: baseline; // Add the correct vertical alignment in Chrome, Firefox, and Opera.
 }
 
 // Correct the cursor style of increment and decrement buttons in Chrome.
 [type='number']::-webkit-inner-spin-button,
 [type='number']::-webkit-outer-spin-button {
-	height: auto;
+  height: auto;
 }
 
 [type='search'] {
-	// This overrides the extra rounded corners on search inputs in iOS so that our
-	// `.form-control` class can properly style them. Note that this cannot simply
-	// be added to `.form-control` as it's not specific enough. For details, see
-	// https://github.com/twbs/bootstrap/issues/11586.
-	outline-offset: -2px; // 2. Correct the outline style in Safari.
-	-webkit-appearance: none;
+  // This overrides the extra rounded corners on search inputs in iOS so that our
+  // `.form-control` class can properly style them. Note that this cannot simply
+  // be added to `.form-control` as it's not specific enough. For details, see
+  // https://github.com/twbs/bootstrap/issues/11586.
+  outline-offset: -2px; // 2. Correct the outline style in Safari.
+  -webkit-appearance: none;
 }
 
 //
@@ -304,7 +303,7 @@ progress {
 //
 
 [type='search']::-webkit-search-decoration {
-	-webkit-appearance: none;
+  -webkit-appearance: none;
 }
 
 //
@@ -313,6 +312,6 @@ progress {
 //
 
 ::-webkit-file-upload-button {
-	font: inherit; // 2
-	-webkit-appearance: button; // 1
+  font: inherit; // 2
+  -webkit-appearance: button; // 1
 }

@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
-import { Row } from 'react-bootstrap';
-import { selectedAnswers, selectedJudgment } from '../../services/Api';
-import Card from '../Card';
+import { Row } from "react-bootstrap";
+import { selectedAnswers, selectedJudgment } from "../../services/Api";
+import Card from "../Card";
+
+import "./UnderTheLimits.scss";
 
 function DisplayTimer(prop) {
   return (
@@ -15,11 +17,7 @@ function DisplayTimer(prop) {
 }
 
 function DisplayIdle() {
-  return (
-    <h3>
-      En attente..
-    </h3>
-  );
+  return <h3>En attente..</h3>;
 }
 
 class UnderTheLimits extends Component {
@@ -27,7 +25,7 @@ class UnderTheLimits extends Component {
     super(props);
 
     this.state = {
-      answerSelectNum: 1,
+      answerSelectNum: 1
     };
   }
 
@@ -45,18 +43,18 @@ class UnderTheLimits extends Component {
     let questionText = this.props.currentChannel.deckQuestion.text;
     keys.map(
       // eslint-disable-next-line no-return-assign
-      i => (questionText = questionText.replace('______', values[i].text)),
+      i => (questionText = questionText.replace("______", values[i].text))
     );
     return questionText;
   }
 
-  handleChange = (i) => {
+  handleChange = i => {
     const index = this.props.player.answers.indexOf(i);
     if (index < 0) {
       if (this.props.player.answers.length >= this.state.answerSelectNum) {
         // eslint-disable-next-line
         console.warn(
-          'Vous ne pouvez pas jouer davantage de réponses pour cette question !',
+          "Vous ne pouvez pas jouer davantage de réponses pour cette question !"
         ); // TODO Change with <Alert color="primary">
       } else {
         this.props.player.answers.push(i);
@@ -66,37 +64,38 @@ class UnderTheLimits extends Component {
     }
 
     selectedAnswers(this.props.currentChannel.id, this.props.player.answers);
-  }
+  };
 
   render() {
     if (this.props.player && this.props.player.hand) {
-      if (this.props.currentChannel.currentStatus === 'JUDGING_CARD') {
+      if (this.props.currentChannel.currentStatus === "JUDGING_CARD") {
         const playersShuffle = this.props.currentChannel.players.slice();
         for (let i = playersShuffle.length - 1; i > 0; i -= 1) {
           const j = Math.floor(Math.random() * (i + 1));
           [playersShuffle[i], playersShuffle[j]] = [
             playersShuffle[j],
-            playersShuffle[i],
+            playersShuffle[i]
           ];
         }
 
         return (
-          <React.Fragment>
-            {playersShuffle.map((player) => {
+          <Row className='CardsContainer CardsContainer_question'>
+            {playersShuffle.map(player => {
               if (!player.isGameMaster) {
                 return (
                   <Card
                     key={`p${player.id}`}
                     value={this.getFilledQuestionText(
                       player.answers,
-                      player.hand,
+                      player.hand
                     )}
                     onClick={
                       this.props.player.isGameMaster
-                        ? () => selectedJudgment(
-                          this.props.currentChannel.id,
-                          player.id,
-                        )
+                        ? () =>
+                            selectedJudgment(
+                              this.props.currentChannel.id,
+                              player.id
+                            )
                         : () => {}
                     }
                   />
@@ -104,12 +103,12 @@ class UnderTheLimits extends Component {
               }
               return null;
             })}
-          </React.Fragment>
+          </Row>
         );
       }
-      if (this.props.currentChannel.currentStatus === 'WAITING_GAME') {
+      if (this.props.currentChannel.currentStatus === "WAITING_GAME") {
         const player = this.props.currentChannel.players.find(
-          p => p.isGameMaster,
+          p => p.isGameMaster
         );
 
         return (
@@ -119,18 +118,20 @@ class UnderTheLimits extends Component {
                 Le gagnant de la manche est
                 {`${player.name}:`}
               </p>
+            </Row>
+            <Row className="CardsContainer CardsContainer_question">
               {
                 <Card
                   key={`p${player.id}`}
                   value={this.getFilledQuestionText(
                     player.answers,
-                    player.hand,
+                    player.hand
                   )}
                   onClick={() => {}}
                 />
               }
             </Row>
-            <Row>
+            <Row className="CardsContainer CardsContainer_answers">
               {this.props.player.hand.map(answer => (
                 <Card
                   key={answer.text}
@@ -144,7 +145,7 @@ class UnderTheLimits extends Component {
         );
       }
       let timer;
-      if (this.props.currentChannel.currentStatus === 'PLAYING_CARD') {
+      if (this.props.currentChannel.currentStatus === "PLAYING_CARD") {
         timer = <DisplayTimer timer={this.props.currentChannel.timer} />;
       } else {
         timer = <DisplayIdle />;
@@ -152,16 +153,16 @@ class UnderTheLimits extends Component {
       return (
         <React.Fragment>
           {timer}
-          <Row>
+          <Row className="CardsContainer CardsContainer_question">
             <Card
-              key='questioncard'
+              key="questioncard"
               value={this.getFilledQuestionText(
                 this.props.player.answers,
-                this.props.player.hand,
+                this.props.player.hand
               )}
             />
           </Row>
-          <Row>
+          <Row className="CardsContainer CardsContainer_answer">
             {this.props.player.hand.map((answer, index) => (
               <Card
                 key={answer.text}
@@ -185,19 +186,19 @@ class UnderTheLimits extends Component {
 
 UnderTheLimits.defaultProps = {
   currentChannel: null,
-  player: null,
+  player: null
 };
 
 UnderTheLimits.propTypes = {
   // eslint-disable-next-line
   currentChannel: PropTypes.shape({
     deckQuestion: PropTypes.shape({
-      text: PropTypes.string,
+      text: PropTypes.string
     }),
     currentStatus: PropTypes.string,
     players: PropTypes.arrayOf(PropTypes.object),
     timer: PropTypes.string,
-    id: PropTypes.string,
+    id: PropTypes.string
   }),
   // eslint-disable-next-line
   player: PropTypes.object

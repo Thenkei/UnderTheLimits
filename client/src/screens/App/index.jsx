@@ -19,7 +19,6 @@ import CreateChannel from '../../components/CreateChannel';
 import UnderTheLimits from '../../components/UnderTheLimits';
 import Score from '../../components/Score';
 import Player from '../../components/Player';
-// import Particles from '../../components/Particles';
 
 import {
   error,
@@ -238,7 +237,6 @@ class App extends Component {
             Github
           </a>
         </footer>
-        {/* <Particles /> */}
       </div>
     );
   }
