@@ -1,13 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
-  Grid,
-  Row,
-} from 'react-bootstrap';
-import {
   BrowserRouter as Router,
   Route,
-  Link,
   Switch,
 } from 'react-router-dom';
 import App from './screens/App';
@@ -18,23 +13,11 @@ import './style/style.scss';
 
 const router = (
   <Router>
-    <React.Fragment>
-      <Grid>
-        <Row className="App">
-          <h1>Under the limits</h1>
-          <Switch>
-            <Route path="/" component={App} />
-            <Route path="/mentions-legales" component={Legals} />
-            <Route component={NoMatch} />
-          </Switch>
-          <Link to="/mentions-legales">Mention légales</Link>
-          <a href="https://github.com/Thenkei/UnderTheLimits">
-            Github
-            <span role="img" aria-label="heart">💖</span>
-          </a>
-        </Row>
-      </Grid>
-    </React.Fragment>
+    <Switch>
+      <Route exact path='/' component={App} />
+      <Route exact path='/mentions-legales' component={Legals} />
+      <Route component={NoMatch} />
+    </Switch>
   </Router>
 );
 ReactDOM.render(router, document.getElementById('root'));

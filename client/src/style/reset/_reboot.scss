@@ -51,6 +51,7 @@ section {
 
 body {
 	margin: 0; // 1
+	overflow: hidden;
 	background-color: $body-bg; // 2
 	color: $text-color;
 	font-family: $font-family-base;

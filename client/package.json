@@ -53,7 +53,7 @@
   },
   "scripts": {
     "fix:style": "stylelint **/*.scss --fix",
-    "lint": "$(npm bin)/eslint src/*.jsx",
+    "lint": "$(npm bin)/eslint src --ext=jsx --ext=js",
     "test": "$(npm bin)/jest --detectOpenHandles",
     "build:clean": "rm -rf dist",
     "build:dev": "webpack --mode development --module-bind js=babel-loader --watch",

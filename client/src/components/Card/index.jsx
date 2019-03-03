@@ -1,17 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  Col,
-  OverlayTrigger,
-  Tooltip,
-} from 'react-bootstrap';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+
+import './Card.scss';
 
 const Card = ({
-  definition,
-  onClick,
-  checked,
-  value,
+  definition, onClick, checked, value,
 }) => {
   let MainWrapper = React.Fragment;
   let wrapperProps = {};
@@ -20,35 +15,27 @@ const Card = ({
     wrapperProps = {
       placement: 'top',
       id: definition.toLowerCase().replace(' ', '_'), // For accessibility
-      overlay: (
-        <Tooltip>
-          {definition}
-        </Tooltip>
-      ),
+      overlay: <Tooltip>{definition}</Tooltip>,
     };
   }
 
   return (
     <MainWrapper {...wrapperProps}>
-      <Col sm={6} md={3}>
+      <div
+        className='card'
+        style={{ width: '20rem' }}
+        onClick={() => onClick && onClick()}
+        // Ugly, but mandatory for jsx-a11y to be happy
+        onKeyPressed={() => {}}
+        role='none'
+      >
         <div
-          className="card"
-          style={{ width: '20rem' }}
-          onClick={() => onClick && onClick()}
-          // Ugly, but mandatory for jsx-a11y to be happy
-          onKeyPressed={() => {}}
-          role="none"
+          className='card-body'
+          style={{ border: checked ? '3px solid red' : '' }}
         >
-          <div
-            className="card-body"
-            style={{ border: (checked ? '3px solid red' : '') }}
-          >
-            <p className="card-text">
-              {value}
-            </p>
-          </div>
+          <p className='card-text'>{value}</p>
         </div>
-      </Col>
+      </div>
     </MainWrapper>
   );
 };

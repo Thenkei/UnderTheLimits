@@ -1,8 +1,13 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import { BrowserRouter } from 'react-router-dom';
 
-import App from "../App";
+import App from '.';
 
 it('renders without crashing', () => {
-  renderer.create(<App />);
+  renderer.create(
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>,
+  );
 });

@@ -84,32 +84,28 @@ class UnderTheLimits extends Component {
 
         return (
           <React.Fragment>
-            <Row>
-              <React.Fragment>
-                {playersShuffle.map((player) => {
-                  if (!player.isGameMaster) {
-                    return (
-                      <Card
-                        key={`p${player.id}`}
-                        value={this.getFilledQuestionText(
-                          player.answers,
-                          player.hand,
-                        )}
-                        onClick={
-                          this.props.player.isGameMaster
-                            ? () => selectedJudgment(
-                              this.props.currentChannel.id,
-                              player.id,
-                            )
-                            : () => {}
-                        }
-                      />
-                    );
-                  }
-                  return null;
-                })}
-              </React.Fragment>
-            </Row>
+            {playersShuffle.map((player) => {
+              if (!player.isGameMaster) {
+                return (
+                  <Card
+                    key={`p${player.id}`}
+                    value={this.getFilledQuestionText(
+                      player.answers,
+                      player.hand,
+                    )}
+                    onClick={
+                      this.props.player.isGameMaster
+                        ? () => selectedJudgment(
+                          this.props.currentChannel.id,
+                          player.id,
+                        )
+                        : () => {}
+                    }
+                  />
+                );
+              }
+              return null;
+            })}
           </React.Fragment>
         );
       }
@@ -160,7 +156,7 @@ class UnderTheLimits extends Component {
           {timer}
           <Row>
             <Card
-              key="questioncard"
+              key='questioncard'
               value={this.getFilledQuestionText(
                 this.props.player.answers,
                 this.props.player.hand,

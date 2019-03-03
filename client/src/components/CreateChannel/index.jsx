@@ -16,7 +16,7 @@ const CreateChannel = ({ onCreateChannel }) => {
   return (
     <React.Fragment>
       <Button
-        bsStyle="success"
+        bsStyle='success'
         onClick={() => setShow(true)}
       >
         Create channel
@@ -35,14 +35,14 @@ const CreateChannel = ({ onCreateChannel }) => {
             inline
           >
             <FormControl
-              type="text"
+              type='text'
               value={channelName}
-              placeholder="Nom du salon"
+              placeholder='Nom du salon'
               onChange={({ target }) => {
                 setChannelName(target.value);
               }}
             />
-            <Button type="submit">Valider</Button>
+            <Button type='submit'>Valider</Button>
           </Form>
         </Modal.Body>
       </Modal>
