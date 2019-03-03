@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { Row } from 'react-bootstrap';
 import { selectedAnswers, selectedJudgment } from '../../services/Api';
 import Card from '../Card';
 
@@ -155,7 +156,7 @@ class UnderTheLimits extends Component {
           {timer}
           <Row>
             <Card
-              key="questioncard"
+              key='questioncard'
               value={this.getFilledQuestionText(
                 this.props.player.answers,
                 this.props.player.hand,

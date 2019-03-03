@@ -8,7 +8,7 @@ import {
   Grid,
   Alert,
   Label,
-  Form
+  Form,
 } from 'react-bootstrap';
 import {
   error,
@@ -18,13 +18,13 @@ import {
   createChannel,
   updateChannel,
   gotoChannel,
-  startGame
+  startGame,
 } from '../../services/Api';
 import CreateChannel from '../../components/CreateChannel';
 import UnderTheLimits from '../../components/UnderTheLimits';
 import Score from '../../components/Score';
 import Player from '../../components/Player';
-import Particles from '../../components/Particles';
+// import Particles from '../../components/Particles';
 //
 import './App.scss';
 
@@ -37,22 +37,18 @@ class App extends Component {
 
     this.state = {
       playerName:
-        (JSON.parse(localStorage.getItem('utl-player')) || []).name || ''
+        (JSON.parse(localStorage.getItem('utl-player')) || []).name || '',
     };
 
-    error(errMsg => {
-      this.setState({
-        error: errMsg
-      });
+    error((errMsg) => {
+      this.setState({ error: errMsg });
       setTimeout(() => {
         this.setState({ error: '' });
       }, DEFAULT_ERROR_TIMEOUT);
     });
 
-    success(successMsg => {
-      this.setState({
-        success: successMsg
-      });
+    success((successMsg) => {
+      this.setState({ success: successMsg });
       setTimeout(() => {
         this.setState({ success: '' });
       }, DEFAULT_SUCCESS_TIMEOUT);
@@ -76,9 +72,7 @@ class App extends Component {
         lobby.waitingPlayers = responseLobby.waitingPlayers;
       }
 
-      this.setState({
-        lobby
-      });
+      this.setState({ lobby });
     });
 
     updateChannel((err, channel) => {
@@ -86,7 +80,7 @@ class App extends Component {
 
       this.setState({
         player: me,
-        currentChannel: channel
+        currentChannel: channel,
       });
     });
 
@@ -103,30 +97,26 @@ class App extends Component {
       return (
         <Grid>
           <Row>
-            {this.state.player.name === this.state.currentChannel.admin.name &&
-            (this.state.currentChannel.currentStatus === 'WAITING_GAME' ||
-              this.state.currentChannel.currentStatus === 'IDLE') ? (
-              <Col sm={4}>
-                <Button
-                  onClick={() => {
-                    startGame(this.state.currentChannel.id);
-                  }}
-                >
-                  Next round
-                </Button>
-              </Col>
-            ) : (
-              <div />
-            )}
-
+            {this.state.player.name === this.state.currentChannel.admin.name
+            && (this.state.currentChannel.currentStatus === 'WAITING_GAME'
+              || this.state.currentChannel.currentStatus === 'IDLE') && (
+                <Col sm={4}>
+                  <Button
+                    onClick={() => {
+                      startGame(this.state.currentChannel.id);
+                    }}
+                  >
+                    Next round
+                  </Button>
+                </Col>
+            ) }
             <Col sm={4}>
               <h1>
                 <Label>{this.state.currentChannel.name}</Label>
               </h1>
               <h3>
-                {this.state.player.isGameMaster
-                  ? `${this.state.player.name} c'est vous le patron !`
-                  : `${this.state.player.name} à vous de jouer !`}
+                {this.state.player.name}
+                {this.state.player.isGameMaster ? ' c\'est vous le patron !' : ' à vous de jouer !'}
               </h3>
               <Score players={this.state.currentChannel.players} />
             </Col>
@@ -151,7 +141,7 @@ class App extends Component {
               <Label>PLAYERS</Label>
             </h1>
             {this.state.lobby.waitingPlayers.map(p => (
-              <Player value={p} noScore />
+              <Player key={p.id} value={p} noScore />
             ))}
           </Col>
           <Col sm={4}>
@@ -159,7 +149,7 @@ class App extends Component {
               <Label>CHANNELS</Label>
             </h1>
             {this.state.lobby.channels.map(c => (
-              <Form inline>
+              <Form key={c.id} inline>
                 <Button
                   onClick={() => {
                     gotoChannel(c.id, (err, channel) => {
@@ -177,7 +167,7 @@ class App extends Component {
     }
     return (
       <Form
-        onSubmit={e => {
+        onSubmit={(e) => {
           e.preventDefault();
           createPlayer(this.state.playerName, (err, player) => {
             localStorage.setItem('utl-player', JSON.stringify(player));
@@ -191,7 +181,7 @@ class App extends Component {
           type='text'
           value={this.state.playerName || ''}
           placeholder='Name'
-          onChange={e => {
+          onChange={(e) => {
             this.setState({ playerName: e.target.value });
           }}
         />
@@ -209,21 +199,13 @@ class App extends Component {
   render() {
     return (
       <div className='App'>
-        {this.state.error ? (
-          <Alert bsStyle='danger'>{this.state.error}</Alert>
-        ) : (
-          null
-        )}
-        {this.state.success ? (
-          <Alert bsStyle='success'>{this.state.success}</Alert>
-        ) : (
-          null
-        )}
+        {this.state.error && <Alert bsStyle='danger'>{this.state.error}</Alert>}
+        {this.state.success && <Alert bsStyle='success'>{this.state.success}</Alert>}
         <header className='App-header'>
           <img
-          src='/public/images/UTL_Logo.png'
-          alt='under-the-limits'
-          className='App-logo'
+            src='/public/images/UTL_Logo.png'
+            alt='under-the-limits'
+            className='App-logo'
           />
         </header>
         <main>
@@ -240,6 +222,7 @@ class App extends Component {
             className='App-legalLink'
             href='https://github.com/Thenkei/UnderTheLimits'
             target='_blank'
+            rel='noopener noreferrer'
           >
             Github
           </a>

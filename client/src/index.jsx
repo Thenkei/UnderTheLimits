@@ -9,18 +9,18 @@ import App from './screens/App';
 import Legals from './screens/Legals';
 import NoMatch from './screens/NoMatch';
 
-import "./style/style.scss";
+import './style/style.scss';
 
 const router = (
   <Router>
     <Switch>
-      <Route path="/" component={App} />
-      <Route path="/mentions-legales" component={Legals} />
+      <Route exact path='/' component={App} />
+      <Route exact path='/mentions-legales' component={Legals} />
       <Route component={NoMatch} />
     </Switch>
   </Router>
 );
-ReactDOM.render(router, document.getElementById("root"));
+ReactDOM.render(router, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

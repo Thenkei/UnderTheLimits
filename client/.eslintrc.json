@@ -8,6 +8,7 @@
   },
   "rules": {
     "react/destructuring-assignment": false,
-    "react/prefer-stateless-function": false
+    "react/prefer-stateless-function": false,
+    "jsx-quotes": [ "error", "prefer-single"]
   }
 }
