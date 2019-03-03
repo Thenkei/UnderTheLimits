@@ -1,13 +1,15 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import { BrowserRouter } from 'react-router-dom';
+import { mountWithRR as mount } from '../../../test/helpers';
 
 import App from '.';
 
 it('renders without crashing', () => {
-  renderer.create(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>,
+  mount(
+    <App />,
+    {
+      app: {
+        isLoading: false,
+      },
+    },
   );
 });
