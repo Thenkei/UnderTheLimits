@@ -106,20 +106,7 @@ class App extends Component {
       return (
         <Grid>
           <Row>
-            {this.state.player.name === this.state.currentChannel.admin.name
-            && (this.state.currentChannel.currentStatus === 'WAITING_GAME'
-              || this.state.currentChannel.currentStatus === 'IDLE') && (
-                <Col sm={4}>
-                  <Button
-                    onClick={() => {
-                      startGame(this.state.currentChannel.id);
-                    }}
-                  >
-                    Next round
-                  </Button>
-                </Col>
-            ) }
-            <Col sm={4}>
+            <Col sm={{ span: 4, offset: 4 }}>
               <h1>
                 <Label>{this.state.currentChannel.name}</Label>
               </h1>
@@ -128,6 +115,18 @@ class App extends Component {
                 {this.state.player.isGameMaster ? ' c\'est vous le patron !' : ' à vous de jouer !'}
               </h3>
               <Score players={this.state.currentChannel.players} />
+              {this.state.player.name === this.state.currentChannel.admin.name
+              && (this.state.currentChannel.currentStatus === 'WAITING_GAME'
+                || this.state.currentChannel.currentStatus === 'IDLE') && (
+                  <Button
+                    style={{ marginBottom: '20px' }}
+                    onClick={() => {
+                      startGame(this.state.currentChannel.id);
+                    }}
+                  >
+                    Next round
+                  </Button>
+              )}
             </Col>
           </Row>
           <Row>
