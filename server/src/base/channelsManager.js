@@ -1,6 +1,7 @@
 const UTLGame = require('../games/UnderTheLimits/utlGame');
 
 const MAX_DISCONNECTED_TIME = 60000;
+const MAX_CHANNEL_COUNT = 12;
 
 class ChannelsManager {
   constructor() {
@@ -9,12 +10,20 @@ class ChannelsManager {
 
   // adminPlayer.currentStatus = 'IN_CHANNEL';
   async createUtlChanel(channelName, admin) {
+    if (this.channelsManager.channels.length >= MAX_CHANNEL_COUNT) {
+      throw new Error('Le serveur est complet, attendez qu\'un salon se libère !');
+    }
     // TODO replace with gameFactory
     const utlGame = new UTLGame(channelName, admin);
     await utlGame.init();
 
     utlGame.addPlayer(admin);
     this.channels.push(utlGame);
+
+    /* eslint no-param-reassign: 0 */
+    admin.currentStatus = 'IN_CHANNEL';
+    console.warn(`[ChannelsManager] channel ${utlGame.name} created owned by ${admin.username}`);
+
     return utlGame;
   }
 

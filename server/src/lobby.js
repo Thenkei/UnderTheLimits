@@ -2,7 +2,6 @@ const ChannelsManager = require('./base/channelsManager');
 const UsersManager = require('./base/usersManager');
 const SocketProvider = require('./utils/socketProvider');
 
-const MAX_CHANNEL_COUNT = 12;
 const SOCKET_ROOM_LOBBY = 'LOBBY';
 
 class Lobby {
@@ -66,21 +65,19 @@ class Lobby {
         const currentPlayer = this.usersManager.getUserBySocket(client.id);
         if (!currentPlayer) return;
 
-        if (this.channelsManager.channels.length >= MAX_CHANNEL_COUNT) {
-          client.emit('err', 'Le serveur est complet, attendez qu\'un salon se libère !');
-        } else {
+        try {
           const channel = await this.channelsManager.createUtlChanel(
             channelName,
             currentPlayer,
           );
-          console.warn(`[ChannelsManager] channel ${channelName} created owned by ${currentPlayer.username}`);
-          currentPlayer.currentStatus = 'IN_CHANNEL';
 
           client.leave(SOCKET_ROOM_LOBBY);
           client.join(channel.id);
 
           client.emit('updateChannel', channel.serialize());
           io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', this.serialize());
+        } catch (err) {
+          client.emit('err', err.message);
         }
       });
 
