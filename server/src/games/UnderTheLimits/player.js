@@ -1,4 +1,4 @@
-const { PLAYER_STATUS } = require('./status');
+const { PLAYER_STATUS } = require('../../status');
 
 
 class Player {

@@ -63,7 +63,7 @@ class UnderTheLimits extends Component {
       this.props.player.answers.splice(index, 1);
     }
 
-    selectedAnswers(this.props.currentChannel.id, this.props.player.answers);
+    selectedAnswers(this.props.player.answers);
   };
 
   render() {
@@ -92,7 +92,6 @@ class UnderTheLimits extends Component {
                     onClick={
                       this.props.player.isGameMaster
                         ? () => selectedJudgment(
-                          this.props.currentChannel.id,
                           player.id,
                         )
                         : () => {}
