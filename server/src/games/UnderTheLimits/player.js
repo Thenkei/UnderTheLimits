@@ -1,6 +1,3 @@
-const { PLAYER_STATUS } = require('../../status');
-
-
 class Player {
   constructor(id, name) {
     this.id = id;
@@ -9,7 +6,6 @@ class Player {
     this.hand = [];
     this.answers = [];
     this.isGameMaster = false;
-    this.currentStatus = PLAYER_STATUS.LOBBY;
   }
 
   clearAnswers() {

@@ -1,5 +1,6 @@
 const Channel = require('../../base/channel');
 const DBProvider = require('../../utils/dbProvider');
+const Player = require('./player');
 
 const PLAYER_MAX_POINT = 5;
 const PLAYER_CARD_COUNT = 10;
@@ -10,40 +11,6 @@ const UTL_STATUS = {
   PLAYING_CARD: 'PLAYING_CARD',
   JUDGING_CARD: 'JUDGING_CARD',
 };
-
-class Player {
-  constructor(id, name) {
-    this.id = id;
-    this.name = name || '#VISITOR';
-    this.score = 0;
-    this.hand = [];
-    this.answers = [];
-    this.isGameMaster = false;
-  }
-
-  clearAnswers() {
-    this.answers.sort((a, b) => b - a);
-    this.answers.forEach((i) => {
-      this.hand.splice(i, 1);
-    });
-    this.answers = [];
-  }
-
-  scored() {
-    this.score = this.score + 1;
-  }
-
-  setGameMaster(isGameMaster) {
-    this.isGameMaster = isGameMaster;
-  }
-
-  reset() {
-    this.score = 0;
-    this.hand = [];
-    this.answers = [];
-    this.isGameMaster = false;
-  }
-}
 
 class UTLGame extends Channel {
   constructor(name, admin, minPlayersCount = 2, maxPlayersCount = 8) {
