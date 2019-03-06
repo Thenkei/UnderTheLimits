@@ -25,31 +25,29 @@ class Channel {
   removePlayerById(id) {
     const toBeRemovedId = this.players.findIndex(p => p.id === id);
     if (toBeRemovedId !== -1) {
-      this.players.splice(toBeRemovedId, 1);
-      console.log('Player removed from channel');
+      const p = this.players.splice(toBeRemovedId, 1)[0];
 
       if (this.admin.socket === id) {
         [this.admin] = this.players;
       }
 
-      return this.id;
+      return p;
     }
-    return -1;
+    return null;
   }
 
   removePlayerByName(name) {
     const toBeRemovedId = this.players.findIndex(p => p.name === name);
     if (toBeRemovedId !== -1) {
-      this.players.splice(toBeRemovedId, 1);
-      console.log('Player removed from channel');
+      const p = this.players.splice(toBeRemovedId, 1)[0];
 
       if (this.admin.socket === toBeRemovedId) {
         [this.admin] = this.players;
       }
 
-      return this.id;
+      return p;
     }
-    return -1;
+    return null;
   }
 
   getPlayersCount() {

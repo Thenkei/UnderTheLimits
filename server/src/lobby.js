@@ -38,19 +38,9 @@ class Lobby {
         const disconnected = this.usersManager.removeUserById(client.id);
         console.log('Player', disconnected ? disconnected.name : client.id, ' got disconnected from lobby');
         if (disconnected) {
-          setTimeout(() => {
-            this.channelsManager.channels.forEach((c, index, array) => {
-              const removed = c.removePlayerById(client.id);
-              if (removed !== -1) {
-                io.to(c.id).emit('updateChannel', c.serialize());
-
-                if (c.players.length === 0) {
-                  array.splice(index, 1);
-                  console.log('Remove channel ', c.name);
-                }
-              }
-            });
-          }, 60000);
+          this.channelsManager.setTimeoutDisconnectedFromChannel(
+            client.id,
+          );
         }
 
         io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', this.serialize());
@@ -67,14 +57,12 @@ class Lobby {
           client.emit('playerCreated', { player });
           io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', this.serialize());
         } catch (err) {
-          console.log(err.message);
           client.emit('err', err.message);
         }
       });
 
       // CREATE CHANNEL FROM LOBBY
       client.on('createChannel', async (channelName) => {
-        console.warn('Try to createChannel');
         const currentPlayer = this.usersManager.getUserBySocket(client.id);
         if (!currentPlayer) return;
 
