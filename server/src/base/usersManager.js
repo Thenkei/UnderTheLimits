@@ -70,6 +70,16 @@ class UsersManager {
     console.log('[UsersManager] User', disconnected ? disconnected.name : id, ' got disconnected from lobby');
     return disconnected;
   }
+
+  static leaderBoard() {
+    const leaderBoard = DBProvider.get().models.User.findAll({
+      attributes: ['username', 'score'],
+      order: [
+        ['score', 'DESC'],
+      ],
+    });
+    return leaderBoard;
+  }
 }
 
 module.exports = UsersManager;
