@@ -62,7 +62,13 @@ class UsersManager {
   removeUserById(id) {
     const index = this.users.findIndex(c => c.socket === id);
     if (index === -1) { return null; }
-    return this.users.splice(index, 1)[0];
+    const disconnected = this.users.splice(index, 1)[0];
+    DBProvider.get().models.User.update(
+      { score: disconnected.score },
+      { where: { id: disconnected.dbid } },
+    );
+    console.log('[UsersManager] User', disconnected ? disconnected.name : id, ' got disconnected from lobby');
+    return disconnected;
   }
 }
 

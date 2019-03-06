@@ -35,7 +35,7 @@ class Lobby {
       // DISCONNECT FROM LOBBY
       client.on('disconnect', () => {
         const disconnected = this.usersManager.removeUserById(client.id);
-        console.log('Player', disconnected ? disconnected.name : client.id, ' got disconnected from lobby');
+
         if (disconnected) {
           this.channelsManager.setTimeoutDisconnectedFromChannel(
             client.id,
