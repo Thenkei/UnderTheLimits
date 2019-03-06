@@ -18,7 +18,7 @@ module.exports = {
         "block-no-empty": true, // empêche les block ( { } ) vides
         "color-named": "always-where-possible",
         "function-parentheses-space-inside": "always",
-        "indentation": "tab",
+        // "indentation": "tab",
         "max-empty-lines": 1,
         "media-feature-parentheses-space-inside": "always",
         "no-descending-specificity": null, // tolère l'ordre des classes

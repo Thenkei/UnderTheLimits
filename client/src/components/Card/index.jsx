@@ -23,16 +23,13 @@ const Card = ({
     <MainWrapper {...wrapperProps}>
       <div
         className='card'
-        style={{ width: '20rem' }}
         onClick={() => onClick && onClick()}
         // Ugly, but mandatory for jsx-a11y to be happy
         onKeyPressed={() => {}}
         role='none'
+        style={{ border: checked && '3px solid red' }}
       >
-        <div
-          className='card-body'
-          style={{ border: checked ? '3px solid red' : '' }}
-        >
+        <div className='card-body'>
           <p className='card-text'>{value}</p>
         </div>
       </div>

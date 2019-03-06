@@ -5,39 +5,39 @@
 $particlesize: random( 30 ) + px;
 
 .Particles-wrapper {
-	top: 0;
-	left: 50%;
-	width: 100%;
-	max-width: 500px;
-	height: 500px;
-	transform: translate( -50%, 0 );
-	transform-origin: center center;
-	transform-style: preserve-3d;
-	perspective: 600px;
-	pointer-events: none;
+  top: 0;
+  left: 50%;
+  width: 100%;
+  max-width: 500px;
+  height: 500px;
+  transform: translate( -50%, 0 );
+  transform-origin: center center;
+  transform-style: preserve-3d;
+  perspective: 600px;
+  pointer-events: none;
 }
 
 .Particle {
-	position: absolute;
-	animation: milleniumFalcon 9s infinite;
-	border-radius: 50%;
-	opacity: .1;
-	background: black;
+  position: absolute;
+  animation: milleniumFalcon 9s infinite;
+  border-radius: 50%;
+  opacity: .1;
+  background: black;
 }
 
 @for $i from 1 through 100 {
-	.Particle:nth-child( #{$i} ) {
-		width: $particlesize;
-		height: $particlesize;
-		transform: translate3d( (random( 1000 ) * 1px), (random( 1000 ) * 1px), -500px );
-		animation-delay: -$i * .2s;
-		background: hsl( random( 360 ), 70%, 50% );
-	}
+  .Particle:nth-child( #{$i} ) {
+    width: $particlesize;
+    height: $particlesize;
+    transform: translate3d( (random( 1000 ) * 1px), (random( 1000 ) * 1px), -500px );
+    animation-delay: -$i * .2s;
+    background: hsl( random( 360 ), 70%, 50% );
+  }
 }
 
 @keyframes milleniumFalcon {
-	100% {
-		transform: translate3d( 0, 0, 2000px ) scale( 2 );
-		opacity: 1;
-	}
+  100% {
+    transform: translate3d( 0, 0, 2000px ) scale( 2 );
+    opacity: 1;
+  }
 }

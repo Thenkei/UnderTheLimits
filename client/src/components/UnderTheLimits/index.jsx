@@ -5,6 +5,8 @@ import { Row } from 'react-bootstrap';
 import { selectedAnswers, selectedJudgment } from '../../services/Api';
 import Card from '../Card';
 
+import './UnderTheLimits.scss';
+
 function DisplayTimer(prop) {
   return (
     <h3>
@@ -15,11 +17,7 @@ function DisplayTimer(prop) {
 }
 
 function DisplayIdle() {
-  return (
-    <h3>
-      En attente..
-    </h3>
-  );
+  return <h3>En attente..</h3>;
 }
 
 class UnderTheLimits extends Component {
@@ -57,7 +55,7 @@ class UnderTheLimits extends Component {
         // eslint-disable-next-line
         console.warn(
           'Vous ne pouvez pas jouer davantage de réponses pour cette question !',
-        ); // TODO Change with <Alert color="primary">
+        ); // TODO Change with <Alert color='primary'>
       } else {
         this.props.player.answers.push(i);
       }
@@ -66,7 +64,7 @@ class UnderTheLimits extends Component {
     }
 
     selectedAnswers(this.props.currentChannel.id, this.props.player.answers);
-  }
+  };
 
   render() {
     if (this.props.player && this.props.player.hand) {
@@ -81,7 +79,7 @@ class UnderTheLimits extends Component {
         }
 
         return (
-          <React.Fragment>
+          <Row className='CardsContainer CardsContainer_question'>
             {playersShuffle.map((player) => {
               if (!player.isGameMaster) {
                 return (
@@ -104,7 +102,7 @@ class UnderTheLimits extends Component {
               }
               return null;
             })}
-          </React.Fragment>
+          </Row>
         );
       }
       if (this.props.currentChannel.currentStatus === 'WAITING_GAME') {
@@ -119,6 +117,8 @@ class UnderTheLimits extends Component {
                 Le gagnant de la manche est
                 {`${player.name}:`}
               </p>
+            </Row>
+            <Row className='CardsContainer CardsContainer_question'>
               {
                 <Card
                   key={`p${player.id}`}
@@ -130,7 +130,7 @@ class UnderTheLimits extends Component {
                 />
               }
             </Row>
-            <Row>
+            <Row className='CardsContainer CardsContainer_answers'>
               {this.props.player.hand.map(answer => (
                 <Card
                   key={answer.text}
@@ -152,7 +152,7 @@ class UnderTheLimits extends Component {
       return (
         <React.Fragment>
           {timer}
-          <Row>
+          <Row className='CardsContainer CardsContainer_question'>
             <Card
               key='questioncard'
               value={this.getFilledQuestionText(
@@ -161,7 +161,7 @@ class UnderTheLimits extends Component {
               )}
             />
           </Row>
-          <Row>
+          <Row className='CardsContainer CardsContainer_answer'>
             {this.props.player.hand.map((answer, index) => (
               <Card
                 key={answer.text}
