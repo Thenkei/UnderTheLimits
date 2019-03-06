@@ -87,21 +87,13 @@ class Lobby {
         if (!channel) return;
         if (!currentPlayer) return;
 
-        const canReconnect = channel.canReconnect(currentPlayer.name);
-
         try {
-          if (canReconnect) {
-            canReconnect.id = client.id;
-          } else {
-            channel.addPlayer(currentPlayer);
-          }
-          currentPlayer.currentStatus = 'IN_CHANNEL';
-
+          channel.tryReconnectOrConnect(currentPlayer, client.id);
           client.leave(SOCKET_ROOM_LOBBY);
           client.join(channelId);
           io.to(channel.id).emit('updateChannel', channel.serialize());
         } catch (err) {
-          client.emit('err', err);
+          client.emit('err', err.message);
         }
       });
 
@@ -109,19 +101,16 @@ class Lobby {
         const channel = this.channelsManager.getChannelById(Object.values(client.rooms)[0]);
         if (!channel) return;
 
-        // Check channel cannot start
-        if (!channel.canStart()) {
-          client.emit('err', 'Il n\'y a pas assez de joueurs dans ce salon !');
-          return;
+        try {
+          channel.nextRound();
+
+          io.to(channel.id).emit('updateChannel', channel.serialize());
+
+          channel.interval = setInterval(() => { channel.timer -= 1; io.to(channel.id).emit('updateChannel', channel.serialize()); }, 1000);
+          setTimeout(() => { clearInterval(channel.interval); channel.judgementState(); io.to(channel.id).emit('updateChannel', channel.serialize()); }, channel.getAnwersTime());
+        } catch (err) {
+          client.emit('err', err.message);
         }
-
-        channel.nextRound();
-        console.warn(`channel ${channel.name} next round starting...`);
-
-        io.to(channel.id).emit('updateChannel', channel.serialize());
-
-        channel.interval = setInterval(() => { channel.timer -= 1; io.to(channel.id).emit('updateChannel', channel.serialize()); }, 1000);
-        setTimeout(() => { clearInterval(channel.interval); channel.judgementState(); io.to(channel.id).emit('updateChannel', channel.serialize()); }, channel.getAnwersTime());
       });
 
       client.on('selectedAnswers', (answers) => {

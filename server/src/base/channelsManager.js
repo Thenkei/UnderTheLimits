@@ -10,7 +10,7 @@ class ChannelsManager {
 
   // adminPlayer.currentStatus = 'IN_CHANNEL';
   async createUtlChanel(channelName, admin) {
-    if (this.channelsManager.channels.length >= MAX_CHANNEL_COUNT) {
+    if (this.channels.length >= MAX_CHANNEL_COUNT) {
       throw new Error('Le serveur est complet, attendez qu\'un salon se libère !');
     }
     // TODO replace with gameFactory

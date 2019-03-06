@@ -48,7 +48,14 @@ class UTLGame extends Channel {
   }
 
   nextRound() {
+    try {
+      super.nextRound();
+    } catch (err) {
+      throw err;
+    }
+
     if (this.currentStatus === UTL_STATUS.IDLE) {
+      console.log('[UTLGame] ', this.name, 'starting new game !');
       const j = Math.floor(Math.random() * this.players.length);
 
       this.players.forEach((p) => {
@@ -66,6 +73,8 @@ class UTLGame extends Channel {
 
     this.timer = 40 + 5 * (this.deckQuestions[0].text.match(/______/g) || []).length;
     this.currentStatus = UTL_STATUS.PLAYING_CARD;
+
+    console.log('[UTLGame] ', this.name, 'starting new round...');
   }
 
   judgementState() {

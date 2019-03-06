@@ -71,8 +71,27 @@ class Channel {
     return this.currentStatus !== CHANNEL_STATUS.IDLE;
   }
 
-  canReconnect(playerName) {
-    return this.players.find(p => (p.name === playerName));
+  nextRound() {
+    // Check channel cannot start
+    if (!this.canStart()) {
+      throw new Error('Il n\'y a pas assez de joueurs dans ce salon !');
+    }
+  }
+
+  tryReconnectOrConnect(player, socket) {
+    const canReconnect = this.players.find(p => (p.name === player.name));
+    if (canReconnect) {
+      canReconnect.id = socket;
+    } else {
+      try {
+        this.addPlayer(player);
+      } catch (err) {
+        throw err;
+      }
+    }
+    /* eslint no-param-reassign: 0 */
+    player.currentStatus = 'IN_CHANNEL';
+    console.log('[Channel] Reconnect ', player.name, 'into channel', this.name);
   }
 
   serialize() {
