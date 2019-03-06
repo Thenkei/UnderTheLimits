@@ -1,11 +1,24 @@
 const DBProvider = require('../utils/dbProvider');
 
+const MAX_USER_CONNECTED = 100;
+
 class UsersManager {
   constructor() {
     this.users = [];
   }
 
   async findOrCreateUserFromDB(playerName, socket) {
+    const waitingPlayers = this.waitingUsers();
+    if (waitingPlayers.length >= MAX_USER_CONNECTED) {
+      throw new Error('Impossible de créer un nouveau joueur, le lobby est plein !');
+    }
+
+    const doesNameAlreadyExist = this.findUser(playerName);
+    if (doesNameAlreadyExist) {
+      console.warn(`[UsersManager] Failed adding ${playerName} to lobby, already connected`);
+      throw new Error('Ce nom existe déjà !');
+    }
+
     let user;
     const db = DBProvider.get();
     try {
@@ -22,14 +35,15 @@ class UsersManager {
       throw err;
     }
 
-    // REMOVE LATER JUST FOR TEST COMPATIBILITY
+    // TODO TWICK LATER JUST FOR DEV COMPATIBILITY
     user.dbid = user.id;
     user.id = socket;
     user.socket = socket;
     user.currentStatus = 'LOBBY';
     user.name = user.username;
-    this.users.push(user);
 
+    console.warn(`[UsersManager] Adding user ${playerName} to lobby`);
+    this.users.push(user);
     return user;
   }
 

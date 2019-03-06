@@ -2,7 +2,6 @@ const ChannelsManager = require('./base/channelsManager');
 const UsersManager = require('./base/usersManager');
 const SocketProvider = require('./utils/socketProvider');
 
-const MAX_PLAYERS_IN_LOBBY = 100;
 const MAX_CHANNEL_COUNT = 12;
 const SOCKET_ROOM_LOBBY = 'LOBBY';
 
@@ -60,25 +59,16 @@ class Lobby {
       client.on('createPlayer', async (playerName) => {
         if (!playerName) { return; }
 
-        const waitingPlayers = this.usersManager.waitingUsers();
-        if (waitingPlayers.length >= MAX_PLAYERS_IN_LOBBY) {
-          client.emit('err', 'Impossible de créer un nouveau joueur, le lobby est plein !');
-        }
-
-        const doesNameAlreadyExist = this.usersManager.findUser(playerName);
-        if (!doesNameAlreadyExist) {
-          console.warn(`[Lobby] Adding player ${playerName} to lobby`);
+        try {
           const player = await this.usersManager.findOrCreateUserFromDB(
             playerName,
             client.id,
           );
-
           client.emit('playerCreated', { player });
           io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', this.serialize());
-        } else {
-          console.warn(`[Lobby] Failed adding ${playerName} to lobby, already connected`);
-
-          client.emit('err', 'Ce nom existe déjà !');
+        } catch (err) {
+          console.log(err.message);
+          client.emit('err', err.message);
         }
       });
 
