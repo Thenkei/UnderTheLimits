@@ -136,7 +136,7 @@ class Lobby {
             this.usersManager.updateUserStatsCumul(player, score);
             io.to(channel.id).emit('success', response);
           },
-          (player,response) => {
+          (player, response) => {
             this.usersManager.updateUserStatsPoint(player);
             io.to(channel.id).emit('success', response);
           },
