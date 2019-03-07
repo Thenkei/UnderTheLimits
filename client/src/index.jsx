@@ -12,6 +12,7 @@ import {
 } from 'react-router-dom';
 
 import App from './screens/App';
+import Index from './screens/Index';
 import Legals from './screens/Legals';
 import NoMatch from './screens/NoMatch';
 
@@ -33,7 +34,8 @@ const router = (
   <Provider store={store}>
     <Router>
       <Switch>
-        <Route exact path='/' component={App} />
+        <Route exact path='/' component={Index} />
+        <Route exact path='/app' component={App} />
         <Route exact path='/mentions-legales' component={Legals} />
         <Route component={NoMatch} />
       </Switch>

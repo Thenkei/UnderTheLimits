@@ -6,10 +6,8 @@ import { connect } from 'react-redux';
 import {
   Col,
   Button,
-  FormControl,
   Row,
   Grid,
-  Alert,
   Label,
   Form,
   ProgressBar,
@@ -21,67 +19,25 @@ import Score from '../../components/Score';
 import Player from '../../components/Player';
 
 import {
-  error,
-  success,
-  createPlayer,
-  updateLobby,
   createChannel,
   updateChannel,
   gotoChannel,
   startGame,
 } from '../../services/Api';
 
-import { init } from '../../reducers/app';
+import { wssUpdateLobby } from '../../reducers/app';
 
 //
 import './App.scss';
 
-const DEFAULT_ERROR_TIMEOUT = 3000;
-const DEFAULT_SUCCESS_TIMEOUT = 10000;
-
 class App extends Component {
   constructor(props) {
     super(props);
+    this.state = {};
+  }
 
-    this.state = {
-      playerName:
-        (JSON.parse(localStorage.getItem('utl-player')) || []).name || '',
-    };
-
-    error((errMsg) => {
-      this.setState({ error: errMsg });
-      setTimeout(() => {
-        this.setState({ error: '' });
-      }, DEFAULT_ERROR_TIMEOUT);
-    });
-
-    success((successMsg) => {
-      this.setState({ success: successMsg });
-      setTimeout(() => {
-        this.setState({ success: '' });
-      }, DEFAULT_SUCCESS_TIMEOUT);
-    });
-
-    updateLobby((err, responseLobby) => {
-      const lobby = { waitingPlayers: [], channels: [] };
-
-      if (this.state.lobby) {
-        if (this.state.lobby.waitingPlayers) {
-          lobby.waitingPlayers = this.state.lobby.waitingPlayers;
-        }
-        if (this.state.lobby.channels) {
-          lobby.channels = this.state.lobby.channels;
-        }
-      }
-      if (responseLobby.channels) {
-        lobby.channels = responseLobby.channels;
-      }
-      if (responseLobby.waitingPlayers) {
-        lobby.waitingPlayers = responseLobby.waitingPlayers;
-      }
-
-      this.setState({ lobby });
-    });
+  componentDidMount() {
+    this.props.updateLobby();
 
     updateChannel((err, channel) => {
       const me = channel.players.find(c => c.id === this.state.player.id);
@@ -91,10 +47,6 @@ class App extends Component {
         currentChannel: channel,
       });
     });
-  }
-
-  componentDidMount() {
-    this.props.init();
   }
 
   onCreateChannel = (channelName) => {
@@ -138,7 +90,7 @@ class App extends Component {
         </Grid>
       );
     }
-    if (this.state.lobby && this.state.player) {
+    if (this.props.lobby && this.props.player) {
       return (
         <Row>
           <Col sm={4}>
@@ -148,7 +100,7 @@ class App extends Component {
             <h1>
               <Label>PLAYERS</Label>
             </h1>
-            {this.state.lobby.waitingPlayers.map(p => (
+            {this.props.lobby.waitingPlayers.map(p => (
               <Player key={p.id} value={p} noScore />
             ))}
           </Col>
@@ -156,7 +108,7 @@ class App extends Component {
             <h1>
               <Label>CHANNELS</Label>
             </h1>
-            {this.state.lobby.channels.map(c => (
+            {this.props.lobby.channels.map(c => (
               <Form key={c.id} inline>
                 <Button
                   onClick={() => {
@@ -173,49 +125,12 @@ class App extends Component {
         </Row>
       );
     }
-    return (
-      <Form
-        onSubmit={(e) => {
-          e.preventDefault();
-          createPlayer(this.state.playerName, (err, player) => {
-            localStorage.setItem('utl-player', JSON.stringify(player));
-            this.setState({ player });
-          });
-        }}
-        inline
-        className='Form_animated'
-      >
-        <FormControl
-          type='text'
-          value={this.state.playerName || ''}
-          placeholder='Name'
-          onChange={(e) => {
-            this.setState({ playerName: e.target.value });
-          }}
-        />
-        {
-          // onClick mandatory to avoid page reload.
-          // Remove the line when adding react-router
-        }
-        <Button bsStyle='success' type='submit'>
-          Ok
-        </Button>
-      </Form>
-    );
+    return <p>Waiting ...</p>;
   }
 
   render() {
     return (
-      <div className='App'>
-        {this.state.error && <Alert bsStyle='danger'>{this.state.error}</Alert>}
-        {this.state.success && <Alert bsStyle='success'>{this.state.success}</Alert>}
-        <header className='App-header'>
-          <img
-            src='/public/images/UTL_Logo.png'
-            alt='under-the-limits'
-            className='App-logo'
-          />
-        </header>
+      <React.Fragment>
         <main>
           {this.renderStep()}
           {this.props.isLoading && <ProgressBar style={{ width: '50%', display: 'inline-block' }} striped animated='true' now={90} />}
@@ -236,25 +151,36 @@ class App extends Component {
             Github
           </a>
         </footer>
-      </div>
+      </React.Fragment>
     );
   }
 }
 
-App.propTypes = {
-  init: PropTypes.func.isRequired,
+App.defaultProps = {
+  lobby: null,
+  player: null,
+};
 
+App.propTypes = {
+  updateLobby: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+
+  lobby: PropTypes.shape({
+    channels: PropTypes.arrayOf(PropTypes.shape({})),
+    waitingPlayers: PropTypes.arrayOf(PropTypes.shape({})),
+  }),
+  player: PropTypes.shape({}),
 };
 
 const mapStateToProps = (state) => {
-  const { isLoading } = state.app;
-  return { isLoading };
+  const { isLoading, lobby, player } = state.app;
+  console.warn(lobby, player);
+  return { isLoading, lobby, player };
 };
 
 const mapDispatchToProps = dispatch => ({
-  init: () => {
-    dispatch(init());
+  updateLobby: () => {
+    dispatch(wssUpdateLobby());
   },
 });
 
