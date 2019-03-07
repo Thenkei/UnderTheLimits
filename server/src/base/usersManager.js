@@ -25,7 +25,12 @@ class UsersManager {
       await db.models.User.findOrCreate(
         {
           where: { username: playerName },
-          defaults: { score: 0 },
+          defaults:
+          {
+            points: 0,
+            cumulative: 0,
+            played: 0,
+          },
         },
       )
         .spread((userDB) => {
@@ -64,20 +69,32 @@ class UsersManager {
     if (index === -1) { return null; }
     const disconnected = this.users.splice(index, 1)[0];
     DBProvider.get().models.User.update(
-      { score: disconnected.score },
+      {
+        points: disconnected.points,
+        cumulative: disconnected.cumulative,
+        played: disconnected.played,
+      },
       { where: { id: disconnected.dbid } },
     );
     console.log('[UsersManager] User', disconnected ? disconnected.name : id, ' got disconnected from lobby');
     return disconnected;
   }
 
+  updateUserStatsFromUTL(utlPlayer) {
+    const user = this.getUserBySocket(utlPlayer.id);
+    if (user) {
+      user.played += 1;
+    }
+  }
+
   static leaderBoard() {
     const leaderBoard = DBProvider.get().models.User.findAll({
-      attributes: ['username', 'score'],
+      attributes: ['username', 'points', 'cumulative', 'played'],
       order: [
-        ['score', 'DESC'],
+        ['points', 'DESC'],
       ],
     });
+    console.log(leaderBoard);
     return leaderBoard;
   }
 }

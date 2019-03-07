@@ -6,7 +6,9 @@ module.exports = (db, Sequelize) => {
       autoIncrement: true,
     },
     username: Sequelize.STRING,
-    score: Sequelize.INTEGER,
+    points: Sequelize.INTEGER,
+    cumulative: Sequelize.INTEGER,
+    played: Sequelize.INTEGER,
   }, {
     timestamps: false,
   });

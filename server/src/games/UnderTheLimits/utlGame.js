@@ -47,7 +47,7 @@ class UTLGame extends Channel {
     super.addPlayer(new Player(c.socket, c.username));
   }
 
-  nextRound() {
+  nextRound(updateUser) {
     try {
       super.nextRound();
     } catch (err) {
@@ -59,6 +59,7 @@ class UTLGame extends Channel {
       const j = Math.floor(Math.random() * this.players.length);
 
       this.players.forEach((p) => {
+        updateUser(p);
         p.reset();
       });
 
