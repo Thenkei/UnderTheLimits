@@ -19,13 +19,15 @@ import Score from '../../components/Score';
 import Player from '../../components/Player';
 
 import {
-  createChannel,
-  updateChannel,
   gotoChannel,
   startGame,
 } from '../../services/Api';
 
-import { wssUpdateLobby } from '../../reducers/app';
+import {
+  wssUpdateLobby,
+  wssUpdateChannel,
+  wssCreateChannel,
+} from '../../reducers/app';
 
 //
 import './App.scss';
@@ -38,38 +40,30 @@ class App extends Component {
 
   componentDidMount() {
     this.props.updateLobby();
-
-    updateChannel((err, channel) => {
-      const me = channel.players.find(c => c.id === this.state.player.id);
-
-      this.setState({
-        player: me,
-        currentChannel: channel,
-      });
-    });
+    this.props.updateChannel();
   }
 
   onCreateChannel = (channelName) => {
-    createChannel(channelName);
+    this.props.createChannel(channelName);
   }
 
   renderStep() {
-    if (this.state.currentChannel) {
+    if (this.props.currentChannel) {
       return (
         <Grid>
           <Row>
             <Col sm={{ span: 4, offset: 4 }}>
               <h1>
-                <Label>{this.state.currentChannel.name}</Label>
+                <Label>{this.props.currentChannel.name}</Label>
               </h1>
               <h3>
-                {this.state.player.name}
-                {this.state.player.isGameMaster ? ' c\'est vous le patron !' : ' à vous de jouer !'}
+                {this.props.player.name}
+                {this.props.player.isGameMaster ? ' c\'est vous le patron !' : ' à vous de jouer !'}
               </h3>
-              <Score players={this.state.currentChannel.players} />
-              {this.state.player.name === this.state.currentChannel.admin.name
-              && (this.state.currentChannel.currentStatus === 'WAITING_GAME'
-                || this.state.currentChannel.currentStatus === 'IDLE') && (
+              <Score players={this.props.currentChannel.players} />
+              {this.props.player.name === this.props.currentChannel.admin.name
+              && (this.props.currentChannel.currentStatus === 'WAITING_GAME'
+                || this.props.currentChannel.currentStatus === 'IDLE') && (
                   <Button
                     style={{ marginBottom: '20px' }}
                     onClick={() => {
@@ -83,8 +77,8 @@ class App extends Component {
           </Row>
           <Row>
             <UnderTheLimits
-              player={this.state.player}
-              currentChannel={this.state.currentChannel}
+              player={this.props.player}
+              currentChannel={this.props.currentChannel}
             />
           </Row>
         </Grid>
@@ -112,8 +106,8 @@ class App extends Component {
               <Form key={c.id} inline>
                 <Button
                   onClick={() => {
-                    gotoChannel(c.id, (err, channel) => {
-                      this.setState({ currentChannel: channel });
+                    gotoChannel(c.id, (/* err, channel */) => {
+                      // this.setState({ currentChannel: channel });
                     });
                   }}
                 >
@@ -159,28 +153,48 @@ class App extends Component {
 App.defaultProps = {
   lobby: null,
   player: null,
+  currentChannel: null,
 };
 
 App.propTypes = {
   updateLobby: PropTypes.func.isRequired,
+  updateChannel: PropTypes.func.isRequired,
+  createChannel: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
 
+  currentChannel: PropTypes.shape({
+    players: PropTypes.shape({}),
+    name: PropTypes.string,
+    id: PropTypes.string,
+    currentStatus: PropTypes.string,
+    admin: PropTypes.shape({
+      name: PropTypes.string,
+    }),
+  }),
   lobby: PropTypes.shape({
     channels: PropTypes.arrayOf(PropTypes.shape({})),
     waitingPlayers: PropTypes.arrayOf(PropTypes.shape({})),
   }),
-  player: PropTypes.shape({}),
+  player: PropTypes.shape({
+    isGameMaster: PropTypes.bool,
+    name: PropTypes.string,
+  }),
 };
 
 const mapStateToProps = (state) => {
   const { isLoading, lobby, player } = state.app;
-  console.warn(lobby, player);
   return { isLoading, lobby, player };
 };
 
 const mapDispatchToProps = dispatch => ({
   updateLobby: () => {
     dispatch(wssUpdateLobby());
+  },
+  updateChannel: (meId) => {
+    dispatch(wssUpdateChannel(meId));
+  },
+  createChannel: (createChannelReq) => {
+    dispatch(wssCreateChannel(createChannelReq));
   },
 });
 
