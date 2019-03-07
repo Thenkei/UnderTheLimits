@@ -121,7 +121,7 @@ class App extends Component {
                   <Button
                     style={{ marginBottom: '20px' }}
                     onClick={() => {
-                      startGame(this.state.currentChannel.id);
+                      startGame();
                     }}
                   >
                     Next round

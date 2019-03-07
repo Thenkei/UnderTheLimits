@@ -32,16 +32,16 @@ function createChannel(channelName) {
   socket.emit('createChannel', channelName);
 }
 
-function startGame(channelId) {
-  socket.emit('nextRound', channelId);
+function startGame() {
+  socket.emit('nextRound');
 }
 
-function selectedAnswers(channelId, answers) {
-  socket.emit('selectedAnswers', channelId, answers);
+function selectedAnswers(answers) {
+  socket.emit('selectedAnswers', answers);
 }
 
-function selectedJudgment(channelId, winnerId) {
-  socket.emit('selectedJudgment', channelId, winnerId);
+function selectedJudgment(winnerId) {
+  socket.emit('selectedJudgment', winnerId);
 }
 
 function error(cb) {
