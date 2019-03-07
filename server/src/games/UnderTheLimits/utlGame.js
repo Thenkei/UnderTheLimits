@@ -86,7 +86,7 @@ class UTLGame extends Channel {
     return this.deckQuestions[0];
   }
 
-  judge(judgment) {
+  judge(judgment, userCumul, userPoint) {
     const winner = this.players.find(p => p.id === judgment);
 
     this.players.forEach((p) => {
@@ -115,21 +115,16 @@ class UTLGame extends Channel {
     });
 
     winner.scored();
+    userCumul(winner, 1, `${winner.name} remporte la manche !`);
     winner.setGameMaster(true);
 
     const resultat = this.players.find(p => p.score >= PLAYER_MAX_POINT);
     if (resultat) {
+      userPoint(winner, `Le vainqueur est ${winner.name}`);
       this.currentStatus = UTL_STATUS.IDLE;
     } else {
       this.currentStatus = UTL_STATUS.WAITING_GAME;
     }
-
-    const gameWinner = resultat || winner;
-
-    return {
-      winner: gameWinner,
-      gameWinner: gameWinner === resultat,
-    };
   }
 
   hasAllPlayersAnswers() {

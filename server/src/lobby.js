@@ -103,7 +103,7 @@ class Lobby {
 
         try {
           channel.nextRound((player) => {
-            this.usersManager.updateUserStatsFromUTL(player);
+            this.usersManager.updateUserStatsPlayed(player);
           });
 
           io.to(channel.id).emit('updateChannel', channel.serialize());
@@ -130,15 +130,17 @@ class Lobby {
         if (!channel) return;
         if (!currentPlayer) return;
 
-        const resultat = channel.judge(judgment);
-
-        if (resultat.gameWinner) {
-          io.to(channel.id).emit('success', `Le vainqueur est ${resultat.winner.name}`);
-          currentPlayer.points += 1;
-        } else {
-          io.to(channel.id).emit('success', `${resultat.winner.name} remporte la manche !`);
-          currentPlayer.cumulative += 1;
-        }
+        channel.judge(
+          judgment,
+          (player, score, response) => {
+            this.usersManager.updateUserStatsCumul(player, score);
+            io.to(channel.id).emit('success', response);
+          },
+          (player,response) => {
+            this.usersManager.updateUserStatsPoint(player);
+            io.to(channel.id).emit('success', response);
+          },
+        );
 
         io.to(channel.id).emit('updateChannel', channel.serialize());
       });

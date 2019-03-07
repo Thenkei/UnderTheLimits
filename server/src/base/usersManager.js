@@ -80,12 +80,27 @@ class UsersManager {
     return disconnected;
   }
 
-  updateUserStatsFromUTL(utlPlayer) {
+  updateUserStatsPlayed(utlPlayer) {
     const user = this.getUserBySocket(utlPlayer.id);
     if (user) {
       user.played += 1;
     }
   }
+
+  updateUserStatsCumul(utlPlayer, value = 1) {
+    const user = this.getUserBySocket(utlPlayer.id);
+    if (user) {
+      user.cumulative += value;
+    }
+  }
+
+  updateUserStatsPoint(utlPlayer) {
+    const user = this.getUserBySocket(utlPlayer.id);
+    if (user) {
+      user.points += 1;
+    }
+  }
+
 
   static leaderBoard() {
     const leaderBoard = DBProvider.get().models.User.findAll({
