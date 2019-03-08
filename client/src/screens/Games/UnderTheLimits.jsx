@@ -14,7 +14,7 @@ import {
 import UnderTheLimits from '../../components/UnderTheLimits';
 import Score from '../../components/Score';
 
-import { wssStartGame } from '../../reducers/app';
+import { wssStartGame, wssSelectedAnswers, wssSelectJudgment } from '../../reducers/app';
 
 const UnderTheLimitsGame = ({
   currentChannel,
@@ -53,7 +53,7 @@ const UnderTheLimitsGame = ({
         player={player}
         currentChannel={currentChannel}
         selectedAnswers={selectedAnswers}
-        selectJudgment={selectJudgment}
+        selectedJudgment={selectJudgment}
       />
     </Row>
   </Grid>
@@ -90,6 +90,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
   startGame: () => {
     dispatch(wssStartGame());
+  },
+  selectedAnswers: (selectedAnswerReq) => {
+    dispatch(wssSelectedAnswers(selectedAnswerReq));
+  },
+  selectJudgment: (selectJudgmentReq) => {
+    dispatch(wssSelectJudgment(selectJudgmentReq));
   },
 });
 

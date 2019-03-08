@@ -12,6 +12,7 @@ import {
   createChannel,
   startGame,
   selectedJudgment,
+  selectedAnswers,
 } from '../services/Api';
 
 /**
@@ -264,7 +265,7 @@ export function wssSelectedAnswers(wsSelectedAnswersReq) {
   return (dispatch) => {
     try {
       dispatch(selectedAnswersRequest());
-      selectedJudgment(wsSelectedAnswersReq);
+      selectedAnswers(wsSelectedAnswersReq);
       dispatch(selectedAnswersSucess());
     } catch (error) {
       dispatch(selectedAnswersFailure(error));
