@@ -30,7 +30,7 @@ import {
 } from '../../reducers/app';
 
 //
-import './Lobby.scss';
+import './App.scss';
 
 class Lobby extends Component {
   constructor(props) {
@@ -130,15 +130,15 @@ class Lobby extends Component {
             </Col>
           </Row>
         </main>
-        <footer className='Lobby-footer'>
+        <footer className='App-footer'>
           <Link
-            className='Lobby-legalLink'
+            className='App-legalLink'
             to='/mentions-legales'
           >
             Mention légales
           </Link>
           <a
-            className='Lobby-legalLink'
+            className='App-legalLink'
             href='https://github.com/Thenkei/UnderTheLimits'
             target='_blank'
             rel='noopener noreferrer'

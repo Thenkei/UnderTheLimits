@@ -60,43 +60,32 @@ const Index = ({ createPlayer, isLoading, history }) => {
   // });
 
   return (
-    <div className='App'>
-      {/* {this.state.error && <Alert bsStyle='danger'>{this.state.error}</Alert>}
-      {this.state.success && <Alert bsStyle='success'>{this.state.success}</Alert>} */}
-      <header className='App-header'>
-        <img
-          src='/public/images/UTL_Logo.png'
-          alt='under-the-limits'
-          className='App-logo'
-        />
-      </header>
-      <Form
-        onSubmit={(e) => {
-          e.preventDefault();
-          createPlayer(playerName);
-          history.push('/lobby');
+    <Form
+      onSubmit={(e) => {
+        e.preventDefault();
+        createPlayer(playerName);
+        history.push('/lobby');
+      }}
+      inline
+      className='Form_animated'
+    >
+      { isLoading && <ProgressBar />}
+      <FormControl
+        type='text'
+        value={playerName || ''}
+        placeholder='Name'
+        onChange={(e) => {
+          setPlayerName(e.target.value);
         }}
-        inline
-        className='Form_animated'
-      >
-        { isLoading && <ProgressBar />}
-        <FormControl
-          type='text'
-          value={playerName || ''}
-          placeholder='Name'
-          onChange={(e) => {
-            setPlayerName(e.target.value);
-          }}
-        />
-        {
-          // onClick mandatory to avoid page reload.
-          // Remove the line when adding react-router
-        }
-        <Button bsStyle='success' type='submit'>
-          Ok
-        </Button>
-      </Form>
-    </div>
+      />
+      {
+        // onClick mandatory to avoid page reload.
+        // Remove the line when adding react-router
+      }
+      <Button bsStyle='success' type='submit'>
+        Ok
+      </Button>
+    </Form>
   );
 };
 

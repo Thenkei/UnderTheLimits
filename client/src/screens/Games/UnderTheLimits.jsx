@@ -18,7 +18,7 @@ import {
   startGame,
 } from '../../services/Api';
 
-import '../Lobby/Lobby.scss'; // LOL
+import '../Lobby/App.scss'; // LOL
 
 const UnderTheLimitsGame = ({ currentChannel, player }) => (
   <Grid>

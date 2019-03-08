@@ -11,6 +11,8 @@ import {
   Switch,
 } from 'react-router-dom';
 
+import Layout from './components/Layout';
+
 import Index from './screens/Index';
 import Lobby from './screens/Lobby';
 import UnderTheLimits from './screens/Games/UnderTheLimits';
@@ -32,17 +34,19 @@ const store = createStore(
 );
 
 const router = (
-  <Provider store={store}>
-    <Router>
-      <Switch>
-        <Route exact path='/' component={Index} />
-        <Route exact path='/lobby' component={Lobby} />
-        <Route exact path='/underthelimits/:id' component={UnderTheLimits} />
-        <Route exact path='/mentions-legales' component={Legals} />
-        <Route component={NoMatch} />
-      </Switch>
-    </Router>
-  </Provider>
+  <Layout>
+    <Provider store={store}>
+      <Router>
+        <Switch>
+          <Route exact path='/' component={Index} />
+          <Route exact path='/lobby' component={Lobby} />
+          <Route exact path='/underthelimits/:id' component={UnderTheLimits} />
+          <Route exact path='/mentions-legales' component={Legals} />
+          <Route component={NoMatch} />
+        </Switch>
+      </Router>
+    </Provider>
+  </Layout>
 );
 ReactDOM.render(router, document.getElementById('root'));
 
