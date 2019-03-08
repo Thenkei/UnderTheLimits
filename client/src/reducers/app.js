@@ -8,17 +8,18 @@ import {
   createPlayer,
   updateLobby,
   updateChannel,
-  createChannel,
+  gotoChannel,
 } from '../services/Api';
 
 /**
  * Constants
  */
-const APP_INIT = 'APP_INIT';
-const CREATE_PLAYER = 'CREATE_PLAYER';
-const UPDATE_LOBBY = 'UPDATE_LOBBY';
-const UPDATE_CHANNEL = 'UPDATE_CHANNEL';
-
+const APP_INIT = '@UTL/APP_INIT';
+const CREATE_PLAYER = '@UTL/CREATE_PLAYER';
+const CREATE_CHANNEL = '@UTL/CREATE_CHANNEL';
+const UPDATE_LOBBY = '@UTL/UPDATE_LOBBY';
+const UPDATE_CHANNEL = '@UTL/UPDATE_CHANNEL';
+const GOTO_CHANNEL = '@UTL/GOTO_CHANNEL';
 /**
  * Actions
  */
@@ -66,8 +67,9 @@ export function wssCreatePlayer(wsCreatePlayerReq) {
           throw err;
         }
         localStorage.me = wsCreatePlayerRes;
-
-        dispatch(createPlayerSucess({ player: wsCreatePlayerRes }));
+        if (wsCreatePlayerRes) {
+          dispatch(createPlayerSucess({ player: wsCreatePlayerRes }));
+        }
       });
     } catch (error) {
       dispatch(createPlayerFailure(error));
@@ -93,7 +95,9 @@ export function wssUpdateLobby() {
         if (err) {
           throw err;
         }
-        dispatch(updateLobbySucess(wsUpdateLobbyRes));
+        if (wsUpdateLobbyRes) {
+          dispatch(updateLobbySucess(wsUpdateLobbyRes));
+        }
       });
     } catch (error) {
       dispatch(updateLobbyFailure(error));
@@ -104,8 +108,8 @@ export function wssUpdateLobby() {
 function updateChannelRequest() {
   return { type: UPDATE_CHANNEL + FETCH_REQUEST };
 }
-function updateChannelSucess(lobby) {
-  return { type: UPDATE_CHANNEL + FETCH_SUCCESS, lobby };
+function updateChannelSucess({ player, currentChannel }) {  
+  return { type: UPDATE_CHANNEL + FETCH_SUCCESS, player, currentChannel };
 }
 function updateChannelFailure(error) {
   return { type: UPDATE_CHANNEL + FETCH_FAILURE, error };
@@ -119,12 +123,14 @@ export function wssUpdateChannel() {
         if (err) {
           throw err;
         }
-
         const { id } = localStorage;
         const me = wsUpdateChannelRes.players.find(c => c.id === id);
         const currentChannel = wsUpdateChannelRes;
-
-        dispatch(updateChannelSucess({ player: me, currentChannel }));
+        const response = { currentChannel };
+        if (me) {
+          response.player = me;
+        }
+        dispatch(updateChannelSucess(response));
       });
     } catch (error) {
       dispatch(updateChannelFailure(error));
@@ -133,13 +139,13 @@ export function wssUpdateChannel() {
 }
 
 function createChannelRequest() {
-  return { type: UPDATE_CHANNEL + FETCH_REQUEST };
+  return { type: CREATE_CHANNEL + FETCH_REQUEST };
 }
 function createChannelSucess(lobby) {
-  return { type: UPDATE_CHANNEL + FETCH_SUCCESS, lobby };
+  return { type: CREATE_CHANNEL + FETCH_SUCCESS, lobby };
 }
 function createChannelFailure(error) {
-  return { type: UPDATE_CHANNEL + FETCH_FAILURE, error };
+  return { type: CREATE_CHANNEL + FETCH_FAILURE, error };
 }
 
 export function wssCreateChannel(wssCreateChannelReq) {
@@ -149,6 +155,31 @@ export function wssCreateChannel(wssCreateChannelReq) {
       dispatch(createChannelSucess());
     } catch (error) {
       dispatch(createChannelFailure(error));
+    }
+  };
+}
+
+function gotoChannelRequest() {
+  return { type: GOTO_CHANNEL + FETCH_REQUEST };
+}
+function gotoChannelSucess(channel) {
+  return { type: GOTO_CHANNEL + FETCH_SUCCESS, channel };
+}
+function gotoChannelFailure(error) {
+  return { type: GOTO_CHANNEL + FETCH_FAILURE, error };
+}
+
+export function wssGotoChannel(wssGotoChannelReq) {
+  return (dispatch) => {
+    try {
+      dispatch(gotoChannelRequest(wssGotoChannelReq));
+      gotoChannel(wssGotoChannelReq, (err, wssGotoChannelRes) => {
+        if (wssGotoChannelRes) {
+          dispatch(gotoChannelSucess(wssGotoChannelRes));
+        }
+      });
+    } catch (error) {
+      dispatch(gotoChannelFailure(error));
     }
   };
 }
@@ -221,12 +252,28 @@ export const handlers = {
     currentChannel,
     isLoading: false,
   }),
+
   [UPDATE_CHANNEL + FETCH_FAILURE]: (state, { error }) => ({
     ...state,
     error,
     isLoading: false,
   }),
   [UPDATE_LOBBY + FETCH_REQUEST]: state => ({
+    ...state,
+    error: null,
+    isLoading: true,
+  }),
+  [GOTO_CHANNEL + FETCH_SUCCESS]: (state, { channel }) => ({
+    ...state,
+    channel,
+    isLoading: false,
+  }),
+  [GOTO_CHANNEL + FETCH_FAILURE]: (state, { error }) => ({
+    ...state,
+    error,
+    isLoading: false,
+  }),
+  [GOTO_CHANNEL + FETCH_REQUEST]: state => ({
     ...state,
     error: null,
     isLoading: true,

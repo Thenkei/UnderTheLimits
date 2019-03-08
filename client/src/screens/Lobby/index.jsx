@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import {
@@ -19,7 +19,6 @@ import Score from '../../components/Score';
 import Player from '../../components/Player';
 
 import {
-  gotoChannel,
   startGame,
 } from '../../services/Api';
 
@@ -27,12 +26,13 @@ import {
   wssUpdateLobby,
   wssUpdateChannel,
   wssCreateChannel,
+  wssGotoChannel,
 } from '../../reducers/app';
 
 //
-import './App.scss';
+import './Lobby.scss';
 
-class App extends Component {
+class Lobby extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -106,9 +106,7 @@ class App extends Component {
               <Form key={c.id} inline>
                 <Button
                   onClick={() => {
-                    gotoChannel(c.id, (/* err, channel */) => {
-                      // this.setState({ currentChannel: channel });
-                    });
+                    this.props.gotoChannel(c.id);
                   }}
                 >
                   {c.name}
@@ -119,25 +117,29 @@ class App extends Component {
         </Row>
       );
     }
+
     return <p>Waiting ...</p>;
   }
 
   render() {
+    if (this.props.currentChannel) {
+      return <Redirect to={`/underthelimits/${this.props.currentChannel}`} />;
+    }
     return (
       <React.Fragment>
         <main>
           {this.renderStep()}
           {this.props.isLoading && <ProgressBar style={{ width: '50%', display: 'inline-block' }} striped animated='true' now={90} />}
         </main>
-        <footer className='App-footer'>
+        <footer className='Lobby-footer'>
           <Link
-            className='App-legalLink'
+            className='Lobby-legalLink'
             to='/mentions-legales'
           >
             Mention légales
           </Link>
           <a
-            className='App-legalLink'
+            className='Lobby-legalLink'
             href='https://github.com/Thenkei/UnderTheLimits'
             target='_blank'
             rel='noopener noreferrer'
@@ -150,16 +152,17 @@ class App extends Component {
   }
 }
 
-App.defaultProps = {
+Lobby.defaultProps = {
   lobby: null,
   player: null,
   currentChannel: null,
 };
 
-App.propTypes = {
+Lobby.propTypes = {
   updateLobby: PropTypes.func.isRequired,
   updateChannel: PropTypes.func.isRequired,
   createChannel: PropTypes.func.isRequired,
+  gotoChannel: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
 
   currentChannel: PropTypes.shape({
@@ -182,20 +185,34 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { isLoading, lobby, player } = state.app;
-  return { isLoading, lobby, player };
+  const {
+    isLoading,
+    lobby,
+    player,
+    currentChannel,
+  } = state.app;
+
+  return {
+    isLoading,
+    lobby,
+    player,
+    currentChannel,
+  };
 };
 
 const mapDispatchToProps = dispatch => ({
   updateLobby: () => {
     dispatch(wssUpdateLobby());
   },
-  updateChannel: (meId) => {
-    dispatch(wssUpdateChannel(meId));
+  updateChannel: (meReq) => {
+    dispatch(wssUpdateChannel(meReq));
   },
   createChannel: (createChannelReq) => {
     dispatch(wssCreateChannel(createChannelReq));
   },
+  gotoChannel: (gotoChannelReq) => {
+    dispatch(wssGotoChannel(gotoChannelReq));
+  },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Lobby));

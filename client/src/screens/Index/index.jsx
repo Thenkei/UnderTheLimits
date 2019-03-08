@@ -74,7 +74,7 @@ const Index = ({ createPlayer, isLoading, history }) => {
         onSubmit={(e) => {
           e.preventDefault();
           createPlayer(playerName);
-          history.push('/app');
+          history.push('/lobby');
         }}
         inline
         className='Form_animated'

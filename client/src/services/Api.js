@@ -14,9 +14,7 @@ function updateLobby(cb) {
 }
 
 function updateChannel(cb) {
-  global.socket.on('updateChannel', (channelResponse) => {
-    cb(null, channelResponse.channel);
-  });
+  global.socket.on('updateChannel', channelResponse => cb(null, channelResponse.channel));
 }
 
 function gotoChannel(channelId) {
