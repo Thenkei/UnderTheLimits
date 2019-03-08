@@ -14,13 +14,15 @@ import {
 import UnderTheLimits from '../../components/UnderTheLimits';
 import Score from '../../components/Score';
 
-import {
+import { wssStartGame } from '../../reducers/app';
+
+const UnderTheLimitsGame = ({
+  currentChannel,
+  player,
   startGame,
-} from '../../services/Api';
-
-import '../Lobby/App.scss'; // LOL
-
-const UnderTheLimitsGame = ({ currentChannel, player }) => (
+  selectedAnswers,
+  selectJudgment,
+}) => (
   <Grid>
     <Row>
       <Col sm={{ span: 4, offset: 4 }}>
@@ -50,6 +52,8 @@ const UnderTheLimitsGame = ({ currentChannel, player }) => (
       <UnderTheLimits
         player={player}
         currentChannel={currentChannel}
+        selectedAnswers={selectedAnswers}
+        selectJudgment={selectJudgment}
       />
     </Row>
   </Grid>
@@ -61,6 +65,10 @@ UnderTheLimitsGame.defaultProps = {
 };
 
 UnderTheLimitsGame.propTypes = {
+  startGame: PropTypes.func.isRequired,
+  selectedAnswers: PropTypes.func.isRequired,
+  selectJudgment: PropTypes.func.isRequired,
+
   currentChannel: PropTypes.shape({}),
   player: PropTypes.shape({}),
 };
@@ -68,20 +76,21 @@ UnderTheLimitsGame.propTypes = {
 const mapStateToProps = (state) => {
   const {
     isLoading,
-    lobby,
     player,
     currentChannel,
   } = state.app;
 
   return {
     isLoading,
-    lobby,
     player,
     currentChannel,
   };
 };
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = dispatch => ({
+  startGame: () => {
+    dispatch(wssStartGame());
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(UnderTheLimitsGame));

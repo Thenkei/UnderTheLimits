@@ -34,8 +34,8 @@ const store = createStore(
 );
 
 const router = (
-  <Layout>
-    <Provider store={store}>
+  <Provider store={store}>
+    <Layout>
       <Router>
         <Switch>
           <Route exact path='/' component={Index} />
@@ -45,8 +45,8 @@ const router = (
           <Route component={NoMatch} />
         </Switch>
       </Router>
-    </Provider>
-  </Layout>
+    </Layout>
+  </Provider>
 );
 ReactDOM.render(router, document.getElementById('root'));
 

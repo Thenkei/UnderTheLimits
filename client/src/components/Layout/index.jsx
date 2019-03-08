@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
+import { Alert } from 'react-bootstrap';
 
-const MainLayout = ({ children }) => (
+
+const MainLayout = ({ children, error, success }) => (
   <div className='App'>
-    {/* {this.state.error && <Alert bsStyle='danger'>{this.state.error}</Alert>}
-    {this.state.success && <Alert bsStyle='success'>{this.state.success}</Alert>} */}
+    {error && <Alert bsStyle='danger'>{error}</Alert>}
+    {success && <Alert bsStyle='success'>{success}</Alert>}
     <header className='App-header'>
       <img
         src='/public/images/UTL_Logo.png'
@@ -17,10 +20,29 @@ const MainLayout = ({ children }) => (
   </div>
 );
 
+MainLayout.defaultProps = {
+  error: null,
+  success: null,
+};
 
 MainLayout.propTypes = {
   children: PropTypes.shape({}).isRequired,
+
+  error: PropTypes.shape({}),
+  success: PropTypes.shape({}),
 };
 
+const mapStateToProps = (state) => {
+  const {
+    error,
+    success,
+  } = state.app;
 
-export default MainLayout;
+  return {
+    error,
+    success,
+  };
+};
+
+const mapDispatchToProps = () => ({});
+export default connect(mapStateToProps, mapDispatchToProps)(MainLayout);

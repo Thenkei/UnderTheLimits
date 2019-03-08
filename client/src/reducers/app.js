@@ -10,6 +10,8 @@ import {
   updateChannel,
   gotoChannel,
   createChannel,
+  startGame,
+  selectedJudgment,
 } from '../services/Api';
 
 /**
@@ -21,6 +23,10 @@ const CREATE_CHANNEL = '@UTL/CREATE_CHANNEL';
 const UPDATE_LOBBY = '@UTL/UPDATE_LOBBY';
 const UPDATE_CHANNEL = '@UTL/UPDATE_CHANNEL';
 const GOTO_CHANNEL = '@UTL/GOTO_CHANNEL';
+const START_GAME = '@UTL/START_GAME';
+const SELECT_JUDGMENT = '@UTL/SELECT_JUDGMENT';
+const SELECTED_ANSWERS = '@UTL/SELECTED_ANSWERS';
+
 /**
  * Actions
  */
@@ -186,6 +192,75 @@ export function wssGotoChannel(wssGotoChannelReq) {
   };
 }
 
+function startGameRequest() {
+  return { type: START_GAME + FETCH_REQUEST };
+}
+function startGameSucess(channel) {
+  return { type: START_GAME + FETCH_SUCCESS, channel };
+}
+function startGameFailure(error) {
+  return { type: START_GAME + FETCH_FAILURE, error };
+}
+
+
+export function wssStartGame() {
+  return (dispatch) => {
+    try {
+      dispatch(startGameRequest());
+      startGame();
+      dispatch(startGameSucess());
+    } catch (error) {
+      dispatch(startGameFailure(error));
+    }
+  };
+}
+
+function selectedJudgmentRequest() {
+  return { type: SELECT_JUDGMENT + FETCH_REQUEST };
+}
+function selectedJudgmentSucess(channel) {
+  return { type: SELECT_JUDGMENT + FETCH_SUCCESS, channel };
+}
+function selectedJudgmentFailure(error) {
+  return { type: SELECT_JUDGMENT + FETCH_FAILURE, error };
+}
+
+
+export function wssSelectJudgment(wsSelectedJudgmentReq) {
+  return (dispatch) => {
+    try {
+      dispatch(selectedJudgmentRequest());
+      selectedJudgment(wsSelectedJudgmentReq);
+      dispatch(selectedJudgmentSucess());
+    } catch (error) {
+      dispatch(selectedJudgmentFailure(error));
+    }
+  };
+}
+
+function selectedAnswersRequest() {
+  return { type: SELECTED_ANSWERS + FETCH_REQUEST };
+}
+function selectedAnswersSucess(channel) {
+  return { type: SELECTED_ANSWERS + FETCH_SUCCESS, channel };
+}
+function selectedAnswersFailure(error) {
+  return { type: SELECTED_ANSWERS + FETCH_FAILURE, error };
+}
+
+
+export function wssSelectedAnswers(wsSelectedAnswersReq) {
+  return (dispatch) => {
+    try {
+      dispatch(selectedAnswersRequest());
+      selectedJudgment(wsSelectedAnswersReq);
+      dispatch(selectedAnswersSucess());
+    } catch (error) {
+      dispatch(selectedAnswersFailure(error));
+    }
+  };
+}
+
 
 /**
  * InitialState
@@ -290,6 +365,48 @@ export const handlers = {
     isLoading: false,
   }),
   [GOTO_CHANNEL + FETCH_REQUEST]: state => ({
+    ...state,
+    error: null,
+    isLoading: true,
+  }),
+  [START_GAME + FETCH_SUCCESS]: state => ({
+    ...state,
+    isLoading: false,
+  }),
+  [START_GAME + FETCH_FAILURE]: (state, { error }) => ({
+    ...state,
+    error,
+    isLoading: false,
+  }),
+  [START_GAME + FETCH_REQUEST]: state => ({
+    ...state,
+    error: null,
+    isLoading: true,
+  }),
+  [SELECT_JUDGMENT + FETCH_SUCCESS]: state => ({
+    ...state,
+    isLoading: false,
+  }),
+  [SELECT_JUDGMENT + FETCH_FAILURE]: (state, { error }) => ({
+    ...state,
+    error,
+    isLoading: false,
+  }),
+  [SELECT_JUDGMENT + FETCH_REQUEST]: state => ({
+    ...state,
+    error: null,
+    isLoading: true,
+  }),
+  [SELECTED_ANSWERS + FETCH_SUCCESS]: state => ({
+    ...state,
+    isLoading: false,
+  }),
+  [SELECTED_ANSWERS + FETCH_FAILURE]: (state, { error }) => ({
+    ...state,
+    error,
+    isLoading: false,
+  }),
+  [SELECTED_ANSWERS + FETCH_REQUEST]: state => ({
     ...state,
     error: null,
     isLoading: true,
