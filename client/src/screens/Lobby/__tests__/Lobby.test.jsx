@@ -1,7 +1,7 @@
 import React from 'react';
-import { mountWithRR as mount } from '../../../test/helpers';
+import { mountWithRR as mount } from '../../../../test/helpers';
 
-import App from '.';
+import App from '..';
 
 it('renders without crashing', () => {
   mount(

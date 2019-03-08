@@ -22,7 +22,7 @@ const Player = ({ value, noScore }) => (
 Player.defaultProps = {
   value: {
     name: '',
-    score: 'null',
+    score: 0,
     isGameMaster: false,
   },
   noScore: false,
