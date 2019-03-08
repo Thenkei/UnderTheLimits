@@ -84,52 +84,51 @@ class Lobby extends Component {
         </Grid>
       );
     }
-    if (this.props.lobby && this.props.player) {
-      return (
-        <Row>
-          <Col sm={4}>
-            <CreateChannel onCreateChannel={this.onCreateChannel} />
-          </Col>
-          <Col sm={4}>
-            <h1>
-              <Label>PLAYERS</Label>
-            </h1>
-            {this.props.lobby.waitingPlayers.map(p => (
-              <Player key={p.id} value={p} noScore />
-            ))}
-          </Col>
-          <Col sm={4}>
-            <h1>
-              <Label>CHANNELS</Label>
-            </h1>
-            {this.props.lobby.channels.map(c => (
-              <Form key={c.id} inline>
-                <Button
-                  onClick={() => {
-                    this.props.gotoChannel(c.id);
-                  }}
-                >
-                  {c.name}
-                </Button>
-              </Form>
-            ))}
-          </Col>
-        </Row>
-      );
-    }
 
     return <p>Waiting ...</p>;
   }
 
   render() {
     if (this.props.currentChannel) {
-      return <Redirect to={`/underthelimits/${this.props.currentChannel}`} />;
+      return <Redirect to={`/underthelimits/${this.props.currentChannel.id}`} />;
+    }
+
+    if (!this.props.lobby || !this.props.player) {
+      return <p>Loading ...</p>;
     }
     return (
       <React.Fragment>
         <main>
-          {this.renderStep()}
           {this.props.isLoading && <ProgressBar style={{ width: '50%', display: 'inline-block' }} striped animated='true' now={90} />}
+          <Row>
+            <Col sm={4}>
+              <CreateChannel onCreateChannel={this.onCreateChannel} />
+            </Col>
+            <Col sm={4}>
+              <h1>
+                <Label>PLAYERS</Label>
+              </h1>
+              {this.props.lobby.waitingPlayers.map(p => (
+                <Player key={p.id} value={p} noScore />
+              ))}
+            </Col>
+            <Col sm={4}>
+              <h1>
+                <Label>CHANNELS</Label>
+              </h1>
+              {this.props.lobby.channels.map(c => (
+                <Form key={c.id} inline>
+                  <Button
+                    onClick={() => {
+                      this.props.gotoChannel(c.id);
+                    }}
+                  >
+                    {c.name}
+                  </Button>
+                </Form>
+              ))}
+            </Col>
+          </Row>
         </main>
         <footer className='Lobby-footer'>
           <Link
@@ -204,8 +203,8 @@ const mapDispatchToProps = dispatch => ({
   updateLobby: () => {
     dispatch(wssUpdateLobby());
   },
-  updateChannel: (meReq) => {
-    dispatch(wssUpdateChannel(meReq));
+  updateChannel: () => {
+    dispatch(wssUpdateChannel());
   },
   createChannel: (createChannelReq) => {
     dispatch(wssCreateChannel(createChannelReq));

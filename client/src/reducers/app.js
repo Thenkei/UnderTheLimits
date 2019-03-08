@@ -9,6 +9,7 @@ import {
   updateLobby,
   updateChannel,
   gotoChannel,
+  createChannel,
 } from '../services/Api';
 
 /**
@@ -66,9 +67,9 @@ export function wssCreatePlayer(wsCreatePlayerReq) {
         if (err) {
           throw err;
         }
-        localStorage.me = wsCreatePlayerRes;
+        localStorage.meId = wsCreatePlayerRes.id;
         if (wsCreatePlayerRes) {
-          dispatch(createPlayerSucess({ player: wsCreatePlayerRes }));
+          dispatch(createPlayerSucess(wsCreatePlayerRes));
         }
       });
     } catch (error) {
@@ -108,7 +109,7 @@ export function wssUpdateLobby() {
 function updateChannelRequest() {
   return { type: UPDATE_CHANNEL + FETCH_REQUEST };
 }
-function updateChannelSucess({ player, currentChannel }) {  
+function updateChannelSucess({ player, currentChannel }) {
   return { type: UPDATE_CHANNEL + FETCH_SUCCESS, player, currentChannel };
 }
 function updateChannelFailure(error) {
@@ -123,8 +124,8 @@ export function wssUpdateChannel() {
         if (err) {
           throw err;
         }
-        const { id } = localStorage;
-        const me = wsUpdateChannelRes.players.find(c => c.id === id);
+        const { meId } = localStorage;
+        const me = wsUpdateChannelRes.players.find(c => c.id === meId);
         const currentChannel = wsUpdateChannelRes;
         const response = { currentChannel };
         if (me) {
@@ -152,6 +153,7 @@ export function wssCreateChannel(wssCreateChannelReq) {
   return (dispatch) => {
     try {
       dispatch(createChannelRequest(wssCreateChannelReq));
+      createChannel(wssCreateChannelReq);
       dispatch(createChannelSucess());
     } catch (error) {
       dispatch(createChannelFailure(error));
@@ -259,6 +261,20 @@ export const handlers = {
     isLoading: false,
   }),
   [UPDATE_LOBBY + FETCH_REQUEST]: state => ({
+    ...state,
+    error: null,
+    isLoading: true,
+  }),
+  [CREATE_CHANNEL + FETCH_SUCCESS]: state => ({
+    ...state,
+    isLoading: false,
+  }),
+  [CREATE_CHANNEL + FETCH_FAILURE]: (state, { error }) => ({
+    ...state,
+    error,
+    isLoading: false,
+  }),
+  [CREATE_CHANNEL + FETCH_REQUEST]: state => ({
     ...state,
     error: null,
     isLoading: true,
