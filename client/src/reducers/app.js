@@ -27,6 +27,9 @@ const START_GAME = '@UTL/START_GAME';
 const SELECT_JUDGMENT = '@UTL/SELECT_JUDGMENT';
 const SELECTED_ANSWERS = '@UTL/SELECTED_ANSWERS';
 
+const ERROR_MESSAGE = '@APP/ERROR_MESSAGE';
+
+let id;
 /**
  * Actions
  */
@@ -55,6 +58,14 @@ export function init() {
   };
 }
 
+function displayError(message) {
+  return { type: ERROR_MESSAGE, message };
+}
+
+export function displayErrorMessage(message) {
+  return dispatch => dispatch(displayError(message));
+}
+
 function createPlayerRequest() {
   return { type: CREATE_PLAYER + FETCH_REQUEST };
 }
@@ -73,7 +84,8 @@ export function wssCreatePlayer(wsCreatePlayerReq) {
         if (err) {
           throw err;
         }
-        localStorage.meId = wsCreatePlayerRes.id;
+        // eslint-disable-next-line prefer-destructuring
+        id = wsCreatePlayerRes.id;
         if (wsCreatePlayerRes) {
           dispatch(createPlayerSucess(wsCreatePlayerRes));
         }
@@ -130,8 +142,7 @@ export function wssUpdateChannel() {
         if (err) {
           throw err;
         }
-        const { meId } = localStorage;
-        const me = wsUpdateChannelRes.players.find(c => c.id === meId);
+        const me = wsUpdateChannelRes.players.find(c => c.id === id);
         const currentChannel = wsUpdateChannelRes;
         const response = { currentChannel };
         if (me) {
@@ -410,5 +421,10 @@ export const handlers = {
     ...state,
     error: null,
     isLoading: true,
+  }),
+  [ERROR_MESSAGE]: (state, { message }) => ({
+    ...state,
+    error: message,
+    isLoading: false,
   }),
 };

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import {
@@ -16,55 +16,33 @@ import {
 //   wssUpdateLobby,
 // } from '../../reducers/app';
 
-import { wssCreatePlayer } from '../../reducers/app';
+import { wssCreatePlayer, displayErrorMessage } from '../../reducers/app';
 
 // const DEFAULT_ERROR_TIMEOUT = 3000;
 // const DEFAULT_SUCCESS_TIMEOUT = 10000;
 
-const Index = ({ createPlayer, isLoading, history }) => {
+const Index = ({
+  createPlayer,
+  isLoading,
+  player,
+  displayError,
+}) => {
   const [playerName, setPlayerName] = useState(JSON.parse(localStorage.getItem('utl-player')));
 
-  // error((errMsg) => {
-  //   this.setState({ error: errMsg });
-  //   setTimeout(() => {
-  //     this.setState({ error: '' });
-  //   }, DEFAULT_ERROR_TIMEOUT);
-  // });
-
-  // success((successMsg) => {
-  //   this.setState({ success: successMsg });
-  //   setTimeout(() => {
-  //     this.setState({ success: '' });
-  //   }, DEFAULT_SUCCESS_TIMEOUT);
-  // });
-
-  // updateLobby((err, responseLobby) => {
-  //   const lobby = { waitingPlayers: [], channels: [] };
-
-  //   if (this.state.lobby) {
-  //     if (this.state.lobby.waitingPlayers) {
-  //       lobby.waitingPlayers = this.state.lobby.waitingPlayers;
-  //     }
-  //     if (this.state.lobby.channels) {
-  //       lobby.channels = this.state.lobby.channels;
-  //     }
-  //   }
-  //   if (responseLobby.channels) {
-  //     lobby.channels = responseLobby.channels;
-  //   }
-  //   if (responseLobby.waitingPlayers) {
-  //     lobby.waitingPlayers = responseLobby.waitingPlayers;
-  //   }
-
-  //   this.setState({ lobby });
-  // });
+  if (player) {
+    return <Redirect to='/lobby' />;
+  }
 
   return (
     <Form
       onSubmit={(e) => {
         e.preventDefault();
-        createPlayer(playerName);
-        history.push('/lobby');
+        const usernameRegex = /^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/;
+        if (playerName && playerName.match(usernameRegex)) {
+          createPlayer(playerName);
+        } else {
+          displayError({ message: `Le nom ${playerName} n'est pas valide !` });
+        }
       }}
       inline
       className='Form_animated'
@@ -78,10 +56,6 @@ const Index = ({ createPlayer, isLoading, history }) => {
           setPlayerName(e.target.value);
         }}
       />
-      {
-        // onClick mandatory to avoid page reload.
-        // Remove the line when adding react-router
-      }
       <Button bsStyle='success' type='submit'>
         Ok
       </Button>
@@ -91,23 +65,29 @@ const Index = ({ createPlayer, isLoading, history }) => {
 
 Index.defaultProps = {
   isLoading: false,
+  player: null,
 };
 
 Index.propTypes = {
   createPlayer: PropTypes.func.isRequired,
+  displayError: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
 
+  player: PropTypes.shape({}),
   history: PropTypes.shape({}).isRequired,
 };
 
 const mapStateToProps = (state) => {
-  const { isLoading } = state.app;
-  return { isLoading };
+  const { isLoading, player } = state.app;
+  return { isLoading, player };
 };
 
 const mapDispatchToProps = dispatch => ({
   createPlayer: (playerName) => {
     dispatch(wssCreatePlayer(playerName));
+  },
+  displayError: ({ message }) => {
+    dispatch(displayErrorMessage(message));
   },
 });
 
