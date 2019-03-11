@@ -7,20 +7,13 @@ import {
   Col,
   Button,
   Row,
-  Grid,
   Label,
   Form,
   ProgressBar,
 } from 'react-bootstrap';
 
 import CreateChannel from '../../components/CreateChannel';
-import UnderTheLimits from '../../components/UnderTheLimits';
-import Score from '../../components/Score';
 import Player from '../../components/Player';
-
-import {
-  startGame,
-} from '../../services/Api';
 
 import {
   wssUpdateLobby,

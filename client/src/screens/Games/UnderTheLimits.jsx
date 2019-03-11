@@ -43,7 +43,7 @@ const UnderTheLimitsGame = ({
                 startGame();
               }}
             >
-              Next round
+              {currentChannel.currentStatus === 'IDLE' ? 'Commencer la partie' : 'Prochain round'}
             </Button>
         )}
       </Col>

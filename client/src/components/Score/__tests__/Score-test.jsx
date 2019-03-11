@@ -8,7 +8,7 @@ it('renders correctly', () => {
     <Score
       players={[
         { id: 1, name: 'Player1', score: '120' },
-        { id: 2, name: 'Player2', score: '200' }
+        { id: 2, name: 'Player2', score: '200' },
       ]}
     />,
   ).toJSON();
