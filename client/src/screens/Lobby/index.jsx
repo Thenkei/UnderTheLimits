@@ -47,47 +47,6 @@ class Lobby extends Component {
     this.props.createChannel(channelName);
   }
 
-  renderStep() {
-    if (this.props.currentChannel) {
-      return (
-        <Grid>
-          <Row>
-            <Col sm={{ span: 4, offset: 4 }}>
-              <h1>
-                <Label>{this.props.currentChannel.name}</Label>
-              </h1>
-              <h3>
-                {this.props.player.name}
-                {this.props.player.isGameMaster ? ' c\'est vous le patron !' : ' à vous de jouer !'}
-              </h3>
-              <Score players={this.props.currentChannel.players} />
-              {this.props.player.name === this.props.currentChannel.admin.name
-              && (this.props.currentChannel.currentStatus === 'WAITING_GAME'
-                || this.props.currentChannel.currentStatus === 'IDLE') && (
-                  <Button
-                    style={{ marginBottom: '20px' }}
-                    onClick={() => {
-                      startGame();
-                    }}
-                  >
-                    Next round
-                  </Button>
-              )}
-            </Col>
-          </Row>
-          <Row>
-            <UnderTheLimits
-              player={this.props.player}
-              currentChannel={this.props.currentChannel}
-            />
-          </Row>
-        </Grid>
-      );
-    }
-
-    return <p>Waiting ...</p>;
-  }
-
   render() {
     if (this.props.currentChannel) {
       return <Redirect to={`/underthelimits/${this.props.currentChannel.id}`} />;
@@ -96,6 +55,7 @@ class Lobby extends Component {
     if (!this.props.lobby || !this.props.player) {
       return <p>Loading ...</p>;
     }
+
     return (
       <React.Fragment>
         <main>

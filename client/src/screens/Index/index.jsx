@@ -27,7 +27,8 @@ const Index = ({
   player,
   displayError,
 }) => {
-  const [playerName, setPlayerName] = useState(JSON.parse(localStorage.getItem('utl-player')));
+  const utlPlayer = JSON.parse(localStorage.getItem('utl-player'));
+  const [playerName, setPlayerName] = useState(utlPlayer === null ? '' : utlPlayer.name);
 
   if (player) {
     return <Redirect to='/lobby' />;
