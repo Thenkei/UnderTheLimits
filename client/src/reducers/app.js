@@ -275,16 +275,16 @@ export function wssSelectedAnswers(wsSelectedAnswersReq) {
 
 
 /**
- * InitialState
- */
+* InitialState
+*/
 export const initialState = {
   isLoading: false,
   error: null,
 };
 
 /**
- * Handlers
- */
+* Handlers
+*/
 export const handlers = {
   [APP_INIT + FETCH_REQUEST]: state => ({
     ...state,
@@ -315,7 +315,7 @@ export const handlers = {
     error,
     isLoading: false,
   }),
-  [CREATE_PLAYER + FETCH_REQUEST]: state => ({
+  [UPDATE_LOBBY + FETCH_REQUEST]: state => ({
     ...state,
     error: null,
     isLoading: true,
@@ -330,7 +330,7 @@ export const handlers = {
     error,
     isLoading: false,
   }),
-  [UPDATE_LOBBY + FETCH_REQUEST]: state => ({
+  [UPDATE_CHANNEL + FETCH_REQUEST]: state => ({
     ...state,
     error: null,
     isLoading: true,
@@ -341,13 +341,12 @@ export const handlers = {
     currentChannel,
     isLoading: false,
   }),
-
   [UPDATE_CHANNEL + FETCH_FAILURE]: (state, { error }) => ({
     ...state,
     error,
     isLoading: false,
   }),
-  [UPDATE_LOBBY + FETCH_REQUEST]: state => ({
+  [CREATE_CHANNEL + FETCH_REQUEST]: state => ({
     ...state,
     error: null,
     isLoading: true,
@@ -361,7 +360,7 @@ export const handlers = {
     error,
     isLoading: false,
   }),
-  [CREATE_CHANNEL + FETCH_REQUEST]: state => ({
+  [GOTO_CHANNEL + FETCH_REQUEST]: state => ({
     ...state,
     error: null,
     isLoading: true,
@@ -376,7 +375,7 @@ export const handlers = {
     error,
     isLoading: false,
   }),
-  [GOTO_CHANNEL + FETCH_REQUEST]: state => ({
+  [START_GAME + FETCH_REQUEST]: state => ({
     ...state,
     error: null,
     isLoading: true,
@@ -390,7 +389,7 @@ export const handlers = {
     error,
     isLoading: false,
   }),
-  [START_GAME + FETCH_REQUEST]: state => ({
+  [SELECT_JUDGMENT + FETCH_REQUEST]: state => ({
     ...state,
     error: null,
     isLoading: true,
@@ -404,7 +403,7 @@ export const handlers = {
     error,
     isLoading: false,
   }),
-  [SELECT_JUDGMENT + FETCH_REQUEST]: state => ({
+  [SELECTED_ANSWERS + FETCH_REQUEST]: state => ({
     ...state,
     error: null,
     isLoading: true,
@@ -417,11 +416,6 @@ export const handlers = {
     ...state,
     error,
     isLoading: false,
-  }),
-  [SELECTED_ANSWERS + FETCH_REQUEST]: state => ({
-    ...state,
-    error: null,
-    isLoading: true,
   }),
   [ERROR_MESSAGE]: (state, { message }) => ({
     ...state,
