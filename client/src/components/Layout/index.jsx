@@ -1,24 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import { Alert } from 'react-bootstrap';
 
+import { init } from '../../reducers/app';
 
-const MainLayout = ({ children, error, success }) => (
-  <div className='App'>
-    {error && <Alert bsStyle='danger'>{error}</Alert>}
-    {success && <Alert bsStyle='success'>{success}</Alert>}
-    <header className='App-header'>
-      <img
-        src='/public/images/UTL_Logo.png'
-        alt='under-the-limits'
-        className='App-logo'
-      />
-    </header>
-    { children }
-  </div>
-);
+const MainLayout = ({ children, error, success }) => {
+  useEffect(
+    () => {
+      console.warn( "blblbl" );
+      
+      init();
+    },
+  );
+  return (
+    <div className='App'>
+      {error && <Alert bsStyle='danger'>{error}</Alert>}
+      {success && <Alert bsStyle='success'>{success}</Alert>}
+      <header className='App-header'>
+        <img
+          src='/public/images/UTL_Logo.png'
+          alt='under-the-limits'
+          className='App-logo'
+        />
+      </header>
+      { children }
+    </div>
+  );
+};
 
 MainLayout.defaultProps = {
   error: null,
@@ -34,15 +44,18 @@ MainLayout.propTypes = {
 
 const mapStateToProps = (state) => {
   const {
-    error,
+    errorMessage,
     success,
   } = state.app;
-
   return {
-    error,
+    error: errorMessage,
     success,
   };
 };
 
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = dispatch => ({
+  init: () => {
+    dispatch(init());
+  },
+});
 export default connect(mapStateToProps, mapDispatchToProps)(MainLayout);

@@ -13,6 +13,7 @@ import {
   startGame,
   selectedJudgment,
   selectedAnswers,
+  error as serverError,
 } from '../services/Api';
 
 /**
@@ -44,27 +45,23 @@ function initFailure(error) {
   return { type: APP_INIT + FETCH_FAILURE, error };
 }
 
-export function init() {
-  return (dispatch) => {
-    try {
-      dispatch(initRequest());
-      // simulate webservice request
-      setTimeout(() => {
-        // const res = await webservice();
-        dispatch(initSucess(/* res */));
-      }, 3000);
-    } catch (error) {
-      dispatch(initFailure(error));
-    }
-  };
-}
-
 function displayError(message) {
   return { type: ERROR_MESSAGE, message };
 }
 
 export function displayErrorMessage(message) {
   return dispatch => dispatch(displayError(message));
+}
+
+export function init() {
+  return (dispatch) => {
+    try {
+      dispatch(initRequest());
+      dispatch(initSucess());
+    } catch (error) {
+      dispatch(initFailure(error));
+    }
+  };
 }
 
 function createPlayerRequest() {
@@ -79,6 +76,12 @@ function createPlayerFailure(error) {
 
 export function wssCreatePlayer(wsCreatePlayerReq) {
   return (dispatch) => {
+    serverError((errMsg) => {
+      dispatch(displayErrorMessage(errMsg));
+      setTimeout(() => {
+        dispatch(displayErrorMessage(null));
+      }, 2500);
+    });
     try {
       dispatch(createPlayerRequest());
       createPlayer(wsCreatePlayerReq, (err, wsCreatePlayerRes) => {
@@ -419,7 +422,7 @@ export const handlers = {
   }),
   [ERROR_MESSAGE]: (state, { message }) => ({
     ...state,
-    error: message,
+    errorMessage: message,
     isLoading: false,
   }),
 };
