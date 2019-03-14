@@ -4,17 +4,17 @@ const socket = openSocket(`http://${window.location.hostname}:3000`, { path: '/a
 
 function createPlayer(playerName, cb) {
   global.socket.emit('createPlayer', playerName);
-  global.socket.on('playerCreated', lobbyResponse => cb(null, lobbyResponse.player));
+  global.socket.on('playerCreated', lobbyResponse => cb(lobbyResponse.player));
 }
 
 function updateLobby(cb) {
   global.socket.on('updateLobby', (lobbyResponse) => {
-    cb(null, lobbyResponse.lobby);
+    cb(lobbyResponse.lobby);
   });
 }
 
 function updateChannel(cb) {
-  global.socket.on('updateChannel', channelResponse => cb(null, channelResponse.channel));
+  global.socket.on('updateChannel', channelResponse => cb(channelResponse.channel));
 }
 
 function gotoChannel(channelId) {

@@ -31,6 +31,9 @@ const SELECTED_ANSWERS = '@UTL/SELECTED_ANSWERS';
 
 const ERROR_MESSAGE = '@APP/ERROR_MESSAGE';
 
+const DEFAULT_ERROR_TIMEOUT = 3000;
+// const DEFAULT_SUCCESS_TIMEOUT = 10000;
+
 let id;
 /**
  * Actions
@@ -41,9 +44,6 @@ function initRequest() {
 function initSucess() {
   return { type: APP_INIT + FETCH_SUCCESS };
 }
-function initFailure(error) {
-  return { type: APP_INIT + FETCH_FAILURE, error };
-}
 
 function displayError(message) {
   return { type: ERROR_MESSAGE, message };
@@ -53,14 +53,19 @@ export function displayErrorMessage(message) {
   return dispatch => dispatch(displayError(message));
 }
 
-export function init() {
+export function wssInit() {
   return (dispatch) => {
-    try {
-      dispatch(initRequest());
-      dispatch(initSucess());
-    } catch (error) {
-      dispatch(initFailure(error));
-    }
+    dispatch(initRequest());
+
+    // Global error handling
+    serverError((errMsg) => {
+      dispatch(displayErrorMessage(errMsg));
+      setTimeout(() => {
+        dispatch(displayErrorMessage(null));
+      }, DEFAULT_ERROR_TIMEOUT);
+    });
+
+    dispatch(initSucess());
   };
 }
 
@@ -70,33 +75,17 @@ function createPlayerRequest() {
 function createPlayerSucess(player) {
   return { type: CREATE_PLAYER + FETCH_SUCCESS, player };
 }
-function createPlayerFailure(error) {
-  return { type: CREATE_PLAYER + FETCH_FAILURE, error };
-}
 
 export function wssCreatePlayer(wsCreatePlayerReq) {
   return (dispatch) => {
-    serverError((errMsg) => {
-      dispatch(displayErrorMessage(errMsg));
-      setTimeout(() => {
-        dispatch(displayErrorMessage(null));
-      }, 2500);
+    dispatch(createPlayerRequest());
+    createPlayer(wsCreatePlayerReq, (wsCreatePlayerRes) => {
+      // eslint-disable-next-line prefer-destructuring
+      id = wsCreatePlayerRes.id;
+      if (wsCreatePlayerRes) {
+        dispatch(createPlayerSucess(wsCreatePlayerRes));
+      }
     });
-    try {
-      dispatch(createPlayerRequest());
-      createPlayer(wsCreatePlayerReq, (err, wsCreatePlayerRes) => {
-        if (err) {
-          throw err;
-        }
-        // eslint-disable-next-line prefer-destructuring
-        id = wsCreatePlayerRes.id;
-        if (wsCreatePlayerRes) {
-          dispatch(createPlayerSucess(wsCreatePlayerRes));
-        }
-      });
-    } catch (error) {
-      dispatch(createPlayerFailure(error));
-    }
   };
 }
 
@@ -106,25 +95,15 @@ function updateLobbyRequest() {
 function updateLobbySucess(lobby) {
   return { type: UPDATE_LOBBY + FETCH_SUCCESS, lobby };
 }
-function updateLobbyFailure(error) {
-  return { type: UPDATE_LOBBY + FETCH_FAILURE, error };
-}
 
 export function wssUpdateLobby() {
   return (dispatch) => {
-    try {
-      dispatch(updateLobbyRequest());
-      updateLobby((err, wsUpdateLobbyRes) => {
-        if (err) {
-          throw err;
-        }
-        if (wsUpdateLobbyRes) {
-          dispatch(updateLobbySucess(wsUpdateLobbyRes));
-        }
-      });
-    } catch (error) {
-      dispatch(updateLobbyFailure(error));
-    }
+    dispatch(updateLobbyRequest());
+    updateLobby((wsUpdateLobbyRes) => {
+      if (wsUpdateLobbyRes) {
+        dispatch(updateLobbySucess(wsUpdateLobbyRes));
+      }
+    });
   };
 }
 
@@ -134,122 +113,78 @@ function updateChannelRequest() {
 function updateChannelSucess({ player, currentChannel }) {
   return { type: UPDATE_CHANNEL + FETCH_SUCCESS, player, currentChannel };
 }
-function updateChannelFailure(error) {
-  return { type: UPDATE_CHANNEL + FETCH_FAILURE, error };
-}
 
 export function wssUpdateChannel() {
   return (dispatch) => {
-    try {
-      dispatch(updateChannelRequest());
-      updateChannel((err, wsUpdateChannelRes) => {
-        if (err) {
-          throw err;
-        }
-        const me = wsUpdateChannelRes.players.find(c => c.id === id);
-        const currentChannel = wsUpdateChannelRes;
-        const response = { currentChannel };
-        if (me) {
-          response.player = me;
-        }
-        dispatch(updateChannelSucess(response));
-      });
-    } catch (error) {
-      dispatch(updateChannelFailure(error));
-    }
+    dispatch(updateChannelRequest());
+    updateChannel((wsUpdateChannelRes) => {
+      const me = wsUpdateChannelRes.players.find(c => c.id === id);
+      const response = { currentChannel: wsUpdateChannelRes };
+      if (me) {
+        response.player = me;
+      }
+      dispatch(updateChannelSucess(response));
+    });
   };
 }
 
 function createChannelRequest() {
   return { type: CREATE_CHANNEL + FETCH_REQUEST };
 }
-function createChannelSucess(lobby) {
-  return { type: CREATE_CHANNEL + FETCH_SUCCESS, lobby };
-}
-function createChannelFailure(error) {
-  return { type: CREATE_CHANNEL + FETCH_FAILURE, error };
+function createChannelSucess() {
+  return { type: CREATE_CHANNEL + FETCH_SUCCESS };
 }
 
 export function wssCreateChannel(wssCreateChannelReq) {
   return (dispatch) => {
-    try {
-      dispatch(createChannelRequest(wssCreateChannelReq));
-      createChannel(wssCreateChannelReq);
-      dispatch(createChannelSucess());
-    } catch (error) {
-      dispatch(createChannelFailure(error));
-    }
+    dispatch(createChannelRequest(wssCreateChannelReq));
+    createChannel(wssCreateChannelReq);
+    dispatch(createChannelSucess());
   };
 }
 
 function gotoChannelRequest() {
   return { type: GOTO_CHANNEL + FETCH_REQUEST };
 }
-function gotoChannelSucess(channel) {
-  return { type: GOTO_CHANNEL + FETCH_SUCCESS, channel };
-}
-function gotoChannelFailure(error) {
-  return { type: GOTO_CHANNEL + FETCH_FAILURE, error };
+function gotoChannelSucess() {
+  return { type: GOTO_CHANNEL + FETCH_SUCCESS };
 }
 
 export function wssGotoChannel(wssGotoChannelReq) {
   return (dispatch) => {
-    try {
-      dispatch(gotoChannelRequest(wssGotoChannelReq));
-      gotoChannel(wssGotoChannelReq, (err, wssGotoChannelRes) => {
-        if (wssGotoChannelRes) {
-          dispatch(gotoChannelSucess(wssGotoChannelRes));
-        }
-      });
-    } catch (error) {
-      dispatch(gotoChannelFailure(error));
-    }
+    dispatch(gotoChannelRequest(wssGotoChannelReq));
+    gotoChannel(wssGotoChannelReq);
+    dispatch(gotoChannelSucess());
   };
 }
 
 function startGameRequest() {
   return { type: START_GAME + FETCH_REQUEST };
 }
-function startGameSucess(channel) {
-  return { type: START_GAME + FETCH_SUCCESS, channel };
+function startGameSucess() {
+  return { type: START_GAME + FETCH_SUCCESS };
 }
-function startGameFailure(error) {
-  return { type: START_GAME + FETCH_FAILURE, error };
-}
-
 
 export function wssStartGame() {
   return (dispatch) => {
-    try {
-      dispatch(startGameRequest());
-      startGame();
-      dispatch(startGameSucess());
-    } catch (error) {
-      dispatch(startGameFailure(error));
-    }
+    dispatch(startGameRequest());
+    startGame();
+    dispatch(startGameSucess());
   };
 }
 
 function selectedJudgmentRequest() {
   return { type: SELECT_JUDGMENT + FETCH_REQUEST };
 }
-function selectedJudgmentSucess(channel) {
-  return { type: SELECT_JUDGMENT + FETCH_SUCCESS, channel };
+function selectedJudgmentSucess() {
+  return { type: SELECT_JUDGMENT + FETCH_SUCCESS };
 }
-function selectedJudgmentFailure(error) {
-  return { type: SELECT_JUDGMENT + FETCH_FAILURE, error };
-}
-
 
 export function wssSelectJudgment(wsSelectedJudgmentReq) {
   return (dispatch) => {
-    try {
-      dispatch(selectedJudgmentRequest());
-      selectedJudgment(wsSelectedJudgmentReq);
-      dispatch(selectedJudgmentSucess());
-    } catch (error) {
-      dispatch(selectedJudgmentFailure(error));
-    }
+    dispatch(selectedJudgmentRequest());
+    selectedJudgment(wsSelectedJudgmentReq);
+    dispatch(selectedJudgmentSucess());
   };
 }
 
@@ -259,20 +194,12 @@ function selectedAnswersRequest() {
 function selectedAnswersSucess(channel) {
   return { type: SELECTED_ANSWERS + FETCH_SUCCESS, channel };
 }
-function selectedAnswersFailure(error) {
-  return { type: SELECTED_ANSWERS + FETCH_FAILURE, error };
-}
-
 
 export function wssSelectedAnswers(wsSelectedAnswersReq) {
   return (dispatch) => {
-    try {
-      dispatch(selectedAnswersRequest());
-      selectedAnswers(wsSelectedAnswersReq);
-      dispatch(selectedAnswersSucess());
-    } catch (error) {
-      dispatch(selectedAnswersFailure(error));
-    }
+    dispatch(selectedAnswersRequest());
+    selectedAnswers(wsSelectedAnswersReq);
+    dispatch(selectedAnswersSucess());
   };
 }
 
@@ -291,21 +218,14 @@ export const initialState = {
 export const handlers = {
   [APP_INIT + FETCH_REQUEST]: state => ({
     ...state,
-    error: null,
     isLoading: true,
   }),
   [APP_INIT + FETCH_SUCCESS]: state => ({
     ...state,
     isLoading: false,
   }),
-  [APP_INIT + FETCH_FAILURE]: (state, { error }) => ({
-    ...state,
-    error,
-    isLoading: false,
-  }),
   [CREATE_PLAYER + FETCH_REQUEST]: state => ({
     ...state,
-    error: null,
     isLoading: true,
   }),
   [CREATE_PLAYER + FETCH_SUCCESS]: (state, { player }) => ({
@@ -313,14 +233,8 @@ export const handlers = {
     player,
     isLoading: false,
   }),
-  [CREATE_PLAYER + FETCH_FAILURE]: (state, { error }) => ({
-    ...state,
-    error,
-    isLoading: false,
-  }),
   [UPDATE_LOBBY + FETCH_REQUEST]: state => ({
     ...state,
-    error: null,
     isLoading: true,
   }),
   [UPDATE_LOBBY + FETCH_SUCCESS]: (state, { lobby }) => ({
@@ -328,14 +242,8 @@ export const handlers = {
     lobby,
     isLoading: false,
   }),
-  [UPDATE_LOBBY + FETCH_FAILURE]: (state, { error }) => ({
-    ...state,
-    error,
-    isLoading: false,
-  }),
   [UPDATE_CHANNEL + FETCH_REQUEST]: state => ({
     ...state,
-    error: null,
     isLoading: true,
   }),
   [UPDATE_CHANNEL + FETCH_SUCCESS]: (state, { player, currentChannel }) => ({
@@ -344,28 +252,16 @@ export const handlers = {
     currentChannel,
     isLoading: false,
   }),
-  [UPDATE_CHANNEL + FETCH_FAILURE]: (state, { error }) => ({
-    ...state,
-    error,
-    isLoading: false,
-  }),
   [CREATE_CHANNEL + FETCH_REQUEST]: state => ({
     ...state,
-    error: null,
     isLoading: true,
   }),
   [CREATE_CHANNEL + FETCH_SUCCESS]: state => ({
     ...state,
     isLoading: false,
   }),
-  [CREATE_CHANNEL + FETCH_FAILURE]: (state, { error }) => ({
-    ...state,
-    error,
-    isLoading: false,
-  }),
   [GOTO_CHANNEL + FETCH_REQUEST]: state => ({
     ...state,
-    error: null,
     isLoading: true,
   }),
   [GOTO_CHANNEL + FETCH_SUCCESS]: (state, { channel }) => ({
@@ -373,51 +269,28 @@ export const handlers = {
     channel,
     isLoading: false,
   }),
-  [GOTO_CHANNEL + FETCH_FAILURE]: (state, { error }) => ({
-    ...state,
-    error,
-    isLoading: false,
-  }),
   [START_GAME + FETCH_REQUEST]: state => ({
     ...state,
-    error: null,
     isLoading: true,
   }),
   [START_GAME + FETCH_SUCCESS]: state => ({
     ...state,
     isLoading: false,
   }),
-  [START_GAME + FETCH_FAILURE]: (state, { error }) => ({
-    ...state,
-    error,
-    isLoading: false,
-  }),
   [SELECT_JUDGMENT + FETCH_REQUEST]: state => ({
     ...state,
-    error: null,
     isLoading: true,
   }),
   [SELECT_JUDGMENT + FETCH_SUCCESS]: state => ({
     ...state,
     isLoading: false,
   }),
-  [SELECT_JUDGMENT + FETCH_FAILURE]: (state, { error }) => ({
-    ...state,
-    error,
-    isLoading: false,
-  }),
   [SELECTED_ANSWERS + FETCH_REQUEST]: state => ({
     ...state,
-    error: null,
     isLoading: true,
   }),
   [SELECTED_ANSWERS + FETCH_SUCCESS]: state => ({
     ...state,
-    isLoading: false,
-  }),
-  [SELECTED_ANSWERS + FETCH_FAILURE]: (state, { error }) => ({
-    ...state,
-    error,
     isLoading: false,
   }),
   [ERROR_MESSAGE]: (state, { message }) => ({

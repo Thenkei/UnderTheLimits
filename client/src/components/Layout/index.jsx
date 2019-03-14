@@ -4,13 +4,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Alert } from 'react-bootstrap';
 
-import { init } from '../../reducers/app';
+import { wssInit } from '../../reducers/app';
 
-const MainLayout = ({ children, error, success }) => {
+const MainLayout = ({
+  children,
+  error,
+  success,
+  init,
+}) => {
   useEffect(
     () => {
-      console.warn( "blblbl" );
-      
       init();
     },
   );
@@ -40,6 +43,7 @@ MainLayout.propTypes = {
 
   error: PropTypes.shape({}),
   success: PropTypes.shape({}),
+  init: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -55,7 +59,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   init: () => {
-    dispatch(init());
+    dispatch(wssInit());
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(MainLayout);

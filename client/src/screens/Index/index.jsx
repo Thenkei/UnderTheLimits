@@ -11,14 +11,7 @@ import {
   Form,
 } from 'react-bootstrap';
 
-// import {
-//   wssUpdateLobby,
-// } from '../../reducers/app';
-
 import { wssCreatePlayer, displayErrorMessage } from '../../reducers/app';
-
-// const DEFAULT_ERROR_TIMEOUT = 3000;
-// const DEFAULT_SUCCESS_TIMEOUT = 10000;
 
 const Index = ({
   createPlayer,
