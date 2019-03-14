@@ -1,7 +1,6 @@
 import {
   FETCH_REQUEST,
   FETCH_SUCCESS,
-  FETCH_FAILURE,
 } from './constants';
 
 import {
@@ -14,6 +13,7 @@ import {
   selectedJudgment,
   selectedAnswers,
   error as serverError,
+  success as successError,
 } from '../services/Api';
 
 /**
@@ -30,9 +30,10 @@ const SELECT_JUDGMENT = '@UTL/SELECT_JUDGMENT';
 const SELECTED_ANSWERS = '@UTL/SELECTED_ANSWERS';
 
 const ERROR_MESSAGE = '@APP/ERROR_MESSAGE';
+const SUCCESS_MESSAGE = '@APP/SUCCESS_MESSAGE';
 
 const DEFAULT_ERROR_TIMEOUT = 3000;
-// const DEFAULT_SUCCESS_TIMEOUT = 10000;
+const DEFAULT_SUCCESS_TIMEOUT = 8000;
 
 let id;
 /**
@@ -53,6 +54,11 @@ export function displayErrorMessage(message) {
   return dispatch => dispatch(displayError(message));
 }
 
+export function displaySuccessMessage(message) {
+  return dispatch => dispatch({ type: SUCCESS_MESSAGE, message });
+}
+
+
 export function wssInit() {
   return (dispatch) => {
     dispatch(initRequest());
@@ -63,6 +69,14 @@ export function wssInit() {
       setTimeout(() => {
         dispatch(displayErrorMessage(null));
       }, DEFAULT_ERROR_TIMEOUT);
+    });
+
+    // Global (temp) success handling
+    successError((successMsg) => {
+      dispatch(displaySuccessMessage(successMsg));
+      setTimeout(() => {
+        dispatch(displaySuccessMessage(null));
+      }, DEFAULT_SUCCESS_TIMEOUT);
     });
 
     dispatch(initSucess());
@@ -210,6 +224,7 @@ export function wssSelectedAnswers(wsSelectedAnswersReq) {
 export const initialState = {
   isLoading: false,
   error: null,
+  success: null,
 };
 
 /**
@@ -296,6 +311,9 @@ export const handlers = {
   [ERROR_MESSAGE]: (state, { message }) => ({
     ...state,
     errorMessage: message,
-    isLoading: false,
+  }),
+  [SUCCESS_MESSAGE]: (state, { message }) => ({
+    ...state,
+    success: message,
   }),
 };
