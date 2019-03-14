@@ -9,7 +9,6 @@ import {
   Button,
   FormControl,
   Form,
-  ProgressBar,
 } from 'react-bootstrap';
 
 // import {
@@ -23,7 +22,6 @@ import { wssCreatePlayer, displayErrorMessage } from '../../reducers/app';
 
 const Index = ({
   createPlayer,
-  isLoading,
   player,
   displayError,
 }) => {
@@ -48,7 +46,6 @@ const Index = ({
       inline
       className='Form_animated'
     >
-      { isLoading && <ProgressBar />}
       <FormControl
         type='text'
         value={playerName || ''}
@@ -65,14 +62,12 @@ const Index = ({
 };
 
 Index.defaultProps = {
-  isLoading: false,
   player: null,
 };
 
 Index.propTypes = {
   createPlayer: PropTypes.func.isRequired,
   displayError: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool,
 
   player: PropTypes.shape({}),
   history: PropTypes.shape({}).isRequired,

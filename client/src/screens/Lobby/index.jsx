@@ -9,7 +9,6 @@ import {
   Row,
   Label,
   Form,
-  ProgressBar,
 } from 'react-bootstrap';
 
 import CreateChannel from '../../components/CreateChannel';
@@ -45,14 +44,16 @@ class Lobby extends Component {
       return <Redirect to={`/underthelimits/${this.props.currentChannel.id}`} />;
     }
 
-    if (!this.props.lobby || !this.props.player) {
+    if (!this.props.player) {
+      return <Redirect to='/' />;
+    }
+    if (!this.props.lobby) {
       return <p>Loading ...</p>;
     }
 
     return (
       <React.Fragment>
         <main>
-          {this.props.isLoading && <ProgressBar style={{ width: '50%', display: 'inline-block' }} striped animated='true' now={90} />}
           <Row>
             <Col sm={4}>
               <CreateChannel onCreateChannel={this.onCreateChannel} />
@@ -115,7 +116,6 @@ Lobby.propTypes = {
   updateChannel: PropTypes.func.isRequired,
   createChannel: PropTypes.func.isRequired,
   gotoChannel: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
 
   currentChannel: PropTypes.shape({
     players: PropTypes.shape({}),
