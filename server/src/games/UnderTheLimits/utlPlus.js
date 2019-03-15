@@ -13,13 +13,17 @@ const JUDGMENTS_SCORE = [1, 2, 4];
 const JUDGMENTS_SENTENCE = ['termine 3ème, il remporte 1 points.', 'finit 2nd, il remporte 2 points.', 'remporte la manche, il remporte 4 magnifiques points.'];
 
 class UTLPlus extends UTLGame {
-  constructor(name, admin, minPlayersCount = 4, maxPlayersCount = 8) {
-    super(name, admin, minPlayersCount, maxPlayersCount);
+  constructor(name, admin, minPlayersCount = 4, maxPlayersCount = 8, playerMaxPoint = 5) {
+    super(name, admin, minPlayersCount, maxPlayersCount, playerMaxPoint);
 
     this.judgment = 0;
+    this.judgedIds = [];
   }
 
   judge(judgment, userCumul, userPoint) {
+    if (this.judgedIds.find(judgment)) throw new Error('Vous avez déjà voté pour ce joueur...');
+
+    this.judgedIds.push(judgment);
     const winner = this.players.find(p => p.id === judgment);
 
     this.players.forEach((p) => {
@@ -43,6 +47,11 @@ class UTLPlus extends UTLGame {
         this.currentStatus = UTL_STATUS.WAITING_GAME;
       }
     }
+  }
+
+  nextRound(updateUser) {
+    super.nextRound(updateUser);
+    this.judgedIds = [];
   }
 }
 

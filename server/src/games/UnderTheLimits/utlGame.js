@@ -2,7 +2,6 @@ const Channel = require('../../base/channel');
 const DBProvider = require('../../utils/dbProvider');
 const Player = require('./player');
 
-const PLAYER_MAX_POINT = 5;
 const PLAYER_CARD_COUNT = 10;
 
 const UTL_STATUS = {
@@ -13,12 +12,13 @@ const UTL_STATUS = {
 };
 
 class UTLGame extends Channel {
-  constructor(name, admin, minPlayersCount = 2, maxPlayersCount = 8) {
+  constructor(name, admin, minPlayersCount = 2, maxPlayersCount = 8, playerMaxPoint = 5) {
     super(name, admin, minPlayersCount, maxPlayersCount);
 
     this.deckAnswers = [];
     this.deckQuestions = [];
     this.timer = 0;
+    this.playerMaxPoint = playerMaxPoint;
   }
 
   async init() {
@@ -56,6 +56,8 @@ class UTLGame extends Channel {
 
     if (this.currentStatus === UTL_STATUS.IDLE) {
       console.log('[UTLGame] ', this.name, 'starting new game !');
+      console.log(this.minPlayersCount);
+      console.log(this.maxPlayersCount);
       const j = Math.floor(Math.random() * this.players.length);
 
       this.players.forEach((p) => {
@@ -118,7 +120,7 @@ class UTLGame extends Channel {
     userCumul(winner, 1, `${winner.name} remporte la manche !`);
     winner.setGameMaster(true);
 
-    const resultat = this.players.find(p => p.score >= PLAYER_MAX_POINT);
+    const resultat = this.players.find(p => p.score >= this.playerMaxPoint);
     if (resultat) {
       userPoint(winner, `Le vainqueur est ${winner.name}`);
       this.currentStatus = UTL_STATUS.IDLE;
