@@ -14,7 +14,7 @@ import {
 import UnderTheLimits from '../../components/UnderTheLimits';
 import Score from '../../components/Score';
 
-import { wssStartGame, wssSelectedAnswers, wssSelectJudgment } from '../../reducers/app';
+import { wssStartGame, wssSelectedAnswers, wssSelectJudgment } from '../../reducers/game';
 
 const UnderTheLimitsGame = ({
   currentChannel,
@@ -79,19 +79,10 @@ UnderTheLimitsGame.propTypes = {
   player: PropTypes.shape({}),
 };
 
-const mapStateToProps = (state) => {
-  const {
-    isLoading,
-    player,
-    currentChannel,
-  } = state.app;
-
-  return {
-    isLoading,
-    player,
-    currentChannel,
-  };
-};
+const mapStateToProps = state => ({
+  player: state.player,
+  currentChannel: state.chanel,
+});
 
 const mapDispatchToProps = dispatch => ({
   startGame: () => {

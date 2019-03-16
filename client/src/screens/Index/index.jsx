@@ -11,7 +11,8 @@ import {
   Form,
 } from 'react-bootstrap';
 
-import { wssCreatePlayer, displayErrorMessage } from '../../reducers/app';
+import { displayErrorMessage } from '../../reducers/app';
+import { wssCreatePlayer } from '../../reducers/player';
 
 const Index = ({
   createPlayer,
@@ -66,10 +67,9 @@ Index.propTypes = {
   history: PropTypes.shape({}).isRequired,
 };
 
-const mapStateToProps = (state) => {
-  const { isLoading, player } = state.app;
-  return { isLoading, player };
-};
+const mapStateToProps = state => ({
+  player: state.player,
+});
 
 const mapDispatchToProps = dispatch => ({
   createPlayer: (playerName) => {

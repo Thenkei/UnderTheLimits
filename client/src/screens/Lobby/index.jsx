@@ -15,11 +15,12 @@ import CreateChannel from '../../components/CreateChannel';
 import Player from '../../components/Player';
 
 import {
-  wssUpdateLobby,
   wssUpdateChannel,
   wssCreateChannel,
   wssGotoChannel,
-} from '../../reducers/app';
+} from '../../reducers/chanel';
+
+import { wssUpdateLobby } from '../../reducers/lobby';
 
 //
 import './App.scss';
@@ -136,21 +137,11 @@ Lobby.propTypes = {
   }),
 };
 
-const mapStateToProps = (state) => {
-  const {
-    isLoading,
-    lobby,
-    player,
-    currentChannel,
-  } = state.app;
-
-  return {
-    isLoading,
-    lobby,
-    player,
-    currentChannel,
-  };
-};
+const mapStateToProps = state => ({
+  lobby: state.lobby,
+  player: state.player,
+  currentChannel: state.chanel,
+});
 
 const mapDispatchToProps = dispatch => ({
   updateLobby: () => {
