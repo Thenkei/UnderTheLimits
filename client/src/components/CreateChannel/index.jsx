@@ -14,7 +14,7 @@ const CreateChannel = ({ onCreateChannel }) => {
   return (
     <React.Fragment>
       <Button
-        bsStyle='success'
+        variant='success'
         onClick={() => setShow(true)}
       >
         Create channel

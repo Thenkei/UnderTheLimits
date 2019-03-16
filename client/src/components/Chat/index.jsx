@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { List } from 'immutable';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -50,7 +51,7 @@ Chat.defaultProps = {
 Chat.propTypes = {
   sendMessage: PropTypes.func.isRequired,
 
-  messages: PropTypes.arrayOf(PropTypes.shape({})),
+  messages: PropTypes.instanceOf(List),
 };
 
 export default Chat;

@@ -19,8 +19,8 @@ const MainLayout = ({
   );
   return (
     <div className='App'>
-      {error && <Alert bsStyle='danger'>{error}</Alert>}
-      {success && <Alert bsStyle='success'>{success}</Alert>}
+      {error && <Alert variant='danger'>{error}</Alert>}
+      {success && <Alert variant='success'>{success}</Alert>}
       <header className='App-header'>
         <img
           src='/public/images/UTL_Logo.png'
@@ -41,8 +41,8 @@ MainLayout.defaultProps = {
 MainLayout.propTypes = {
   children: PropTypes.shape({}).isRequired,
 
-  error: PropTypes.shape({}),
-  success: PropTypes.shape({}),
+  error: PropTypes.string,
+  success: PropTypes.string,
   init: PropTypes.func.isRequired,
 };
 

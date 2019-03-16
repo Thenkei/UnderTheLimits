@@ -4,7 +4,6 @@ exports[`renders correctly with a few props 1`] = `
 <div
   className="card"
   onClick={[Function]}
-  onKeyPressed={[Function]}
   role="none"
   style={
     Object {

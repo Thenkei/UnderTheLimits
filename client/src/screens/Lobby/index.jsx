@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { List } from 'immutable';
 
 import {
   Col,
@@ -128,9 +129,9 @@ Lobby.propTypes = {
   chatMessages: PropTypes.func.isRequired,
 
   currentChannel: PropTypes.shape({
-    players: PropTypes.shape({}),
+    players: PropTypes.array,
     name: PropTypes.string,
-    id: PropTypes.string,
+    id: PropTypes.number,
     currentStatus: PropTypes.string,
     admin: PropTypes.shape({
       name: PropTypes.string,
@@ -144,7 +145,7 @@ Lobby.propTypes = {
     isGameMaster: PropTypes.bool,
     name: PropTypes.string,
   }),
-  messages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  messages: PropTypes.instanceOf(List).isRequired,
 };
 
 const mapStateToProps = state => ({

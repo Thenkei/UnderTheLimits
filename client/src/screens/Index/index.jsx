@@ -48,7 +48,7 @@ const Index = ({
           setPlayerName(e.target.value);
         }}
       />
-      <Button bsStyle='success' type='submit'>
+      <Button variant='success' type='submit'>
         Ok
       </Button>
     </Form>

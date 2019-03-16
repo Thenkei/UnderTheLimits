@@ -24,8 +24,6 @@ const Card = ({
       <div
         className='card'
         onClick={() => onClick && onClick()}
-        // Ugly, but mandatory for jsx-a11y to be happy
-        onKeyPressed={() => {}}
         role='none'
         style={{ border: checked && '3px solid red' }}
       >

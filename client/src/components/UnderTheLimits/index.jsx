@@ -196,8 +196,8 @@ UnderTheLimits.propTypes = {
     }),
     currentStatus: PropTypes.string,
     players: PropTypes.arrayOf(PropTypes.object),
-    timer: PropTypes.string,
-    id: PropTypes.string,
+    timer: PropTypes.number,
+    id: PropTypes.number,
   }),
   // eslint-disable-next-line
   player: PropTypes.object

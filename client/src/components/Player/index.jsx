@@ -29,7 +29,7 @@ Player.defaultProps = {
 };
 
 Player.propTypes = {
-  value: PropTypes.shape({ name: PropTypes.string, score: PropTypes.string }),
+  value: PropTypes.shape({ name: PropTypes.string, score: PropTypes.number }),
   noScore: PropTypes.bool,
 
 };
