@@ -5,14 +5,12 @@ import {
   Modal,
   Button,
   Form,
-  FormControl,
 } from 'react-bootstrap';
 
 
 const CreateChannel = ({ onCreateChannel }) => {
   const [show, setShow] = useState(false);
   const [channelName, setChannelName] = useState('');
-
   return (
     <React.Fragment>
       <Button
@@ -34,7 +32,7 @@ const CreateChannel = ({ onCreateChannel }) => {
             }}
             inline
           >
-            <FormControl
+            <Form.Control
               type='text'
               value={channelName}
               placeholder='Nom du salon'

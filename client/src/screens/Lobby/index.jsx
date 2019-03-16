@@ -7,13 +7,13 @@ import {
   Col,
   Button,
   Row,
-  Label,
+  Badge,
   Form,
 } from 'react-bootstrap';
 
 import CreateChannel from '../../components/CreateChannel';
 import Player from '../../components/Player';
-
+import Chat from '../../components/Chat';
 import {
   wssUpdateChannel,
   wssCreateChannel,
@@ -21,6 +21,11 @@ import {
 } from '../../reducers/chanel';
 
 import { wssUpdateLobby } from '../../reducers/lobby';
+
+import {
+  wssSendMessage,
+  wssChatMessages,
+} from '../../reducers/chat';
 
 //
 import './App.scss';
@@ -34,6 +39,7 @@ class Lobby extends Component {
   componentDidMount() {
     this.props.updateLobby();
     this.props.updateChannel();
+    this.props.chatMessages();
   }
 
   onCreateChannel = (channelName) => {
@@ -58,10 +64,11 @@ class Lobby extends Component {
           <Row>
             <Col sm={4}>
               <CreateChannel onCreateChannel={this.onCreateChannel} />
+              <Chat messages={this.props.messages} sendMessage={this.props.sendMessage} />
             </Col>
             <Col sm={4}>
               <h1>
-                <Label>PLAYERS</Label>
+                <Badge>PLAYERS</Badge>
               </h1>
               {this.props.lobby.waitingPlayers.map(p => (
                 <Player key={p.id} value={p} noScore />
@@ -69,7 +76,7 @@ class Lobby extends Component {
             </Col>
             <Col sm={4}>
               <h1>
-                <Label>CHANNELS</Label>
+                <Badge>CHANNELS</Badge>
               </h1>
               {this.props.lobby.channels.map(c => (
                 <Form key={c.id} inline>
@@ -117,6 +124,8 @@ Lobby.propTypes = {
   updateChannel: PropTypes.func.isRequired,
   createChannel: PropTypes.func.isRequired,
   gotoChannel: PropTypes.func.isRequired,
+  sendMessage: PropTypes.func.isRequired,
+  chatMessages: PropTypes.func.isRequired,
 
   currentChannel: PropTypes.shape({
     players: PropTypes.shape({}),
@@ -135,12 +144,14 @@ Lobby.propTypes = {
     isGameMaster: PropTypes.bool,
     name: PropTypes.string,
   }),
+  messages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 const mapStateToProps = state => ({
   lobby: state.lobby,
   player: state.player,
   currentChannel: state.chanel,
+  messages: state.chat.messages,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -155,6 +166,12 @@ const mapDispatchToProps = dispatch => ({
   },
   gotoChannel: (gotoChannelReq) => {
     dispatch(wssGotoChannel(gotoChannelReq));
+  },
+  chatMessages: () => {
+    dispatch(wssChatMessages());
+  },
+  sendMessage: (msg) => {
+    dispatch(wssSendMessage(msg));
   },
 });
 

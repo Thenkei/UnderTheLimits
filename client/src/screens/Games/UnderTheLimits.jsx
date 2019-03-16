@@ -7,8 +7,8 @@ import {
   Col,
   Button,
   Row,
-  Grid,
-  Label,
+  Container,
+  Badge,
 } from 'react-bootstrap';
 
 import UnderTheLimits from '../../components/UnderTheLimits';
@@ -28,11 +28,11 @@ const UnderTheLimitsGame = ({
   }
 
   return (
-    <Grid>
+    <Container>
       <Row>
         <Col sm={{ span: 4, offset: 4 }}>
           <h1>
-            <Label>{currentChannel.name}</Label>
+            <Badge>{currentChannel.name}</Badge>
           </h1>
           <h3>
             {player.name}
@@ -61,7 +61,7 @@ const UnderTheLimitsGame = ({
           selectedJudgment={selectJudgment}
         />
       </Row>
-    </Grid>
+    </Container>
   );
 };
 

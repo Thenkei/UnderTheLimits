@@ -2,19 +2,25 @@ import openSocket from 'socket.io-client';
 
 const socket = openSocket(`http://${window.location.hostname}:3000`, { path: '/api/socket.io' });
 
+function addListener(name, cb) {
+  if (!global.socket.hasListeners(name)) {
+    global.socket.on(name, cb);
+  }
+}
+
 function createPlayer(playerName, cb) {
   global.socket.emit('createPlayer', playerName);
-  global.socket.on('playerCreated', lobbyResponse => cb(lobbyResponse.player));
+  addListener('playerCreated', lobbyResponse => cb(lobbyResponse.player));
 }
 
 function updateLobby(cb) {
-  global.socket.on('updateLobby', (lobbyResponse) => {
+  addListener('updateLobby', (lobbyResponse) => {
     cb(lobbyResponse.lobby);
   });
 }
 
 function updateChannel(cb) {
-  global.socket.on('updateChannel', channelResponse => cb(channelResponse.channel));
+  addListener('updateChannel', channelResponse => cb(channelResponse.channel));
 }
 
 function gotoChannel(channelId) {
@@ -38,11 +44,19 @@ function selectedJudgment(winnerId) {
 }
 
 function error(cb) {
-  global.socket.on('err', errMsg => cb(errMsg));
+  addListener('err', errMsg => cb(errMsg));
 }
 
 function success(cb) {
-  global.socket.on('success', successMsg => cb(successMsg));
+  addListener('success', successMsg => cb(successMsg));
+}
+
+function chatMessages(cb) {
+  addListener('chat/message', msg => cb(msg));
+}
+
+function sendMessage(msg) {
+  global.socket.emit('chat/message', msg);
 }
 
 if (!global.socket) {
@@ -52,6 +66,8 @@ if (!global.socket) {
 
 export {
   createPlayer,
+  chatMessages,
+  sendMessage,
   updateLobby,
   updateChannel,
   createChannel,

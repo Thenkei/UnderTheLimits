@@ -144,6 +144,12 @@ class Lobby {
 
         io.to(channel.id).emit('updateChannel', channel.serialize());
       });
+
+      client.on('chat/message', (msg) => {
+        const currentPlayer = this.usersManager.getUserBySocket(client.id);
+        const message = `[${currentPlayer.name}] - ${encodeURI(msg)}`;
+        io.emit('chat/message', message);
+      });
     });
   }
 }
