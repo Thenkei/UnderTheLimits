@@ -16,12 +16,21 @@ import Score from '../../components/Score';
 
 import { wssStartGame, wssSelectedAnswers, wssSelectJudgment } from '../../reducers/game';
 
+import Chat from '../../components/Chat';
+
+import {
+  wssSendMessage,
+  wssChatMessages,
+} from '../../reducers/chat';
+
 const UnderTheLimitsGame = ({
   currentChannel,
   player,
   startGame,
   selectedAnswers,
   selectJudgment,
+  messages,
+  sendMessage,
 }) => {
   if (!player || !currentChannel) {
     return <Redirect to='/' />;
@@ -33,6 +42,7 @@ const UnderTheLimitsGame = ({
         <Col sm={{ span: 4, offset: 4 }}>
           <h1>
             <Badge>{currentChannel.name}</Badge>
+            <Chat messages={messages} sendMessage={sendMessage} />
           </h1>
           <h3>
             {player.name}
@@ -74,7 +84,8 @@ UnderTheLimitsGame.propTypes = {
   startGame: PropTypes.func.isRequired,
   selectedAnswers: PropTypes.func.isRequired,
   selectJudgment: PropTypes.func.isRequired,
-
+  sendMessage: PropTypes.func.isRequired,
+  messages: PropTypes.func.isRequired,
   currentChannel: PropTypes.shape({}),
   player: PropTypes.shape({}),
 };
@@ -82,6 +93,7 @@ UnderTheLimitsGame.propTypes = {
 const mapStateToProps = state => ({
   player: state.player,
   currentChannel: state.chanel,
+  messages: state.chat.messages,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -93,6 +105,12 @@ const mapDispatchToProps = dispatch => ({
   },
   selectJudgment: (selectJudgmentReq) => {
     dispatch(wssSelectJudgment(selectJudgmentReq));
+  },
+  chatMessages: () => {
+    dispatch(wssChatMessages());
+  },
+  sendMessage: (msg) => {
+    dispatch(wssSendMessage(msg));
   },
 });
 

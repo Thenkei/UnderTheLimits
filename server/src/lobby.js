@@ -146,9 +146,10 @@ class Lobby {
       });
 
       client.on('chat/message', (msg) => {
+        const channel = this.channelsManager.getChannelById(Object.values(client.rooms)[0]);
         const currentPlayer = this.usersManager.getUserBySocket(client.id);
         const message = `[${currentPlayer.name}] - ${encodeURI(msg)}`;
-        io.emit('chat/message', message);
+        io.to(channel ? channel.id : SOCKET_ROOM_LOBBY).emit('chat/message', message);
       });
     });
   }
