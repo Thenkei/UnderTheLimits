@@ -18,12 +18,17 @@ const Index = ({
   createPlayer,
   player,
   displayError,
+  location,
 }) => {
   const utlPlayer = JSON.parse(localStorage.getItem('utl-player'));
   const [playerName, setPlayerName] = useState(utlPlayer === null ? '' : utlPlayer.name);
 
   if (player) {
-    return <Redirect to='/lobby' />;
+    let to = '/lobby';
+    if (location.search) {
+      to += location.search;
+    }
+    return <Redirect to={to} />;
   }
 
   return (
@@ -60,6 +65,10 @@ Index.defaultProps = {
 };
 
 Index.propTypes = {
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+  }).isRequired,
+
   createPlayer: PropTypes.func.isRequired,
   displayError: PropTypes.func.isRequired,
 
@@ -80,4 +89,4 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Index));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Index));

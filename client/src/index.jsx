@@ -40,8 +40,8 @@ const router = (
         <Switch>
           <Route exact path='/' component={Index} />
           <Route exact path='/lobby' component={Lobby} />
-          <Route exact path='/underthelimits/:id' component={UnderTheLimits} />
           <Route exact path='/mentions-legales' component={Legals} />
+          <Route path='/underthelimits/:id' component={UnderTheLimits} />
           <Route component={NoMatch} />
         </Switch>
       </Router>

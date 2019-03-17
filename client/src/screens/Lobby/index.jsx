@@ -28,6 +28,8 @@ import {
   wssChatMessages,
 } from '../../reducers/chat';
 
+import QueryParser from '../../utils/queryParser';
+
 //
 import './App.scss';
 
@@ -35,6 +37,8 @@ class Lobby extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+
+    this.params = QueryParser.parse(this.props.location.search);
   }
 
   componentDidMount() {
@@ -43,20 +47,28 @@ class Lobby extends Component {
     this.props.chatMessages();
   }
 
+  componentDidUpdate() {
+    if (this.params.channel && this.props.lobby && !this.props.currentChannel) {
+      this.props.gotoChannel(Number(this.params.channel));
+    }
+  }
+
   onCreateChannel = ({ channel }) => {
     this.props.createChannel(channel);
   }
 
-  render() {
-    if (this.props.currentChannel) {
-      return <Redirect to={`/underthelimits/${this.props.currentChannel.id}`} />;
-    }
 
+  render() {
     if (!this.props.player) {
       return <Redirect to='/' />;
     }
+
     if (!this.props.lobby) {
       return <p>Loading ...</p>;
+    }
+
+    if (this.props.currentChannel) {
+      return <Redirect to={`/underthelimits/${this.props.currentChannel.id}`} />;
     }
 
     return (
@@ -125,6 +137,10 @@ Lobby.defaultProps = {
 };
 
 Lobby.propTypes = {
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+  }).isRequired,
+
   updateLobby: PropTypes.func.isRequired,
   updateChannel: PropTypes.func.isRequired,
   createChannel: PropTypes.func.isRequired,
@@ -180,4 +196,4 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Lobby));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Lobby));

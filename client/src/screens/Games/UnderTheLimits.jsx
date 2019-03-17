@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 
+import { List } from 'immutable';
+
 import {
   Col,
   Button,
@@ -31,9 +33,10 @@ const UnderTheLimitsGame = ({
   selectJudgment,
   messages,
   sendMessage,
+  match,
 }) => {
   if (!player || !currentChannel) {
-    return <Redirect to='/' />;
+    return <Redirect to={`/?channel=${encodeURIComponent(match.params.id)}`} />;
   }
 
   return (
@@ -81,11 +84,17 @@ UnderTheLimitsGame.defaultProps = {
 };
 
 UnderTheLimitsGame.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+
   startGame: PropTypes.func.isRequired,
   selectedAnswers: PropTypes.func.isRequired,
   selectJudgment: PropTypes.func.isRequired,
   sendMessage: PropTypes.func.isRequired,
-  messages: PropTypes.func.isRequired,
+  messages: PropTypes.instanceOf(List).isRequired,
   currentChannel: PropTypes.shape({}),
   player: PropTypes.shape({}),
 };
@@ -114,4 +123,4 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(UnderTheLimitsGame));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UnderTheLimitsGame));

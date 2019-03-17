@@ -9,6 +9,7 @@ const StyleLintPlugin = require('stylelint-webpack-plugin');
 const devMode = process.env.NODE_ENV !== 'production';
 
 const webpackConfig = {
+  entry: './src/index.jsx',
   module: {
     rules: [
       {
@@ -67,6 +68,11 @@ const webpackConfig = {
   },
   resolve: {
     extensions: ['.js', '.jsx'],
+  },
+  output: {
+    path: `${__dirname}/dist`,
+    publicPath: '/',
+    filename: 'bundle.js',
   },
   devServer: {
     contentBase: `${__dirname}/public'`,
