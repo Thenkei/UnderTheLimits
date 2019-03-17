@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly with a few props 1`] = `
+<div
+  className="card"
+  onClick={[Function]}
+  role="none"
+  style={
+    Object {
+      "border": "3px solid red",
+    }
+  }
+>
+  <div
+    className="card-body"
+  >
+    <p
+      className="card-text"
+    >
+      BLBL - C'est un test !
+    </p>
+  </div>
+</div>
+`;

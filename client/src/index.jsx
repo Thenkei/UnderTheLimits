@@ -11,7 +11,11 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import App from './screens/App';
+import Layout from './components/Layout';
+
+import Index from './screens/Index';
+import Lobby from './screens/Lobby';
+import UnderTheLimits from './screens/Games/UnderTheLimits';
 import Legals from './screens/Legals';
 import NoMatch from './screens/NoMatch';
 
@@ -31,13 +35,17 @@ const store = createStore(
 
 const router = (
   <Provider store={store}>
-    <Router>
-      <Switch>
-        <Route exact path='/' component={App} />
-        <Route exact path='/mentions-legales' component={Legals} />
-        <Route component={NoMatch} />
-      </Switch>
-    </Router>
+    <Layout>
+      <Router>
+        <Switch>
+          <Route exact path='/' component={Index} />
+          <Route exact path='/lobby' component={Lobby} />
+          <Route exact path='/mentions-legales' component={Legals} />
+          <Route path='/underthelimits/:id' component={UnderTheLimits} />
+          <Route component={NoMatch} />
+        </Switch>
+      </Router>
+    </Layout>
   </Provider>
 );
 ReactDOM.render(router, document.getElementById('root'));

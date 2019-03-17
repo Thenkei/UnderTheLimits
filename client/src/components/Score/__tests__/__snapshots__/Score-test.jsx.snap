@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<dl>
+  <div
+    className="row"
+  >
+    <dt>
+      
+      <span
+        className="badge"
+      >
+        Player1
+      </span>
+      <span
+        className="badge"
+      >
+        120
+         
+        pt(s)
+      </span>
+    </dt>
+  </div>
+  <div
+    className="row"
+  >
+    <dt>
+      
+      <span
+        className="badge"
+      >
+        Player2
+      </span>
+      <span
+        className="badge"
+      >
+        200
+         
+        pt(s)
+      </span>
+    </dt>
+  </div>
+</dl>
+`;

@@ -1,13 +1,20 @@
+import { FETCH_REQUEST, FETCH_SUCCESS } from './constants';
+
 import {
-  FETCH_REQUEST,
-  FETCH_SUCCESS,
-  FETCH_FAILURE,
-} from './constants';
+  error as serverError,
+  success as successError,
+} from '../services/Api';
 
 /**
  * Constants
  */
-const APP_INIT = 'APP_INIT';
+const APP_INIT = '@UTL/APP_INIT';
+
+const ERROR_MESSAGE = '@APP/ERROR_MESSAGE';
+const SUCCESS_MESSAGE = '@APP/SUCCESS_MESSAGE';
+
+const DEFAULT_ERROR_TIMEOUT = 3000;
+const DEFAULT_SUCCESS_TIMEOUT = 8000;
 
 /**
  * Actions
@@ -18,49 +25,71 @@ function initRequest() {
 function initSucess() {
   return { type: APP_INIT + FETCH_SUCCESS };
 }
-function initFailure(error) {
-  return { type: APP_INIT + FETCH_FAILURE, error };
+
+function displayError(message) {
+  return { type: ERROR_MESSAGE, message };
 }
 
-export function init() {
+export function displayErrorMessage(message) {
+  return dispatch => dispatch(displayError(message));
+}
+
+export function displaySuccessMessage(message) {
+  return dispatch => dispatch({ type: SUCCESS_MESSAGE, message });
+}
+
+
+export function wssInit() {
   return (dispatch) => {
-    try {
-      dispatch(initRequest());
-      // simulate webservice request
+    dispatch(initRequest());
+
+    // Global error handling
+    serverError((errMsg) => {
+      dispatch(displayErrorMessage(errMsg));
       setTimeout(() => {
-        // const res = await webservice();
-        dispatch(initSucess(/* res */));
-      }, 3000);
-    } catch (error) {
-      dispatch(initFailure(error));
-    }
+        dispatch(displayErrorMessage(null));
+      }, DEFAULT_ERROR_TIMEOUT);
+    });
+
+    // Global (temp) success handling
+    successError((successMsg) => {
+      dispatch(displaySuccessMessage(successMsg));
+      setTimeout(() => {
+        dispatch(displaySuccessMessage(null));
+      }, DEFAULT_SUCCESS_TIMEOUT);
+    });
+
+    dispatch(initSucess());
   };
 }
 
 /**
- * InitialState
- */
+* InitialState
+*/
 export const initialState = {
   isLoading: false,
   error: null,
+  success: null,
 };
 
 /**
- * Handlers
- */
+* Handlers
+*/
 export const handlers = {
   [APP_INIT + FETCH_REQUEST]: state => ({
     ...state,
-    error: null,
     isLoading: true,
   }),
   [APP_INIT + FETCH_SUCCESS]: state => ({
     ...state,
     isLoading: false,
   }),
-  [APP_INIT + FETCH_FAILURE]: (state, { error }) => ({
+  [ERROR_MESSAGE]: (state, { message }) => ({
     ...state,
-    error,
-    isLoading: false,
+    errorMessage: message,
+  }),
+  [SUCCESS_MESSAGE]: (state, { message }) => ({
+    ...state,
+    success: message,
   }),
 };

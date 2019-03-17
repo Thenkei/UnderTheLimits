@@ -2,34 +2,37 @@ import openSocket from 'socket.io-client';
 
 const socket = openSocket(`http://${window.location.hostname}:3000`, { path: '/api/socket.io' });
 
-function initPlayer(playerName, cb) {
-  socket.emit('initPlayer', playerName);
-  socket.on('playerCreated', lobbyResponse => cb(null, lobbyResponse.player));
+if (!global.socket) {
+  global.socket = socket;
+}
+
+function addListener(name, cb) {
+  if (!global.socket.hasListeners(name)) {
+    global.socket.on(name, cb);
+  }
 }
 
 function createPlayer(playerName, cb) {
-  socket.emit('createPlayer', playerName);
-  socket.on('playerCreated', lobbyResponse => cb(null, lobbyResponse.player));
+  global.socket.emit('createPlayer', playerName);
+  addListener('playerCreated', lobbyResponse => cb(lobbyResponse.player));
 }
 
 function updateLobby(cb) {
-  socket.on('updateLobby', (lobbyResponse) => {
-    cb(null, lobbyResponse.lobby);
+  addListener('updateLobby', (lobbyResponse) => {
+    cb(lobbyResponse.lobby);
   });
 }
 
 function updateChannel(cb) {
-  socket.on('updateChannel', (channelResponse) => {
-    cb(null, channelResponse.channel);
-  });
+  addListener('updateChannel', channelResponse => cb(channelResponse.channel));
 }
 
 function gotoChannel(channelId) {
-  socket.emit('gotoChannel', channelId);
+  global.socket.emit('gotoChannel', channelId);
 }
 
 function createChannel(channelName) {
-  socket.emit('createChannel', channelName);
+  global.socket.emit('createChannel', channelName);
 }
 
 function startGame() {
@@ -45,16 +48,25 @@ function selectedJudgment(winnerId) {
 }
 
 function error(cb) {
-  socket.on('err', errMsg => cb(errMsg));
+  addListener('err', errMsg => cb(errMsg));
 }
 
 function success(cb) {
-  socket.on('success', successMsg => cb(successMsg));
+  addListener('success', successMsg => cb(successMsg));
+}
+
+function chatMessages(cb) {
+  addListener('chat/message', msg => cb(msg));
+}
+
+function sendMessage(msg) {
+  global.socket.emit('chat/message', msg);
 }
 
 export {
-  initPlayer,
   createPlayer,
+  chatMessages,
+  sendMessage,
   updateLobby,
   updateChannel,
   createChannel,

@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Badge, Label } from 'react-bootstrap';
+import { Badge } from 'react-bootstrap';
 
 const Player = ({ value, noScore }) => (
   <React.Fragment>
     <dt>
       {value.isGameMaster ? '>' : ''}
-      <Label>{value.name}</Label>
+      <Badge>{value.name}</Badge>
       { !noScore && (
         <Badge>
           {value.score}
@@ -22,14 +22,14 @@ const Player = ({ value, noScore }) => (
 Player.defaultProps = {
   value: {
     name: '',
-    score: 'null',
+    score: 0,
     isGameMaster: false,
   },
   noScore: false,
 };
 
 Player.propTypes = {
-  value: PropTypes.shape({ name: PropTypes.string, score: PropTypes.string }),
+  value: PropTypes.shape({ name: PropTypes.string, score: PropTypes.number }),
   noScore: PropTypes.bool,
 
 };

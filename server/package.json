@@ -4,7 +4,7 @@
   "description": "Under the limits",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "lint": "$(npm bin)/eslint src/**.js",
     "populate": "node ./scripts/populate.js"
   },

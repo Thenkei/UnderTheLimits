@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Row } from 'react-bootstrap';
-import { selectedAnswers, selectedJudgment } from '../../services/Api';
 import Card from '../Card';
 
 import './UnderTheLimits.scss';
@@ -63,7 +62,7 @@ class UnderTheLimits extends Component {
       this.props.player.answers.splice(index, 1);
     }
 
-    selectedAnswers(this.props.player.answers);
+    this.props.selectedAnswers(this.props.player.answers);
   };
 
   render() {
@@ -91,7 +90,7 @@ class UnderTheLimits extends Component {
                     )}
                     onClick={
                       this.props.player.isGameMaster
-                        ? () => selectedJudgment(
+                        ? () => this.props.selectedJudgment(
                           player.id,
                         )
                         : () => {}
@@ -188,6 +187,8 @@ UnderTheLimits.defaultProps = {
 };
 
 UnderTheLimits.propTypes = {
+  selectedAnswers: PropTypes.func.isRequired,
+  selectedJudgment: PropTypes.func.isRequired,
   // eslint-disable-next-line
   currentChannel: PropTypes.shape({
     deckQuestion: PropTypes.shape({
@@ -195,8 +196,8 @@ UnderTheLimits.propTypes = {
     }),
     currentStatus: PropTypes.string,
     players: PropTypes.arrayOf(PropTypes.object),
-    timer: PropTypes.string,
-    id: PropTypes.string,
+    timer: PropTypes.number,
+    id: PropTypes.number,
   }),
   // eslint-disable-next-line
   player: PropTypes.object
