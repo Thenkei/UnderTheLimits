@@ -7,6 +7,6 @@ exports[`renders correctly 1`] = `
   onClick={[Function]}
   type="button"
 >
-  Create channel
+  Créer une partie
 </button>
 `;

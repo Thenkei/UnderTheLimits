@@ -9,12 +9,19 @@ class ChannelsManager {
   }
 
   // adminPlayer.currentStatus = 'IN_CHANNEL';
-  async createUtlChanel(channelName, admin) {
+  async createUtlChanel(channelName, admin, channelOpts) {
     if (this.channels.length >= MAX_CHANNEL_COUNT) {
       throw new Error('Le serveur est complet, attendez qu\'un salon se libère !');
     }
 
-    const utlGame = GameFactory('utlgame', channelName, admin);
+    const utlGame = GameFactory(
+      'utlgame',
+      channelName,
+      admin,
+      channelOpts.minPlayersCount,
+      channelOpts.maxPlayersCount,
+      channelOpts.maxPoints,
+    );
 
     await utlGame.init();
 

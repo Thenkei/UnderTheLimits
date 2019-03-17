@@ -41,10 +41,10 @@ function createChannelSucess() {
   return { type: CREATE_CHANNEL + FETCH_SUCCESS };
 }
 
-export function wssCreateChannel(wssCreateChannelReq) {
+export function wssCreateChannel(channel) {
   return (dispatch) => {
     dispatch(createChannelRequest());
-    createChannel(wssCreateChannelReq);
+    createChannel(channel);
     dispatch(createChannelSucess());
   };
 }

@@ -43,8 +43,8 @@ class Lobby extends Component {
     this.props.chatMessages();
   }
 
-  onCreateChannel = (channelName) => {
-    this.props.createChannel(channelName);
+  onCreateChannel = ({ channel }) => {
+    this.props.createChannel(channel);
   }
 
   render() {
@@ -65,7 +65,6 @@ class Lobby extends Component {
           <Row>
             <Col sm={4}>
               <CreateChannel onCreateChannel={this.onCreateChannel} />
-              <Chat messages={this.props.messages} sendMessage={this.props.sendMessage} />
             </Col>
             <Col sm={4}>
               <h1>
@@ -90,6 +89,11 @@ class Lobby extends Component {
                   </Button>
                 </Form>
               ))}
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={12}>
+              <Chat messages={this.props.messages} sendMessage={this.props.sendMessage} />
             </Col>
           </Row>
         </main>

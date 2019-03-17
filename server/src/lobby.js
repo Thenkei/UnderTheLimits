@@ -61,14 +61,15 @@ class Lobby {
       });
 
       // CREATE CHANNEL FROM LOBBY
-      client.on('createChannel', async (channelName) => {
+      client.on('createChannel', async (channelReq) => {
         const currentPlayer = this.usersManager.getUserBySocket(client.id);
         if (!currentPlayer) return;
 
         try {
           const channel = await this.channelsManager.createUtlChanel(
-            channelName,
+            channelReq.name,
             currentPlayer,
+            channelReq.opts,
           );
 
           client.leave(SOCKET_ROOM_LOBBY);
