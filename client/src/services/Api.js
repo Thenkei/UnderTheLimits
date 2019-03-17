@@ -2,6 +2,10 @@ import openSocket from 'socket.io-client';
 
 const socket = openSocket(`http://${window.location.hostname}:3000`, { path: '/api/socket.io' });
 
+if (!global.socket) {
+  global.socket = socket;
+}
+
 function addListener(name, cb) {
   if (!global.socket.hasListeners(name)) {
     global.socket.on(name, cb);
@@ -58,11 +62,6 @@ function chatMessages(cb) {
 function sendMessage(msg) {
   global.socket.emit('chat/message', msg);
 }
-
-if (!global.socket) {
-  global.socket = socket;
-}
-
 
 export {
   createPlayer,

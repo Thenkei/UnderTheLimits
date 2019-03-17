@@ -6,9 +6,9 @@ import {
 } from './app';
 
 import {
-  initialState as chanelInitialState,
-  handlers as chanelHandlers,
-} from './chanel';
+  initialState as channelInitialState,
+  handlers as channelHandlers,
+} from './channel';
 
 import {
   initialState as gameInitialState,
@@ -41,7 +41,7 @@ function createReducer(initialState, handlers) {
 }
 
 const appReducers = createReducer(appInitialState, appHandlers);
-const chanelReducers = createReducer(chanelInitialState, chanelHandlers);
+const channelReducers = createReducer(channelInitialState, channelHandlers);
 const gameReducers = createReducer(gameInitialState, gameHandlers);
 const lobbyReducers = createReducer(lobbyInitialState, lobbyHandlers);
 const playerReducers = createReducer(playerInitialState, playerHandlers);
@@ -49,7 +49,7 @@ const chatReducer = createReducer(chatInitialState, chatHandlers);
 
 export default combineReducers({
   app: appReducers,
-  chanel: chanelReducers,
+  channel: channelReducers,
   game: gameReducers,
   lobby: lobbyReducers,
   player: playerReducers,

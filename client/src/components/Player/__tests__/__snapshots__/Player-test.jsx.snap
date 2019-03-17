@@ -4,7 +4,7 @@ exports[`renders correctly 1`] = `
 <dt>
   &gt;
   <span
-    className="label label-default"
+    className="badge"
   >
     BLBL
   </span>

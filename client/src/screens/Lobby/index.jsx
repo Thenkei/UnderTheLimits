@@ -19,7 +19,7 @@ import {
   wssUpdateChannel,
   wssCreateChannel,
   wssGotoChannel,
-} from '../../reducers/chanel';
+} from '../../reducers/channel';
 
 import { wssUpdateLobby } from '../../reducers/lobby';
 
@@ -151,7 +151,7 @@ Lobby.propTypes = {
 const mapStateToProps = state => ({
   lobby: state.lobby,
   player: state.player,
-  currentChannel: state.chanel,
+  currentChannel: state.channel,
   messages: state.chat.messages,
 });
 

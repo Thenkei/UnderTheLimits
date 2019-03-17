@@ -18,8 +18,8 @@ const GOTO_CHANNEL = '@UTL/GOTO_CHANNEL';
 function updateChannelRequest() {
   return { type: UPDATE_CHANNEL + FETCH_REQUEST };
 }
-function updateChannelSucess(chanel) {
-  return { type: UPDATE_CHANNEL + FETCH_SUCCESS, chanel };
+function updateChannelSucess(channel) {
+  return { type: UPDATE_CHANNEL + FETCH_SUCCESS, channel };
 }
 
 export function wssUpdateChannel() {
@@ -73,8 +73,8 @@ export const initialState = null;
 * Handlers
 */
 export const handlers = {
-  [UPDATE_CHANNEL + FETCH_SUCCESS]: (state, { chanel }) => ({
+  [UPDATE_CHANNEL + FETCH_SUCCESS]: (state, { channel }) => ({
     ...state,
-    ...chanel,
+    ...channel,
   }),
 };

@@ -8,7 +8,7 @@ exports[`renders correctly 1`] = `
     <dt>
       
       <span
-        className="label label-default"
+        className="badge"
       >
         Player1
       </span>
@@ -27,7 +27,7 @@ exports[`renders correctly 1`] = `
     <dt>
       
       <span
-        className="label label-default"
+        className="badge"
       >
         Player2
       </span>

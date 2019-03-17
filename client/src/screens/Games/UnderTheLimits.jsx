@@ -92,7 +92,7 @@ UnderTheLimitsGame.propTypes = {
 
 const mapStateToProps = state => ({
   player: state.player,
-  currentChannel: state.chanel,
+  currentChannel: state.channel,
   messages: state.chat.messages,
 });
 
