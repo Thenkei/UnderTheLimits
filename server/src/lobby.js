@@ -74,6 +74,7 @@ class Lobby {
 
           client.leave(SOCKET_ROOM_LOBBY);
           client.join(channel.id);
+          channel.register(io, client, this.usersManager);
 
           client.emit('updateChannel', channel.serialize());
           io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', this.serialize());
@@ -92,58 +93,11 @@ class Lobby {
           channel.tryReconnectOrConnect(currentPlayer, client.id);
           client.leave(SOCKET_ROOM_LOBBY);
           client.join(channelId);
+          channel.register(io, client, this.usersManager);
           io.to(channel.id).emit('updateChannel', channel.serialize());
         } catch (err) {
           client.emit('err', err.message);
         }
-      });
-
-      client.on('nextRound', () => {
-        const channel = this.channelsManager.getChannelById(Object.values(client.rooms)[0]);
-        if (!channel) return;
-
-        try {
-          channel.nextRound((player) => {
-            this.usersManager.updateUserStatsPlayed(player);
-          });
-
-          io.to(channel.id).emit('updateChannel', channel.serialize());
-
-          channel.interval = setInterval(() => { channel.timer -= 1; io.to(channel.id).emit('updateChannel', channel.serialize()); }, 1000);
-          setTimeout(() => { clearInterval(channel.interval); channel.judgementState(); io.to(channel.id).emit('updateChannel', channel.serialize()); }, channel.getAnwersTime());
-        } catch (err) {
-          client.emit('err', err.message);
-        }
-      });
-
-      client.on('selectedAnswers', (answers) => {
-        const channel = this.channelsManager.getChannelById(Object.values(client.rooms)[0]);
-        if (!channel) return;
-        const currentGamePlayer = channel.players.find(p => p.id === client.id);
-        currentGamePlayer.answers = answers;
-
-        io.to(channel.id).emit('updateChannel', channel.serialize());
-      });
-
-      client.on('selectedJudgment', (judgment) => {
-        const channel = this.channelsManager.getChannelById(Object.values(client.rooms)[0]);
-        const currentPlayer = this.usersManager.getUserBySocket(client.id);
-        if (!channel) return;
-        if (!currentPlayer) return;
-
-        channel.judge(
-          judgment,
-          (player, score, response) => {
-            this.usersManager.updateUserStatsCumul(player, score);
-            io.to(channel.id).emit('success', response);
-          },
-          (player, response) => {
-            this.usersManager.updateUserStatsPoint(player);
-            io.to(channel.id).emit('success', response);
-          },
-        );
-
-        io.to(channel.id).emit('updateChannel', channel.serialize());
       });
 
       client.on('chat/message', (msg) => {

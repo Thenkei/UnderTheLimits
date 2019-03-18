@@ -129,7 +129,8 @@ class UTLGame extends Channel {
   }
 
   hasAllPlayersAnswers() {
-    return this.players.find(p => p.answers.length === 0) == null;
+    const occurences = (this.deckQuestions[0].match(/_{6}/g) || []).length;
+    return !!this.players.find(p => p.answers.length < occurences);
   }
 
   getAnwersTime() {
@@ -149,6 +150,46 @@ class UTLGame extends Channel {
           deckQuestion: this.deckQuestions[0],
         },
     };
+  }
+
+  register(io, client, usersManager) {
+    client.on('nextRound', () => {
+      try {
+        this.nextRound((player) => {
+          usersManager.updateUserStatsPlayed(player);
+        });
+
+        io.to(this.id).emit('updateChannel', this.serialize());
+
+        this.interval = setInterval(() => { this.timer -= 1; io.to(this.id).emit('updateChannel', this.serialize()); }, 1000);
+        setTimeout(() => { clearInterval(this.interval); this.judgementState(); io.to(this.id).emit('updateChannel', this.serialize()); }, this.getAnwersTime());
+      } catch (err) {
+        client.emit('err', err.message);
+      }
+    });
+
+    client.on('selectedAnswers', (answers) => {
+      const currentGamePlayer = this.players.find(p => p.id === client.id);
+      currentGamePlayer.answers = answers;
+
+      io.to(this.id).emit('updateChannel', this.serialize());
+    });
+
+    client.on('selectedJudgment', (judgment) => {
+      this.judge(
+        judgment,
+        (player, score, response) => {
+          usersManager.updateUserStatsCumul(player, score);
+          io.to(this.id).emit('success', response);
+        },
+        (player, response) => {
+          usersManager.updateUserStatsPoint(player);
+          io.to(this.id).emit('success', response);
+        },
+      );
+
+      io.to(this.id).emit('updateChannel', this.serialize());
+    });
   }
 }
 
