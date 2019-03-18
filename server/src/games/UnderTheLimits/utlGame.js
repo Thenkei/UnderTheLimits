@@ -128,9 +128,9 @@ class UTLGame extends Channel {
     }
   }
 
-  hasAllPlayersAnswers() {
-    const occurences = (this.deckQuestions[0].match(/_{6}/g) || []).length;
-    return !!this.players.find(p => p.answers.length < occurences);
+  hasAllPlayersAnswered() {
+    const occurences = (this.deckQuestions[0].text.match(/______/g) || []).length;
+    return this.players.find(p => !p.isGameMaster && p.answers.length < occurences) == null;
   }
 
   getAnwersTime() {
@@ -162,15 +162,23 @@ class UTLGame extends Channel {
         io.to(this.id).emit('updateChannel', this.serialize());
 
         this.interval = setInterval(() => { this.timer -= 1; io.to(this.id).emit('updateChannel', this.serialize()); }, 1000);
-        setTimeout(() => { clearInterval(this.interval); this.judgementState(); io.to(this.id).emit('updateChannel', this.serialize()); }, this.getAnwersTime());
+        this.launchJudge = () => { clearInterval(this.interval); this.judgementState(); io.to(this.id).emit('updateChannel', this.serialize()); };
+        this.timeout = setTimeout(this.launchJudge, this.getAnwersTime());
       } catch (err) {
         client.emit('err', err.message);
       }
     });
 
     client.on('selectedAnswers', (answers) => {
+      if (!answers) { return; }
       const currentGamePlayer = this.players.find(p => p.id === client.id);
       currentGamePlayer.answers = answers;
+
+      if (this.hasAllPlayersAnswered()) {
+        // TODO MODIFY WITH A 5 SECONDES FINAL TIMER
+        clearTimeout(this.timeout);
+        this.launchJudge();
+      }
 
       io.to(this.id).emit('updateChannel', this.serialize());
     });
