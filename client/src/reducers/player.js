@@ -3,7 +3,7 @@ import { FETCH_REQUEST, FETCH_SUCCESS } from './constants';
 import { createPlayer } from '../services/Api';
 
 const CREATE_PLAYER = '@UTL/CREATE_PLAYER';
-const UPDATE_PALYER = '@UTL/UPDATE_PLAYER';
+const UPDATE_PLAYER = '@UTL/UPDATE_PLAYER';
 
 /**
  * Actions
@@ -11,7 +11,7 @@ const UPDATE_PALYER = '@UTL/UPDATE_PLAYER';
 function createPlayerRequest() {
   return { type: CREATE_PLAYER + FETCH_REQUEST };
 }
-function createPlayerSucess(player) {
+function createPlayerSuccess(player) {
   return { type: CREATE_PLAYER + FETCH_SUCCESS, player };
 }
 
@@ -20,14 +20,14 @@ export function wssCreatePlayer(wsCreatePlayerReq) {
     dispatch(createPlayerRequest());
     createPlayer(wsCreatePlayerReq, (wsCreatePlayerRes) => {
       if (wsCreatePlayerRes) {
-        dispatch(createPlayerSucess(wsCreatePlayerRes));
+        dispatch(createPlayerSuccess(wsCreatePlayerRes));
       }
     });
   };
 }
 
 export function updatePlayer(players) {
-  return { type: UPDATE_PALYER, players };
+  return { type: UPDATE_PLAYER, players };
 }
 
 /**
@@ -43,7 +43,7 @@ export const handlers = {
     ...state,
     ...player,
   }),
-  [UPDATE_PALYER]: (state, { players }) => {
+  [UPDATE_PLAYER]: (state, { players }) => {
     const player = players.find(p => p.id === state.id);
     return {
       ...state,
