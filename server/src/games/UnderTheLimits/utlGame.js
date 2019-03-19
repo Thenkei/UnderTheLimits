@@ -55,8 +55,6 @@ class UTLGame extends Channel {
 
     if (this.currentStatus === UTL_STATUS.IDLE) {
       console.log('[UTLGame] ', this.name, 'starting new game !');
-      console.log(this.minPlayersCount);
-      console.log(this.maxPlayersCount);
       const j = Math.floor(Math.random() * this.players.length);
 
       this.players.forEach((p) => {
