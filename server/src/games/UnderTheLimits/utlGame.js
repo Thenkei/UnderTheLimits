@@ -55,8 +55,6 @@ class UTLGame extends Channel {
 
     if (this.currentStatus === UTL_STATUS.IDLE) {
       console.log('[UTLGame] ', this.name, 'starting new game !');
-      console.log(this.minPlayersCount);
-      console.log(this.maxPlayersCount);
       const j = Math.floor(Math.random() * this.players.length);
 
       this.players.forEach((p) => {
@@ -128,8 +126,9 @@ class UTLGame extends Channel {
     }
   }
 
-  hasAllPlayersAnswers() {
-    return this.players.find(p => p.answers.length === 0) == null;
+  hasAllPlayersAnswered() {
+    const occurences = (this.deckQuestions[0].text.match(/______/g) || []).length;
+    return this.players.find(p => !p.isGameMaster && p.answers.length < occurences) == null;
   }
 
   getAnwersTime() {
@@ -149,6 +148,70 @@ class UTLGame extends Channel {
           deckQuestion: this.deckQuestions[0],
         },
     };
+  }
+
+  serializeTimer() {
+    return {
+      channel:
+        {
+          timer: this.timer,
+        },
+    };
+  }
+
+  register(io, client, usersManager) {
+    client.on('nextRound', () => {
+      try {
+        this.nextRound((player) => {
+          usersManager.updateUserStatsPlayed(player);
+        });
+        io.to(this.id).emit('updateChannel', this.serialize());
+
+        this.launchJudge = () => {
+          clearInterval(this.interval);
+          this.judgementState();
+          io.to(this.id).emit('updateChannel', this.serializeTimer());
+        };
+        this.interval = setInterval(() => { this.timer -= 1; io.to(this.id).emit('updateChannel', this.serialize()); }, 1000);
+        this.timeout = setTimeout(this.launchJudge, this.getAnwersTime());
+      } catch (err) {
+        client.emit('err', err.message);
+      }
+    });
+
+    client.on('selectedAnswers', (answers) => {
+      if (!answers) { return; }
+      const currentGamePlayer = this.players.find(p => p.id === client.id);
+      currentGamePlayer.answers = answers;
+
+      if (this.timer > 5 && this.hasAllPlayersAnswered()) {
+        if (this.timeout) {
+          // 5 SECONDES FINAL TIMER
+          clearTimeout(this.timeout);
+          setTimeout(this.launchJudge, 5000);
+          this.timer = 5;
+          this.timeout = null;
+        }
+      }
+
+      io.to(this.id).emit('updateChannel', this.serialize());
+    });
+
+    client.on('selectedJudgment', (judgment) => {
+      this.judge(
+        judgment,
+        (player, score, response) => {
+          usersManager.updateUserStatsCumul(player, score);
+          io.to(this.id).emit('success', response);
+        },
+        (player, response) => {
+          usersManager.updateUserStatsPoint(player);
+          io.to(this.id).emit('success', response);
+        },
+      );
+
+      io.to(this.id).emit('updateChannel', this.serialize());
+    });
   }
 }
 

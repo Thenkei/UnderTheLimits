@@ -4,7 +4,7 @@ const http = require('http');
 
 const start = require('./server');
 
-const APP_PORT = 3000;
+const APP_PORT = process.env.PORT || 3000;
 
 const app = express();
 
