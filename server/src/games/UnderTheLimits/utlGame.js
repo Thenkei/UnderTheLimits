@@ -159,7 +159,14 @@ class UTLGame extends Channel {
 
         io.to(this.id).emit('updateChannel', this.serialize());
 
-        this.launchJudge = () => { clearInterval(this.interval); this.judgementState(); io.to(this.id).emit('updateChannel', this.serialize()); };
+        this.launchJudge = () => {
+          clearInterval(this.interval); this.judgementState(); io.to(this.id).emit('updateChannel', {
+            channel:
+            {
+              timer: this.timer,
+            },
+          });
+        };
         this.interval = setInterval(() => { this.timer -= 1; io.to(this.id).emit('updateChannel', this.serialize()); }, 1000);
         this.timeout = setTimeout(this.launchJudge, this.getAnwersTime());
       } catch (err) {
