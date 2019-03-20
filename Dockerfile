@@ -1,6 +1,7 @@
 FROM node:10.14.2-jessie
 
 ENV NODE_ENV=development
+ENV PORT=80
 
 ADD package.json /app/package.json
 COPY . /app
