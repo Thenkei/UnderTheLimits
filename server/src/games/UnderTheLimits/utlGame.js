@@ -159,8 +159,8 @@ class UTLGame extends Channel {
 
         io.to(this.id).emit('updateChannel', this.serialize());
 
-        this.interval = setInterval(() => { this.timer -= 1; io.to(this.id).emit('updateChannel', this.serialize()); }, 1000);
         this.launchJudge = () => { clearInterval(this.interval); this.judgementState(); io.to(this.id).emit('updateChannel', this.serialize()); };
+        this.interval = setInterval(() => { this.timer -= 1; io.to(this.id).emit('updateChannel', this.serialize()); }, 1000);
         this.timeout = setTimeout(this.launchJudge, this.getAnwersTime());
       } catch (err) {
         client.emit('err', err.message);
@@ -172,10 +172,14 @@ class UTLGame extends Channel {
       const currentGamePlayer = this.players.find(p => p.id === client.id);
       currentGamePlayer.answers = answers;
 
-      if (this.hasAllPlayersAnswered()) {
-        // TODO MODIFY WITH A 5 SECONDES FINAL TIMER
-        clearTimeout(this.timeout);
-        this.launchJudge();
+      if (this.timer > 5 && this.hasAllPlayersAnswered()) {
+        if (this.timeout) {
+          // 5 SECONDES FINAL TIMER
+          clearTimeout(this.timeout);
+          setTimeout(this.launchJudge, 5000);
+          this.timer = 5;
+          this.timeout = null;
+        }
       }
 
       io.to(this.id).emit('updateChannel', this.serialize());
