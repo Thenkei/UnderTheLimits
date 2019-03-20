@@ -28,7 +28,9 @@ export function wssUpdateChannel() {
     updateChannel((wsUpdateChannelRes) => {
       if (wsUpdateChannelRes) {
         dispatch(updateChannelSucess(wsUpdateChannelRes));
-        dispatch(updatePlayer(wsUpdateChannelRes.players));
+        if (wsUpdateChannelRes.players) {
+          dispatch(updatePlayer(wsUpdateChannelRes.players));
+        }
       }
     });
   };
