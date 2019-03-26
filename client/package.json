@@ -67,8 +67,7 @@
     "test": "$(npm bin)/jest --detectOpenHandles",
     "build:clean": "rm -rf dist",
     "build:dev": "webpack --mode development --module-bind js=babel-loader --watch",
-    "build:qa": "yarn build:clean && webpack --mode development --module-bind js=babel-loader --display=verbose",
-    "build": "yarn build:prod",
+    "build:qa": "yarn build:clean && webpack --mode production --module-bind js=babel-loader --display=verbose",
     "start:dev": "webpack-dev-server --mode development --port 3000 --hot --host 0.0.0.0"
   },
   "browserslist": [
