@@ -9,7 +9,7 @@ class ChannelsManager {
   }
 
   // adminPlayer.currentStatus = 'IN_CHANNEL';
-  async createUtlChanel(channelName, admin, channelOpts) {
+  async createUtlChanel(channelName, admin, channelOpts = {}) {
     if (this.channels.length >= MAX_CHANNEL_COUNT) {
       throw new Error('Le serveur est complet, attendez qu\'un salon se libère !');
     }
@@ -18,9 +18,7 @@ class ChannelsManager {
       'utlgame',
       channelName,
       admin,
-      channelOpts.minPlayersCount,
-      channelOpts.maxPlayersCount,
-      channelOpts.maxPoints,
+      channelOpts,
     );
 
     await utlGame.init();
@@ -45,10 +43,10 @@ class ChannelsManager {
         const removed = channel.removePlayerById(socket);
         if (removed) {
           console.log('[ChannelsManager] Dangling disconnected player', removed.name, 'disconnected from channel', channel.name);
-          // SocketProvider.get().to(channel.id).emit('updateChannel', c.serialize());
           if (channel.players.length === 0) {
             array.splice(index, 1);
             console.log('[ChannelsManager] Remove channel', channel.name);
+            // SocketProvider.get().to(LOBBY).emit('updateLobby', c.serialize());
           }
         }
       });

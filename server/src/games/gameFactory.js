@@ -5,34 +5,30 @@ const GameFactory = (
   type,
   channelName,
   admin,
-  minPlayersCount,
-  maxPlayersCount,
-  playerMaxPoint,
+  channelOpts,
 ) => {
   if (type === 'utlgame') {
     return new UTLGame(
       channelName,
       admin,
-      minPlayersCount,
-      maxPlayersCount,
-      playerMaxPoint,
+      channelOpts.minPlayersCount,
+      channelOpts.maxPlayersCount,
+      channelOpts.maxPoints,
     );
   }
   if (type === 'utlplus') {
     return new UTLPlus(
       channelName,
       admin,
-      minPlayersCount,
-      maxPlayersCount,
-      playerMaxPoint,
+      channelOpts.minPlayersCount,
+      channelOpts.maxPlayersCount,
+      channelOpts.playerMaxPoint,
     );
   }
 
   return new UTLGame(
     channelName,
     admin,
-    minPlayersCount,
-    maxPlayersCount,
   );
 };
 
