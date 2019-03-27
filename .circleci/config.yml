@@ -67,10 +67,6 @@ workflows:
           requires:
             - build
             - request_dockerize
-      - request_deploy_dev:
-          type: approval
-          requires:
-            - dockerize
       - deploy_dev:
           requires:
-            - request_deploy_dev
+            - dockerize
