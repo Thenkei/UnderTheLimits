@@ -13,12 +13,13 @@ import {
   Badge,
 } from 'react-bootstrap';
 
-import UnderTheLimits from '../../components/UnderTheLimits';
-import Score from '../../components/Score';
+import {
+  UnderTheLimits,
+  Score,
+  Chat,
+} from '../../components';
 
 import { wssStartGame, wssSelectedAnswers, wssSelectJudgment } from '../../reducers/game';
-
-import Chat from '../../components/Chat';
 
 import {
   wssSendMessage,

@@ -1,0 +1,56 @@
+//
+// Chat style
+// --------------------------------------------------
+
+@import '../../style/variables/variables';
+
+/** @define Chat */
+
+.Chat {
+  display: flex;
+  flex-direction: column;
+  width: $chat-width;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba( 0, 0, 0, .2 );
+  box-shadow: -10px 0 50px rgba( 0, 0, 0, .2 );
+}
+
+.Chat-sendedMessages {
+  flex: 1 1 auto;
+}
+
+.Chat-topBar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 32px;
+  margin-bottom: 0;
+  padding: 8px;
+  background: linear-gradient( 45deg, rgba( #135c7e, .8 ), rgba( #082f48, .8 ) );
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.Chat-messagesFlow {
+  height: 100%;
+  border-radius: 0;
+  background-color: transparent;
+}
+
+.Chat-sendMessage {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0;
+  padding: 12px;
+}
+
+.Chat-sendMessageInput {
+  background-color: transparent;
+}
+
+.Chat-sendMessageButton {
+  background-color: transparent;
+}

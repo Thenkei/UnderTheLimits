@@ -11,7 +11,7 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import Layout from './components/Layout';
+import { RootLayout } from './layouts';
 
 import Index from './screens/Index';
 import Lobby from './screens/Lobby';
@@ -35,7 +35,7 @@ const store = createStore(
 
 const router = (
   <Provider store={store}>
-    <Layout>
+    <RootLayout>
       <Router>
         <Switch>
           <Route exact path='/' component={Index} />
@@ -45,7 +45,7 @@ const router = (
           <Route component={NoMatch} />
         </Switch>
       </Router>
-    </Layout>
+    </RootLayout>
   </Provider>
 );
 ReactDOM.render(router, document.getElementById('root'));

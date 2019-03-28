@@ -46,12 +46,12 @@ class MainLayout extends React.Component {
   }
 }
 
-MainLayout.defaultProps = {
+RootLayout.defaultProps = {
   error: null,
   success: null,
 };
 
-MainLayout.propTypes = {
+RootLayout.propTypes = {
   children: PropTypes.shape({}).isRequired,
 
   error: PropTypes.string,
@@ -87,4 +87,4 @@ const mapDispatchToProps = dispatch => ({
   },
   appStopSound: () => dispatch(stopSound()),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(MainLayout);
+export default connect(mapStateToProps, mapDispatchToProps)(RootLayout);

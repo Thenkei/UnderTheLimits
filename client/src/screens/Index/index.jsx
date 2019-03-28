@@ -5,23 +5,20 @@ import PropTypes from 'prop-types';
 import { withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import {
-  Button,
-  FormControl,
-  Form,
-} from 'react-bootstrap';
+import { Button, FormControl, Form } from 'react-bootstrap';
+
+import './style.scss';
 
 import { displayErrorMessage } from '../../reducers/app';
 import { wssCreatePlayer } from '../../reducers/player';
 
 const Index = ({
-  createPlayer,
-  player,
-  displayError,
-  location,
+  createPlayer, player, displayError, location,
 }) => {
   const utlPlayer = JSON.parse(localStorage.getItem('utl-player'));
-  const [playerName, setPlayerName] = useState(utlPlayer === null ? '' : utlPlayer.name);
+  const [playerName, setPlayerName] = useState(
+    utlPlayer === null ? '' : utlPlayer.name,
+  );
 
   if (player) {
     let to = '/lobby';
@@ -32,31 +29,35 @@ const Index = ({
   }
 
   return (
-    <Form
-      onSubmit={(e) => {
-        e.preventDefault();
-        const usernameRegex = /^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/;
-        if (playerName && playerName.match(usernameRegex)) {
-          createPlayer(playerName);
-        } else {
-          displayError({ message: `Le nom ${playerName} n'est pas valide !` });
-        }
-      }}
-      inline
-      className='Form_animated'
-    >
-      <FormControl
-        type='text'
-        value={playerName || ''}
-        placeholder='Name'
-        onChange={(e) => {
-          setPlayerName(e.target.value);
+    <div className='LoginForm-wrapper'>
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault();
+          const usernameRegex = /^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/;
+          if (playerName && playerName.match(usernameRegex)) {
+            createPlayer(playerName);
+          } else {
+            displayError({
+              message: `Le nom ${playerName} n'est pas valide !`,
+            });
+          }
         }}
-      />
-      <Button variant='success' type='submit'>
-        Ok
-      </Button>
-    </Form>
+        inline
+        className='LoginForm_animated'
+      >
+        <FormControl
+          type='text'
+          value={playerName || ''}
+          placeholder='Name'
+          onChange={(e) => {
+            setPlayerName(e.target.value);
+          }}
+        />
+        <Button variant='success' type='submit'>
+          Ok
+        </Button>
+      </Form>
+    </div>
   );
 };
 
@@ -89,4 +90,9 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Index));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Index),
+);
