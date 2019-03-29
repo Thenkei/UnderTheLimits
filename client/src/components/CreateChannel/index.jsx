@@ -37,8 +37,8 @@ const CreateChannel = ({ onCreateChannel }) => {
             onSubmit={(e) => {
               e.preventDefault();
               const channel = {
-                name: channelName,
                 opts: {
+                  channelName,
                   minPlayersCount,
                   maxPlayersCount,
                   maxPoints,

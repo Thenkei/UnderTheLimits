@@ -67,7 +67,6 @@ class Lobby {
 
         try {
           const channel = await this.channelsManager.createUtlChanel(
-            channelReq.name,
             currentPlayer,
             channelReq.opts,
           );

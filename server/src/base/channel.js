@@ -2,10 +2,10 @@ const { CHANNEL_STATUS } = require('../status');
 
 
 class Channel {
-  constructor(name, admin, minPlayersCount = 2, maxPlayersCount = 8) {
+  constructor(name, minPlayersCount = 2, maxPlayersCount = 8) {
     this.id = Math.floor(Math.random() * Math.floor(100));
     this.name = name || '';
-    this.admin = admin;
+    this.admin = {};
     this.players = [];
     this.currentStatus = CHANNEL_STATUS.IDLE;
 
@@ -14,12 +14,7 @@ class Channel {
   }
 
   addPlayer(player) {
-    if (this.isRunning()) { throw new Error('Partie en cours, impossible de rejoindre ce salon.'); }
-    if (this.players.length <= this.maxPlayersCount) {
-      this.players.push(player);
-    } else {
-      throw new Error(`Plus de place dans le salon ${this.name} !`);
-    }
+    this.players.push(player);
   }
 
   removePlayerById(id) {
@@ -63,35 +58,37 @@ class Channel {
     console.log(debug);
   }
 
-  canStart() {
-    return this.players.length >= this.minPlayersCount;
-  }
-
   isRunning() {
     return this.currentStatus !== CHANNEL_STATUS.IDLE;
   }
 
   nextRound() {
     // Check channel cannot start
-    if (!this.canStart()) {
+    if (this.players.length < this.minPlayersCount) {
       throw new Error('Il n\'y a pas assez de joueurs dans ce salon !');
     }
   }
 
-  tryReconnectOrConnect(player, socket) {
-    const canReconnect = this.players.find(p => (p.name === player.name));
+  tryReconnectOrConnect(user, socket) {
+    const canReconnect = this.players.find(p => (p.name === user.name));
     if (canReconnect) {
       canReconnect.id = socket;
+      console.log('[Channel] Reconnect ', user.name, 'into channel', this.name);
     } else {
-      try {
-        this.addPlayer(player);
-      } catch (err) {
-        throw err;
+      if (this.isRunning()) {
+        throw new Error('Partie en cours, impossible de rejoindre ce salon.');
+      }
+      if (this.players.length === this.maxPlayersCount) {
+        throw new Error(`Plus de place dans le salon ${this.name} !`);
+      } else {
+        // Set admin for the first joining
+        if (this.players.length === 0) { this.admin = user; }
+        this.addPlayer(user);
+        console.log('[Channel] Connect ', user.name, 'into channel', this.name);
       }
     }
     /* eslint no-param-reassign: 0 */
-    player.currentStatus = 'IN_CHANNEL';
-    console.log('[Channel] Reconnect ', player.name, 'into channel', this.name);
+    user.currentStatus = 'IN_CHANNEL';
   }
 
   serialize() {

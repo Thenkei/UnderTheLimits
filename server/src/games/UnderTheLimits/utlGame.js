@@ -1,6 +1,6 @@
 const Channel = require('../../base/channel');
 const DBProvider = require('../../utils/dbProvider');
-const Player = require('./player');
+const UTLPlayer = require('./player');
 
 const PLAYER_CARD_COUNT = 10;
 
@@ -12,8 +12,8 @@ const UTL_STATUS = {
 };
 
 class UTLGame extends Channel {
-  constructor(name, admin, minPlayersCount = 2, maxPlayersCount = 8, playerMaxPoint = 5) {
-    super(name, admin, minPlayersCount, maxPlayersCount);
+  constructor(name, minPlayersCount = 2, maxPlayersCount = 8, playerMaxPoint = 5) {
+    super(name, minPlayersCount, maxPlayersCount);
     this.deckAnswers = [];
     this.deckQuestions = [];
     this.timer = 0;
@@ -42,16 +42,12 @@ class UTLGame extends Channel {
     }
   }
 
-  addPlayer(c) {
-    super.addPlayer(new Player(c.socket, c.username));
+  addPlayer(user) {
+    super.addPlayer(new UTLPlayer(user.id, user.username));
   }
 
   nextRound(updateUser) {
-    try {
-      super.nextRound();
-    } catch (err) {
-      throw err;
-    }
+    super.nextRound();
 
     if (this.currentStatus === UTL_STATUS.IDLE) {
       console.log('[UTLGame] ', this.name, 'starting new game !');
