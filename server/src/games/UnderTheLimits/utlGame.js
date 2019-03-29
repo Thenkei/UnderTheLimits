@@ -109,9 +109,9 @@ class UTLGame extends Channel {
       p.setGameMaster(false);
     });
 
-    winner.scored();
-    userCumul(winner, 1, `${winner.name} remporte la manche !`);
+    winner.score += 1;
     winner.setGameMaster(true);
+    userCumul(winner, 1, `${winner.name} remporte la manche !`);
 
     const resultat = this.players.find(p => p.score >= this.playerMaxPoint);
     if (resultat) {

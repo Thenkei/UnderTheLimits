@@ -34,14 +34,15 @@ class UTLPlus extends UTLGame {
     userCumul(winner, JUDGMENTS_SCORE[this.judgment], `${winner.name} ${JUDGMENTS_SENTENCE[this.judgment]}`);
     this.judgment += 1;
 
-    const resultat = this.players.find(p => p.score >= PLAYER_MAX_POINT);
-
     if (this.judgment > 2) {
-      this.judgment = 0;
       winner.setGameMaster(true);
+      this.judgment = 0;
 
+      const resultat = this.players.find(p => p.score >= PLAYER_MAX_POINT);
       if (resultat) {
-        userPoint(winner, `Le vainqueur est ${winner.name}`);
+        // TODO Check if several players have the required scrore to win
+        // and find the one with the highest score in resultat
+        userPoint(resultat[0], `Le vainqueur est ${resultat[0].name}`);
         this.currentStatus = UTL_STATUS.IDLE;
       } else {
         this.currentStatus = UTL_STATUS.WAITING_GAME;

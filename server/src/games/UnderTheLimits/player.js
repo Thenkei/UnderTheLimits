@@ -16,10 +16,6 @@ class Player {
     this.answers = [];
   }
 
-  scored() {
-    this.score = this.score + 1;
-  }
-
   setGameMaster(isGameMaster) {
     this.isGameMaster = isGameMaster;
   }
