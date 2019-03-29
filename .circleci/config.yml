@@ -37,24 +37,22 @@ jobs:
       - run: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
       - run: gcloud --quiet config set project ${GCP_PROJECT}
       - run: gcloud docker -- push eu.gcr.io/${GCP_PROJECT}/utl:master-latest
-  deploy_qa:
+  deploy_dev:
     working_directory: ~/UnderTheLimits
     docker:
       - image: google/cloud-sdk
     environment:
       - GCZ: "europe-west1-b"
-      - CLUSTER_NAME: "qa-utl"
+      - CLUSTER_NAME: "utl-dev"
     steps:
       - checkout
-      - run: curl -L https://github.com/kubernetes/kompose/releases/download/v1.17.0/kompose-linux-amd64 -o kompose
-      - run: chmod +x kompose
-      - run: mv ./kompose /usr/local/bin/kompose
       - run: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
       - run: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
       - run: gcloud --quiet config set project ${GCP_PROJECT}
       - run: gcloud --quiet config set compute/zone ${GCZ}
       - run: gcloud container clusters get-credentials ${CLUSTER_NAME}
-      - run: kompose convert
+      - run: kubectl delete --all pods --namespace=utl-dev
+      - run: kubectl apply -f infra/utl-deployment.yml
 workflows:
   version: 2
   build_and_dockerize:
@@ -69,6 +67,6 @@ workflows:
           requires:
             - build
             - request_dockerize
-      - deploy_qa:
+      - deploy_dev:
           requires:
             - dockerize

@@ -55,7 +55,7 @@ export const initialState = {
 export const handlers = {
   [CHAT_MESSAGES + FETCH_SUCCESS]: (state, { message }) => {
     let { messages } = state;
-    if (messages.length >= 25) {
+    if (messages.size >= 25) {
       messages = messages.shift();
     }
     messages = messages.push(message);
