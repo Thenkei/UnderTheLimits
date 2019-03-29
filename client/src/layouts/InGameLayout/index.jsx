@@ -30,7 +30,7 @@ class InGameLayout extends Component {
         <main className='IngameLayout-mainContent'>
           { this.props.children }
         </main>
-        <Chat messages={this.props.messages} sendMessage={this.props.sendMessage} />
+        <Chat username={this.props.username} messages={this.props.messages} sendMessage={this.props.sendMessage} />
       </div>
     );
   }
@@ -44,6 +44,7 @@ InGameLayout.propTypes = {
 
 const mapStateToProps = state => ({
   messages: state.chat.messages,
+  username: state.player.username,
 });
 
 const mapDispatchToProps = dispatch => ({
