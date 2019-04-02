@@ -30,8 +30,6 @@ const strategy = new Auth0Strategy(
   ),
 );
 
-
-
 const sess = {
   secret: 'jesuisunebelle4pplication4313',
   cookie: {},
@@ -42,6 +40,46 @@ const sess = {
 // if (app.get('env') === 'production') {
 //   sess.cookie.secure = true; // serve secure cookies, requires https
 // }
+// You can use this section to keep a smaller payload
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  console.log(user);
+  done(null, user);
+});
+
+const authRouter = express.Router();
+
+// Perform the login, after login Auth0 will redirect to callback
+authRouter.get('/login', passport.authenticate('auth0', {
+  scope: 'openid email profile',
+}), (req, res) => {
+  res.redirect('/');
+});
+
+// Perform the final stage of authentication and redirect to previously requested URL or '/user'
+authRouter.get('/callback', (req, res, next) => {
+  passport.authenticate('auth0',
+    (err, user, info) => {
+      if (err) { return next(err); }
+      if (!user) { return res.redirect('/login'); }
+      return req.logIn(user, (error) => {
+        if (error) { return next(error); }
+        const { returnTo } = req.session;
+        delete req.session.returnTo;
+        console.log(info);
+        return res.redirect(returnTo || '/test');
+      });
+    })(req, res, next);
+});
+
+// Perform session logout and redirect to homepage
+authRouter.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
 
 const socketServer = http.createServer(app);
 
@@ -52,6 +90,7 @@ const socketServer = http.createServer(app);
   app.use(session(sess));
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use('/', authRouter);
   app.use(express.static(path.join(__dirname, './client/dist')));
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, './client/dist/index.html'));
