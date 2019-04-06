@@ -41,8 +41,8 @@ export function displaySuccessMessage(message) {
   return dispatch => dispatch({ type: SUCCESS_MESSAGE, message });
 }
 
-export function playSound() {
-  return dispatch => dispatch({ type: PLAY_SOUND });
+export function playSound(url) {
+  return dispatch => dispatch({ type: PLAY_SOUND, url });
 }
 export function stopSound() {
   return dispatch => dispatch({ type: STOP_SOUND });
@@ -83,6 +83,7 @@ export const initialState = {
   isLoading: false,
   error: null,
   success: null,
+  sound: '',
   isPlaySound: false,
   isSoundMuted: false,
 };
@@ -107,8 +108,9 @@ export const handlers = {
     ...state,
     success: message,
   }),
-  [PLAY_SOUND]: state => ({
+  [PLAY_SOUND]: (state, { url }) => ({
     ...state,
+    sound: url,
     isPlaySound: true,
   }),
   [STOP_SOUND]: state => ({

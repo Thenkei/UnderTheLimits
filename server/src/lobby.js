@@ -54,7 +54,9 @@ class Lobby {
             client.id,
           );
           client.emit('playerCreated', { player });
-          io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', this.serialize());
+          const send = this.serialize();
+          send.lobby.event = 'playerCreated';
+          io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', send);
         } catch (err) {
           client.emit('err', err.message);
         }

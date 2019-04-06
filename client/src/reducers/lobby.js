@@ -1,6 +1,7 @@
 import { FETCH_REQUEST, FETCH_SUCCESS } from './constants';
 
 import { updateLobby } from '../services/Api';
+import { playSound } from './app';
 
 const UPDATE_LOBBY = '@UTL/UPDATE_LOBBY';
 
@@ -19,6 +20,10 @@ export function wssUpdateLobby() {
     dispatch(updateLobbyRequest());
     updateLobby((wsUpdateLobbyRes) => {
       if (wsUpdateLobbyRes) {
+        console.log(wsUpdateLobbyRes);
+        if (wsUpdateLobbyRes.event === 'playerCreated') {
+          dispatch(playSound('new-chalenger.mp3'));
+        }
         dispatch(updateLobbySucess(wsUpdateLobbyRes));
       }
     });

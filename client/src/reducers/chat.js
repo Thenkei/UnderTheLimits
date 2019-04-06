@@ -17,6 +17,7 @@ import {
  */
 const CHAT_MESSAGES = '@CHAT/CHAT_MESSAGES';
 const SEND_MESSAGE = '@CHAT/SEND_MESSAGE';
+
 /**
  * Actions
  */
@@ -33,7 +34,7 @@ export function wssChatMessages() {
     chatMessages((wsChatMessages) => {
       dispatch(chatMessagesSuccess(wsChatMessages));
       if (!wsChatMessages.isPlayer) {
-        dispatch(playSound());
+        dispatch(playSound('ding.mp3'));
       }
     });
   };

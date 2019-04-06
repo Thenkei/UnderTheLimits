@@ -20,6 +20,7 @@ class MainLayout extends React.Component {
       isPlaySound,
       isSoundMuted,
       appStopSound,
+      sound,
     } = this.props;
 
     return (
@@ -27,7 +28,7 @@ class MainLayout extends React.Component {
         {error && <Alert variant='danger'>{error}</Alert>}
         {success && <Alert variant='success'>{success}</Alert>}
         <Sound
-          url='/public/ding.mp3'
+          url={`/public/sounds/${sound}`}
           playStatus={isPlaySound ? Sound.status.PLAYING : Sound.status.STOPPED}
           volume={isSoundMuted ? 0 : 100}
           onFinishedPlaying={() => appStopSound()}
@@ -55,6 +56,7 @@ MainLayout.propTypes = {
 
   error: PropTypes.string,
   success: PropTypes.string,
+  sound: PropTypes.string.isRequired,
   isPlaySound: PropTypes.bool.isRequired,
   isSoundMuted: PropTypes.bool.isRequired,
 
@@ -66,12 +68,14 @@ const mapStateToProps = (state) => {
   const {
     errorMessage,
     success,
+    sound,
     isPlaySound,
     isSoundMuted,
   } = state.app;
   return {
     error: errorMessage,
     success,
+    sound,
     isPlaySound,
     isSoundMuted,
   };
