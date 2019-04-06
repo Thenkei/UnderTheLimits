@@ -54,7 +54,9 @@ class Lobby {
             client.id,
           );
           client.emit('playerCreated', { player });
-          io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', this.serialize());
+          const send = this.serialize();
+          send.lobby.event = 'playerCreated';
+          io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', send);
         } catch (err) {
           client.emit('err', err.message);
         }
@@ -103,8 +105,10 @@ class Lobby {
       client.on('chat/message', (msg) => {
         const channel = this.channelsManager.getChannelById(Object.values(client.rooms)[0]);
         const currentPlayer = this.usersManager.getUserBySocket(client.id);
-        const message = `[${currentPlayer.name}] - ${encodeURI(msg)}`;
-        io.to(channel ? channel.id : SOCKET_ROOM_LOBBY).emit('chat/message', message);
+        const message = { player: currentPlayer.name, message: encodeURI(msg) };
+        client.broadcast.to(channel ? channel.id : SOCKET_ROOM_LOBBY).emit('chat/message', message);
+        message.isPlayer = true;
+        client.emit('chat/message', message);
       });
     });
   }

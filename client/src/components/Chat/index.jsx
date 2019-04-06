@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 
 const Chat = ({ sendMessage, messages }) => {
   const [message, setMessage] = useState('');
-  const formattedMessages = messages.map(m => decodeURI(m)).reverse().join('\n');
+  const formattedMessages = messages.map(m => `${m.player} - ${decodeURI(m.message)}`).reverse().join('\n');
   return (
     <Form onSubmit={e => e.preventDefault()} autoComplete='off'>
       <Form.Group controlId='chatForm.textarea'>

@@ -4,6 +4,8 @@ import {
   FETCH_SUCCESS,
 } from './constants';
 
+import { playSound } from './app';
+
 import {
   chatMessages,
   sendMessage,
@@ -15,6 +17,7 @@ import {
  */
 const CHAT_MESSAGES = '@CHAT/CHAT_MESSAGES';
 const SEND_MESSAGE = '@CHAT/SEND_MESSAGE';
+
 /**
  * Actions
  */
@@ -26,11 +29,13 @@ function sendMessageSuccess() {
   return { type: SEND_MESSAGE + FETCH_SUCCESS };
 }
 
-
 export function wssChatMessages() {
   return (dispatch) => {
     chatMessages((wsChatMessages) => {
       dispatch(chatMessagesSuccess(wsChatMessages));
+      if (!wsChatMessages.isPlayer) {
+        dispatch(playSound('ding.mp3'));
+      }
     });
   };
 }

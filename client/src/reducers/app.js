@@ -12,6 +12,9 @@ const APP_INIT = '@UTL/APP_INIT';
 
 const ERROR_MESSAGE = '@APP/ERROR_MESSAGE';
 const SUCCESS_MESSAGE = '@APP/SUCCESS_MESSAGE';
+const PLAY_SOUND = '@APP/PLAY_SOUND';
+const STOP_SOUND = '@APP/STOP_SOUND';
+const TOGGLE_SOUND = '@APP/TOGGLE_SOUND';
 
 const DEFAULT_ERROR_TIMEOUT = 3000;
 const DEFAULT_SUCCESS_TIMEOUT = 8000;
@@ -36,6 +39,16 @@ export function displayErrorMessage(message) {
 
 export function displaySuccessMessage(message) {
   return dispatch => dispatch({ type: SUCCESS_MESSAGE, message });
+}
+
+export function playSound(url) {
+  return dispatch => dispatch({ type: PLAY_SOUND, url });
+}
+export function stopSound() {
+  return dispatch => dispatch({ type: STOP_SOUND });
+}
+export function toggleSound() {
+  return dispatch => dispatch({ type: TOGGLE_SOUND });
 }
 
 
@@ -70,6 +83,9 @@ export const initialState = {
   isLoading: false,
   error: null,
   success: null,
+  sound: '',
+  isPlaySound: false,
+  isSoundMuted: false,
 };
 
 /**
@@ -91,5 +107,18 @@ export const handlers = {
   [SUCCESS_MESSAGE]: (state, { message }) => ({
     ...state,
     success: message,
+  }),
+  [PLAY_SOUND]: (state, { url }) => ({
+    ...state,
+    sound: url,
+    isPlaySound: true,
+  }),
+  [STOP_SOUND]: state => ({
+    ...state,
+    isPlaySound: false,
+  }),
+  [TOGGLE_SOUND]: state => ({
+    ...state,
+    isSoundMuted: !state.isSoundMuted,
   }),
 };
