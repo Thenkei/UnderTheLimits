@@ -1,6 +1,6 @@
 import openSocket from 'socket.io-client';
 
-const socket = openSocket(`http://${window.location.hostname}:${window.location.port}`, { path: '/api/socket.io' });
+const socket = openSocket(`${window.location.protocol}//${window.location.hostname}:${window.location.port}`, { path: '/api/socket.io' });
 
 if (!global.socket) {
   global.socket = socket;
