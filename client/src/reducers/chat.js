@@ -4,6 +4,8 @@ import {
   FETCH_SUCCESS,
 } from './constants';
 
+import { playSound } from './app';
+
 import {
   chatMessages,
   sendMessage,
@@ -26,11 +28,13 @@ function sendMessageSuccess() {
   return { type: SEND_MESSAGE + FETCH_SUCCESS };
 }
 
-
 export function wssChatMessages() {
   return (dispatch) => {
     chatMessages((wsChatMessages) => {
       dispatch(chatMessagesSuccess(wsChatMessages));
+      if (!wsChatMessages.isPlayer) {
+        dispatch(playSound());
+      }
     });
   };
 }
