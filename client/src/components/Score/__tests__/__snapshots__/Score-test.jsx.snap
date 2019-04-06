@@ -2,42 +2,66 @@
 
 exports[`renders correctly 1`] = `
 <dl>
-  <div
-    className="row"
-  >
+  <div>
     <dt>
       
-      <span
-        className="badge"
+      <div
+        className="MuiChip-root-1"
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        role="button"
+        tabIndex={-1}
       >
-        Player1
-      </span>
-      <span
-        className="badge"
+        <span
+          className="MuiChip-label-20"
+        >
+          Player1
+        </span>
+      </div>
+      <div
+        className="MuiChip-root-1"
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        role="button"
+        tabIndex={-1}
       >
-        120
-         
-        pt(s)
-      </span>
+        <span
+          className="MuiChip-label-20"
+        >
+          120  pt(s)
+        </span>
+      </div>
     </dt>
   </div>
-  <div
-    className="row"
-  >
+  <div>
     <dt>
       
-      <span
-        className="badge"
+      <div
+        className="MuiChip-root-1"
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        role="button"
+        tabIndex={-1}
       >
-        Player2
-      </span>
-      <span
-        className="badge"
+        <span
+          className="MuiChip-label-20"
+        >
+          Player2
+        </span>
+      </div>
+      <div
+        className="MuiChip-root-1"
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        role="button"
+        tabIndex={-1}
       >
-        200
-         
-        pt(s)
-      </span>
+        <span
+          className="MuiChip-label-20"
+        >
+          200  pt(s)
+        </span>
+      </div>
     </dt>
   </div>
 </dl>

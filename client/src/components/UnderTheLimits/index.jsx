@@ -2,20 +2,21 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Card from '../Card';
+import { Typography } from '..';
 
 import './UnderTheLimits.scss';
 
 function DisplayTimer(prop) {
   return (
-    <h3>
+    <Typography variant='h5'>
       Il reste
       {` ${prop.timer}s`}
-    </h3>
+    </Typography>
   );
 }
 
 function DisplayIdle() {
-  return <h3>En attente..</h3>;
+  return <Typography variant='h5'>En attente..</Typography>;
 }
 
 class UnderTheLimits extends Component {
@@ -110,10 +111,10 @@ class UnderTheLimits extends Component {
         return (
           <React.Fragment>
             <div>
-              <p>
+              <Typography>
                 Le gagnant de la manche est
                 {`${player.name}:`}
-              </p>
+              </Typography>
             </div>
             <div className='CardsContainer CardsContainer_question'>
               {

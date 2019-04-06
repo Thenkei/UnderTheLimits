@@ -71,7 +71,7 @@ class UTLGame extends Channel {
       p.hand.push(...this.deckAnswers.splice(0, PLAYER_CARD_COUNT - p.hand.length));
     });
 
-    this.timer = 40 + 5 * (this.deckQuestions[0].text.match(/______/g) || []).length;
+    this.timer = 400 + 5 * (this.deckQuestions[0].text.match(/______/g) || []).length;
     this.currentStatus = UTL_STATUS.PLAYING_CARD;
 
     console.log('[UTLGame] ', this.name, 'starting new round...');

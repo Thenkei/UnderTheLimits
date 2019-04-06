@@ -10,6 +10,8 @@ import {
  */
 const APP_INIT = '@UTL/APP_INIT';
 
+const ADD = '_ADD';
+const REMOVE = '_REMOVE';
 const ERROR_MESSAGE = '@APP/ERROR_MESSAGE';
 const SUCCESS_MESSAGE = '@APP/SUCCESS_MESSAGE';
 const PLAY_SOUND = '@APP/PLAY_SOUND';
@@ -30,15 +32,21 @@ function initSucess() {
 }
 
 function displayError(message) {
-  return { type: ERROR_MESSAGE, message };
+  return { type: ERROR_MESSAGE + ADD, message };
 }
 
 export function displayErrorMessage(message) {
   return dispatch => dispatch(displayError(message));
 }
+export function removeErrorMessage() {
+  return dispatch => dispatch({ type: ERROR_MESSAGE + REMOVE });
+}
 
 export function displaySuccessMessage(message) {
-  return dispatch => dispatch({ type: SUCCESS_MESSAGE, message });
+  return dispatch => dispatch({ type: SUCCESS_MESSAGE + ADD, message });
+}
+export function removeSuccessMessage() {
+  return dispatch => dispatch({ type: SUCCESS_MESSAGE + REMOVE });
 }
 
 export function playSound(url) {
@@ -100,11 +108,11 @@ export const handlers = {
     ...state,
     isLoading: false,
   }),
-  [ERROR_MESSAGE]: (state, { message }) => ({
+  [ERROR_MESSAGE + ADD]: (state, { message }) => ({
     ...state,
     errorMessage: message,
   }),
-  [SUCCESS_MESSAGE]: (state, { message }) => ({
+  [SUCCESS_MESSAGE + ADD]: (state, { message }) => ({
     ...state,
     success: message,
   }),
@@ -120,5 +128,13 @@ export const handlers = {
   [TOGGLE_SOUND]: state => ({
     ...state,
     isSoundMuted: !state.isSoundMuted,
+  }),
+  [ERROR_MESSAGE + REMOVE]: state => ({
+    ...state,
+    errorMessage: null,
+  }),
+  [SUCCESS_MESSAGE + REMOVE]: state => ({
+    ...state,
+    success: null,
   }),
 };

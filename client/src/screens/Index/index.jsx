@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { Button, FormControl, Form } from 'react-bootstrap';
+import { Input, Button } from '../../components';
 
 import './style.scss';
 
@@ -30,7 +30,7 @@ const Index = ({
 
   return (
     <div className='LoginForm-wrapper'>
-      <Form
+      <form
         onSubmit={(e) => {
           e.preventDefault();
           const usernameRegex = /^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/;
@@ -42,10 +42,9 @@ const Index = ({
             });
           }
         }}
-        inline
         className='LoginForm_animated'
       >
-        <FormControl
+        <Input
           type='text'
           value={playerName || ''}
           placeholder='Name'
@@ -53,10 +52,10 @@ const Index = ({
             setPlayerName(e.target.value);
           }}
         />
-        <Button variant='success' type='submit'>
+        <Button variant='contained' color='primary' type='submit'>
           Ok
         </Button>
-      </Form>
+      </form>
     </div>
   );
 };

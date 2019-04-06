@@ -2,26 +2,29 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { List } from 'immutable';
 
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import { Input, Button } from '..';
 
 import './style.scss';
 
 const Chat = ({ sendMessage, messages, username }) => {
   const [message, setMessage] = useState('');
-  const formattedMessages = messages.map(m => `${m.player} - ${decodeURI(m.message)}`).reverse().join('\n');
+  const formattedMessages = messages.map(m => `${m.player === username ? 'you' : m.player} - ${decodeURI(m.message)}`).reverse();
   return (
-    <Form
-      className='Chat'
-      onSubmit={e => e.preventDefault()}
-      autoComplete='off'
-    >
+    <div className='Chat'>
       <div className='Chat-sendedMessages'>
         <div className='Chat-topBar'> Toi aussi clash tes potos </div>
-        {formattedMessages}
+        {formattedMessages.map(m => <div key={m}>{m}</div>)}
       </div>
-      <Form.Group controlId='chatForm.message' className='Chat-sendMessage'>
-        <Form.Control
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (message && message.length > 0) {
+            setMessage('');
+            sendMessage(message);
+          }
+        }}
+      >
+        <Input
           className='Chat-sendMessageInput'
           type='message'
           placeholder='Votre message ...'
@@ -29,29 +32,26 @@ const Chat = ({ sendMessage, messages, username }) => {
           onChange={({ target }) => setMessage(target.value)}
         />
         <Button
+          variant='contained'
+          color='primary'
           className='Chat-sendMessageButton'
           type='submit'
-          onClick={() => {
-            if (message && message.length > 0) {
-              setMessage('');
-              sendMessage(message);
-            }
-          }}
         >
           Envoyer
         </Button>
-      </Form.Group>
-    </Form>
+      </form>
+    </div>
   );
 };
 
 Chat.defaultProps = {
   messages: [],
+  username: '',
 };
 
 Chat.propTypes = {
   sendMessage: PropTypes.func.isRequired,
-
+  username: PropTypes.string,
   messages: PropTypes.instanceOf(List),
 };
 

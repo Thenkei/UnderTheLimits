@@ -3,17 +3,13 @@ import PropTypes from 'prop-types';
 import { withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import {
-  Button,
-  Badge,
-  Form,
-} from 'react-bootstrap';
-
 import { InGameLayout } from '../../layouts';
 
 import {
+  Button,
   CreateChannel,
   Player,
+  Typography,
 } from '../../components';
 
 import {
@@ -58,7 +54,7 @@ class Lobby extends Component {
     }
 
     if (!this.props.lobby) {
-      return <p>Loading ...</p>;
+      return <Typography>Loading ...</Typography>;
     }
 
     if (this.props.currentChannel) {
@@ -68,25 +64,23 @@ class Lobby extends Component {
     return (
       <InGameLayout>
         <CreateChannel onCreateChannel={this.onCreateChannel} />
-        <h1>
-          <Badge>PLAYERS</Badge>
-        </h1>
+        <Typography variant='h3'>Players</Typography>
         {this.props.lobby.waitingPlayers.map(p => (
           <Player key={p.id} value={p} noScore />
         ))}
-        <h1>
-          <Badge>CHANNELS</Badge>
-        </h1>
+        <Typography variant='h3'>Channels</Typography>
         {this.props.lobby.channels.map(c => (
-          <Form key={c.id} inline>
+          <form key={c.id}>
             <Button
+              variant='contained'
+              color='primary'
               onClick={() => {
                 this.props.gotoChannel(c.id);
               }}
             >
               {c.name}
             </Button>
-          </Form>
+          </form>
         ))}
       </InGameLayout>
     );

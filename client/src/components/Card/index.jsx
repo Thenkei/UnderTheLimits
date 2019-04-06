@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import {
+  Tooltip,
+  Typography,
+} from '..';
 
 import './Card.scss';
 
@@ -11,11 +14,11 @@ const Card = ({
   let MainWrapper = React.Fragment;
   let wrapperProps = {};
   if (definition && definition.length > 0) {
-    MainWrapper = OverlayTrigger;
+    MainWrapper = Tooltip;
     wrapperProps = {
       placement: 'top',
       id: definition.toLowerCase().replace(' ', '_'), // For accessibility
-      overlay: <Tooltip>{definition}</Tooltip>,
+      title: definition,
     };
   }
 
@@ -28,7 +31,7 @@ const Card = ({
         style={{ border: checked && '3px solid red' }}
       >
         <div className='card-body'>
-          <p className='card-text'>{value}</p>
+          <Typography className='card-text'>{value}</Typography>
         </div>
       </div>
     </MainWrapper>

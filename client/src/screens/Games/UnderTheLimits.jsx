@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 
-import { Button, Badge } from 'react-bootstrap';
-
 import { InGameLayout } from '../../layouts';
 
 import {
+  Button,
   UnderTheLimits,
   Score,
+  Typography,
 } from '../../components';
 
 import { wssStartGame, wssSelectedAnswers, wssSelectJudgment } from '../../reducers/game';
@@ -28,18 +28,18 @@ const UnderTheLimitsGame = ({
 
   return (
     <InGameLayout>
-      <h1>
-        <Badge>{currentChannel.name}</Badge>
-      </h1>
-      <h3>
+      <Typography variant='h4'>{currentChannel.name}</Typography>
+      <Typography variant='h5'>
         {player.name}
         {player.isGameMaster ? ' c\'est vous le patron !' : ' à vous de jouer !'}
-      </h3>
+      </Typography>
       <Score players={currentChannel.players} />
       {player.name === currentChannel.admin.name
         && (currentChannel.currentStatus === 'WAITING_GAME'
           || currentChannel.currentStatus === 'IDLE') && (
           <Button
+            variant='contained'
+            color='primary'
             style={{ marginBottom: '20px' }}
             onClick={() => {
               startGame();
