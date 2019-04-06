@@ -43,13 +43,11 @@ spec:
         volumeMounts:
           - mountPath: "/etc/traefik"
             name: "config"
-          - mountPath: "/etc/acme/acme.json"
+          - mountPath: "/etc/acme"
             name: "acme"
         ports:
         - name: http
           containerPort: 80
-        - name: admin
-          containerPort: 8080
         args:
         - --configfile=/etc/traefik/traefik.toml
         - --web
