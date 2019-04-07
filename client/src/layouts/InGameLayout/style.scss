@@ -1,0 +1,28 @@
+//
+// Under The Limits Layout style
+// --------------------------------------------------
+
+@import '../../style/variables/variables';
+
+.InGameLayout {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.IngameLayout-mainContent {
+  flex: 1 1 auto;
+  height: 100%;
+  max-height: calc( 100vh - $top-app-bar-height );
+  overflow: auto;
+}
+
+/** @define ScoreBoard */
+
+.ScoreBoard {
+  width: 120px;
+  height: 100%;
+  max-height: calc( 100vh - $top-app-bar-height );
+  overflow: auto;
+  border: solid 1px magenta;
+}

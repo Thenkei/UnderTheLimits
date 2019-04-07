@@ -20,7 +20,6 @@ export function wssUpdateLobby() {
     dispatch(updateLobbyRequest());
     updateLobby((wsUpdateLobbyRes) => {
       if (wsUpdateLobbyRes) {
-        console.log(wsUpdateLobbyRes);
         if (wsUpdateLobbyRes.event === 'playerCreated') {
           dispatch(playSound('new-chalenger.mp3'));
         }

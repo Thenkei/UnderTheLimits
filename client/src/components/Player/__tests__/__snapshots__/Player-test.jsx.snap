@@ -3,17 +3,31 @@
 exports[`renders correctly 1`] = `
 <dt>
   &gt;
-  <span
-    className="badge"
+  <div
+    className="MuiChip-root-1"
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    role="button"
+    tabIndex={-1}
   >
-    BLBL
-  </span>
-  <span
-    className="badge"
+    <span
+      className="MuiChip-label-20"
+    >
+      BLBL
+    </span>
+  </div>
+  <div
+    className="MuiChip-root-1"
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    role="button"
+    tabIndex={-1}
   >
-    120
-     
-    pt(s)
-  </span>
+    <span
+      className="MuiChip-label-20"
+    >
+      120  pt(s)
+    </span>
+  </div>
 </dt>
 `;

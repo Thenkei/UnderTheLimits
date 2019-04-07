@@ -1,20 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Badge } from 'react-bootstrap';
+import { Chip } from '..';
 
 const Player = ({ value, noScore }) => (
   <React.Fragment>
     <dt>
       {value.isGameMaster ? '>' : ''}
-      <Badge>{value.name}</Badge>
-      { !noScore && (
-        <Badge>
-          {value.score}
-          {' '}
-          pt(s)
-        </Badge>
-      ) }
+      <Chip label={value.name} />
+      { !noScore && <Chip label={`${value.score} ${' '}pt(s)`} /> }
     </dt>
   </React.Fragment>
 );

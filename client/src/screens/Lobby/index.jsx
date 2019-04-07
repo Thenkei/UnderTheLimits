@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link, withRouter, Redirect } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { List } from 'immutable';
+
+import { InGameLayout } from '../../layouts';
 
 import {
-  Col,
   Button,
-  Row,
-  Badge,
-  Form,
-} from 'react-bootstrap';
+  CreateChannel,
+  Player,
+  Typography,
+} from '../../components';
 
-import CreateChannel from '../../components/CreateChannel';
-import Player from '../../components/Player';
-import Chat from '../../components/Chat';
 import {
   wssUpdateChannel,
   wssCreateChannel,
@@ -23,15 +20,9 @@ import {
 
 import { wssUpdateLobby } from '../../reducers/lobby';
 
-import {
-  wssSendMessage,
-  wssChatMessages,
-} from '../../reducers/chat';
-
 import QueryParser from '../../utils/queryParser';
 
-//
-import './App.scss';
+import './style.scss';
 
 class Lobby extends Component {
   constructor(props) {
@@ -44,7 +35,6 @@ class Lobby extends Component {
   componentDidMount() {
     this.props.updateLobby();
     this.props.updateChannel();
-    this.props.chatMessages();
   }
 
   componentDidUpdate() {
@@ -64,7 +54,7 @@ class Lobby extends Component {
     }
 
     if (!this.props.lobby) {
-      return <p>Loading ...</p>;
+      return <Typography>Loading ...</Typography>;
     }
 
     if (this.props.currentChannel) {
@@ -72,60 +62,27 @@ class Lobby extends Component {
     }
 
     return (
-      <React.Fragment>
-        <main>
-          <Row>
-            <Col sm={4}>
-              <CreateChannel onCreateChannel={this.onCreateChannel} />
-            </Col>
-            <Col sm={4}>
-              <h1>
-                <Badge>PLAYERS</Badge>
-              </h1>
-              {this.props.lobby.waitingPlayers.map(p => (
-                <Player key={p.id} value={p} noScore />
-              ))}
-            </Col>
-            <Col sm={4}>
-              <h1>
-                <Badge>CHANNELS</Badge>
-              </h1>
-              {this.props.lobby.channels.map(c => (
-                <Form key={c.id} inline>
-                  <Button
-                    onClick={() => {
-                      this.props.gotoChannel(c.id);
-                    }}
-                  >
-                    {c.name}
-                  </Button>
-                </Form>
-              ))}
-            </Col>
-          </Row>
-          <Row>
-            <Col sm={12}>
-              <Chat messages={this.props.messages} sendMessage={this.props.sendMessage} />
-            </Col>
-          </Row>
-        </main>
-        <footer className='App-footer'>
-          <Link
-            className='App-legalLink'
-            to='/mentions-legales'
-          >
-            Mention légales
-          </Link>
-          <a
-            className='App-legalLink'
-            href='https://github.com/Thenkei/UnderTheLimits'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            Github
-          </a>
-        </footer>
-      </React.Fragment>
+      <InGameLayout>
+        <CreateChannel onCreateChannel={this.onCreateChannel} />
+        <Typography variant='h3'>Players</Typography>
+        {this.props.lobby.waitingPlayers.map(p => (
+          <Player key={p.id} value={p} noScore />
+        ))}
+        <Typography variant='h3'>Channels</Typography>
+        {this.props.lobby.channels.map(c => (
+          <form key={c.id}>
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={() => {
+                this.props.gotoChannel(c.id);
+              }}
+            >
+              {c.name}
+            </Button>
+          </form>
+        ))}
+      </InGameLayout>
     );
   }
 }
@@ -145,8 +102,6 @@ Lobby.propTypes = {
   updateChannel: PropTypes.func.isRequired,
   createChannel: PropTypes.func.isRequired,
   gotoChannel: PropTypes.func.isRequired,
-  sendMessage: PropTypes.func.isRequired,
-  chatMessages: PropTypes.func.isRequired,
 
   currentChannel: PropTypes.shape({
     players: PropTypes.array,
@@ -165,14 +120,12 @@ Lobby.propTypes = {
     isGameMaster: PropTypes.bool,
     name: PropTypes.string,
   }),
-  messages: PropTypes.instanceOf(List).isRequired,
 };
 
 const mapStateToProps = state => ({
   lobby: state.lobby,
   player: state.player,
   currentChannel: state.channel,
-  messages: state.chat.messages,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -187,12 +140,6 @@ const mapDispatchToProps = dispatch => ({
   },
   gotoChannel: (gotoChannelReq) => {
     dispatch(wssGotoChannel(gotoChannelReq));
-  },
-  chatMessages: () => {
-    dispatch(wssChatMessages());
-  },
-  sendMessage: (msg) => {
-    dispatch(wssSendMessage(msg));
   },
 });
 

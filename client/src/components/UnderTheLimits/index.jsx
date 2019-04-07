@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Row } from 'react-bootstrap';
 import Card from '../Card';
+import { Typography } from '..';
 
 import './UnderTheLimits.scss';
 
 function DisplayTimer(prop) {
   return (
-    <h3>
+    <Typography variant='h5'>
       Il reste
       {` ${prop.timer}s`}
-    </h3>
+    </Typography>
   );
 }
 
 function DisplayIdle() {
-  return <h3>En attente..</h3>;
+  return <Typography variant='h5'>En attente..</Typography>;
 }
 
 class UnderTheLimits extends Component {
@@ -78,7 +78,7 @@ class UnderTheLimits extends Component {
         }
 
         return (
-          <Row className='CardsContainer CardsContainer_question'>
+          <div className='CardsContainer CardsContainer_question'>
             {playersShuffle.map((player) => {
               if (!player.isGameMaster) {
                 return (
@@ -100,7 +100,7 @@ class UnderTheLimits extends Component {
               }
               return null;
             })}
-          </Row>
+          </div>
         );
       }
       if (this.props.currentChannel.currentStatus === 'WAITING_GAME') {
@@ -110,13 +110,13 @@ class UnderTheLimits extends Component {
 
         return (
           <React.Fragment>
-            <Row>
-              <p>
+            <div>
+              <Typography>
                 Le gagnant de la manche est
                 {`${player.name}:`}
-              </p>
-            </Row>
-            <Row className='CardsContainer CardsContainer_question'>
+              </Typography>
+            </div>
+            <div className='CardsContainer CardsContainer_question'>
               {
                 <Card
                   key={`p${player.id}`}
@@ -127,8 +127,8 @@ class UnderTheLimits extends Component {
                   onClick={() => {}}
                 />
               }
-            </Row>
-            <Row className='CardsContainer CardsContainer_answers'>
+            </div>
+            <div className='CardsContainer CardsContainer_answers'>
               {this.props.player.hand.map(answer => (
                 <Card
                   key={answer.text}
@@ -137,7 +137,7 @@ class UnderTheLimits extends Component {
                   onClick={() => {}}
                 />
               ))}
-            </Row>
+            </div>
           </React.Fragment>
         );
       }
@@ -150,7 +150,7 @@ class UnderTheLimits extends Component {
       return (
         <React.Fragment>
           {timer}
-          <Row className='CardsContainer CardsContainer_question'>
+          <div className='CardsContainer CardsContainer_question'>
             <Card
               key='questioncard'
               value={this.getFilledQuestionText(
@@ -158,8 +158,8 @@ class UnderTheLimits extends Component {
                 this.props.player.hand,
               )}
             />
-          </Row>
-          <Row className='CardsContainer CardsContainer_answer'>
+          </div>
+          <div className='CardsContainer CardsContainer_answer'>
             {this.props.player.hand.map((answer, index) => (
               <Card
                 key={answer.text}
@@ -173,7 +173,7 @@ class UnderTheLimits extends Component {
                 checked={this.props.player.answers.indexOf(index) >= 0}
               />
             ))}
-          </Row>
+          </div>
         </React.Fragment>
       );
     }

@@ -2,10 +2,12 @@
 
 import React from 'react';
 
+import { Typography } from '../../components';
+
 const NoMatch = () => (
-  <p>
+  <Typography>
     404
-  </p>
+  </Typography>
 );
 
 export default NoMatch;

@@ -2,12 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { Alert } from 'react-bootstrap';
 import Sound from 'react-sound';
 
-import { wssInit, stopSound } from '../../reducers/app';
+import {
+  wssInit,
+  stopSound,
+  removeErrorMessage,
+  removeSuccessMessage,
+} from '../../reducers/app';
 
-class MainLayout extends React.Component {
+import {
+  Snackbar,
+  TopAppBar,
+} from '../../components';
+
+import './style.scss';
+
+class RootLayout extends React.Component {
   componentDidMount() {
     this.props.init();
   }
@@ -21,37 +32,49 @@ class MainLayout extends React.Component {
       isSoundMuted,
       appStopSound,
       sound,
+      appRemoveErrorMessage,
+      appRemoveSuccessMessage,
     } = this.props;
 
+    const message = error || success;
+    const remove = error ? appRemoveErrorMessage : appRemoveSuccessMessage;
+
     return (
-      <div className='App'>
-        {error && <Alert variant='danger'>{error}</Alert>}
-        {success && <Alert variant='success'>{success}</Alert>}
+      <div className='UnderTheLimits'>
+        <div className='UnderTheLimits-cardsBackground' />
+        <TopAppBar />
         <Sound
           url={`/public/sounds/${sound}`}
           playStatus={isPlaySound ? Sound.status.PLAYING : Sound.status.STOPPED}
           volume={isSoundMuted ? 0 : 100}
           onFinishedPlaying={() => appStopSound()}
         />
-        <header className='App-header'>
-          <img
-            src='/public/images/UTL_Logo.png'
-            alt='under-the-limits'
-            className='App-logo'
-          />
-        </header>
-        { children }
+        <div className='UnderTheLimits-content'>
+          { children }
+          {message && (
+            <Snackbar
+              open
+              onClose={() => remove()}
+              autoHideDuration={6000}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+              message={message}
+            />
+          )}
+        </div>
       </div>
     );
   }
 }
 
-MainLayout.defaultProps = {
+RootLayout.defaultProps = {
   error: null,
   success: null,
 };
 
-MainLayout.propTypes = {
+RootLayout.propTypes = {
   children: PropTypes.shape({}).isRequired,
 
   error: PropTypes.string,
@@ -62,6 +85,8 @@ MainLayout.propTypes = {
 
   init: PropTypes.func.isRequired,
   appStopSound: PropTypes.func.isRequired,
+  appRemoveErrorMessage: PropTypes.func.isRequired,
+  appRemoveSuccessMessage: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -86,5 +111,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(wssInit());
   },
   appStopSound: () => dispatch(stopSound()),
+  appRemoveErrorMessage: () => dispatch(removeErrorMessage()),
+  appRemoveSuccessMessage: () => dispatch(removeSuccessMessage()),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(MainLayout);
+export default connect(mapStateToProps, mapDispatchToProps)(RootLayout);

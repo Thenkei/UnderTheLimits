@@ -1,0 +1,25 @@
+//
+// Lobby style
+// --------------------------------------------------
+
+@import '../../style/variables/variables';
+
+/** @define MainContent */
+
+.MainContent {
+  width: calc( 100% - #{ $chat-width } );
+  border: solid 1px magenta;
+}
+
+/** @define App */
+
+.App-footer {
+  align-self: flex-end;
+  width: 100%;
+  margin-top: auto;
+  padding: 20px 10px;
+}
+
+.App-legalLink {
+  margin: 0 10px;
+}

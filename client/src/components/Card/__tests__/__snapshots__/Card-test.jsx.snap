@@ -15,7 +15,7 @@ exports[`renders correctly with a few props 1`] = `
     className="card-body"
   >
     <p
-      className="card-text"
+      className="MuiTypography-root-1 MuiTypography-body1-10 card-text"
     >
       BLBL - C'est un test !
     </p>

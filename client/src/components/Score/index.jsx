@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Row } from 'react-bootstrap';
 import Player from '../Player';
 
 const Score = ({ players }) => (
@@ -9,9 +8,9 @@ const Score = ({ players }) => (
     {
       players.map(p => (
         // Without the `key`, React will fire a key warning
-        <Row key={p.id}>
+        <div key={p.id}>
           <Player value={p} />
-        </Row>
+        </div>
       ))
     }
   </dl>
