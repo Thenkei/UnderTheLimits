@@ -2,37 +2,50 @@
 
 exports[`renders correctly 1`] = `
 <dt>
-  &gt;
-  <div
-    className="MuiAvatar-root-1"
+  <span
+    className="MuiBadge-root-1"
   >
-    <img
-      className="MuiAvatar-img-3"
-      src="http://localhost/avatars/BLBL.png"
-    />
-  </div>
-  <div
-    className="MuiChip-root-4"
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    role="button"
-    tabIndex={-1}
-  >
-    <span
-      className="MuiChip-label-23"
+    <div
+      className="MuiChip-root-8 MuiChip-outlined-17"
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      role="button"
+      style={
+        Object {
+          "marginTop": "5px",
+        }
+      }
+      tabIndex={-1}
     >
-      BLBL
+      <div
+        className="MuiAvatar-root-33 MuiChip-icon-24"
+      >
+        <img
+          className="MuiAvatar-img-35"
+          src="http://localhost/avatars/BLBL.png"
+        />
+      </div>
+      <span
+        className="MuiChip-label-27"
+      >
+        &gt;BLBL
+      </span>
+    </div>
+    <span
+      className="MuiBadge-badge-2 MuiBadge-colorPrimary-3"
+    >
+      99+
     </span>
-  </div>
+  </span>
   <div
-    className="MuiChip-root-4"
+    className="MuiChip-root-8"
     onKeyDown={[Function]}
     onKeyUp={[Function]}
     role="button"
     tabIndex={-1}
   >
     <span
-      className="MuiChip-label-23"
+      className="MuiChip-label-27"
     >
       120  pt(s)
     </span>

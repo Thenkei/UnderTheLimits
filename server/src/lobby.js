@@ -108,8 +108,26 @@ class Lobby {
       client.on('chat/message', (msg) => {
         const channel = this.channelsManager.getChannelById(Object.values(client.rooms)[0]);
         const currentPlayer = this.usersManager.getUserBySocket(client.id);
-        const message = { player: currentPlayer.name, message: encodeURI(msg) };
-        client.broadcast.to(channel ? channel.id : SOCKET_ROOM_LOBBY).emit('chat/message', message);
+        const message = { player: currentPlayer.name, message: encodeURI(msg), date: Date.now() };
+
+        if (msg.startsWith('/mp') && msg.split(' ').length > 2) {
+          const [, to, realMessage] = RegExp(/\/mp (.*?) (.*)/g).exec(msg);
+          const toPlayer = this.usersManager.findUser(to);
+          if (!realMessage) {
+            message.message = 'Le message est vide!';
+          } else if (toPlayer && toPlayer.id !== currentPlayer.id) {
+            message.message = encodeURI(realMessage);
+            message.isPrivate = true;
+            io.to(`${toPlayer.id}`).emit('chat/message', message);
+          } else if (toPlayer && toPlayer.id === currentPlayer.id) {
+            message.message = 'Tu fais n\'imp.';
+          } else {
+            message.message = 'Ce joueur n\'existe pas !';
+          }
+        } else {
+          client.broadcast.to(channel ? channel.id : SOCKET_ROOM_LOBBY).emit('chat/message', message);
+        }
+
         message.isPlayer = true;
         client.emit('chat/message', message);
       });

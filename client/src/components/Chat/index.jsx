@@ -5,9 +5,9 @@ import { List } from 'immutable';
 import {
   Input,
   Button,
-  Avatar,
-  Typography,
 } from '..';
+
+import Message from './Message';
 
 import './style.scss';
 
@@ -18,12 +18,13 @@ const Chat = ({ sendMessage, messages, username }) => {
       <div className='Chat-sendedMessages'>
         <div className='Chat-topBar'> Toi aussi clash tes potos </div>
         {messages.reverse().map(m => (
-          <div key={m.message}>
-            <Avatar src={`${window.location.origin}/avatars/${m.player}.png`} />
-            <Typography>
-              {`${m.player === username ? 'you' : m.player} - ${decodeURI(m.message)}`}
-            </Typography>
-          </div>
+          <Message
+            key={m.date}
+            username={`${m.player === username ? 'you' : m.player}`}
+            avatar={m.player}
+            message={m.message}
+            date={m.date}
+          />
         ))}
       </div>
       <form

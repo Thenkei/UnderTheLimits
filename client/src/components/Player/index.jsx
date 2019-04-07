@@ -1,16 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Chip, Avatar } from '..';
+import { Avatar, Badge, Chip } from '..';
 
-const Player = ({ value, noScore }) => (
-  <dt>
-    {value.isGameMaster ? '>' : ''}
-    <Avatar src={`${window.location.origin}/avatars/${value.name}.png`} />
-    <Chip label={value.name} />
-    { !noScore && <Chip label={`${value.score} ${' '}pt(s)`} /> }
-  </dt>
-);
+const Player = ({ value, noScore }) => {
+  const Wrapper = noScore ? React.Fragment : Badge;
+  const props = noScore ? {} : { badgeContent: value.score, color: 'primary' };
+  return (
+    <dt>
+      <Wrapper {...props}>
+        <Chip
+          icon={<Avatar src={`${window.location.origin}/avatars/${value.name}.png`} />}
+          label={value.isGameMaster ? `>${value.name}` : value.name}
+          style={{ marginTop: '5px' }}
+          variant='outlined'
+        />
+      </Wrapper>
+      { !noScore && <Chip label={`${value.score} ${' '}pt(s)`} /> }
+    </dt>
+  );
+};
 
 Player.defaultProps = {
   value: {

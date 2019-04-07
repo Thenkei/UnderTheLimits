@@ -8,7 +8,6 @@ import { InGameLayout } from '../../layouts';
 import {
   Button,
   UnderTheLimits,
-  Score,
   Typography,
 } from '../../components';
 
@@ -27,13 +26,12 @@ const UnderTheLimitsGame = ({
   }
 
   return (
-    <InGameLayout>
+    <InGameLayout players={currentChannel.players} noScore={false}>
       <Typography variant='h4'>{currentChannel.name}</Typography>
       <Typography variant='h5'>
         {player.name}
         {player.isGameMaster ? ' c\'est vous le patron !' : ' à vous de jouer !'}
       </Typography>
-      <Score players={currentChannel.players} />
       {player.name === currentChannel.admin.name
         && (currentChannel.currentStatus === 'WAITING_GAME'
           || currentChannel.currentStatus === 'IDLE') && (
