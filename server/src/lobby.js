@@ -1,6 +1,7 @@
 const ChannelsManager = require('./base/channelsManager');
 const UsersManager = require('./base/usersManager');
 const SocketProvider = require('./utils/socketProvider');
+const AvataGenerator = require('./utils/avatarGenerator');
 
 const SOCKET_ROOM_LOBBY = 'LOBBY';
 
@@ -8,6 +9,7 @@ class Lobby {
   constructor() {
     this.usersManager = new UsersManager();
     this.channelsManager = new ChannelsManager();
+    this.avataGenerator = new AvataGenerator();
   }
 
   serialize() {
@@ -49,6 +51,7 @@ class Lobby {
         if (!playerName) { return; }
 
         try {
+          await this.avataGenerator.generate(playerName);
           const player = await this.usersManager.findOrCreateUserFromDB(
             playerName,
             client.id,

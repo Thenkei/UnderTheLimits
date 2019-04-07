@@ -6,27 +6,35 @@ exports[`renders correctly 1`] = `
     <dt>
       
       <div
-        className="MuiChip-root-1"
+        className="MuiAvatar-root-1"
+      >
+        <img
+          className="MuiAvatar-img-3"
+          src="http://localhost/avatars/Player1.png"
+        />
+      </div>
+      <div
+        className="MuiChip-root-4"
         onKeyDown={[Function]}
         onKeyUp={[Function]}
         role="button"
         tabIndex={-1}
       >
         <span
-          className="MuiChip-label-20"
+          className="MuiChip-label-23"
         >
           Player1
         </span>
       </div>
       <div
-        className="MuiChip-root-1"
+        className="MuiChip-root-4"
         onKeyDown={[Function]}
         onKeyUp={[Function]}
         role="button"
         tabIndex={-1}
       >
         <span
-          className="MuiChip-label-20"
+          className="MuiChip-label-23"
         >
           120  pt(s)
         </span>
@@ -37,27 +45,35 @@ exports[`renders correctly 1`] = `
     <dt>
       
       <div
-        className="MuiChip-root-1"
+        className="MuiAvatar-root-1"
+      >
+        <img
+          className="MuiAvatar-img-3"
+          src="http://localhost/avatars/Player2.png"
+        />
+      </div>
+      <div
+        className="MuiChip-root-4"
         onKeyDown={[Function]}
         onKeyUp={[Function]}
         role="button"
         tabIndex={-1}
       >
         <span
-          className="MuiChip-label-20"
+          className="MuiChip-label-23"
         >
           Player2
         </span>
       </div>
       <div
-        className="MuiChip-root-1"
+        className="MuiChip-root-4"
         onKeyDown={[Function]}
         onKeyUp={[Function]}
         role="button"
         tabIndex={-1}
       >
         <span
-          className="MuiChip-label-20"
+          className="MuiChip-label-23"
         >
           200  pt(s)
         </span>

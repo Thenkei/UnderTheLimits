@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Chip } from '..';
+import { Chip, Avatar } from '..';
 
 const Player = ({ value, noScore }) => (
-  <React.Fragment>
-    <dt>
-      {value.isGameMaster ? '>' : ''}
-      <Chip label={value.name} />
-      { !noScore && <Chip label={`${value.score} ${' '}pt(s)`} /> }
-    </dt>
-  </React.Fragment>
+  <dt>
+    {value.isGameMaster ? '>' : ''}
+    <Avatar src={`${window.location.origin}/avatars/${value.name}.png`} />
+    <Chip label={value.name} />
+    { !noScore && <Chip label={`${value.score} ${' '}pt(s)`} /> }
+  </dt>
 );
 
 Player.defaultProps = {

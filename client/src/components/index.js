@@ -1,5 +1,6 @@
 // React Mui components
 import {
+  Avatar,
   Chip,
   Button,
   Dialog,
@@ -24,6 +25,7 @@ import TopAppBar from './TopAppBar';
 import UnderTheLimits from './UnderTheLimits';
 
 export {
+  Avatar,
   Chip,
   Button,
   Dialog,
