@@ -2,6 +2,7 @@ server/node_modules
 server/scripts/populate_answer.sql
 server/scripts/populate_question.sql
 server/scripts/encrypt_db.sh
+server/avatars/*
 client/node_modules
 client/build
 client/dist

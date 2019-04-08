@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<dl>
+  <div>
+    <dt>
+      <div
+        className="MuiChip-root-1 MuiChip-outlined-10"
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        role="button"
+        style={
+          Object {
+            "marginTop": "5px",
+          }
+        }
+        tabIndex={-1}
+      >
+        <div
+          className="MuiAvatar-root-26 MuiChip-icon-17"
+        >
+          <img
+            className="MuiAvatar-img-28"
+            src="http://localhost/avatars/Player1.png"
+          />
+        </div>
+        <span
+          className="MuiChip-label-20"
+        >
+          Player1
+        </span>
+      </div>
+    </dt>
+  </div>
+  <div>
+    <dt>
+      <div
+        className="MuiChip-root-1 MuiChip-outlined-10"
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        role="button"
+        style={
+          Object {
+            "marginTop": "5px",
+          }
+        }
+        tabIndex={-1}
+      >
+        <div
+          className="MuiAvatar-root-26 MuiChip-icon-17"
+        >
+          <img
+            className="MuiAvatar-img-28"
+            src="http://localhost/avatars/Player2.png"
+          />
+        </div>
+        <span
+          className="MuiChip-label-20"
+        >
+          Player2
+        </span>
+      </div>
+    </dt>
+  </div>
+</dl>
+`;

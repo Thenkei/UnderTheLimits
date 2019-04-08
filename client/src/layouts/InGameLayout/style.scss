@@ -18,11 +18,27 @@
 }
 
 /** @define ScoreBoard */
-
+// @Damien - Sorry for this part
 .ScoreBoard {
   width: 120px;
   height: 100%;
   max-height: calc( 100vh - $top-app-bar-height );
   overflow: auto;
-  border: solid 1px magenta;
+  background-color: rgba( 0, 0, 0, .2 );
+  box-shadow: -10px 0 50px rgba( 0, 0, 0, .2 );
+  //border: solid 1px magenta;
+}
+
+.ScoreBoard-topBar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 32px;
+  margin-bottom: 0;
+  padding: 8px;
+  background: linear-gradient( 45deg, rgba( #135c7e, .8 ), rgba( #082f48, .8 ) );
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
 }

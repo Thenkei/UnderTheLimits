@@ -2,18 +2,30 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { List } from 'immutable';
 
-import { Input, Button } from '..';
+import {
+  Input,
+  Button,
+} from '..';
+
+import Message from './Message';
 
 import './style.scss';
 
 const Chat = ({ sendMessage, messages, username }) => {
   const [message, setMessage] = useState('');
-  const formattedMessages = messages.map(m => `${m.player === username ? 'you' : m.player} - ${decodeURI(m.message)}`).reverse();
   return (
     <div className='Chat'>
       <div className='Chat-sendedMessages'>
         <div className='Chat-topBar'> Toi aussi clash tes potos </div>
-        {formattedMessages.map(m => <div key={m}>{m}</div>)}
+        {messages.reverse().map(m => (
+          <Message
+            key={m.date}
+            username={`${m.player === username ? 'you' : m.player}`}
+            avatar={m.player}
+            message={m.message}
+            date={m.date}
+          />
+        ))}
       </div>
       <form
         onSubmit={(e) => {

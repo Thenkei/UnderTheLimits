@@ -8,7 +8,6 @@ import { InGameLayout } from '../../layouts';
 import {
   Button,
   CreateChannel,
-  Player,
   Typography,
 } from '../../components';
 
@@ -62,12 +61,8 @@ class Lobby extends Component {
     }
 
     return (
-      <InGameLayout>
+      <InGameLayout players={this.props.lobby.waitingPlayers}>
         <CreateChannel onCreateChannel={this.onCreateChannel} />
-        <Typography variant='h3'>Players</Typography>
-        {this.props.lobby.waitingPlayers.map(p => (
-          <Player key={p.id} value={p} noScore />
-        ))}
         <Typography variant='h3'>Channels</Typography>
         {this.props.lobby.channels.map(c => (
           <form key={c.id}>

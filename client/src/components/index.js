@@ -1,11 +1,15 @@
 // React Mui components
 import {
+  Avatar,
   Chip,
+  Badge,
   Button,
   Dialog,
   DialogTitle,
   DialogContent,
   FormControl,
+  Icon,
+  IconButton,
   Input,
   InputLabel,
   MenuItem,
@@ -19,17 +23,21 @@ import Card from './Card';
 import Chat from './Chat';
 import CreateChannel from './CreateChannel';
 import Player from './Player';
-import Score from './Score';
+import Players from './Players';
 import TopAppBar from './TopAppBar';
 import UnderTheLimits from './UnderTheLimits';
 
 export {
+  Avatar,
+  Badge,
   Chip,
   Button,
   Dialog,
   DialogTitle,
   DialogContent,
   FormControl,
+  Icon,
+  IconButton,
   Input,
   InputLabel,
   MenuItem,
@@ -44,7 +52,7 @@ export {
   Chat,
   CreateChannel,
   Player,
-  Score,
+  Players,
   TopAppBar,
   UnderTheLimits,
 };
