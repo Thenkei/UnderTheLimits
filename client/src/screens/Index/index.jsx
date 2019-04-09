@@ -14,6 +14,8 @@ import {
 import { displayErrorMessage } from '../../reducers/app';
 import { wssCreatePlayer } from '../../reducers/player';
 
+import QueryParser from '../../utils/queryParser';
+
 const Index = ({
   createPlayer,
   player,
@@ -29,6 +31,11 @@ const Index = ({
       to += location.search;
     }
     return <Redirect to={to} />;
+  }
+
+  const params = QueryParser.parse(location.search);
+  if (params.username) {
+    createPlayer(params.username);
   }
 
   return (

@@ -37,16 +37,11 @@ const sess = {
   saveUninitialized: true,
 };
 
-// if (app.get('env') === 'production') {
-//   sess.cookie.secure = true; // serve secure cookies, requires https
-// }
-// You can use this section to keep a smaller payload
 passport.serializeUser((user, done) => {
   done(null, user);
 });
 
 passport.deserializeUser((user, done) => {
-  console.log(user);
   done(null, user);
 });
 
@@ -62,15 +57,14 @@ authRouter.get('/login', passport.authenticate('auth0', {
 // Perform the final stage of authentication and redirect to previously requested URL or '/user'
 authRouter.get('/callback', (req, res, next) => {
   passport.authenticate('auth0',
-    (err, user, info) => {
+    (err, user) => {
       if (err) { return next(err); }
       if (!user) { return res.redirect('/login'); }
       return req.logIn(user, (error) => {
         if (error) { return next(error); }
         const { returnTo } = req.session;
         delete req.session.returnTo;
-        console.log(info);
-        return res.redirect(returnTo || '/test');
+        return res.redirect(returnTo || `/?username=${user.nickname}`);
       });
     })(req, res, next);
 });
@@ -85,6 +79,7 @@ const socketServer = http.createServer(app);
 
 (async () => {
   await start(socketServer);
+
   passport.use(strategy);
   // express middleware
   app.use(session(sess));
