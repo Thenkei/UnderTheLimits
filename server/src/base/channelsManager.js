@@ -15,7 +15,6 @@ class ChannelsManager {
     }
 
     const utlGame = GameFactory(
-      'utlgame',
       channelOpts,
     );
 

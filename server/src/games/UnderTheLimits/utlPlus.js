@@ -1,7 +1,5 @@
 const UTLGame = require('./utlGame');
 
-const PLAYER_MAX_POINT = 10;
-
 const UTL_STATUS = {
   IDLE: 'IDLE',
   WAITING_GAME: 'WAITING_GAME',
@@ -21,24 +19,24 @@ class UTLPlus extends UTLGame {
   }
 
   judge(judgment, userCumul, userPoint) {
-    if (this.judgedIds.find(judgment)) throw new Error('Vous avez déjà voté pour ce joueur...');
+    if (this.judgedIds.find(id => id === judgment)) throw new Error('Vous avez déjà voté pour ce joueur...');
 
     this.judgedIds.push(judgment);
     const winner = this.players.find(p => p.id === judgment);
-
-    this.players.forEach((p) => {
-      p.setGameMaster(false);
-    });
 
     winner.score += JUDGMENTS_SCORE[this.judgment];
     userCumul(winner, JUDGMENTS_SCORE[this.judgment], `${winner.name} ${JUDGMENTS_SENTENCE[this.judgment]}`);
     this.judgment += 1;
 
     if (this.judgment > 2) {
+      this.players.forEach((p) => {
+        p.setGameMaster(false);
+      });
+
       winner.setGameMaster(true);
       this.judgment = 0;
 
-      const resultat = this.players.find(p => p.score >= PLAYER_MAX_POINT);
+      const resultat = this.players.find(p => p.score >= this.playerMaxPoint);
       if (resultat) {
         // TODO Check if several players have the required scrore to win
         // and find the one with the highest score in resultat

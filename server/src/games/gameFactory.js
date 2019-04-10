@@ -2,10 +2,9 @@ const UTLGame = require('./UnderTheLimits/utlGame');
 const UTLPlus = require('./UnderTheLimits/utlPlus');
 
 const GameFactory = (
-  type,
   channelOpts,
 ) => {
-  if (type === 'utlgame') {
+  if (channelOpts.gameType === 'utlgame') {
     return new UTLGame(
       channelOpts.channelName,
       channelOpts.minPlayersCount,
@@ -13,7 +12,7 @@ const GameFactory = (
       channelOpts.maxPoints,
     );
   }
-  if (type === 'utlplus') {
+  if (channelOpts.gameType === 'utlplus') {
     return new UTLPlus(
       channelOpts.channelName,
       channelOpts.minPlayersCount,

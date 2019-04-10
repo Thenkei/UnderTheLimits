@@ -16,11 +16,14 @@ import {
 const CreateChannel = ({ onCreateChannel }) => {
   const [open, setOpen] = useState(false);
   const [channelName, setChannelName] = useState('');
+  const [gameType, setGameType] = useState('utlgame');
   const [minPlayersCount, setMinPlayersCount] = useState(2);
   const [maxPlayersCount, setMaxPlayersCount] = useState(3);
   const [maxPoints, setMaxPoints] = useState(5);
 
   const range = (start, end) => new Array(end - start).fill().map((d, i) => i + start);
+
+  const gamesChoices = [{ value: 'utlgame', text: 'UTL Game (Simple)' }, { value: 'utlplus', text: 'UTL Plus (Difficile)' }];
 
   const minPlayersChoices = range(2, maxPlayersCount);
   const maxPlayersChoices = range(minPlayersCount + 1, 9);
@@ -49,6 +52,7 @@ const CreateChannel = ({ onCreateChannel }) => {
               e.preventDefault();
               const channel = {
                 opts: {
+                  gameType,
                   channelName,
                   minPlayersCount,
                   maxPlayersCount,
@@ -68,6 +72,18 @@ const CreateChannel = ({ onCreateChannel }) => {
                 setChannelName(target.value);
               }}
             />
+
+            <FormControl>
+              <InputLabel>Selection du jeu :</InputLabel>
+              <Select
+                value={gameType}
+                onChange={({ target }) => setGameType(target.value)}
+              >
+                {gamesChoices.map(i => (
+                  <MenuItem key={i.value} value={i.value}>{i.text}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
             <FormControl>
               <InputLabel>Nombre minimum de joueurs :</InputLabel>
