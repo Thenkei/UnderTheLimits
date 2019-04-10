@@ -1,4 +1,4 @@
-export default () => ({
+export default theme => ({
   chat: {
     display: 'flex',
     flexDirection: 'column',
@@ -43,5 +43,18 @@ export default () => ({
 
   chatSendMessageButton: {
     backgroundColor: 'transparent',
+  },
+
+  wrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    margin: '10px 0',
+  },
+
+  message: {
+    width: '100%',
+    color: theme.palette.primary.main,
+    borderRadius: '6px',
+    border: 'solid 1px cyan',
   },
 });
