@@ -4,6 +4,10 @@ const UTLPlayer = require('./player');
 
 const PLAYER_CARD_COUNT = 10;
 
+const TIMER = 40;
+const TIMER_DELAY = 5;
+const FINAL_TIMEOUT = 5;
+
 const UTL_STATUS = {
   IDLE: 'IDLE',
   WAITING_GAME: 'WAITING_GAME',
@@ -67,7 +71,7 @@ class UTLGame extends Channel {
       p.hand.push(...this.deckAnswers.splice(0, PLAYER_CARD_COUNT - p.hand.length));
     });
 
-    this.timer = 400 + 5 * (this.deckQuestions[0].text.match(/______/g) || []).length;
+    this.timer = TIMER + TIMER_DELAY * (this.deckQuestions[0].text.match(/______/g) || []).length;
     this.currentStatus = UTL_STATUS.PLAYING_CARD;
 
     console.log('[UTLGame] ', this.name, 'starting new round...');
@@ -159,7 +163,7 @@ class UTLGame extends Channel {
     client.on('nextRound', () => {
       try {
         this.nextRound((player) => {
-          usersManager.updateUserStatsPlayed(player);
+          usersManager.updateUserStatsPlayed(player.id);
         });
         io.to(this.id).emit('updateChannel', this.serialize());
 
@@ -184,8 +188,8 @@ class UTLGame extends Channel {
         if (this.timeout) {
           // 5 SECONDES FINAL TIMER
           clearTimeout(this.timeout);
-          setTimeout(this.launchJudge, 5000);
-          this.timer = 5;
+          setTimeout(this.launchJudge, FINAL_TIMEOUT * 1000);
+          this.timer = FINAL_TIMEOUT;
           this.timeout = null;
         }
       }
@@ -197,11 +201,11 @@ class UTLGame extends Channel {
       this.judge(
         judgment,
         (player, score, response) => {
-          usersManager.updateUserStatsCumul(player, score);
+          usersManager.updateUserStatsCumul(player.id, score);
           io.to(this.id).emit('success', response);
         },
         (player, response) => {
-          usersManager.updateUserStatsPoint(player);
+          usersManager.updateUserStatsPoint(player.id);
           io.to(this.id).emit('success', response);
         },
       );

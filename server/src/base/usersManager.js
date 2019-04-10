@@ -80,22 +80,22 @@ class UsersManager {
     return disconnected;
   }
 
-  updateUserStatsPlayed(utlPlayer) {
-    const user = this.getUserBySocket(utlPlayer.id);
+  updateUserStatsPlayed(socket) {
+    const user = this.getUserBySocket(socket);
     if (user) {
       user.played += 1;
     }
   }
 
-  updateUserStatsCumul(utlPlayer, value = 1) {
-    const user = this.getUserBySocket(utlPlayer.id);
+  updateUserStatsCumul(socket, value = 1) {
+    const user = this.getUserBySocket(socket);
     if (user) {
       user.cumulative += value;
     }
   }
 
-  updateUserStatsPoint(utlPlayer) {
-    const user = this.getUserBySocket(utlPlayer.id);
+  updateUserStatsPoint(socket) {
+    const user = this.getUserBySocket(socket);
     if (user) {
       user.points += 1;
     }
