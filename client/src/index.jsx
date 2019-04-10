@@ -11,6 +11,8 @@ import {
   Switch,
 } from 'react-router-dom';
 
+import { MuiThemeProvider, CssBaseline } from './components';
+
 import { RootLayout } from './layouts';
 
 import Index from './screens/Index';
@@ -19,6 +21,8 @@ import UnderTheLimits from './screens/Games/UnderTheLimits';
 import Legals from './screens/Legals';
 import NoMatch from './screens/NoMatch';
 
+
+import UtlTheme from './style/theme';
 import reducers from './reducers';
 
 /**
@@ -33,17 +37,20 @@ const store = createStore(
 
 const router = (
   <Provider store={store}>
-    <RootLayout>
-      <Router>
-        <Switch>
-          <Route exact path='/' component={Index} />
-          <Route exact path='/lobby' component={Lobby} />
-          <Route exact path='/mentions-legales' component={Legals} />
-          <Route path='/underthelimits/:id' component={UnderTheLimits} />
-          <Route component={NoMatch} />
-        </Switch>
-      </Router>
-    </RootLayout>
+    <MuiThemeProvider theme={UtlTheme}>
+      <RootLayout>
+        <Router>
+          <Switch>
+            <Route exact path='/' component={Index} />
+            <Route exact path='/lobby' component={Lobby} />
+            <Route exact path='/mentions-legales' component={Legals} />
+            <Route path='/underthelimits/:id' component={UnderTheLimits} />
+            <Route component={NoMatch} />
+          </Switch>
+        </Router>
+      </RootLayout>
+      <CssBaseline />
+    </MuiThemeProvider>
   </Provider>
 );
 ReactDOM.render(router, document.getElementById('root'));
