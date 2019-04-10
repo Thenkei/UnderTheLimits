@@ -9,27 +9,21 @@ class ChannelsManager {
   }
 
   // adminPlayer.currentStatus = 'IN_CHANNEL';
-  async createUtlChanel(channelName, admin, channelOpts = {}) {
+  async createUtlChanel(admin, channelOpts = {}) {
     if (this.channels.length >= MAX_CHANNEL_COUNT) {
       throw new Error('Le serveur est complet, attendez qu\'un salon se libère !');
     }
 
     const utlGame = GameFactory(
       'utlgame',
-      channelName,
-      admin,
       channelOpts,
     );
 
     await utlGame.init();
+    utlGame.tryReconnectOrConnect(admin, admin.id);
 
-    utlGame.addPlayer(admin);
     this.channels.push(utlGame);
-
-    /* eslint no-param-reassign: 0 */
-    admin.currentStatus = 'IN_CHANNEL';
     console.warn(`[ChannelsManager] channel ${utlGame.name} created owned by ${admin.username}`);
-
     return utlGame;
   }
 
