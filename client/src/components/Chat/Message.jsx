@@ -8,15 +8,18 @@ const Message = ({
   message,
   avatar,
   date,
-}) => (
-  <div>
-    <Avatar src={`${window.location.origin}/avatars/${avatar}.png`} />
-    <Typography>
-      {`${username} - ${decodeURI(message)}`}
-    </Typography>
-    <Typography>{date}</Typography>
-  </div>
-);
+}) => {
+  const formattedDate = new Date(date).toLocaleTimeString('fr-FR');
+  return (
+    <div>
+      <Avatar src={`${window.location.origin}/avatars/${avatar}.png`} />
+      <Typography>
+        {`${username} - ${decodeURI(message)}`}
+      </Typography>
+      <Typography>{formattedDate}</Typography>
+    </div>
+  );
+};
 
 Message.propTypes = {
   message: PropType.string.isRequired,

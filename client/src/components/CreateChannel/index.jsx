@@ -69,7 +69,7 @@ const CreateChannel = ({ onCreateChannel }) => {
                 },
               };
               onCreateChannel({ channel });
-              open(false);
+              setOpen(false);
             }}
           >
             <Input
