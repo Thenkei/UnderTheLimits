@@ -18,15 +18,24 @@ const CreateChannel = ({ onCreateChannel }) => {
   const [channelName, setChannelName] = useState('');
   const [gameType, setGameType] = useState('utlgame');
   const [minPlayersCount, setMinPlayersCount] = useState(2);
-  const [maxPlayersCount, setMaxPlayersCount] = useState(3);
+  const [maxPlayersCount, setMaxPlayersCount] = useState(7);
   const [maxPoints, setMaxPoints] = useState(5);
 
   const range = (start, end) => new Array(end - start).fill().map((d, i) => i + start);
 
-  const gamesChoices = [{ value: 'utlgame', text: 'UTL Game (Simple)' }, { value: 'utlplus', text: 'UTL Plus (Difficile)' }];
-
-  const minPlayersChoices = range(2, maxPlayersCount);
-  const maxPlayersChoices = range(minPlayersCount + 1, 9);
+  const gamesChoices = [{
+    value: 'utlgame',
+    text: 'UTL Game (Simple)',
+    minPlayersChoices: range(2, maxPlayersCount),
+    maxPlayersChoices: range(minPlayersCount + 1, 9),
+    maxPointsChoices: range(1, 10),
+  }, {
+    value: 'utlplus',
+    text: 'UTL Plus (Difficile)',
+    minPlayersChoices: range(4, maxPlayersCount),
+    maxPlayersChoices: range(minPlayersCount + 1, 12),
+    maxPointsChoices: range(6, 20),
+  }];
 
   return (
     <React.Fragment>
@@ -64,6 +73,7 @@ const CreateChannel = ({ onCreateChannel }) => {
             }}
           >
             <Input
+              required
               autoComplete
               type='text'
               value={channelName}
@@ -77,7 +87,17 @@ const CreateChannel = ({ onCreateChannel }) => {
               <InputLabel>Selection du jeu :</InputLabel>
               <Select
                 value={gameType}
-                onChange={({ target }) => setGameType(target.value)}
+                onChange={({ target }) => {
+                  setGameType(target.value);
+                  setMinPlayersCount(gamesChoices.find(g => g.value === target.value)
+                    .minPlayersChoices[0]);
+                  setMaxPlayersCount(gamesChoices.find(g => g.value === target.value)
+                    .maxPlayersChoices.slice(-1)[0]);
+
+                  setMaxPoints(gamesChoices.find(g => g.value === target.value)
+                    .maxPointsChoices.slice(-1)[0]);
+                }
+              }
               >
                 {gamesChoices.map(i => (
                   <MenuItem key={i.value} value={i.value}>{i.text}</MenuItem>
@@ -91,7 +111,7 @@ const CreateChannel = ({ onCreateChannel }) => {
                 value={minPlayersCount}
                 onChange={({ target }) => setMinPlayersCount(Number(target.value))}
               >
-                {minPlayersChoices.map(i => (
+                {gamesChoices.find(g => g.value === gameType).minPlayersChoices.map(i => (
                   <MenuItem key={i} value={i}>{i}</MenuItem>
                 ))}
               </Select>
@@ -103,7 +123,7 @@ const CreateChannel = ({ onCreateChannel }) => {
                 value={maxPlayersCount}
                 onChange={({ target }) => setMaxPlayersCount(Number(target.value))}
               >
-                {maxPlayersChoices.map(i => (
+                {gamesChoices.find(g => g.value === gameType).maxPlayersChoices.map(i => (
                   <MenuItem key={i} value={i}>{i}</MenuItem>
                 ))}
               </Select>
@@ -115,7 +135,7 @@ const CreateChannel = ({ onCreateChannel }) => {
                 value={maxPoints}
                 onChange={({ target }) => setMaxPoints(Number(target.value))}
               >
-                {range(1, 10).map(i => (
+                {gamesChoices.find(g => g.value === gameType).maxPointsChoices.map(i => (
                   <MenuItem key={i} value={i}>{i}</MenuItem>
                 ))}
               </Select>
