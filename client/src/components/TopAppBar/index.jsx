@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import './style.scss';
-import { IconButton, Icon } from '..';
+import { IconButton, Icon, Tooltip } from '..';
 
 import { toggleSound } from '../../reducers/app';
 
@@ -14,9 +14,11 @@ const TopAppBar = props => (
       alt='under-the-limits'
       className='TopAppBar-logo'
     />
-    <IconButton onClick={props.toggleSound}>
-      <Icon>{props.isSoundMuted ? 'volume_up' : 'volume_off'}</Icon>
-    </IconButton>
+    <Tooltip title={props.isSoundMuted ? 'Activer' : 'Désactiver'}>
+      <IconButton onClick={props.toggleSound}>
+        <Icon>{props.isSoundMuted ? 'volume_up' : 'volume_off'}</Icon>
+      </IconButton>
+    </Tooltip>
   </header>
 );
 
