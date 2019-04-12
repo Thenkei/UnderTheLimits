@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Card from '../Card';
-import { Typography } from '..';
+import { Typography, withStyles } from '..';
 
-import './UnderTheLimits.scss';
+import styles from './styles';
 
 function DisplayTimer(prop) {
   return (
@@ -78,7 +78,7 @@ class UnderTheLimits extends Component {
         }
 
         return (
-          <div className='CardsContainer CardsContainer_question'>
+          <div className={this.props.classes.cardsContainer}>
             {playersShuffle.map((player) => {
               if (!player.isGameMaster) {
                 return (
@@ -116,7 +116,7 @@ class UnderTheLimits extends Component {
                 {`${player.name}:`}
               </Typography>
             </div>
-            <div className='CardsContainer CardsContainer_question'>
+            <div className={this.props.classes.cardsContainer}>
               {
                 <Card
                   key={`p${player.id}`}
@@ -128,7 +128,7 @@ class UnderTheLimits extends Component {
                 />
               }
             </div>
-            <div className='CardsContainer CardsContainer_answers'>
+            <div className={this.props.classes.cardsContainer}>
               {this.props.player.hand.map(answer => (
                 <Card
                   key={answer.text}
@@ -150,7 +150,7 @@ class UnderTheLimits extends Component {
       return (
         <React.Fragment>
           {timer}
-          <div className='CardsContainer CardsContainer_question'>
+          <div className={this.props.classes.cardsContainer}>
             <Card
               key='questioncard'
               value={this.getFilledQuestionText(
@@ -159,7 +159,7 @@ class UnderTheLimits extends Component {
               )}
             />
           </div>
-          <div className='CardsContainer CardsContainer_answer'>
+          <div className={this.props.classes.cardsContainer}>
             {this.props.player.hand.map((answer, index) => (
               <Card
                 key={answer.text}
@@ -187,6 +187,8 @@ UnderTheLimits.defaultProps = {
 };
 
 UnderTheLimits.propTypes = {
+  classes: PropTypes.object.isRequired,
+
   selectedAnswers: PropTypes.func.isRequired,
   selectedJudgment: PropTypes.func.isRequired,
   // eslint-disable-next-line
@@ -203,4 +205,4 @@ UnderTheLimits.propTypes = {
   player: PropTypes.object
 };
 
-export default UnderTheLimits;
+export default withStyles(styles, { useTheme: true })(UnderTheLimits);

@@ -2,17 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import './style.scss';
-import { IconButton, Icon, Tooltip } from '..';
+import {
+  IconButton,
+  Icon,
+  Tooltip,
+  withStyles,
+} from '..';
 
 import { toggleSound } from '../../reducers/app';
 
+import styles from './styles';
+
 const TopAppBar = props => (
-  <header className='TopAppBar'>
+  <header className={props.classes.topAppBar}>
     <img
       src='/public/images/UTL_Logo.png'
       alt='under-the-limits'
-      className='TopAppBar-logo'
+      className={props.classes.topAppBarLogo}
     />
     <Tooltip title={props.isSoundMuted ? 'Activer' : 'Désactiver'}>
       <IconButton onClick={props.toggleSound}>
@@ -23,6 +29,8 @@ const TopAppBar = props => (
 );
 
 TopAppBar.propTypes = {
+  classes: PropTypes.object.isRequired,
+
   isSoundMuted: PropTypes.bool.isRequired,
   toggleSound: PropTypes.func.isRequired,
 };
@@ -35,4 +43,5 @@ const mapDispatchToProps = dispatch => ({
   toggleSound: () => dispatch(toggleSound()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopAppBar);
+export default
+withStyles(styles, { useTheme: true })(connect(mapStateToProps, mapDispatchToProps)(TopAppBar));

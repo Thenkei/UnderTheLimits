@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 import {
   Tooltip,
   Typography,
+  withStyles,
 } from '..';
 
-import './Card.scss';
+import styles from './styles';
 
 const Card = ({
-  definition, onClick, checked, value,
+  classes, definition, onClick, checked, value,
 }) => {
   let MainWrapper = React.Fragment;
   let wrapperProps = {};
@@ -25,7 +26,7 @@ const Card = ({
   return (
     <MainWrapper {...wrapperProps}>
       <div
-        className='card'
+        className={classes.card}
         onClick={() => onClick && onClick()}
         role='none'
         style={{ border: checked && '3px solid red' }}
@@ -46,10 +47,12 @@ Card.defaultProps = {
 };
 
 Card.propTypes = {
+  classes: PropTypes.object.isRequired,
+
   definition: PropTypes.string,
   onClick: PropTypes.func,
   checked: PropTypes.bool,
   value: PropTypes.string,
 };
 
-export default Card;
+export default withStyles(styles, { withTheme: true })(Card);
