@@ -1,8 +1,8 @@
-export default () => ({
+export default theme => ({
   topAppBar: {
     display: 'flex',
     zIndex: '9',
-    // height: $top-app-bar-height,
+    height: theme.layout.topAppBarHeight,
     padding: '16px',
     overflow: 'visible',
     background: 'linear-gradient( 45deg, #135c7ecc, #082f48cc )',

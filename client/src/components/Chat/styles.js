@@ -2,7 +2,7 @@ export default theme => ({
   chat: {
     display: 'flex',
     flexDirection: 'column',
-    // width: $chat-width,
+    width: theme.layout.chatWidth,
     height: '100%',
     overflow: 'auto',
     backgroundColor: 'rgba( 0, 0, 0, .2 )',

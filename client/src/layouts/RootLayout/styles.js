@@ -1,4 +1,4 @@
-export default () => ({
+export default theme => ({
   underTheLimits: {
     display: 'flex',
     flexDirection: 'column',
@@ -14,7 +14,7 @@ export default () => ({
   underTheLimitsContent: {
     zIndex: '1',
     width: '100%',
-    // height: calc( 100vh - #{$top-app-bar-height} ),
+    height: `calc( 100vh - ${theme.layout.topAppBarHeight} )`,
   },
 
   underTheLimitsCardsBackground: {
