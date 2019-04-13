@@ -1,5 +1,5 @@
 export default theme => ({
-  chat: {
+  root: {
     display: 'flex',
     flexDirection: 'column',
     width: theme.layout.chatWidth,
@@ -8,10 +8,10 @@ export default theme => ({
     backgroundColor: 'rgba( 0, 0, 0, .2 )',
     boxShadow: '-10px 0 50px rgba( 0, 0, 0, .2 )',
   },
-  chatSendedMessages: {
-    flex: '1 1 auto',
-  },
-  chatTopBar: {
+
+  // Header
+
+  topBar: {
     display: 'flex',
     alignItems: 'center',
     width: '100%',
@@ -24,37 +24,56 @@ export default theme => ({
     fonWeight: 'bold',
     textTransform: 'uppercase',
   },
-  chatMessagesFlow: {
-    height: '100%',
-    borderRadius: '0',
-    backgroundColor: 'transparent',
+
+  // Messages flow
+
+  messagesFlow: {
+    flex: '1 1 auto',
   },
 
-  chatSendMessage: {
+  wrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginBottom: theme.spacing.unit * 2,
+  },
+
+  sendedMessage: {
+    width: '100%',
+    color: '#2ABFFE',
+    // marginTop: theme.spacing.unit * 3,
+  },
+
+  avatar: {
+    backgroundColor: 'rgba(0, 0, 0, .25)',
+    padding: theme.spacing.unit / 2,
+  },
+
+  text: {
+    backgroundColor: 'rgba(0, 0, 0, .25)',
+    borderRadius: '6px',
+    padding: theme.spacing.unit * 2,
+    marginTop: -theme.spacing.unit * 2,
+  },
+
+  metaDate: {
+    color: '#2ABFFE',
+  },
+
+  // Footer
+
+  sendMessagesForm: {
     display: 'flex',
     flexDirection: 'row',
     marginBottom: '0',
     padding: '12px',
   },
 
-  chatSendMessageInput: {
+  sendMessageInput: {
     backgroundColor: 'transparent',
   },
 
-  chatSendMessageButton: {
+  sendMessageButton: {
     backgroundColor: 'transparent',
   },
 
-  wrapper: {
-    display: 'flex',
-    alignItems: 'center',
-    margin: '10px 0',
-  },
-
-  message: {
-    width: '100%',
-    color: theme.palette.primary.main,
-    borderRadius: '6px',
-    border: 'solid 1px cyan',
-  },
 });

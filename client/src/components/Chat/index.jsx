@@ -6,6 +6,7 @@ import {
   Input,
   Button,
   withStyles,
+  Typography,
 } from '..';
 
 import Message from './Message';
@@ -20,9 +21,13 @@ const Chat = ({
 }) => {
   const [message, setMessage] = useState('');
   return (
-    <div className={classes.chat}>
-      <div className={classes.chatSendedMessages}>
-        <div className={classes.chatTopBar}> Toi aussi clash tes potos </div>
+    <div className={classes.root}>
+      <div className={classes.topBar}>
+        <Typography variant='overline' color='textSecondary'>
+          Toi aussi clash tes potos
+        </Typography>
+      </div>
+      <div className={classes.messagesFlow}>
         {messages.reverse().map(m => (
           <Message
             key={m.date}
@@ -33,31 +38,33 @@ const Chat = ({
           />
         ))}
       </div>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (message && message.length > 0) {
-            setMessage('');
-            sendMessage(message);
-          }
-        }}
-      >
-        <Input
-          className={classes.chatSendMessageInput}
-          type='message'
-          placeholder='Votre message ...'
-          value={message}
-          onChange={({ target }) => setMessage(target.value)}
-        />
-        <Button
-          variant='contained'
-          color='primary'
-          className={classes.chatSendMessageButton}
-          type='submit'
+      <div className={classes.sendMessagesForm}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (message && message.length > 0) {
+              setMessage('');
+              sendMessage(message);
+            }
+          }}
         >
-          Envoyer
-        </Button>
-      </form>
+          <Input
+            className={classes.sendMessageInput}
+            type='message'
+            placeholder='Votre message ...'
+            value={message}
+            onChange={({ target }) => setMessage(target.value)}
+          />
+          <Button
+            variant='contained'
+            color='primary'
+            className={classes.sendMessageButton}
+            type='submit'
+          >
+            Envoyer
+          </Button>
+        </form>
+      </div>
     </div>
   );
 };

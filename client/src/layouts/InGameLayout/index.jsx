@@ -4,7 +4,12 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
 
-import { Chat, Players, withStyles } from '../../components';
+import {
+  Chat,
+  Players,
+  Typography,
+  withStyles,
+} from '../../components';
 
 import {
   wssSendMessage,
@@ -27,7 +32,11 @@ class InGameLayout extends Component {
     return (
       <div className={this.props.classes.inGameLayout}>
         <div className={this.props.classes.scoreBoard}>
-          <div className={this.props.classes.scoreBoardTopBar}>Liste des joueurs</div>
+          <div className={this.props.classes.scoreBoardTopBar}>
+            <Typography variant='overline' color='textPrimary'>
+              Liste des joueurs
+            </Typography>
+          </div>
           <Players players={this.props.players} noScore={this.props.noScore} />
         </div>
         <main className={this.props.classes.ingameLayoutMainContent}>
