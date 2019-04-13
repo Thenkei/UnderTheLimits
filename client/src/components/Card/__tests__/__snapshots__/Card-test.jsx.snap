@@ -11,9 +11,7 @@ exports[`renders correctly with a few props 1`] = `
     }
   }
 >
-  <div
-    className="card-body"
-  >
+  <div>
     <p
       className="MuiTypography-root-2 MuiTypography-body1-11 card-text"
     >
