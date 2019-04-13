@@ -36,7 +36,7 @@ class Lobby extends Component {
 
   componentDidUpdate() {
     if (this.params.channel && this.props.lobby && !this.props.currentChannel) {
-      this.props.gotoChannel(Number(this.params.channel));
+      this.props.gotoChannel(this.params.channel);
     }
   }
 
