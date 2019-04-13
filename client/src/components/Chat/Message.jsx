@@ -15,12 +15,11 @@ const Message = ({
   const formattedDate = new Date(date).toLocaleTimeString('fr-FR');
   return (
     <div className={classes.wrapper}>
-      <Avatar src={`${window.location.origin}/avatars/${avatar}.png`} />
-      <div className={classes.message}>
-        <Typography>
-          {`${username} - ${decodeURI(message)}`}
-        </Typography>
-        <Typography>{formattedDate}</Typography>
+      <Avatar className={classes.avatar} src={`${window.location.origin}/avatars/${avatar}.png`} />
+      <div className={classes.sendedMessage}> 
+        <Typography variant='h6' className={classes.playerName} align='left'>{username}</Typography>
+        <Typography className={classes.text}>{decodeURI(message)}</Typography>
+        <Typography variant='caption' className={classes.metaDate} align='left'>{formattedDate}</Typography>
       </div>
     </div>
   );
