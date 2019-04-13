@@ -2,10 +2,6 @@ const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-
-const devMode = process.env.NODE_ENV !== 'production';
 
 const webpackConfig = {
   entry: './src/index.jsx',
@@ -26,14 +22,6 @@ const webpackConfig = {
           },
         ],
       },
-      {
-        test: /\.(sa|sc|c)ss$/,
-        use: [
-          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader',
-          'sass-loader',
-        ],
-      },
     ],
   },
   plugins: [
@@ -44,10 +32,6 @@ const webpackConfig = {
     new CopyWebpackPlugin([
       { from: 'public', to: 'public', force: true },
     ]),
-    new MiniCssExtractPlugin({
-      filename: devMode ? '[name].css' : '[name].[hash].css',
-      chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
-    }),
   ],
   optimization: {
     minimizer: [
@@ -56,7 +40,6 @@ const webpackConfig = {
         parallel: true,
         sourceMap: true,
       }),
-      new OptimizeCSSAssetsPlugin({}),
       new TerserPlugin(),
     ],
   },
