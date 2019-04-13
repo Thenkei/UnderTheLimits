@@ -21,8 +21,6 @@ import { wssUpdateLobby } from '../../reducers/lobby';
 
 import QueryParser from '../../utils/queryParser';
 
-import './style.scss';
-
 class Lobby extends Component {
   constructor(props) {
     super(props);
@@ -89,6 +87,7 @@ Lobby.defaultProps = {
 };
 
 Lobby.propTypes = {
+
   location: PropTypes.shape({
     search: PropTypes.string.isRequired,
   }).isRequired,
@@ -138,4 +137,9 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Lobby));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Lobby),
+);

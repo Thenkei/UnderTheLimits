@@ -19,8 +19,6 @@ import UnderTheLimits from './screens/Games/UnderTheLimits';
 import Legals from './screens/Legals';
 import NoMatch from './screens/NoMatch';
 
-import './style/style.scss';
-
 import reducers from './reducers';
 
 /**

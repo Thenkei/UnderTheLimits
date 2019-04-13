@@ -4,14 +4,14 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
 
-import { Chat, Players } from '../../components';
+import { Chat, Players, withStyles } from '../../components';
 
 import {
   wssSendMessage,
   wssChatMessages,
 } from '../../reducers/chat';
 
-import './style.scss';
+import styles from './styles';
 
 class InGameLayout extends Component {
   constructor(props) {
@@ -25,12 +25,12 @@ class InGameLayout extends Component {
 
   render() {
     return (
-      <div className='InGameLayout'>
-        <div className='ScoreBoard'>
-          <div className='ScoreBoard-topBar'>Liste des joueurs</div>
+      <div className={this.props.classes.inGameLayout}>
+        <div className={this.props.classes.scoreBoard}>
+          <div className={this.props.classes.scoreBoardTopBar}>Liste des joueurs</div>
           <Players players={this.props.players} noScore={this.props.noScore} />
         </div>
-        <main className='IngameLayout-mainContent'>
+        <main className={this.props.classes.ingameLayoutMainContent}>
           { this.props.children }
         </main>
         <Chat
@@ -49,6 +49,8 @@ InGameLayout.defaultProps = {
 };
 
 InGameLayout.propTypes = {
+  classes: PropTypes.object.isRequired,
+
   sendMessage: PropTypes.func.isRequired,
   chatMessages: PropTypes.func.isRequired,
   messages: PropTypes.instanceOf(List).isRequired,
@@ -73,4 +75,7 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(InGameLayout));
+export default
+withStyles(styles, {
+  useTheme: true,
+})(withRouter(connect(mapStateToProps, mapDispatchToProps)(InGameLayout)));

@@ -1,9 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Avatar, Badge, Chip } from '..';
+import {
+  Avatar,
+  Badge,
+  Chip,
+  withStyles,
+} from '..';
 
-const Player = ({ value, noScore }) => {
+import styles from './styles';
+
+const Player = ({ classes, value, noScore }) => {
   const Wrapper = noScore ? React.Fragment : Badge;
   const props = noScore ? {} : { badgeContent: value.score, color: 'primary' };
   return (
@@ -12,7 +19,7 @@ const Player = ({ value, noScore }) => {
         <Chip
           icon={<Avatar src={`${window.location.origin}/avatars/${value.name}.png`} />}
           label={value.isGameMaster ? `>${value.name}` : value.name}
-          style={{ marginTop: '5px' }}
+          className={classes.playerChip}
           variant='outlined'
         />
       </Wrapper>
@@ -31,10 +38,12 @@ Player.defaultProps = {
 };
 
 Player.propTypes = {
+  classes: PropTypes.object.isRequired,
+
   value: PropTypes.shape({ name: PropTypes.string, score: PropTypes.number }),
   noScore: PropTypes.bool,
 
 };
 
 
-export default Player;
+export default withStyles(styles, { withTheme: true })(Player);

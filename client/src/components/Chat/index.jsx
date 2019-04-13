@@ -5,18 +5,24 @@ import { List } from 'immutable';
 import {
   Input,
   Button,
+  withStyles,
 } from '..';
 
 import Message from './Message';
 
-import './style.scss';
+import styles from './styles';
 
-const Chat = ({ sendMessage, messages, username }) => {
+const Chat = ({
+  classes,
+  sendMessage,
+  messages,
+  username,
+}) => {
   const [message, setMessage] = useState('');
   return (
-    <div className='Chat'>
-      <div className='Chat-sendedMessages'>
-        <div className='Chat-topBar'> Toi aussi clash tes potos </div>
+    <div className={classes.chat}>
+      <div className={classes.chatSendedMessages}>
+        <div className={classes.chatTopBar}> Toi aussi clash tes potos </div>
         {messages.reverse().map(m => (
           <Message
             key={m.date}
@@ -37,7 +43,7 @@ const Chat = ({ sendMessage, messages, username }) => {
         }}
       >
         <Input
-          className='Chat-sendMessageInput'
+          className={classes.chatSendMessageInput}
           type='message'
           placeholder='Votre message ...'
           value={message}
@@ -46,7 +52,7 @@ const Chat = ({ sendMessage, messages, username }) => {
         <Button
           variant='contained'
           color='primary'
-          className='Chat-sendMessageButton'
+          className={classes.chatSendMessageButton}
           type='submit'
         >
           Envoyer
@@ -62,9 +68,11 @@ Chat.defaultProps = {
 };
 
 Chat.propTypes = {
+  classes: PropTypes.object.isRequired,
+
   sendMessage: PropTypes.func.isRequired,
   username: PropTypes.string,
   messages: PropTypes.instanceOf(List),
 };
 
-export default Chat;
+export default withStyles(styles, { withTheme: true })(Chat);

@@ -11,9 +11,12 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  withStyles,
 } from '..';
 
-const CreateChannel = ({ onCreateChannel }) => {
+import styles from './styles';
+
+const CreateChannel = ({ classes, onCreateChannel }) => {
   const [open, setOpen] = useState(false);
   const [channelName, setChannelName] = useState('');
   const [gameType, setGameType] = useState('utlgame');
@@ -53,10 +56,7 @@ const CreateChannel = ({ onCreateChannel }) => {
         </DialogTitle>
         <DialogContent>
           <form
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-            }}
+            className={classes.createChannelForm}
             onSubmit={(e) => {
               e.preventDefault();
               const channel = {
@@ -157,7 +157,9 @@ CreateChannel.defaultProps = {
 };
 
 CreateChannel.propTypes = {
+  classes: PropTypes.object.isRequired,
+
   onCreateChannel: PropTypes.func,
 };
 
-export default CreateChannel;
+export default withStyles(styles, { withTheme: true })(CreateChannel);

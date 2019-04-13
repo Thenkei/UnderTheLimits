@@ -17,6 +17,7 @@ import {
   Snackbar,
   Tooltip,
   Typography,
+  withStyles,
 } from '@material-ui/core';
 // HomeMade components
 import Card from './Card';
@@ -45,6 +46,7 @@ export {
   Snackbar,
   Tooltip,
   Typography,
+  withStyles,
 };
 
 export {

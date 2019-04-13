@@ -14,9 +14,10 @@ import {
 import {
   Snackbar,
   TopAppBar,
+  withStyles,
 } from '../../components';
 
-import './style.scss';
+import styles from './styles';
 
 class RootLayout extends React.Component {
   componentDidMount() {
@@ -25,6 +26,7 @@ class RootLayout extends React.Component {
 
   render() {
     const {
+      classes,
       children,
       error,
       success,
@@ -40,8 +42,8 @@ class RootLayout extends React.Component {
     const remove = error ? appRemoveErrorMessage : appRemoveSuccessMessage;
 
     return (
-      <div className='UnderTheLimits'>
-        <div className='UnderTheLimits-cardsBackground' />
+      <div className={classes.underTheLimits}>
+        <div className={classes.underTheLimitsCardsBackground} />
         <TopAppBar />
         <Sound
           url={`/public/sounds/${sound}`}
@@ -49,7 +51,7 @@ class RootLayout extends React.Component {
           volume={isSoundMuted ? 0 : 100}
           onFinishedPlaying={() => appStopSound()}
         />
-        <div className='UnderTheLimits-content'>
+        <div className={classes.underTheLimitsContent}>
           { children }
           {message && (
             <Snackbar
@@ -75,6 +77,8 @@ RootLayout.defaultProps = {
 };
 
 RootLayout.propTypes = {
+  classes: PropTypes.object.isRequired,
+
   children: PropTypes.shape({}).isRequired,
 
   error: PropTypes.string,
@@ -114,4 +118,5 @@ const mapDispatchToProps = dispatch => ({
   appRemoveErrorMessage: () => dispatch(removeErrorMessage()),
   appRemoveSuccessMessage: () => dispatch(removeSuccessMessage()),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(RootLayout);
+export default
+withStyles(styles, { useTheme: true })(connect(mapStateToProps, mapDispatchToProps)(RootLayout));
