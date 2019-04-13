@@ -8,8 +8,8 @@ const UtlTheme = createMuiTheme({
   },
   palette: {
     primary: {
-      main: "#172736",
-      dark: "#000f1e",
+      main: '#172736',
+      dark: '#000f1e',
     },
     secondary: {
       main: '#728697',
