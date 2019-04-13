@@ -18,7 +18,7 @@ class Lobby {
       lobby:
       {
         waitingPlayers: waitingUsers,
-        channels: this.channelsManager.channels.filter(c => c.isPrivate).map(c => (
+        channels: this.channelsManager.channels.filter(c => !c.isPrivate).map(c => (
           {
             name: c.name,
             id: c.id,
@@ -81,7 +81,7 @@ class Lobby {
           channel.register(io, client, this.usersManager);
           client.emit('updateChannel', channel.serialize());
           console.warn(channelReq.opts.isPrivate);
-          if (!channelReq.opts.isPrivate) {
+          if (!(channelReq.opts.isPrivate === true)) {
             io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', this.serialize());
           }
         } catch (err) {
