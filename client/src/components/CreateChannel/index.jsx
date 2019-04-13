@@ -7,10 +7,12 @@ import {
   DialogTitle,
   DialogContent,
   FormControl,
+  FormControlLabel,
   Input,
   InputLabel,
   MenuItem,
   Select,
+  Switch,
   withStyles,
 } from '..';
 
@@ -23,7 +25,7 @@ const CreateChannel = ({ classes, onCreateChannel }) => {
   const [minPlayersCount, setMinPlayersCount] = useState(2);
   const [maxPlayersCount, setMaxPlayersCount] = useState(7);
   const [maxPoints, setMaxPoints] = useState(5);
-
+  const [isPrivate, setPrivate] = useState(false);
   const range = (start, end) => new Array(end - start).fill().map((d, i) => i + start);
 
   const gamesChoices = [{
@@ -66,6 +68,7 @@ const CreateChannel = ({ classes, onCreateChannel }) => {
                   minPlayersCount,
                   maxPlayersCount,
                   maxPoints,
+                  isPrivate,
                 },
               };
               onCreateChannel({ channel });
@@ -140,7 +143,17 @@ const CreateChannel = ({ classes, onCreateChannel }) => {
                 ))}
               </Select>
             </FormControl>
-
+            <FormControl>
+              <FormControlLabel
+                control={(
+                  <Switch
+                    onChange={({ target }) => setPrivate(target.checked)}
+                    value={isPrivate}
+                  />
+                )}
+                label='Partie privée ?'
+              />
+            </FormControl>
             <Button variant='contained' color='secondary' type='submit'>
               Valider
             </Button>
