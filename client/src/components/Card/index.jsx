@@ -31,7 +31,7 @@ const Card = ({
         role='none'
         style={{ border: checked && '3px solid red' }}
       >
-        <div className='card-body'>
+        <div>
           <Typography className='card-text'>{value}</Typography>
         </div>
       </div>

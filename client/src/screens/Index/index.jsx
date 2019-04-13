@@ -5,15 +5,15 @@ import PropTypes from 'prop-types';
 import { withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { Input, Button } from '../../components';
+import { Input, Button, withStyles } from '../../components';
 
-import './style.scss';
+import styles from './styles';
 
 import { displayErrorMessage } from '../../reducers/app';
 import { wssCreatePlayer } from '../../reducers/player';
 
 const Index = ({
-  createPlayer, player, displayError, location,
+  classes, createPlayer, player, displayError, location,
 }) => {
   const utlPlayer = JSON.parse(localStorage.getItem('utl-player'));
   const [playerName, setPlayerName] = useState(
@@ -29,7 +29,7 @@ const Index = ({
   }
 
   return (
-    <div className='LoginForm-wrapper'>
+    <div className={classes.LoginFormWrapper}>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -42,7 +42,7 @@ const Index = ({
             });
           }
         }}
-        className='LoginForm_animated'
+        className={classes.LoginFormAnimated}
       >
         <Input
           type='text'
@@ -65,6 +65,8 @@ Index.defaultProps = {
 };
 
 Index.propTypes = {
+  classes: PropTypes.object.isRequired,
+
   location: PropTypes.shape({
     search: PropTypes.string.isRequired,
   }).isRequired,
@@ -93,5 +95,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(Index),
+  )(withStyles(styles, { withTheme: true })(Index)),
 );
