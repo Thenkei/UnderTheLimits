@@ -5,27 +5,22 @@ exports[`renders correctly 1`] = `
   <div>
     <dt>
       <div
-        className="MuiChip-root-1 MuiChip-outlined-10"
+        className="MuiChip-root-2 MuiChip-outlined-11 Player-playerChip-1"
         onKeyDown={[Function]}
         onKeyUp={[Function]}
         role="button"
-        style={
-          Object {
-            "marginTop": "5px",
-          }
-        }
         tabIndex={-1}
       >
         <div
-          className="MuiAvatar-root-26 MuiChip-icon-17"
+          className="MuiAvatar-root-27 MuiChip-icon-18"
         >
           <img
-            className="MuiAvatar-img-28"
+            className="MuiAvatar-img-29"
             src="http://localhost/avatars/Player1.png"
           />
         </div>
         <span
-          className="MuiChip-label-20"
+          className="MuiChip-label-21"
         >
           Player1
         </span>
@@ -35,27 +30,22 @@ exports[`renders correctly 1`] = `
   <div>
     <dt>
       <div
-        className="MuiChip-root-1 MuiChip-outlined-10"
+        className="MuiChip-root-2 MuiChip-outlined-11 Player-playerChip-1"
         onKeyDown={[Function]}
         onKeyUp={[Function]}
         role="button"
-        style={
-          Object {
-            "marginTop": "5px",
-          }
-        }
         tabIndex={-1}
       >
         <div
-          className="MuiAvatar-root-26 MuiChip-icon-17"
+          className="MuiAvatar-root-27 MuiChip-icon-18"
         >
           <img
-            className="MuiAvatar-img-28"
+            className="MuiAvatar-img-29"
             src="http://localhost/avatars/Player2.png"
           />
         </div>
         <span
-          className="MuiChip-label-20"
+          className="MuiChip-label-21"
         >
           Player2
         </span>
