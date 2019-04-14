@@ -61,7 +61,7 @@ class Lobby extends Component {
     return (
       <InGameLayout players={this.props.lobby.waitingPlayers}>
         <CreateChannel onCreateChannel={this.onCreateChannel} />
-        <Typography variant='h3'>Channels</Typography>
+        <Typography variant='h3'>Parties publiques</Typography>
         {this.props.lobby.channels.map(c => (
           <form key={c.id}>
             <Button

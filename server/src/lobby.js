@@ -107,8 +107,8 @@ class Lobby {
       });
 
       client.on('chat/message', (msg) => {
-        const channel = this.channelsManager.getChannelById(Object.values(client.rooms)[0]);
         const currentPlayer = this.usersManager.getUserBySocket(client.id);
+        const channel = this.channelsManager.getChannelByPlayerId(currentPlayer.id);
         if (!currentPlayer) return;
         const message = { player: currentPlayer.name, message: encodeURI(msg), date: Date.now() };
 

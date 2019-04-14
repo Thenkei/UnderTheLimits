@@ -30,6 +30,10 @@ class ChannelsManager {
     return this.channels.find(c => c.id === channelId);
   }
 
+  getChannelByPlayerId(playerId) {
+    return this.channels.find(c => c.players.find(p => playerId === p.id));
+  }
+
   setTimeoutDisconnectedFromChannel(socket) {
     setTimeout(() => {
       this.channels.forEach((channel, index, array) => {

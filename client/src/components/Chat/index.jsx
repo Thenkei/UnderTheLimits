@@ -33,7 +33,7 @@ const Chat = ({
         {messages.reverse().map(m => (
           <Message
             key={m.date}
-            username={`${m.player === username ? 'you' : m.player}`}
+            username={`${m.player === username ? 'Vous' : m.player}`}
             avatar={m.player}
             message={m.message}
             date={m.date}
