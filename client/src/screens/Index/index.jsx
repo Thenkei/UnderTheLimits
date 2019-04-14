@@ -5,12 +5,20 @@ import PropTypes from 'prop-types';
 import { withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { Input, Button, withStyles } from '../../components';
+import {
+  Icon,
+  IconButton,
+  Input,
+  Button,
+  withStyles,
+} from '../../components';
 
 import styles from './styles';
 
 import { displayErrorMessage } from '../../reducers/app';
 import { wssCreatePlayer } from '../../reducers/player';
+
+import RUN from '../../utils/randomUsernameGenerator';
 
 const Index = ({
   classes, createPlayer, player, displayError, location,
@@ -47,11 +55,20 @@ const Index = ({
         <Input
           type='text'
           value={playerName || ''}
-          placeholder='Name'
+          placeholder='Magie'
           onChange={(e) => {
             setPlayerName(e.target.value);
           }}
         />
+        <IconButton
+          variant='contained'
+          color='primary'
+          onClick={() => {
+            setPlayerName(RUN());
+          }}
+        >
+          <Icon>refresh</Icon>
+        </IconButton>
         <Button variant='contained' color='primary' type='submit'>
           Ok
         </Button>
