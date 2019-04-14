@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <button
-  className="MuiButtonBase-root-28 MuiButton-root-2 MuiButton-contained-13 MuiButton-containedPrimary-14 MuiButton-raised-16 MuiButton-raisedPrimary-17"
+  className="MuiButtonBase-root-29 MuiButton-root-3 MuiButton-contained-14 MuiButton-containedPrimary-15 MuiButton-raised-17 MuiButton-raisedPrimary-18"
   disabled={false}
   onBlur={[Function]}
   onClick={[Function]}
@@ -20,12 +20,12 @@ exports[`renders correctly 1`] = `
   type="button"
 >
   <span
-    className="MuiButton-label-3"
+    className="MuiButton-label-4"
   >
     Créer une partie
   </span>
   <span
-    className="MuiTouchRipple-root-47"
+    className="MuiTouchRipple-root-48"
   />
 </button>
 `;
