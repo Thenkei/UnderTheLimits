@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { List } from 'immutable';
 
 import {
-  Input,
-  Button,
   withStyles,
   Typography,
+  InputAdornment,
+  IconButton,
+  Input,
+  SendIcon,
 } from '..';
 
 import Message from './Message';
@@ -23,7 +25,7 @@ const Chat = ({
   return (
     <div className={classes.root}>
       <div className={classes.topBar}>
-        <Typography variant='overline' color='textSecondary'>
+        <Typography className={classes.topBarTitle} variant='overline'>
           Toi aussi clash tes potos
         </Typography>
       </div>
@@ -38,33 +40,39 @@ const Chat = ({
           />
         ))}
       </div>
-      <div className={classes.sendMessagesForm}>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (message && message.length > 0) {
-              setMessage('');
-              sendMessage(message);
-            }
-          }}
-        >
-          <Input
-            className={classes.sendMessageInput}
-            type='message'
-            placeholder='Votre message ...'
-            value={message}
-            onChange={({ target }) => setMessage(target.value)}
-          />
-          <Button
-            variant='contained'
-            color='primary'
-            className={classes.sendMessageButton}
-            type='submit'
-          >
-            Envoyer
-          </Button>
-        </form>
-      </div>
+      <form
+        className={classes.sendMessagesForm}
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (message && message.length > 0) {
+            setMessage('');
+            sendMessage(message);
+          }
+        }}
+      >
+        <Input
+          className={classes.sendMessageInput}
+          classes={{ inputType: classes.sendMessageInputType }}
+          fullWidth
+          multiline
+          rows='2'
+          type='message'
+          placeholder='Votre message ...'
+          value={message}
+          onChange={({ target }) => setMessage(target.value)}
+          endAdornment={(
+            <InputAdornment position='end'>
+              <IconButton
+                className={classes.sendMessageButton}
+                type='submit'
+              >
+                <SendIcon />
+              </IconButton>
+            </InputAdornment>
+          )}
+        />
+
+      </form>
     </div>
   );
 };

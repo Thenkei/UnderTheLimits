@@ -2,14 +2,18 @@ import { createMuiTheme } from '../components';
 
 const UtlTheme = createMuiTheme({
   themeName: 'UtlTheme',
+
   layout: {
     topAppBarHeight: '64px',
     chatWidth: '312px',
+    avatarSize: '40px',
   },
+
   palette: {
     primary: {
-      main: '#172736',
-      dark: '#000f1e',
+      light: '#2BBFFF',
+      main: '#0E4A70',
+      dark: '#031723',
       contrastText: '#fff',
     },
     secondary: {
@@ -22,11 +26,13 @@ const UtlTheme = createMuiTheme({
       hint: 'rgba(255, 255, 255, 0.38)',
     },
   },
+
   typography: {
     useNextVariants: true,
     fontFamily: '"Raleway", serif',
     fontFamilyMonospaced: '"Source Code Pro", monospace',
   },
+
 });
 
 export default UtlTheme;

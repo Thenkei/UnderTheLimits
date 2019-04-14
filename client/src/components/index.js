@@ -13,15 +13,20 @@ import {
   Icon,
   IconButton,
   Input,
+  InputAdornment,
   InputLabel,
   MenuItem,
   MuiThemeProvider,
   Select,
   Snackbar,
+  TextField,
   Tooltip,
   Typography,
   withStyles,
 } from '@material-ui/core';
+
+import SendIcon from '@material-ui/icons/Send';
+
 // HomeMade components
 import Card from './Card';
 import Chat from './Chat';
@@ -45,14 +50,17 @@ export {
   Icon,
   IconButton,
   Input,
+  InputAdornment,
   InputLabel,
   MenuItem,
   MuiThemeProvider,
   Select,
   Snackbar,
+  TextField,
   Tooltip,
   Typography,
   withStyles,
+  SendIcon,
 };
 
 export {
