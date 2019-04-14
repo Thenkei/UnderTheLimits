@@ -32,7 +32,6 @@ const UtlTheme = createMuiTheme({
     fontFamily: '"Raleway", serif',
     fontFamilyMonospaced: '"Source Code Pro", monospace',
   },
-
 });
 
 export default UtlTheme;

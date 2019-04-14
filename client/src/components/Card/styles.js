@@ -7,7 +7,7 @@ export default theme => ({
     minHeight: '230px',
     margin: '15px',
     backfaceVisibility: 'hidden',
-    transition: `all ${theme.transitions.easing.easeInOut} ${theme.transitions.duration.short}`,
+    transition: `all ${theme.transitions.easing.easeInOut} ${theme.transitions.duration.short}ms`,
     border: `2px solid ${theme.palette.primary.main}`,
     borderRadius: '8px',
     backgroundColor: 'white',
@@ -22,11 +22,11 @@ export default theme => ({
       transform: 'translate3d( 0, -6px, 0 )',
       boxShadow: '2px 8px 8px -5px rgba( 0, 0, 0, .5 )',
     },
+  },
 
-    '& .card-body': {
-      flex: '1 1 auto',
-      padding: theme.spacing.unit,
-    },
+  cardBody: {
+    flex: '1 1 auto',
+    padding: theme.spacing.unit * 2,
   },
 
 });

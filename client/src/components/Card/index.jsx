@@ -31,9 +31,7 @@ const Card = ({
         role='none'
         style={{ border: checked && '3px solid red' }}
       >
-        <div>
-          <Typography className='card-text'>{value}</Typography>
-        </div>
+        <Typography className={classes.cardBody} color='primary'>{value}</Typography>
       </div>
     </MainWrapper>
   );

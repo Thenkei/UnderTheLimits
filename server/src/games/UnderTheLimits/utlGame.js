@@ -16,8 +16,14 @@ const UTL_STATUS = {
 };
 
 class UTLGame extends Channel {
-  constructor(name, minPlayersCount = 2, maxPlayersCount = 8, playerMaxPoint = 5) {
-    super(name, minPlayersCount, maxPlayersCount);
+  constructor(
+    name,
+    minPlayersCount = 2,
+    maxPlayersCount = 8,
+    playerMaxPoint = 5,
+    isPrivate = false,
+  ) {
+    super(name, minPlayersCount, maxPlayersCount, isPrivate);
     this.deckAnswers = [];
     this.deckQuestions = [];
     this.timer = 0;

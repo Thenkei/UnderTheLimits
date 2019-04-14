@@ -10,6 +10,7 @@ const GameFactory = (
       channelOpts.minPlayersCount,
       channelOpts.maxPlayersCount,
       channelOpts.maxPoints,
+      channelOpts.isPrivate,
     );
   }
   if (channelOpts.gameType === 'utlplus') {
@@ -18,6 +19,7 @@ const GameFactory = (
       channelOpts.minPlayersCount,
       channelOpts.maxPlayersCount,
       channelOpts.playerMaxPoint,
+      channelOpts.isPrivate,
     );
   }
 
