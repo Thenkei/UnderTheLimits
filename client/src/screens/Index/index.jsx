@@ -37,7 +37,7 @@ const Index = ({
         message: `Le nom ${playerName} n'est pas valide !`,
       });
     }
-  }
+  };
 
   if (player) {
     let to = '/lobby';
