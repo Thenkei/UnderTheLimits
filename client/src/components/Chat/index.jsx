@@ -22,6 +22,13 @@ const Chat = ({
   username,
 }) => {
   const [message, setMessage] = useState('');
+  const submit = (e) => {
+    e.preventDefault();
+    if (message && message.length > 0) {
+      setMessage('');
+      sendMessage(message);
+    }
+  };
   return (
     <div className={classes.root}>
       <div className={classes.topBar}>
@@ -42,13 +49,7 @@ const Chat = ({
       </div>
       <form
         className={classes.sendMessagesForm}
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (message && message.length > 0) {
-            setMessage('');
-            sendMessage(message);
-          }
-        }}
+        onSubmit={submit}
       >
         <Input
           className={classes.sendMessageInput}
@@ -60,6 +61,11 @@ const Chat = ({
           placeholder='Votre message ...'
           value={message}
           onChange={({ target }) => setMessage(target.value)}
+          onKeyPress={(ev) => {
+            if (ev.key === 'Enter') {
+              submit(ev);
+            }
+          }}
           endAdornment={(
             <InputAdornment position='end'>
               <IconButton

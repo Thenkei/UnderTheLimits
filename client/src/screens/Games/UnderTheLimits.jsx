@@ -7,8 +7,11 @@ import { InGameLayout } from '../../layouts';
 
 import {
   Button,
+  Icon,
+  IconButton,
   UnderTheLimits,
   Typography,
+  Tooltip,
 } from '../../components';
 
 import { wssStartGame, wssSelectedAnswers, wssSelectJudgment } from '../../reducers/game';
@@ -46,6 +49,22 @@ const UnderTheLimitsGame = ({
             {currentChannel.currentStatus === 'IDLE' ? 'Commencer la partie' : 'Prochain round'}
           </Button>
       )}
+      <Tooltip title='Copier le lien de la partie'>
+        <IconButton
+          onClick={() => {
+            const el = document.createElement('textarea');
+            el.value = window.location;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+          }}
+        >
+          <Icon>
+            file_copy
+          </Icon>
+        </IconButton>
+      </Tooltip>
       <UnderTheLimits
         player={player}
         currentChannel={currentChannel}

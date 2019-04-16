@@ -47,30 +47,21 @@ const ADJECTIVES = [
 ];
 
 const NOUNS = [
-  'abeille',
   'aigle',
-  'araignée',
-  'baleine',
   'canard',
-  'chauve souris',
   'cheval',
   'chien',
-  'chèvre',
   'cochon',
   'criquet',
   'dauphin',
   'escargot',
   'faucon',
-  'fourmi',
-  'girafe',
   'gorille',
-  'grenouille',
   'hibou',
   'lapin',
   'lion',
   'loup',
   'lézard',
-  'mouche',
   'moustique',
   'mouton',
   'oiseau',
@@ -80,14 +71,11 @@ const NOUNS = [
   'phoque',
   'pingouin',
   'poisson',
-  'poule',
   'renard',
   'requin',
-  'sauterelle',
   'serpent',
   'singe',
   'taureau',
-  'vache',
   'âne',
   'écureuil',
   'éléphant',
@@ -99,5 +87,5 @@ export default () => {
   const randomName = (adjective.type === 'prefix'
     ? `${adjective.value}-${noun}`
     : `${noun}-${adjective.value}`);
-  return Array.from(randomName).map((letter, i) => (i === 0 ? letter.toUpperCase() : letter)).join('');
+  return Array.from(randomName).map((letter, i) => (i === 0 ? letter.toUpperCase() : letter)).join('').replace(/ /g, '-');
 };
