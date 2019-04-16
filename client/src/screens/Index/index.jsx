@@ -56,7 +56,7 @@ const Index = ({
         <Input
           type='text'
           value={playerName || ''}
-          placeholder='Magie'
+          placeholder='Surnom'
           onChange={(e) => {
             setPlayerName(e.target.value);
           }}
