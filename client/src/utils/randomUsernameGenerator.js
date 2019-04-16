@@ -87,5 +87,5 @@ export default () => {
   const randomName = (adjective.type === 'prefix'
     ? `${adjective.value}-${noun}`
     : `${noun}-${adjective.value}`);
-  return Array.from(randomName).map((letter, i) => (i === 0 ? letter.toUpperCase() : letter)).join('');
+  return Array.from(randomName).map((letter, i) => (i === 0 ? letter.toUpperCase() : letter)).join('').replace(/ /g, '-');
 };
