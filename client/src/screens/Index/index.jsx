@@ -27,6 +27,17 @@ const Index = ({
   const [playerName, setPlayerName] = useState(
     utlPlayer === null ? '' : utlPlayer.name,
   );
+  const submit = (e) => {
+    e.preventDefault();
+    const usernameRegex = /^([a-zA-Z]|[à-ú]|[À-Ú]|-|_)+$/;
+    if (playerName && playerName.match(usernameRegex)) {
+      createPlayer(playerName);
+    } else {
+      displayError({
+        message: `Le nom ${playerName} n'est pas valide !`,
+      });
+    }
+  }
 
   if (player) {
     let to = '/lobby';
@@ -39,17 +50,7 @@ const Index = ({
   return (
     <div className={classes.LoginFormWrapper}>
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const usernameRegex = /^([a-zA-Z]|[à-ú]|[À-Ú]|-|_)+$/;
-          if (playerName && playerName.match(usernameRegex)) {
-            createPlayer(playerName);
-          } else {
-            displayError({
-              message: `Le nom ${playerName} n'est pas valide !`,
-            });
-          }
-        }}
+        onSubmit={submit}
         className={classes.LoginFormAnimated}
       >
         <Input
@@ -58,6 +59,11 @@ const Index = ({
           placeholder='Magie'
           onChange={(e) => {
             setPlayerName(e.target.value);
+          }}
+          onKeyPress={(ev) => {
+            if (ev.key === 'Enter') {
+              submit(ev);
+            }
           }}
         />
         <IconButton
