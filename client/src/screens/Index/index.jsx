@@ -41,7 +41,7 @@ const Index = ({
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          const usernameRegex = /^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/;
+          const usernameRegex = /^([a-zA-Z]|[à-ú]|[À-Ú]|-|_)+$/;
           if (playerName && playerName.match(usernameRegex)) {
             createPlayer(playerName);
           } else {
