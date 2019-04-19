@@ -16,6 +16,7 @@ export default theme => ({
   // @Damien - Sorry for this part
   scoreBoard: {
     width: '120px',
+    flexShrink: 0,
     height: '100%',
     maxHeight: `calc( 100vh - ${theme.layout.topAppBarHeight} )`,
     overflow: 'auto',
