@@ -2,6 +2,7 @@ export default theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
+    flexShrink: 0,
     width: theme.layout.chatWidth,
     height: '100%',
     maxHeight: `calc(100vh - ${theme.layout.topAppBarHeight})`,
@@ -48,6 +49,7 @@ export default theme => ({
 
   sendedMessage: {
     width: '100%',
+    cursor: 'default',
   },
 
   avatar: {
@@ -67,8 +69,18 @@ export default theme => ({
     wordBreak: 'break-word',
   },
 
-  metaDate: {
+  isPlayer: {
     color: theme.palette.primary.light,
+  },
+
+  metaDate: {
+    color: theme.palette.primary.dark,
+    transition: `all ${theme.transitions.easing.easeInOut} ${theme.transitions.duration.short}ms`,
+
+    '&:hover': {
+      color: theme.palette.primary.light,
+      opacity: 0.5,
+    },
   },
 
   // Footer

@@ -43,6 +43,7 @@ const Chat = ({
             username={`${m.player === username ? 'Vous' : m.player}`}
             avatar={m.player}
             message={m.message}
+            isPlayer={m.isPlayer}
             date={m.date}
           />
         ))}
