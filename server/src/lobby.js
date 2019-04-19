@@ -108,8 +108,8 @@ class Lobby {
 
       client.on('chat/message', (msg) => {
         const currentPlayer = this.usersManager.getUserBySocket(client.id);
-        const channel = this.channelsManager.getChannelByPlayerId(currentPlayer.id);
         if (!currentPlayer) return;
+        const channel = this.channelsManager.getChannelByPlayerId(currentPlayer.id);
         const message = { player: currentPlayer.name, message: encodeURI(msg), date: Date.now() };
 
         if (msg.startsWith('/mp') && msg.split(' ').length > 2) {
