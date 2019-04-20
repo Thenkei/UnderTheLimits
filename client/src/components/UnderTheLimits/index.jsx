@@ -2,16 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Card from '../Card';
-import { Typography, withStyles } from '..';
+import { LinearProgress, Typography, withStyles } from '..';
 
 import styles from './styles';
 
 function DisplayTimer(prop) {
   return (
-    <Typography variant='h5'>
-      Il reste
-      {` ${prop.timer}s`}
-    </Typography>
+    <React.Fragment>
+      
+      <LinearProgress variant='buffer' value={0} valueBuffer={prop.timer} />
+      <Typography variant='h5'>
+        Il reste
+        {` ${prop.timer}s`}
+      </Typography>
+    </React.Fragment>
   );
 }
 
