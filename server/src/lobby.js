@@ -38,27 +38,27 @@ class Lobby {
       client.on('disconnect', () => {
         const disconnected = this.usersManager.removeUserById(client.id);
         const updateLobby = () => io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', this.serialize());
-        if (disconnected) {
-          const channel = this.channelsManager.getChannelByPlayerId(client.id);
-          if (!channel) { return; }
-
-          if (channel.isRunning()) {
-            this.channelsManager.setTimeoutDisconnectedFromChannel(
-              client.id,
-              channel,
-              io,
-              updateLobby,
-            );
-          } else {
-            this.channelsManager.disconnectedFromChannel(
-              client.id,
-              channel,
-              io,
-              updateLobby,
-            );
-          }
-        }
+        if (!disconnected) { return; }
         updateLobby();
+
+        const channel = this.channelsManager.getChannelByPlayerId(client.id);
+        if (!channel) { return; }
+
+        if (channel.isRunning()) {
+          this.channelsManager.setTimeoutDisconnectedFromChannel(
+            client.id,
+            channel,
+            io,
+            updateLobby,
+          );
+        } else {
+          this.channelsManager.disconnectedFromChannel(
+            client.id,
+            channel,
+            io,
+            updateLobby,
+          );
+        }
       });
 
       client.on('createPlayer', async (playerName) => {
