@@ -17,6 +17,8 @@ import {
   wssGotoChannel,
 } from '../../reducers/channel';
 
+import { displayErrorMessage } from '../../reducers/app';
+
 import { wssUpdateLobby } from '../../reducers/lobby';
 
 import QueryParser from '../../utils/queryParser';
@@ -60,7 +62,10 @@ class Lobby extends Component {
 
     return (
       <InGameLayout players={this.props.lobby.waitingPlayers}>
-        <CreateChannel onCreateChannel={this.onCreateChannel} />
+        <CreateChannel
+          onCreateChannel={this.onCreateChannel}
+          displayError={this.props.displayError}
+        />
         <Typography variant='h3'>Parties publiques</Typography>
         {this.props.lobby.channels.map(c => (
           <form key={c.id}>
@@ -96,6 +101,7 @@ Lobby.propTypes = {
   updateChannel: PropTypes.func.isRequired,
   createChannel: PropTypes.func.isRequired,
   gotoChannel: PropTypes.func.isRequired,
+  displayError: PropTypes.func.isRequired,
 
   currentChannel: PropTypes.shape({
     players: PropTypes.array,
@@ -134,6 +140,9 @@ const mapDispatchToProps = dispatch => ({
   },
   gotoChannel: (gotoChannelReq) => {
     dispatch(wssGotoChannel(gotoChannelReq));
+  },
+  displayError: ({ message }) => {
+    dispatch(displayErrorMessage(message));
   },
 });
 

@@ -1,11 +1,16 @@
-import React from 'react';
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import {
+  Button,
   IconButton,
   Icon,
+  Modal,
   Tooltip,
+  Typography,
   withStyles,
 } from '..';
 
@@ -13,26 +18,53 @@ import { toggleSound } from '../../reducers/app';
 
 import styles from './styles';
 
-const TopAppBar = props => (
-  <header className={props.classes.topAppBar}>
-    <img
-      src='/public/images/UTL_Logo.png'
-      alt='under-the-limits'
-      className={props.classes.topAppBarLogo}
-    />
-    <Tooltip title={props.isSoundMuted ? 'Activer' : 'Désactiver'}>
-      <IconButton onClick={props.toggleSound}>
-        <Icon>{props.isSoundMuted ? 'volume_up' : 'volume_off'}</Icon>
-      </IconButton>
-    </Tooltip>
-  </header>
-);
+const TopAppBar = (props) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <header className={props.classes.topAppBar}>
+      <img
+        src='/public/images/UTL_Logo.png'
+        alt='under-the-limits'
+        className={props.classes.topAppBarLogo}
+        onClick={() => {
+          setOpen(true);
+        }}
+      />
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+      >
+        <div>
+          <Typography variant='h6'>
+            Êtes vous sur de vouloir quitter ?
+          </Typography>
+          <Button onClick={() => setOpen(false)}>Annuler</Button>
+          <Button
+            onClick={() => {
+              props.gotoHomepage();
+              setOpen(false);
+              window.location.reload();
+            }}
+          >
+            Ok
+          </Button>
+        </div>
+      </Modal>
+      <Tooltip title={props.isSoundMuted ? 'Activer' : 'Désactiver'}>
+        <IconButton onClick={props.toggleSound}>
+          <Icon>{props.isSoundMuted ? 'volume_up' : 'volume_off'}</Icon>
+        </IconButton>
+      </Tooltip>
+    </header>
+  );
+};
 
 TopAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
 
   isSoundMuted: PropTypes.bool.isRequired,
   toggleSound: PropTypes.func.isRequired,
+  gotoHomepage: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({

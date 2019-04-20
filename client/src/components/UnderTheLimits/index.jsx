@@ -113,7 +113,7 @@ class UnderTheLimits extends Component {
             <div>
               <Typography>
                 Le gagnant de la manche est
-                {`${player.name}:`}
+                {`: ${(player || {}).name}`}
               </Typography>
             </div>
             <div className={this.props.classes.cardsContainer}>

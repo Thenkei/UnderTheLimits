@@ -38,8 +38,8 @@ const store = createStore(
 const router = (
   <Provider store={store}>
     <MuiThemeProvider theme={UtlTheme}>
-      <RootLayout>
-        <Router>
+      <Router>
+        <RootLayout>
           <Switch>
             <Route exact path='/' component={Index} />
             <Route exact path='/lobby' component={Lobby} />
@@ -47,8 +47,8 @@ const router = (
             <Route path='/underthelimits/:id' component={UnderTheLimits} />
             <Route component={NoMatch} />
           </Switch>
-        </Router>
-      </RootLayout>
+        </RootLayout>
+      </Router>
       <CssBaseline />
     </MuiThemeProvider>
   </Provider>

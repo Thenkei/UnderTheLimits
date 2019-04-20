@@ -18,7 +18,7 @@ import {
 
 import styles from './styles';
 
-const CreateChannel = ({ classes, onCreateChannel }) => {
+const CreateChannel = ({ classes, onCreateChannel, displayError }) => {
   const [open, setOpen] = useState(false);
   const [channelName, setChannelName] = useState('');
   const [gameType, setGameType] = useState('utlgame');
@@ -27,7 +27,6 @@ const CreateChannel = ({ classes, onCreateChannel }) => {
   const [maxPoints, setMaxPoints] = useState(5);
   const [isPrivate, setPrivate] = useState(false);
   const range = (start, end) => new Array(end - start).fill().map((d, i) => i + start);
-
   const games = [{
     value: 'utlgame',
     text: 'UTL Game (Simple)',
@@ -62,18 +61,25 @@ const CreateChannel = ({ classes, onCreateChannel }) => {
             className={classes.createChannelForm}
             onSubmit={(e) => {
               e.preventDefault();
-              const channel = {
-                opts: {
-                  gameType,
-                  channelName,
-                  minPlayersCount,
-                  maxPlayersCount,
-                  maxPoints,
-                  isPrivate,
-                },
-              };
-              onCreateChannel({ channel });
-              setOpen(false);
+              const roomNameRegex = /^([a-zA-Z]|[à-ú]|[À-Ú]|-|_)+$/;
+              if (!channelName || !roomNameRegex.exec(channelName)) {
+                displayError({
+                  message: `Le nom ${channelName} n'est pas valide !`,
+                });
+              } else {
+                const channel = {
+                  opts: {
+                    gameType,
+                    channelName,
+                    minPlayersCount,
+                    maxPlayersCount,
+                    maxPoints,
+                    isPrivate,
+                  },
+                };
+                onCreateChannel({ channel });
+                setOpen(false);
+              }
             }}
           >
             <Input
@@ -171,6 +177,7 @@ CreateChannel.propTypes = {
   classes: PropTypes.object.isRequired,
 
   onCreateChannel: PropTypes.func,
+  displayError: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(CreateChannel);

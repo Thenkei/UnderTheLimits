@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import Sound from 'react-sound';
 
@@ -44,7 +45,7 @@ class RootLayout extends React.Component {
     return (
       <div className={classes.underTheLimits}>
         <div className={classes.underTheLimitsCardsBackground} />
-        <TopAppBar />
+        <TopAppBar gotoHomepage={() => this.props.history.push('/')} />
         <Sound
           url={`/public/sounds/${sound}`}
           playStatus={isPlaySound ? Sound.status.PLAYING : Sound.status.STOPPED}
@@ -78,7 +79,7 @@ RootLayout.defaultProps = {
 
 RootLayout.propTypes = {
   classes: PropTypes.object.isRequired,
-
+  history: PropTypes.arrayOf(PropTypes.any).isRequired,
   children: PropTypes.shape({}).isRequired,
 
   error: PropTypes.string,
@@ -91,6 +92,7 @@ RootLayout.propTypes = {
   appStopSound: PropTypes.func.isRequired,
   appRemoveErrorMessage: PropTypes.func.isRequired,
   appRemoveSuccessMessage: PropTypes.func.isRequired,
+
 };
 
 const mapStateToProps = (state) => {
@@ -118,5 +120,6 @@ const mapDispatchToProps = dispatch => ({
   appRemoveErrorMessage: () => dispatch(removeErrorMessage()),
   appRemoveSuccessMessage: () => dispatch(removeSuccessMessage()),
 });
-export default
-withStyles(styles, { useTheme: true })(connect(mapStateToProps, mapDispatchToProps)(RootLayout));
+export default withRouter(
+  withStyles(styles, { useTheme: true })(connect(mapStateToProps, mapDispatchToProps)(RootLayout)),
+);
