@@ -9,8 +9,7 @@ import styles from './styles';
 function DisplayTimer(prop) {
   return (
     <React.Fragment>
-      
-      <LinearProgress variant='buffer' value={0} valueBuffer={prop.timer} />
+      <LinearProgress variant='buffer' value={0} valueBuffer={(prop.timer * 2)} />
       <Typography variant='h5'>
         Il reste
         {` ${prop.timer}s`}

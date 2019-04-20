@@ -94,7 +94,6 @@ class Lobby {
           client.join(channel.id);
           channel.register(io, client, this.usersManager);
           client.emit('updateChannel', channel.serialize());
-          console.warn(channelReq.opts.isPrivate);
           if (!(channelReq.opts.isPrivate === true)) {
             io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', this.serialize());
           }

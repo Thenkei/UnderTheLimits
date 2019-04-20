@@ -143,16 +143,20 @@ class UTLGame extends Channel {
 
   serialize() {
     return {
-      channel:
-        {
-          id: this.id,
-          admin: this.admin,
-          name: this.name,
-          players: this.players,
-          currentStatus: this.currentStatus,
-          timer: this.timer,
-          deckQuestion: this.deckQuestions[0],
+      channel: {
+        id: this.id,
+        admin: this.admin,
+        name: this.name,
+        players: this.players,
+        currentStatus: this.currentStatus,
+        timer: this.timer,
+        deckQuestion: this.deckQuestions[0],
+        opts: {
+          minPlayersCount: this.minPlayersCount,
+          maxPlayersCount: this.maxPlayersCount,
+          playerMaxPoint: this.playerMaxPoint,
         },
+      },
     };
   }
 
