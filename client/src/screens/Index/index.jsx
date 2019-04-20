@@ -5,12 +5,20 @@ import PropTypes from 'prop-types';
 import { withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { Input, Button, withStyles } from '../../components';
+import {
+  Icon,
+  IconButton,
+  Input,
+  Button,
+  withStyles,
+} from '../../components';
 
 import styles from './styles';
 
 import { displayErrorMessage } from '../../reducers/app';
 import { wssCreatePlayer } from '../../reducers/player';
+
+import RUN from '../../utils/randomUsernameGenerator';
 
 const Index = ({
   classes, createPlayer, player, displayError, location,
@@ -19,6 +27,17 @@ const Index = ({
   const [playerName, setPlayerName] = useState(
     utlPlayer === null ? '' : utlPlayer.name,
   );
+  const submit = (e) => {
+    e.preventDefault();
+    const usernameRegex = /^([a-zA-Z]|[à-ú]|[À-Ú]|-|_)+$/;
+    if (playerName && playerName.match(usernameRegex)) {
+      createPlayer(playerName);
+    } else {
+      displayError({
+        message: `Le nom ${playerName} n'est pas valide !`,
+      });
+    }
+  };
 
   if (player) {
     let to = '/lobby';
@@ -31,27 +50,31 @@ const Index = ({
   return (
     <div className={classes.LoginFormWrapper}>
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const usernameRegex = /^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/;
-          if (playerName && playerName.match(usernameRegex)) {
-            createPlayer(playerName);
-          } else {
-            displayError({
-              message: `Le nom ${playerName} n'est pas valide !`,
-            });
-          }
-        }}
+        onSubmit={submit}
         className={classes.LoginFormAnimated}
       >
         <Input
           type='text'
           value={playerName || ''}
-          placeholder='Name'
+          placeholder='Surnom'
           onChange={(e) => {
             setPlayerName(e.target.value);
           }}
+          onKeyPress={(ev) => {
+            if (ev.key === 'Enter') {
+              submit(ev);
+            }
+          }}
         />
+        <IconButton
+          variant='contained'
+          color='primary'
+          onClick={() => {
+            setPlayerName(RUN());
+          }}
+        >
+          <Icon>refresh</Icon>
+        </IconButton>
         <Button variant='contained' color='primary' type='submit'>
           Ok
         </Button>

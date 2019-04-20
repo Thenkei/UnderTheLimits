@@ -1,9 +1,11 @@
 // React Mui components
 import {
   Avatar,
-  Chip,
   Badge,
   Button,
+  Chip,
+  createMuiTheme,
+  CssBaseline,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -12,15 +14,21 @@ import {
   Icon,
   IconButton,
   Input,
+  InputAdornment,
   InputLabel,
   MenuItem,
+  MuiThemeProvider,
   Select,
   Snackbar,
   Switch,
+  TextField,
   Tooltip,
   Typography,
   withStyles,
 } from '@material-ui/core';
+
+import SendIcon from '@material-ui/icons/Send';
+
 // HomeMade components
 import Card from './Card';
 import Chat from './Chat';
@@ -33,8 +41,10 @@ import UnderTheLimits from './UnderTheLimits';
 export {
   Avatar,
   Badge,
-  Chip,
   Button,
+  Chip,
+  createMuiTheme,
+  CssBaseline,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -43,14 +53,18 @@ export {
   Icon,
   IconButton,
   Input,
+  InputAdornment,
   InputLabel,
   MenuItem,
+  MuiThemeProvider,
   Select,
   Snackbar,
   Switch,
+  TextField,
   Tooltip,
   Typography,
   withStyles,
+  SendIcon,
 };
 
 export {

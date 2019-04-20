@@ -1,4 +1,4 @@
-export default () => ({
+export default theme => ({
 
   inGameLayout: {
     display: 'flex',
@@ -9,19 +9,20 @@ export default () => ({
   ingameLayoutMainContent: {
     flex: '1 1 auto',
     height: '100%',
-    // max-height: calc( 100vh - $top-app-bar-height ),
+    maxHeight: `calc( 100vh - ${theme.layout.topAppBarHeight} )`,
     overflow: 'auto',
   },
 
   // @Damien - Sorry for this part
   scoreBoard: {
     width: '120px',
+    flexShrink: 0,
     height: '100%',
-    // max-height: calc( 100vh - $top-app-bar-height ),
+    maxHeight: `calc( 100vh - ${theme.layout.topAppBarHeight} )`,
     overflow: 'auto',
     backgroundColor: 'rgba( 0, 0, 0, .2 )',
     boxShadow: '-10px 0 50px rgba( 0, 0, 0, .2 )',
-    // border: solid 1px magenta,
+    border: 'solid 1px magenta',
   },
 
   scoreBoardTopBar: {

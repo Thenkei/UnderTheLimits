@@ -11,12 +11,10 @@ exports[`renders correctly with a few props 1`] = `
     }
   }
 >
-  <div>
-    <p
-      className="MuiTypography-root-2 MuiTypography-body1-11 card-text"
-    >
-      BLBL - C'est un test !
-    </p>
-  </div>
+  <p
+    className="MuiTypography-root-3 MuiTypography-body1-12 MuiTypography-colorPrimary-33 Card-cardBody-2"
+  >
+    BLBL - C'est un test !
+  </p>
 </div>
 `;

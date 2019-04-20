@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import { List } from 'immutable';
 
 import {
-  Input,
-  Button,
   withStyles,
+  Typography,
+  InputAdornment,
+  IconButton,
+  Input,
+  SendIcon,
 } from '..';
 
 import Message from './Message';
@@ -19,44 +22,63 @@ const Chat = ({
   username,
 }) => {
   const [message, setMessage] = useState('');
+  const submit = (e) => {
+    e.preventDefault();
+    if (message && message.length > 0) {
+      setMessage('');
+      sendMessage(message);
+    }
+  };
   return (
-    <div className={classes.chat}>
-      <div className={classes.chatSendedMessages}>
-        <div className={classes.chatTopBar}> Toi aussi clash tes potos </div>
+    <div className={classes.root}>
+      <div className={classes.topBar}>
+        <Typography className={classes.topBarTitle} variant='overline'>
+          Toi aussi clash tes potos
+        </Typography>
+      </div>
+      <div className={classes.messagesFlow}>
         {messages.reverse().map(m => (
           <Message
             key={m.date}
-            username={`${m.player === username ? 'you' : m.player}`}
+            username={`${m.player === username ? 'Vous' : m.player}`}
             avatar={m.player}
             message={m.message}
+            isPlayer={m.isPlayer}
             date={m.date}
           />
         ))}
       </div>
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (message && message.length > 0) {
-            setMessage('');
-            sendMessage(message);
-          }
-        }}
+        className={classes.sendMessagesForm}
+        onSubmit={submit}
       >
         <Input
-          className={classes.chatSendMessageInput}
+          className={classes.sendMessageInput}
+          classes={{ inputType: classes.sendMessageInputType }}
+          fullWidth
+          multiline
+          rows='2'
           type='message'
           placeholder='Votre message ...'
           value={message}
           onChange={({ target }) => setMessage(target.value)}
+          onKeyPress={(ev) => {
+            if (ev.key === 'Enter') {
+              submit(ev);
+            }
+          }}
+          endAdornment={(
+            <InputAdornment position='end'>
+              <IconButton
+                className={classes.sendMessageButton}
+                type='submit'
+              >
+                <SendIcon />
+              </IconButton>
+            </InputAdornment>
+          )}
         />
-        <Button
-          variant='contained'
-          color='primary'
-          className={classes.chatSendMessageButton}
-          type='submit'
-        >
-          Envoyer
-        </Button>
+
       </form>
     </div>
   );

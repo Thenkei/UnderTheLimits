@@ -1,4 +1,4 @@
-export default () => ({
+export default theme => ({
   underTheLimits: {
     display: 'flex',
     flexDirection: 'column',
@@ -6,7 +6,7 @@ export default () => ({
     width: '100%',
     height: '100%',
     minHeight: '100vh',
-    backgroundImage: 'radial-gradient( farthest-corner at 100% 100%, #0e4a70, #031723 )',
+    backgroundImage: `radial-gradient( farthest-corner at 100% 100%, ${theme.palette.primary.main}, ${theme.palette.primary.dark} )`,
     color: 'white',
     textAlign: 'center',
   },
@@ -14,7 +14,7 @@ export default () => ({
   underTheLimitsContent: {
     zIndex: '1',
     width: '100%',
-    // height: calc( 100vh - #{$top-app-bar-height} ),
+    height: `calc( 100vh - ${theme.layout.topAppBarHeight} )`,
   },
 
   underTheLimitsCardsBackground: {
@@ -26,8 +26,9 @@ export default () => ({
     left: '0',
     overflow: 'hidden',
     pointerEvents: 'none',
+
     '&:before': {
-      content: '',
+      content: '""',
       position: 'absolute',
       zIndex: '0',
       top: '0',
@@ -37,11 +38,14 @@ export default () => ({
       transform: 'scale3d( 1.33, 1.33, 1.33 )',
       transformOrigin: 'center 40%',
       animation: 'bckgrdEntrance 6s ease-out',
-      background: {
-        image: 'url( "/public/images/CardsBckgrd.svg" )',
-        repeat: 'center',
-        size: 'contain',
-      },
+      // background: {
+      //   image: 'url( "/public/images/CardsBckgrd.svg" )',
+      //   repeat: 'no-repeat',
+      //   position: 'contain',
+      // },
+      backgroundImage: 'url( "/public/images/CardsBckgrd.svg" )',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'contain',
       pointerEvents: 'none',
     },
   },

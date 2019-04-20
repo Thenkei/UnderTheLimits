@@ -93,7 +93,7 @@ class UnderTheLimits extends Component {
                         ? () => this.props.selectedJudgment(
                           player.id,
                         )
-                        : () => {}
+                        : () => { }
                     }
                   />
                 );
@@ -124,7 +124,7 @@ class UnderTheLimits extends Component {
                     player.answers,
                     player.hand,
                   )}
-                  onClick={() => {}}
+                  onClick={() => { }}
                 />
               }
             </div>
@@ -134,7 +134,7 @@ class UnderTheLimits extends Component {
                   key={answer.text}
                   value={answer.text}
                   definition={answer.definition}
-                  onClick={() => {}}
+                  onClick={() => { }}
                 />
               ))}
             </div>
@@ -143,37 +143,44 @@ class UnderTheLimits extends Component {
       }
       let timer;
       if (this.props.currentChannel.currentStatus === 'PLAYING_CARD') {
-        timer = <DisplayTimer timer={this.props.currentChannel.timer} />;
+        timer = {
+          component: <DisplayTimer timer={this.props.currentChannel.timer} />,
+          condition: true,
+        };
       } else {
-        timer = <DisplayIdle />;
+        timer = { component: <DisplayIdle />, condition: false };
       }
       return (
         <React.Fragment>
-          {timer}
-          <div className={this.props.classes.cardsContainer}>
-            <Card
-              key='questioncard'
-              value={this.getFilledQuestionText(
-                this.props.player.answers,
-                this.props.player.hand,
-              )}
-            />
-          </div>
-          <div className={this.props.classes.cardsContainer}>
-            {this.props.player.hand.map((answer, index) => (
+          {timer.component}
+          {timer.condition && (
+          <React.Fragment>
+            <div className={this.props.classes.cardsContainer}>
               <Card
-                key={answer.text}
-                value={answer.text}
-                definition={answer.definition}
-                onClick={
-                  this.props.player.isGameMaster
-                    ? () => {}
-                    : () => this.handleChange(index)
-                }
-                checked={this.props.player.answers.indexOf(index) >= 0}
+                key='questioncard'
+                value={this.getFilledQuestionText(
+                  this.props.player.answers,
+                  this.props.player.hand,
+                )}
               />
-            ))}
-          </div>
+            </div>
+            <div className={this.props.classes.cardsContainer}>
+              {this.props.player.hand.map((answer, index) => (
+                <Card
+                  key={answer.text}
+                  value={answer.text}
+                  definition={answer.definition}
+                  onClick={
+                    this.props.player.isGameMaster
+                      ? () => { }
+                      : () => this.handleChange(index)
+                  }
+                  checked={this.props.player.answers.indexOf(index) >= 0}
+                />
+              ))}
+            </div>
+          </React.Fragment>
+          )}
         </React.Fragment>
       );
     }
