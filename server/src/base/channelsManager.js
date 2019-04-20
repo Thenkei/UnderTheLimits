@@ -34,20 +34,25 @@ class ChannelsManager {
     return this.channels.find(c => c.players.find(p => playerId === p.id));
   }
 
-  setTimeoutDisconnectedFromChannel(socket) {
+  setTimeoutDisconnectedFromChannel(socket, channel, io, updateLobby) {
     setTimeout(() => {
-      this.channels.forEach((channel, index, array) => {
-        const removed = channel.removePlayerById(socket);
-        if (removed) {
-          console.log('[ChannelsManager] Dangling disconnected player', removed.name, 'disconnected from channel', channel.name);
-          if (channel.players.length === 0) {
-            array.splice(index, 1);
-            console.log('[ChannelsManager] Remove channel', channel.name);
-            // SocketProvider.get().to(LOBBY).emit('updateLobby', c.serialize());
-          }
-        }
-      });
+      this.disconnectedFromChannel(socket, channel, io, updateLobby);
     }, MAX_DISCONNECTED_TIME);
+  }
+
+  disconnectedFromChannel(socket, channel, io, updateLobby) {
+    const removed = channel.removePlayerById(socket);
+
+    if (removed) {
+      console.log('[ChannelsManager] Player', removed.name, 'disconnected from channel', channel.name);
+      io.to(channel.id).emit('updateChannel', channel.serialize());
+
+      if (channel.players.length === 0) {
+        this.channels.splice(this.channels.findIndex(c => c.id === channel.id), 1);
+        console.log('[ChannelsManager] Remove channel', channel.name);
+        updateLobby();
+      }
+    }
   }
 }
 
