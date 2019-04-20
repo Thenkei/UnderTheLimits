@@ -6,8 +6,10 @@ import { connect } from 'react-redux';
 import { InGameLayout } from '../../layouts';
 
 import {
-  Button,
   CreateChannel,
+  List,
+  ListItem,
+  ListItemText,
   Typography,
 } from '../../components';
 
@@ -67,19 +69,19 @@ class Lobby extends Component {
           displayError={this.props.displayError}
         />
         <Typography variant='h3'>Parties publiques</Typography>
-        {this.props.lobby.channels.map(c => (
-          <form key={c.id}>
-            <Button
-              variant='contained'
-              color='primary'
+        <List component='nav'>
+          {this.props.lobby.channels.map(c => (
+            <ListItem
+              button
+              key={c.id}
               onClick={() => {
                 this.props.gotoChannel(c.id);
               }}
             >
-              {c.name}
-            </Button>
-          </form>
-        ))}
+              <ListItemText primary={c.name} />
+            </ListItem>
+          ))}
+        </List>
       </InGameLayout>
     );
   }
