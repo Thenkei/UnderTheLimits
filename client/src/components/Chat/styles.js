@@ -5,9 +5,6 @@ export default theme => ({
     flexShrink: 0,
     width: theme.layout.chatWidth,
     height: '100%',
-    maxHeight: `calc(100vh - ${theme.layout.topAppBarHeight})`,
-    backgroundColor: `rgba(${theme.palette.primary.main}, .4)`,
-    boxShadow: '-10px 0 50px rgba( 0, 0, 0, .2 )',
   },
 
   // Header
@@ -92,21 +89,19 @@ export default theme => ({
 
   '@keyframes PoppinMessage': {
     '0%': {
-      height: '0',
-      marginBottom: '0',
+      marginBottom: 0,
     },
 
-    '10%': {
-      marginBottom: '-12px',
+    '40%': {
+      marginBottom: '12px',
     },
 
-    '65%': {
-      marginBottom: '20px',
+    '80%': {
+      marginBottom: '-4px',
     },
 
-    '90%': {
-      height: '100%',
-      marginBottom: '0',
+    '99%': {
+      marginBottom: 0,
     },
   },
 

@@ -3,6 +3,15 @@ import { createMuiTheme } from '../components';
 const UtlTheme = createMuiTheme({
   themeName: 'UtlTheme',
 
+  opacity: {
+    alpha10: '1A',
+    alpha25: '40',
+    alpha35: '59',
+    alpha50: '80',
+    alpha75: 'BF',
+    alpha90: 'E6',
+  },
+
   layout: {
     topAppBarHeight: '64px',
     chatWidth: '312px',

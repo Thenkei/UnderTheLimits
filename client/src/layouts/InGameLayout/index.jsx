@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
+import classNames from 'classnames';
 
 import {
   Chat,
   Players,
-  Typography,
   withStyles,
 } from '../../components';
 
@@ -29,28 +29,31 @@ class InGameLayout extends Component {
   }
 
   render() {
+    const {
+      classes,
+      players,
+      noScore,
+      channel,
+      username,
+      messages,
+      sendMessage,
+      children,
+    } = this.props;
     return (
-      <div className={this.props.classes.inGameLayout}>
-        <div className={this.props.classes.scoreBoard}>
-          <div className={this.props.classes.scoreBoardTopBar}>
-            <Typography variant='overline' color='textPrimary'>
-              Liste des joueurs
-            </Typography>
-          </div>
-          <Players
-            players={this.props.players}
-            noScore={this.props.noScore}
-            channel={this.props.channel}
+      <div className={classes.inGameLayout}>
+        <div className={classNames(classes.sideBars, classes.scoreBoard)}>
+          <Players players={players} noScore={noScore} channel={channel} />
+        </div>
+        <main className={classes.ingameLayoutMainContent}>
+          { children }
+        </main>
+        <div className={classNames(classes.sideBars, classes.chat)}>
+          <Chat
+            username={username}
+            messages={messages}
+            sendMessage={sendMessage}
           />
         </div>
-        <main className={this.props.classes.ingameLayoutMainContent}>
-          { this.props.children }
-        </main>
-        <Chat
-          username={this.props.username}
-          messages={this.props.messages}
-          sendMessage={this.props.sendMessage}
-        />
       </div>
     );
   }
