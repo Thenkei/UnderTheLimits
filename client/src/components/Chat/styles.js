@@ -6,7 +6,7 @@ export default theme => ({
     width: theme.layout.chatWidth,
     height: '100%',
     maxHeight: `calc(100vh - ${theme.layout.topAppBarHeight})`,
-    backgroundColor: 'rgba( 0, 0, 0, .2 )',
+    backgroundColor: `rgba(${theme.palette.primary.main}, .4)`,
     boxShadow: '-10px 0 50px rgba( 0, 0, 0, .2 )',
   },
 
@@ -39,12 +39,17 @@ export default theme => ({
     height: '100%',
     padding: theme.spacing.unit,
     overflow: 'auto',
+    display: 'flex',
+    flexDirection: 'column-reverse',
   },
 
   fullMessage: {
     display: 'flex',
     flexDirection: 'row',
     marginBottom: theme.spacing.unit * 2,
+    animationDuration: theme.transitions.duration.complex,
+    animationTimingFunction: theme.transitions.easing.easeInOut,
+    animationName: 'PoppinMessage',
   },
 
   sendedMessage: {
@@ -80,6 +85,28 @@ export default theme => ({
     '&:hover': {
       color: theme.palette.primary.light,
       opacity: 0.5,
+    },
+  },
+
+  // Message animation
+
+  '@keyframes PoppinMessage': {
+    '0%': {
+      height: '0',
+      marginBottom: '0',
+    },
+
+    '10%': {
+      marginBottom: '-12px',
+    },
+
+    '65%': {
+      marginBottom: '20px',
+    },
+
+    '90%': {
+      height: '100%',
+      marginBottom: '0',
     },
   },
 
