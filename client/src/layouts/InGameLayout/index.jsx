@@ -37,7 +37,11 @@ class InGameLayout extends Component {
               Liste des joueurs
             </Typography>
           </div>
-          <Players players={this.props.players} noScore={this.props.noScore} />
+          <Players
+            players={this.props.players}
+            noScore={this.props.noScore}
+            channel={this.props.channel}
+          />
         </div>
         <main className={this.props.classes.ingameLayoutMainContent}>
           { this.props.children }
@@ -55,6 +59,8 @@ class InGameLayout extends Component {
 InGameLayout.defaultProps = {
   players: [],
   noScore: true,
+
+  channel: null,
 };
 
 InGameLayout.propTypes = {
@@ -68,6 +74,7 @@ InGameLayout.propTypes = {
 
   players: PropTypes.arrayOf(PropTypes.object),
   noScore: PropTypes.bool,
+  channel: PropTypes.object,
 };
 
 const mapStateToProps = state => ({

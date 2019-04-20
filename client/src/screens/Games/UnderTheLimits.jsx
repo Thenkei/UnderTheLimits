@@ -29,7 +29,7 @@ const UnderTheLimitsGame = ({
   }
 
   return (
-    <InGameLayout players={currentChannel.players} noScore={false}>
+    <InGameLayout players={currentChannel.players} noScore={false} channel={currentChannel}>
       <Typography variant='h4'>{currentChannel.name}</Typography>
       <Typography variant='h5'>
         {player.name}
