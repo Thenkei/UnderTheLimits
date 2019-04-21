@@ -61,7 +61,6 @@ class Lobby extends Component {
     if (this.props.currentChannel) {
       return <Redirect to={`/underthelimits/${this.props.currentChannel.id}`} />;
     }
-
     return (
       <InGameLayout players={this.props.lobby.waitingPlayers}>
         <CreateChannel
@@ -78,7 +77,7 @@ class Lobby extends Component {
                 this.props.gotoChannel(c.id);
               }}
             >
-              <ListItemText primary={c.name} />
+              <ListItemText primary={`${c.name} ${c.playersCount}/${c.maxPlayersCount}`} />
             </ListItem>
           ))}
         </List>

@@ -14,12 +14,15 @@ class Lobby {
 
   serialize() {
     const waitingUsers = this.usersManager.waitingUsers();
+    console.warn(this.channelsManager.channels);
     return {
       lobby:
       {
         waitingPlayers: waitingUsers,
         channels: this.channelsManager.channels.filter(c => !c.isPrivate).map(c => (
           {
+            maxPlayersCount: c.maxPlayersCount,
+            playersCount: c.players.length,
             name: c.name,
             id: c.id,
           })),
