@@ -11,6 +11,7 @@ import {
   ListItem,
   ListItemText,
   Typography,
+  withStyles,
 } from '../../components';
 
 import {
@@ -24,6 +25,8 @@ import { displayErrorMessage } from '../../reducers/app';
 import { wssUpdateLobby } from '../../reducers/lobby';
 
 import QueryParser from '../../utils/queryParser';
+
+import styles from './styles';
 
 class Lobby extends Component {
   constructor(props) {
@@ -50,6 +53,8 @@ class Lobby extends Component {
 
 
   render() {
+    const { classes } = this.props;
+
     if (!this.props.player) {
       return <Redirect to='/' />;
     }
@@ -63,11 +68,13 @@ class Lobby extends Component {
     }
     return (
       <InGameLayout players={this.props.lobby.waitingPlayers}>
-        <CreateChannel
-          onCreateChannel={this.onCreateChannel}
-          displayError={this.props.displayError}
-        />
-        <Typography variant='h3'>Parties publiques</Typography>
+        <div className={classes.listHeader}>
+          <Typography variant='h3'>Parties publiques</Typography>
+          <CreateChannel
+            onCreateChannel={this.onCreateChannel}
+            displayError={this.props.displayError}
+          />
+        </div>
         <List component='nav'>
           {this.props.lobby.channels.map(c => (
             <ListItem
@@ -93,6 +100,7 @@ Lobby.defaultProps = {
 };
 
 Lobby.propTypes = {
+  classes: PropTypes.object.isRequired,
 
   location: PropTypes.shape({
     search: PropTypes.string.isRequired,
@@ -151,5 +159,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(Lobby),
+  )(withStyles(styles, { withTheme: true })(Lobby)),
 );

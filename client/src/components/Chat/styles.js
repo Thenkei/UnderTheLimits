@@ -54,6 +54,11 @@ export default theme => ({
     cursor: 'default',
   },
 
+  playerName: {
+    fontSize: '14px',
+    marginBottom: theme.spacing.unit / 2,
+  },
+
   avatar: {
     backgroundColor: 'rgba(0, 0, 0, .25)',
     width: `calc(${theme.layout.avatarSize} + ${theme.spacing.unit}px)`,

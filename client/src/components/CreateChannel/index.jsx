@@ -12,6 +12,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Slide,
   Switch,
   withStyles,
 } from '..';
@@ -41,6 +42,10 @@ const CreateChannel = ({ classes, onCreateChannel, displayError }) => {
     maxPointsChoices: (gameType === 'utlgame' ? range(1, 10) : range(6, 20)),
   };
 
+  function Transition(props) {
+    return <Slide direction='up' {...props} />;
+  }
+
   return (
     <React.Fragment>
       <Button variant='contained' color='primary' onClick={() => setOpen(true)}>
@@ -51,9 +56,13 @@ const CreateChannel = ({ classes, onCreateChannel, displayError }) => {
         open={open}
         onClose={() => setOpen(false)}
         aria-labelledby='form-dialog-title'
-        classes={{ paper: classes.CreateChanelDialogBckgrd }}
+        classes={{ paper: classes.createChanelDialogBckgrd }}
+        TransitionComponent={Transition}
       >
-        <DialogTitle id='form-dialog-title'>
+        <DialogTitle
+          id='form-dialog-title'
+          className={classes.createChanelDialogTitle}
+        >
           Paramètres de la partie
         </DialogTitle>
         <DialogContent>
@@ -92,9 +101,10 @@ const CreateChannel = ({ classes, onCreateChannel, displayError }) => {
               onChange={({ target }) => {
                 setChannelName(target.value);
               }}
+              className={classes.createChannelFormControl}
             />
 
-            <FormControl>
+            <FormControl className={classes.createChannelFormControl}>
               <InputLabel>Selection du jeu :</InputLabel>
               <Select
                 value={gameType}
@@ -112,7 +122,7 @@ const CreateChannel = ({ classes, onCreateChannel, displayError }) => {
               </Select>
             </FormControl>
 
-            <FormControl>
+            <FormControl className={classes.createChannelFormControl}>
               <InputLabel>Nombre minimum de joueurs :</InputLabel>
               <Select
                 value={minPlayersCount}
@@ -124,7 +134,7 @@ const CreateChannel = ({ classes, onCreateChannel, displayError }) => {
               </Select>
             </FormControl>
 
-            <FormControl>
+            <FormControl className={classes.createChannelFormControl}>
               <InputLabel>Nombre maximum de joueurs :</InputLabel>
               <Select
                 value={maxPlayersCount}
@@ -136,7 +146,7 @@ const CreateChannel = ({ classes, onCreateChannel, displayError }) => {
               </Select>
             </FormControl>
 
-            <FormControl>
+            <FormControl className={classes.createChannelFormControl}>
               <InputLabel>Nombre maximum de points :</InputLabel>
               <Select
                 value={maxPoints}
@@ -147,7 +157,7 @@ const CreateChannel = ({ classes, onCreateChannel, displayError }) => {
                 ))}
               </Select>
             </FormControl>
-            <FormControl>
+            <FormControl className={classes.createChannelFormControl}>
               <FormControlLabel
                 control={(
                   <Switch
