@@ -52,8 +52,12 @@ const TopAppBar = (props) => {
         </DialogActions>
       </Dialog>
       <Tooltip title={props.isSoundMuted ? 'Activer' : 'Désactiver'}>
-        <IconButton onClick={props.toggleSound}>
-          <Icon>{props.isSoundMuted ? 'volume_up' : 'volume_off'}</Icon>
+        <IconButton className={props.classes.muteButton} onClick={props.toggleSound}>
+          <Icon
+            className={props.isSoundMuted ? props.classes.soundMutted : props.classes.soundActivated}
+          >
+            volume_up
+          </Icon>
         </IconButton>
       </Tooltip>
     </header>
