@@ -45,6 +45,8 @@ const Chat = ({
             message={m.message}
             isPlayer={m.isPlayer}
             date={m.date}
+            isPrivate={m.isPrivate}
+            isSystem={m.isSystem}
           />
         ))}
       </div>

@@ -13,8 +13,17 @@ const Message = ({
   avatar,
   date,
   isPlayer,
+  isPrivate,
+  isSystem,
 }) => {
   const formattedDate = new Date(date).toLocaleTimeString('fr-FR');
+  if (isSystem) {
+    return (
+      <Typography className={classes.isSystem}>
+        {`${decodeURI(message)} - ${formattedDate}`}
+      </Typography>
+    );
+  }
   return (
     <div className={classes.fullMessage}>
       <Avatar className={classes.avatar} src={`${window.location.origin}/avatars/${avatar}.png`} />
@@ -23,6 +32,7 @@ const Message = ({
         <Typography
           className={classNames(classes.text, {
             [classes.isPlayer]: isPlayer,
+            [classes.isPrivate]: isPrivate,
           })}
           align='left'
         >
@@ -36,6 +46,8 @@ const Message = ({
 
 Message.defaultProps = {
   isPlayer: false,
+  isPrivate: false,
+  isSystem: false,
 };
 
 Message.propTypes = {
@@ -45,6 +57,8 @@ Message.propTypes = {
   avatar: PropType.string.isRequired,
   date: PropType.number.isRequired,
   isPlayer: PropType.bool,
+  isPrivate: PropType.bool,
+  isSystem: PropType.bool,
 };
 
 export default withStyles(styles, { withTheme: true })(Message);

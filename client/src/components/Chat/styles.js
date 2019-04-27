@@ -80,6 +80,14 @@ export default theme => ({
     color: theme.palette.primary.light,
   },
 
+  isSystem: {
+    color: 'red',
+  },
+
+  isPrivate: {
+    color: 'magenta',
+  },
+
   metaDate: {
     color: theme.palette.primary.dark,
     transition: `all ${theme.transitions.easing.easeInOut} ${theme.transitions.duration.short}ms`,

@@ -131,11 +131,13 @@ class Lobby {
         if (msg.startsWith('/mp') && msg.split(' ').length > 2) {
           const [, to, realMessage] = RegExp(/\/mp (.*?) (.*)/g).exec(msg);
           const toPlayer = this.usersManager.findUser(to);
+          message.isSystem = true;
           if (!realMessage) {
             message.message = 'Le message est vide!';
           } else if (toPlayer && toPlayer.id !== currentPlayer.id) {
             message.message = encodeURI(realMessage);
             message.isPrivate = true;
+            message.isSystem = false;
             io.to(`${toPlayer.id}`).emit('chat/message', message);
           } else if (toPlayer && toPlayer.id === currentPlayer.id) {
             message.message = 'Tu fais n\'imp.';
