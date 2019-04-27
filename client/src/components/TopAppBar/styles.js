@@ -12,5 +12,6 @@ export default theme => ({
   topAppBarLogo: {
     height: '62px',
     filter: 'drop-shadow( 0 20px 30px rgba( #031723, t5 ) )',
+    cursor: 'pointer',
   },
 });

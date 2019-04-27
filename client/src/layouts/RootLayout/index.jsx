@@ -54,18 +54,16 @@ class RootLayout extends React.Component {
         />
         <div className={classes.underTheLimitsContent}>
           { children }
-          {message && (
-            <Snackbar
-              open
-              onClose={() => remove()}
-              autoHideDuration={6000}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center',
-              }}
-              message={message}
-            />
-          )}
+          <Snackbar
+            open={message}
+            onClose={() => remove()}
+            autoHideDuration={6000}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            message={message}
+          />
         </div>
       </div>
     );

@@ -12,7 +12,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Slide,
+  Zoom,
   Switch,
   withStyles,
 } from '..';
@@ -42,10 +42,6 @@ const CreateChannel = ({ classes, onCreateChannel, displayError }) => {
     maxPointsChoices: (gameType === 'utlgame' ? range(1, 10) : range(6, 20)),
   };
 
-  function Transition(props) {
-    return <Slide direction='up' {...props} />;
-  }
-
   return (
     <React.Fragment>
       <Button variant='contained' color='primary' onClick={() => setOpen(true)}>
@@ -57,7 +53,7 @@ const CreateChannel = ({ classes, onCreateChannel, displayError }) => {
         onClose={() => setOpen(false)}
         aria-labelledby='form-dialog-title'
         classes={{ paper: classes.createChanelDialogBckgrd }}
-        TransitionComponent={Transition}
+        TransitionComponent={Zoom}
       >
         <DialogTitle
           id='form-dialog-title'

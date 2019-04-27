@@ -8,9 +8,10 @@ import {
   Button,
   IconButton,
   Icon,
-  Modal,
+  Dialog,
+  DialogActions,
+  DialogTitle,
   Tooltip,
-  Typography,
   withStyles,
 } from '..';
 
@@ -30,14 +31,14 @@ const TopAppBar = (props) => {
           setOpen(true);
         }}
       />
-      <Modal
+      <Dialog
         open={open}
         onClose={() => setOpen(false)}
       >
-        <div>
-          <Typography variant='h6'>
-            Êtes vous sur de vouloir quitter ?
-          </Typography>
+        <DialogTitle>
+          Êtes vous sur de vouloir quitter ?
+        </DialogTitle>
+        <DialogActions>
           <Button onClick={() => setOpen(false)}>Annuler</Button>
           <Button
             onClick={() => {
@@ -48,8 +49,8 @@ const TopAppBar = (props) => {
           >
             Ok
           </Button>
-        </div>
-      </Modal>
+        </DialogActions>
+      </Dialog>
       <Tooltip title={props.isSoundMuted ? 'Activer' : 'Désactiver'}>
         <IconButton onClick={props.toggleSound}>
           <Icon>{props.isSoundMuted ? 'volume_up' : 'volume_off'}</Icon>
