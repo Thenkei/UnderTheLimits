@@ -53,6 +53,11 @@ const UtlTheme = createMuiTheme({
 
   palette,
 
+  tooltip: {
+    color: '#f1f1f1',
+    rippleBackgroundColor: 'blue',
+  },
+
   typography: {
     useNextVariants: true,
     fontFamily: '"Raleway", serif',
@@ -90,6 +95,17 @@ const UtlTheme = createMuiTheme({
       paper: {
         backgroundColor: palette.primary.main,
         backgroundImage: `linear-gradient(141deg, ${palette.primary.main}, ${palette.primary.light}${opacity.alpha25} )`,
+      },
+    },
+    MuiTooltip: {
+      tooltip: {
+        backgroundImage: `linear-gradient(141deg, ${palette.primary.dark}${opacity.alpha75}, ${palette.primary.dark}${opacity.alpha90} )`,
+        backgroundColor: palette.primary.main,
+        borderBottom: `solid 1px ${palette.primary.light}${opacity.alpha25}`,
+        boxShadow: `0 0 2em ${palette.primary.light}${opacity.alpha10}`,
+        ...headlinesStyle,
+        letterSpacing: 0.7,
+        opacity: 1,
       },
     },
   },
