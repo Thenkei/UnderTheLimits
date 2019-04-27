@@ -20,6 +20,7 @@ import {
   LinearProgress,
   List,
   ListItem,
+  ListItemIcon,
   ListItemText,
   Menu,
   MenuItem,
@@ -36,6 +37,7 @@ import {
 } from '@material-ui/core';
 
 import SendIcon from '@material-ui/icons/Send';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 // HomeMade components
 import Card from './Card';
@@ -67,6 +69,7 @@ export {
   LinearProgress,
   List,
   ListItem,
+  ListItemIcon,
   ListItemText,
   Menu,
   MenuItem,
@@ -81,6 +84,7 @@ export {
   withStyles,
   Zoom,
   SendIcon,
+  MoreVertIcon,
 };
 
 export {

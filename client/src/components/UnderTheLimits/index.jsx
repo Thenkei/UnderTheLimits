@@ -2,25 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Card from '../Card';
-import { LinearProgress, Typography, withStyles } from '..';
+import { Typography, withStyles } from '..';
 
 import styles from './styles';
-
-function DisplayTimer(prop) {
-  return (
-    <React.Fragment>
-      <LinearProgress variant='buffer' value={0} valueBuffer={(prop.timer * 2)} />
-      <Typography variant='h5'>
-        Il reste
-        {` ${prop.timer}s`}
-      </Typography>
-    </React.Fragment>
-  );
-}
-
-function DisplayIdle() {
-  return <Typography variant='h5'>En attente..</Typography>;
-}
 
 class UnderTheLimits extends Component {
   constructor(props) {
@@ -144,19 +128,10 @@ class UnderTheLimits extends Component {
           </React.Fragment>
         );
       }
-      let timer;
-      if (this.props.currentChannel.currentStatus === 'PLAYING_CARD') {
-        timer = {
-          component: <DisplayTimer timer={this.props.currentChannel.timer} />,
-          condition: true,
-        };
-      } else {
-        timer = { component: <DisplayIdle />, condition: false };
-      }
+
       return (
         <React.Fragment>
-          {timer.component}
-          {timer.condition && (
+          {this.props.currentChannel.currentStatus === 'PLAYING_CARD' && (
           <React.Fragment>
             <div className={this.props.classes.cardsContainer}>
               <Card

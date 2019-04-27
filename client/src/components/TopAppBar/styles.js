@@ -29,8 +29,4 @@ export default theme => ({
     position: 'absolute',
     right: theme.spacing.unit,
   },
-
-  topAppBarIconButton: {
-    padding: `${theme.spacing.unit / 2}px ${theme.spacing.unit * 2}px`,
-  },
 });
