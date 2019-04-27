@@ -15,12 +15,15 @@ import {
   withStyles,
 } from '..';
 
+import Legals from './Legals';
+
 import { toggleSound } from '../../reducers/app';
 
 import styles from './styles';
 
 const TopAppBar = (props) => {
   const [open, setOpen] = useState(false);
+  const [selectedDialog, setSelectedDialog] = useState(null);
   return (
     <header className={props.classes.topAppBar}>
       <img
@@ -28,6 +31,7 @@ const TopAppBar = (props) => {
         alt='under-the-limits'
         className={props.classes.topAppBarLogo}
         onClick={() => {
+          setSelectedDialog('quit');
           setOpen(true);
         }}
       />
@@ -36,30 +40,60 @@ const TopAppBar = (props) => {
         onClose={() => setOpen(false)}
       >
         <DialogTitle>
-          Êtes vous sur de vouloir quitter ?
+          {
+            selectedDialog === 'quit'
+              ? 'Êtes vous sur de vouloir quitter ?'
+              : <Legals />
+          }
         </DialogTitle>
         <DialogActions>
-          <Button onClick={() => setOpen(false)}>Annuler</Button>
-          <Button
-            onClick={() => {
-              props.gotoHomepage();
-              setOpen(false);
-              window.location.reload();
-            }}
-          >
-            Ok
-          </Button>
+          <Button onClick={() => setOpen(false)}>Fermer</Button>
+          {selectedDialog === 'quit' && (
+            <Button
+              onClick={() => {
+                props.gotoHomepage();
+                setOpen(false);
+                window.location.reload();
+              }}
+            >
+              Ok
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
-      <Tooltip title={props.isSoundMuted ? 'Activer' : 'Désactiver'}>
-        <IconButton className={props.classes.muteButton} onClick={props.toggleSound}>
-          <Icon
-            className={props.isSoundMuted ? props.classes.soundMutted : props.classes.soundActivated}
+      <div className={props.classes.topAppBarButtonContainer}>
+        <Tooltip title={props.isSoundMuted ? 'Activer' : 'Désactiver'}>
+          <IconButton className={props.classes.muteButton} onClick={props.toggleSound}>
+            <Icon
+              className={
+                props.isSoundMuted ? props.classes.soundMutted : props.classes.soundActivated
+              }
+            >
+              volume_up
+            </Icon>
+          </IconButton>
+        </Tooltip>
+        <Tooltip title='A propos...'>
+          <IconButton
+            onClick={() => {
+              setSelectedDialog('legals');
+              setOpen(true);
+            }}
+            className={props.classes.topAppBarIconButton}
           >
-            volume_up
-          </Icon>
-        </IconButton>
-      </Tooltip>
+            <Icon>info</Icon>
+          </IconButton>
+        </Tooltip>
+        <Tooltip title='Lien github'>
+          <IconButton
+            href='https://github.com/Thenkei/UnderTheLimits'
+            target='_blank'
+            className={props.classes.topAppBarIconButton}
+          >
+            <Icon>code</Icon>
+          </IconButton>
+        </Tooltip>
+      </div>
     </header>
   );
 };

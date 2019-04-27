@@ -18,7 +18,6 @@ import { RootLayout } from './layouts';
 import Index from './screens/Index';
 import Lobby from './screens/Lobby';
 import UnderTheLimits from './screens/Games/UnderTheLimits';
-import Legals from './screens/Legals';
 import NoMatch from './screens/NoMatch';
 
 
@@ -43,7 +42,6 @@ const router = (
           <Switch>
             <Route exact path='/' component={Index} />
             <Route exact path='/lobby' component={Lobby} />
-            <Route exact path='/mentions-legales' component={Legals} />
             <Route path='/underthelimits/:id' component={UnderTheLimits} />
             <Route component={NoMatch} />
           </Switch>

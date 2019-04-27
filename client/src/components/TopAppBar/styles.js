@@ -24,4 +24,13 @@ export default theme => ({
     color: 'white',
     textShadow: '0 0 0.2em #FFFFFF1A, 0 0 0.4em #2BBFFF59',
   },
+
+  topAppBarButtonContainer: {
+    position: 'absolute',
+    right: theme.spacing.unit,
+  },
+
+  topAppBarIconButton: {
+    padding: `${theme.spacing.unit / 2}px ${theme.spacing.unit * 2}px`,
+  },
 });
