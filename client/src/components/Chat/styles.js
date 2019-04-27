@@ -49,6 +49,10 @@ export default theme => ({
     animationName: 'PoppinMessage',
   },
 
+  fullMessageSystem: {
+    marginLeft: '35px',
+  },
+
   sendedMessage: {
     width: '100%',
     cursor: 'default',
@@ -60,7 +64,7 @@ export default theme => ({
   },
 
   avatar: {
-    backgroundColor: 'rgba(0, 0, 0, .25)',
+    backgroundColor: theme.palette.primary.dark,
     width: `calc(${theme.layout.avatarSize} + ${theme.spacing.unit}px)`,
     height: `calc(${theme.layout.avatarSize} + ${theme.spacing.unit}px)`,
     padding: theme.spacing.unit,
@@ -71,6 +75,8 @@ export default theme => ({
   text: {
     backgroundColor: 'rgba(0, 0, 0, .25)',
     borderRadius: theme.shape.borderRadius,
+    border: 'solid 1px',
+    borderColor: `${theme.palette.primary.light}${theme.opacity.alpha35}`,
     padding: theme.spacing.unit * 2,
     margin: `${-theme.spacing.unit * 2}px 0 0 ${-theme.spacing.unit * 2}px`,
     wordBreak: 'break-word',
@@ -82,10 +88,13 @@ export default theme => ({
 
   isSystem: {
     color: 'red',
+    borderColor: 'rgba(255, 0, 0, .35)',
+    margin: '12px 0 0 0',
   },
 
   isPrivate: {
-    color: 'magenta',
+    borderColor: 'transparent',
+    color: 'rgba(255, 255, 255, .35)',
   },
 
   metaDate: {
@@ -96,6 +105,10 @@ export default theme => ({
       color: theme.palette.primary.light,
       opacity: 0.5,
     },
+  },
+
+  metaDateSystem: {
+    marginLeft: '17px',
   },
 
   // Message animation

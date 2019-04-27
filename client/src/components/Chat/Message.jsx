@@ -19,9 +19,19 @@ const Message = ({
   const formattedDate = new Date(date).toLocaleTimeString('fr-FR');
   if (isSystem) {
     return (
-      <Typography className={classes.isSystem}>
-        {`${decodeURI(message)} - ${formattedDate}`}
-      </Typography>
+      <div
+        className={classNames(classes.fullMessage, classes.fullMessageSystem)}
+      >
+        <div className={classes.sendedMessage}>
+          <Typography
+            className={classNames(classes.text, classes.isSystem)}
+            align='left'
+          >
+            {decodeURI(message)}
+          </Typography>
+          <Typography className={classNames(classes.metaDate, classes.metaDateSystem)} align='left' variant='caption'>{formattedDate}</Typography>
+        </div>
+      </div>
     );
   }
   return (
