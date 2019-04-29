@@ -85,10 +85,23 @@ class UTLGame extends Channel {
 
   judgementState() {
     this.currentStatus = UTL_STATUS.JUDGING_CARD;
+    if (!this.hasAllPlayersAnswered()) {
+      const occurences = (this.deckQuestions[0].text.match(/______/g) || []).length;
+      const pls = this.players.filter(p => !p.isGameMaster && p.answers.length < occurences);
+
+      pls.forEach((p) => {
+        const answers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].filter(v => !p.answers.includes(v));
+
+        while (p.answers.length < occurences) {
+          const selectedAnswer = answers.splice(Math.floor((Math.random() * answers.length)), 1);
+          p.answers.push(selectedAnswer[0]);
+        }
+      });
+    }
   }
 
   getQuestionCard() {
-    return this.deckQuestions[0];
+    return this.deckQuestions[0] || 'error empty questions deck';
   }
 
   judge(judgment, userCumul, userPoint) {
