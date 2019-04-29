@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Card from '../Card';
-import { Typography, withStyles } from '..';
+import { withStyles } from '..';
 
 import styles from './styles';
 
@@ -97,12 +97,6 @@ class UnderTheLimits extends Component {
 
         return (
           <React.Fragment>
-            <div>
-              <Typography>
-                Le gagnant de la manche est
-                {`: ${(player || {}).name}`}
-              </Typography>
-            </div>
             <div className={this.props.classes.cardsContainer}>
               {
                 <Card
