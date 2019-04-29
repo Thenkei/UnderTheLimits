@@ -96,6 +96,8 @@ class UTLGame extends Channel {
           const selectedAnswer = answers.splice(Math.floor((Math.random() * answers.length)), 1);
           p.answers.push(selectedAnswer[0]);
         }
+
+        p.hasAfk();
       });
     }
   }

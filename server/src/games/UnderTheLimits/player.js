@@ -6,6 +6,8 @@ class Player {
     this.hand = [];
     this.answers = [];
     this.isGameMaster = false;
+
+    this.afkCount = 0;
   }
 
   clearAnswers() {
@@ -21,6 +23,10 @@ class Player {
 
   setGameMaster(isGameMaster) {
     this.isGameMaster = isGameMaster;
+  }
+
+  hasAfk() {
+    this.afkCount += 1;
   }
 
   reset() {
