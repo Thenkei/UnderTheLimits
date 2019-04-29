@@ -14,7 +14,6 @@ class Lobby {
 
   serialize() {
     const waitingUsers = this.usersManager.waitingUsers();
-    console.warn(this.channelsManager.channels);
     return {
       lobby:
       {
