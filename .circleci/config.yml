@@ -51,7 +51,7 @@ jobs:
       - run: gcloud --quiet config set project ${GCP_PROJECT}
       - run: gcloud --quiet config set compute/zone ${GCZ}
       - run: gcloud container clusters get-credentials ${CLUSTER_NAME}
-      - run: kubectl delete --all pods --namespace=utl-dev
+      - run: sed -ie "s/WillBeChangedOnK8SApply/$(date)/g" infra/utl-deployment.yml
       - run: kubectl apply -f infra/utl-deployment.yml
 workflows:
   version: 2
