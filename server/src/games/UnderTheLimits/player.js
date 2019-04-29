@@ -9,11 +9,14 @@ class Player {
   }
 
   clearAnswers() {
+    const pick = [];
     this.answers.sort((a, b) => b - a);
     this.answers.forEach((i) => {
-      this.hand.splice(i, 1);
+      pick.push(this.hand.splice(i, 1));
     });
     this.answers = [];
+
+    return pick;
   }
 
   setGameMaster(isGameMaster) {

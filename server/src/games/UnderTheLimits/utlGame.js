@@ -71,9 +71,9 @@ class UTLGame extends Channel {
       this.players[j].setGameMaster(true);
     }
 
-    this.deckQuestions.shift();
+    this.deckQuestions.push(this.deckQuestions.shift());
     this.players.forEach((p) => {
-      p.clearAnswers();
+      this.deckAnswers.push(...p.clearAnswers());
       p.hand.push(...this.deckAnswers.splice(0, PLAYER_CARD_COUNT - p.hand.length));
     });
 
