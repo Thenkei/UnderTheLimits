@@ -8,7 +8,7 @@
     "clean": "rm -rf server/db.sqlite3; rm -rf server/scripts/*.sql; rm -rf server/node_modules; rm -rf client/node_modules && rm -rf node_modules",
     "dev": "yarn --cwd client build:dev & nodemon index.js && fg",
     "start:dev": "yarn dev",
-    "start:qa": "node index.js",
+    "start:qa": "node server/scripts/populate-dev.js && node index.js",
     "populate:dev": "node server/scripts/populate.js",
     "test:client": "cd client && yarn test",
     "test": "yarn test:client",
