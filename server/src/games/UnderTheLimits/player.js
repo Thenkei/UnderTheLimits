@@ -14,7 +14,7 @@ class Player {
     const pick = [];
     this.answers.sort((a, b) => b - a);
     this.answers.forEach((i) => {
-      pick.push(this.hand.splice(i, 1));
+      pick.push(this.hand.splice(i, 1)[0]);
     });
     this.answers = [];
 
