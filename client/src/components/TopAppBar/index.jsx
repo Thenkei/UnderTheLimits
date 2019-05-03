@@ -69,48 +69,23 @@ const TopAppBar = (props) => {
           setOpen(true);
         }}
       />
-      <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-      >
-        <DialogTitle>
-          {
-            selectedDialog === 'quit'
-              ? 'Êtes vous sur de vouloir quitter ?'
-              : <Legals />
-          }
-        </DialogTitle>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)}>Fermer</Button>
-          {selectedDialog === 'quit' && (
-            <Button
-              onClick={() => {
-                props.gotoHomepage();
-                setOpen(false);
-                window.location.reload();
-              }}
-            >
-              Ok
-            </Button>
-          )}
-        </DialogActions>
-      </Dialog>
       {props.channel && (
-        <React.Fragment>
-          <div>
-            <Typography variant='h3'>{generateText()}</Typography>
+        <div className={props.classes.channelInfosContainer}>
+          <Typography className={props.classes.channelMainInfo} variant='h6'>{generateText()}</Typography>
+          <div className={props.classes.channelSecondaryInfos}>
+            {props.channel.currentStatus === 'PLAYING_CARD' && (
+              <React.Fragment>
+                <Typography variant='h4' className={props.classes.timerText}>{props.channel.timer}</Typography>
+                <Typography variant='h6' className={props.classes.timerTextUnit}>s</Typography>
+                <Typography variant='h6' className={props.classes.timerTextSeparator}>/</Typography>
+              </React.Fragment>
+            )}
+            <div className={props.classes.channelNameContainer}>
+              <Typography className={props.classes.channelNameOverline} variant='overline'>Channel</Typography>
+              <Typography className={props.classes.channelName} variant='h5'>{props.channel.name}</Typography>
+            </div>
           </div>
-          {props.channel.currentStatus === 'PLAYING_CARD' && (
-            <React.Fragment>
-              <LinearProgress style={{ width: '200px' }} variant='buffer' value={0} valueBuffer={(props.channel.timer * 2)} />
-              <Typography variant='h5'>{`${props.channel.timer}s`}</Typography>
-            </React.Fragment>
-          )}
-          <div>
-            <Typography variant='h5'>Channel</Typography>
-            <Typography variant='h3'>{props.channel.name}</Typography>
-          </div>
-        </React.Fragment>
+        </div>
       )}
       <div className={props.classes.topAppBarButtonContainer}>
         <Tooltip title={props.isSoundMuted ? 'Activer' : 'Désactiver'}>
@@ -182,6 +157,35 @@ const TopAppBar = (props) => {
           </MenuItem>
         </Menu>
       </div>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+      >
+        <DialogTitle>
+          {
+            selectedDialog === 'quit'
+              ? 'Êtes vous sur de vouloir quitter ?'
+              : <Legals />
+          }
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)}>Fermer</Button>
+          {selectedDialog === 'quit' && (
+            <Button
+              onClick={() => {
+                props.gotoHomepage();
+                setOpen(false);
+                window.location.reload();
+              }}
+            >
+              Ok
+            </Button>
+          )}
+        </DialogActions>
+      </Dialog>
+      {props.channel && props.channel.currentStatus === 'PLAYING_CARD' && (
+      <LinearProgress className={props.classes.TimerProgress} variant='buffer' value={0} valueBuffer={(props.channel.timer * 2)} />
+      )}
     </header>
   );
 };

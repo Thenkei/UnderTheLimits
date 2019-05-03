@@ -7,9 +7,11 @@ import { InGameLayout } from '../../layouts';
 
 import {
   CreateChannel,
+  Icon,
   List,
   ListItem,
   ListItemText,
+  ListItemSecondaryAction,
   Typography,
   withStyles,
 } from '../../components';
@@ -75,7 +77,7 @@ class Lobby extends Component {
             displayError={this.props.displayError}
           />
         </div>
-        <List component='nav'>
+        <List component='nav' className={classes.channelList}>
           {this.props.lobby.channels.map(c => (
             <ListItem
               button
@@ -83,8 +85,28 @@ class Lobby extends Component {
               onClick={() => {
                 this.props.gotoChannel(c.id);
               }}
+              className={classes.channelListItem}
             >
-              <ListItemText primary={`${c.name} ${c.playersCount}/${c.maxPlayersCount}`} />
+              <ListItemText
+                primary={(
+                  <Typography variant='h6' className={classes.channelListItemName}>
+                    <Icon className={classes.channelListItemIcon}>
+                      whatshot
+                    </Icon>
+                    {c.name}
+                  </Typography>
+                )}
+              />
+              <ListItemSecondaryAction className={classes.channelListItemSecondary}>
+                <Icon className={classes.channelListItemSecondaryIcon} color='inherit'>
+                  group
+                </Icon>
+                <Typography variant='caption'>
+                  {c.playersCount}
+                  /
+                  {c.maxPlayersCount}
+                </Typography>
+              </ListItemSecondaryAction>
             </ListItem>
           ))}
         </List>

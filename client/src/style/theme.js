@@ -79,9 +79,7 @@ const UtlTheme = createMuiTheme({
       letterSpacing: 0.5,
     },
 
-    button: {
-      ...headlinesStyle,
-    },
+    button: headlinesStyle,
   },
 
   overrides: {
