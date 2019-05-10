@@ -1,5 +1,6 @@
 export default theme => ({
   topAppBar: {
+    position: 'relative',
     display: 'flex',
     alignItems: 'center',
     width: '100%',
@@ -16,6 +17,7 @@ export default theme => ({
     height: '62px',
     cursor: 'pointer',
     marginTop: '26px',
+    zIndex: '9',
   },
 
   topAppBarButtonContainer: {
@@ -94,5 +96,13 @@ export default theme => ({
     textAlign: 'right',
     lineHeight: 'normal',
     marginRight: theme.spacing.unit,
+  },
+
+  timerProgress: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: 4,
   },
 });
