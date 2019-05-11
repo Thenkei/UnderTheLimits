@@ -52,6 +52,7 @@ class InGameLayout extends Component {
             username={username}
             messages={messages}
             sendMessage={sendMessage}
+            players={players}
           />
         </div>
       </div>

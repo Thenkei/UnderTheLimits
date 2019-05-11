@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { List } from 'immutable';
 
@@ -8,7 +8,10 @@ import {
   InputAdornment,
   IconButton,
   Input,
+  ListItem,
+  Popover,
   SendIcon,
+  Button,
 } from '..';
 
 import Message from './Message';
@@ -20,8 +23,12 @@ const Chat = ({
   sendMessage,
   messages,
   username,
+  players,
 }) => {
   const [message, setMessage] = useState('');
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
   const submit = (e) => {
     e.preventDefault();
     if (message && message.length > 0) {
@@ -29,6 +36,8 @@ const Chat = ({
       sendMessage(message);
     }
   };
+
+  const playersWithoutSelf = players.filter(p => p.username !== username);
   return (
     <div className={classes.root}>
       <div className={classes.topBar}>
@@ -54,6 +63,35 @@ const Chat = ({
         className={classes.sendMessagesForm}
         onSubmit={submit}
       >
+        <Popover
+          className={classes.playersPopover}
+          open={open}
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+          transformOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          onClose={() => setAnchorEl(null)}
+        >
+          <Typography>
+            Envoyer un message privé à :
+          </Typography>
+          {playersWithoutSelf.length && playersWithoutSelf.map(p => (
+            <ListItem
+              key={p.username}
+              onClick={() => {
+                setAnchorEl(null);
+                setMessage(`/mp ${p.username}`);
+              }}
+            >
+              {p.username}
+            </ListItem>
+          ))}
+        </Popover>
         <Input
           className={classes.sendMessageInput}
           classes={{ inputType: classes.sendMessageInputType }}
@@ -63,7 +101,12 @@ const Chat = ({
           type='message'
           placeholder='Votre message ...'
           value={message}
-          onChange={({ target }) => setMessage(target.value)}
+          onChange={({ target, currentTarget }) => {
+            if (message.startsWith('/mp') && message.length < 4 && playersWithoutSelf.length >= 1) {
+              setAnchorEl(currentTarget);
+            }
+            setMessage(target.value);
+          }}
           onKeyPress={(ev) => {
             if (ev.key === 'Enter') {
               submit(ev);
@@ -89,6 +132,7 @@ const Chat = ({
 Chat.defaultProps = {
   messages: [],
   username: '',
+  players: [],
 };
 
 Chat.propTypes = {
@@ -97,6 +141,7 @@ Chat.propTypes = {
   sendMessage: PropTypes.func.isRequired,
   username: PropTypes.string,
   messages: PropTypes.instanceOf(List),
+  players: PropTypes.instanceOf(List),
 };
 
 export default withStyles(styles, { withTheme: true })(Chat);

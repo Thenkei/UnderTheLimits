@@ -157,4 +157,9 @@ export default theme => ({
     backgroundColor: 'transparent',
   },
 
+  playersPopover: {
+    '&:before': {
+      background: theme.palette.primary.main,
+    },
+  },
 });
