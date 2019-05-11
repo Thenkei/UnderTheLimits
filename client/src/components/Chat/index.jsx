@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { List } from 'immutable';
 
@@ -11,7 +11,6 @@ import {
   ListItem,
   Popover,
   SendIcon,
-  Button,
 } from '..';
 
 import Message from './Message';
