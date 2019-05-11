@@ -129,7 +129,7 @@ const Chat = ({
 };
 
 Chat.defaultProps = {
-  messages: [],
+  messages: List(),
   username: '',
   players: [],
 };
@@ -140,7 +140,7 @@ Chat.propTypes = {
   sendMessage: PropTypes.func.isRequired,
   username: PropTypes.string,
   messages: PropTypes.instanceOf(List),
-  players: PropTypes.instanceOf(List),
+  players: PropTypes.array,
 };
 
 export default withStyles(styles, { withTheme: true })(Chat);

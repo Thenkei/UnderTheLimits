@@ -83,6 +83,18 @@ class UTLGame extends Channel {
     console.log('[UTLGame] ', this.name, 'starting new round...');
   }
 
+  shufflePlayer() {
+    const playersShuffle = this.players.slice();
+    for (let i = playersShuffle.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [playersShuffle[i], playersShuffle[j]] = [
+        playersShuffle[j],
+        playersShuffle[i],
+      ];
+    }
+    return playersShuffle;
+  }
+
   judgementState() {
     this.currentStatus = UTL_STATUS.JUDGING_CARD;
     if (!this.hasAllPlayersAnswered()) {
@@ -100,6 +112,8 @@ class UTLGame extends Channel {
         p.hasAfk();
       });
     }
+
+    this.players = this.shufflePlayer();
   }
 
   getQuestionCard() {
