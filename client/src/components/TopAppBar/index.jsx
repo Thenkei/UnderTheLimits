@@ -214,7 +214,10 @@ const TopAppBar = (props) => {
       {props.channel && props.channel.currentStatus === 'PLAYING_CARD' && (
         <LinearProgress
           className={props.classes.timerProgress}
-          classes={{ bar: props.classes.timerProgressBar, dashed: props.classes.timerProgressDashed }}
+          classes={{
+            bar: props.classes.timerProgressBar,
+            dashed: props.classes.timerProgressDashed,
+          }}
           color='secondary'
           variant='buffer'
           value={0}
