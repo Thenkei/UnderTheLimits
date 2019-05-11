@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Card from '../Card';
+import Header from './header';
 import { withStyles } from '..';
 
 import styles from './styles';
@@ -175,5 +176,7 @@ UnderTheLimits.propTypes = {
   // eslint-disable-next-line
   player: PropTypes.object
 };
+
+UnderTheLimits.Header = Header;
 
 export default withStyles(styles, { useTheme: true })(UnderTheLimits);

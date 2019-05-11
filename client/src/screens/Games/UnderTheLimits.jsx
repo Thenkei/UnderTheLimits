@@ -6,7 +6,6 @@ import { withRouter, Redirect } from 'react-router-dom';
 import { InGameLayout } from '../../layouts';
 
 import {
-  Button,
   UnderTheLimits,
 } from '../../components';
 
@@ -26,19 +25,11 @@ const UnderTheLimitsGame = ({
 
   return (
     <InGameLayout players={currentChannel.players} noScore={false} channel={currentChannel}>
-      {player.name === currentChannel.admin.name
-        && (currentChannel.currentStatus === 'WAITING_GAME'
-          || currentChannel.currentStatus === 'IDLE') && (
-          <Button
-            variant='contained'
-            color='secondary'
-            onClick={() => {
-              startGame();
-            }}
-          >
-            {currentChannel.currentStatus === 'IDLE' ? 'Commencer la partie' : 'Prochain round'}
-          </Button>
-      )}
+      <UnderTheLimits.Header
+        isAdmin={player.name === currentChannel.admin.name}
+        gameStatus={currentChannel.currentStatus}
+        headerAction={startGame}
+      />
       <UnderTheLimits
         player={player}
         currentChannel={currentChannel}
