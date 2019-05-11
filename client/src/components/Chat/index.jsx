@@ -36,7 +36,7 @@ const Chat = ({
     }
   };
 
-  const playersWithoutSelf = players.filter(p => p.username !== username);
+  const playersWithoutSelf = players.filter(p => p.name !== username);
   return (
     <div className={classes.root}>
       <div className={classes.topBar}>
@@ -81,13 +81,13 @@ const Chat = ({
           </Typography>
           {playersWithoutSelf.length && playersWithoutSelf.map(p => (
             <ListItem
-              key={p.username}
+              key={p.name}
               onClick={() => {
                 setAnchorEl(null);
-                setMessage(`/mp ${p.username}`);
+                setMessage(`/mp ${p.name}`);
               }}
             >
-              {p.username}
+              {p.name}
             </ListItem>
           ))}
         </Popover>

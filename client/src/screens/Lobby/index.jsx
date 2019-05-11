@@ -69,7 +69,7 @@ class Lobby extends Component {
       return <Redirect to={`/underthelimits/${this.props.currentChannel.id}`} />;
     }
     return (
-      <InGameLayout players={this.props.lobby.waitingPlayers}>
+      <InGameLayout players={this.props.lobby.waitingPlayers} isLobby>
         <div className={classes.listHeader}>
           <Typography variant='h3'>Parties publiques</Typography>
           <CreateChannel

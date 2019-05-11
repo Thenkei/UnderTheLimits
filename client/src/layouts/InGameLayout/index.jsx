@@ -38,6 +38,7 @@ class InGameLayout extends Component {
       messages,
       sendMessage,
       children,
+      isLobby,
     } = this.props;
     return (
       <div className={classes.inGameLayout}>
@@ -52,7 +53,7 @@ class InGameLayout extends Component {
             username={username}
             messages={messages}
             sendMessage={sendMessage}
-            players={players}
+            players={isLobby ? players : channel.players}
           />
         </div>
       </div>
@@ -63,6 +64,7 @@ class InGameLayout extends Component {
 InGameLayout.defaultProps = {
   players: [],
   noScore: true,
+  isLobby: false,
 
   channel: null,
 };
@@ -79,6 +81,7 @@ InGameLayout.propTypes = {
   players: PropTypes.arrayOf(PropTypes.object),
   noScore: PropTypes.bool,
   channel: PropTypes.object,
+  isLobby: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
