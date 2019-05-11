@@ -55,21 +55,22 @@ class UnderTheLimits extends Component {
   render() {
     if (this.props.player && this.props.player.hand) {
       if (this.props.currentChannel.currentStatus === 'JUDGING_CARD') {
-        const playersShuffle = this.props.currentChannel.players.slice();
-        for (let i = playersShuffle.length - 1; i > 0; i -= 1) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [playersShuffle[i], playersShuffle[j]] = [
-            playersShuffle[j],
-            playersShuffle[i],
-          ];
-        }
+        // const playersShuffle = this.props.currentChannel.players.slice();
+        // for (let i = playersShuffle.length - 1; i > 0; i -= 1) {
+        //   const j = Math.floor(Math.random() * (i + 1));
+        //   [playersShuffle[i], playersShuffle[j]] = [
+        //     playersShuffle[j],
+        //     playersShuffle[i],
+        //   ];
+        // }
 
         return (
           <div className={this.props.classes.cardsContainer}>
-            {playersShuffle.map((player) => {
+            {this.props.currentChannel.players.map((player) => {
               if (!player.isGameMaster) {
                 return (
                   <Card
+                    proposalCard
                     key={`p${player.id}`}
                     value={this.getFilledQuestionText(
                       player.answers,
@@ -126,16 +127,15 @@ class UnderTheLimits extends Component {
       return (
         <React.Fragment>
           {this.props.currentChannel.currentStatus === 'PLAYING_CARD' && (
-          <React.Fragment>
-            <div className={this.props.classes.cardsContainer}>
-              <Card
-                key='questioncard'
-                value={this.getFilledQuestionText(
-                  this.props.player.answers,
-                  this.props.player.hand,
-                )}
-              />
-            </div>
+          <div className={this.props.classes.game}>
+            <Card
+              questionCard
+              key='questioncard'
+              value={this.getFilledQuestionText(
+                this.props.player.answers,
+                this.props.player.hand,
+              )}
+            />
             <div className={this.props.classes.cardsContainer}>
               {this.props.player.hand.map((answer, index) => (
                 <Card
@@ -151,7 +151,7 @@ class UnderTheLimits extends Component {
                 />
               ))}
             </div>
-          </React.Fragment>
+          </div>
           )}
         </React.Fragment>
       );

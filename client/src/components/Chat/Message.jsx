@@ -61,7 +61,8 @@ Message.defaultProps = {
 };
 
 Message.propTypes = {
-  classes: PropType.string.isRequired,
+  classes: PropType.object.isRequired,
+
   message: PropType.string.isRequired,
   username: PropType.string.isRequired,
   avatar: PropType.string.isRequired,
