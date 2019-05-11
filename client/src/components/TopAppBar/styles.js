@@ -104,5 +104,17 @@ export default theme => ({
     right: 0,
     bottom: 0,
     height: 4,
+    backgroundColor: theme.palette.primary.dark,
+  },
+
+  timerProgressBar: {
+    backgroundColor: theme.palette.primary.dark,
+    backgroundImage: `linear-gradient(to right, ${theme.palette.secondary.main}${theme.opacity.alpha00} 100px, ${theme.palette.secondary.main} 300px)`,
+  },
+
+  timerProgressDashed: {
+    backgroundImage: 'none',
+    backgroundSize: 200,
+    backgroundColor: `${theme.palette.secondary.main}${theme.opacity.alpha35}`,
   },
 });

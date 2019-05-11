@@ -212,7 +212,14 @@ const TopAppBar = (props) => {
         </DialogActions>
       </Dialog>
       {props.channel && props.channel.currentStatus === 'PLAYING_CARD' && (
-      <LinearProgress className={props.classes.timerProgress} color='secondary' variant='buffer' value={0} valueBuffer={(props.channel.timer * 2)} />
+        <LinearProgress
+          className={props.classes.timerProgress}
+          classes={{ bar: props.classes.timerProgressBar, dashed: props.classes.timerProgressDashed }}
+          color='secondary'
+          variant='buffer'
+          value={0}
+          valueBuffer={(props.channel.timer * 2)}
+        />
       )}
     </header>
   );
