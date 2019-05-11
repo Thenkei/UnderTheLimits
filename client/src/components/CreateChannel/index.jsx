@@ -66,7 +66,7 @@ const CreateChannel = ({ classes, onCreateChannel, displayError }) => {
             className={classes.createChannelForm}
             onSubmit={(e) => {
               e.preventDefault();
-              const roomNameRegex = /^([a-zA-Z]|[à-ú]|[À-Ú]|-|_)+$/;
+              const roomNameRegex = /^([a-zA-Z]|[à-ú]|[À-Ú]|-|_| )+$/;
               if (!channelName || !roomNameRegex.exec(channelName)) {
                 displayError({
                   message: `Le nom ${channelName} n'est pas valide !`,
