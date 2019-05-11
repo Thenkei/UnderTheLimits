@@ -1,11 +1,5 @@
 import { createMuiTheme } from '../components';
 
-const headlinesStyle = {
-  textTransform: 'uppercase',
-  fontStyle: 'italic',
-  textShadow: '0 0 0.2em #FFFFFF1A, 0 0 0.4em #2BBFFF59',
-};
-
 const palette = {
   common: {
     white: '#ffffff',
@@ -39,6 +33,12 @@ const opacity = {
   alpha50: '80',
   alpha75: 'BF',
   alpha90: 'E6',
+};
+
+const headlinesStyle = {
+  textTransform: 'uppercase',
+  fontStyle: 'italic',
+  textShadow: `0 0 0.2em #FFFFFF${opacity.alpha10}, 0 0 0.4em ${palette.primary.light}${opacity.alpha35}`,
 };
 
 const UtlTheme = createMuiTheme({

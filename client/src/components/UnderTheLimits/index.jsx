@@ -70,6 +70,7 @@ class UnderTheLimits extends Component {
               if (!player.isGameMaster) {
                 return (
                   <Card
+                    proposalCard
                     key={`p${player.id}`}
                     value={this.getFilledQuestionText(
                       player.answers,
@@ -126,16 +127,15 @@ class UnderTheLimits extends Component {
       return (
         <React.Fragment>
           {this.props.currentChannel.currentStatus === 'PLAYING_CARD' && (
-          <React.Fragment>
-            <div className={this.props.classes.cardsContainer}>
-              <Card
-                key='questioncard'
-                value={this.getFilledQuestionText(
-                  this.props.player.answers,
-                  this.props.player.hand,
-                )}
-              />
-            </div>
+          <div className={this.props.classes.game}>
+            <Card
+              questionCard
+              key='questioncard'
+              value={this.getFilledQuestionText(
+                this.props.player.answers,
+                this.props.player.hand,
+              )}
+            />
             <div className={this.props.classes.cardsContainer}>
               {this.props.player.hand.map((answer, index) => (
                 <Card
@@ -151,7 +151,7 @@ class UnderTheLimits extends Component {
                 />
               ))}
             </div>
-          </React.Fragment>
+          </div>
           )}
         </React.Fragment>
       );

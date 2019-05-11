@@ -52,7 +52,6 @@ export default theme => ({
     backgroundColor: 'rgba(0, 0, 0, .25)',
     fontWeight: 'bold',
     width: '20px',
-    minHeight: '80px',
   },
 
   avatarZone: {

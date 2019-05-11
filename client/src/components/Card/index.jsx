@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import {
   Tooltip,
@@ -10,7 +11,7 @@ import {
 import styles from './styles';
 
 const Card = ({
-  classes, definition, onClick, checked, value,
+  classes, definition, onClick, checked, questionCard, proposalCard, value,
 }) => {
   let MainWrapper = React.Fragment;
   let wrapperProps = {};
@@ -26,12 +27,16 @@ const Card = ({
   return (
     <MainWrapper {...wrapperProps}>
       <div
-        className={classes.card}
+        className={classNames({
+          [classes.card]: !questionCard,
+          [classes.questionCard]: questionCard,
+          [classes.proposalCard]: proposalCard,
+          [classes.cardChecked]: checked,
+        })}
         onClick={() => onClick && onClick()}
         role='none'
-        style={{ border: checked && '3px solid red' }}
       >
-        <Typography className={classes.cardBody} color='primary'>{value}</Typography>
+        <Typography className={classes.cardBody} color='inherit' variant={questionCard && 'h5'}>{value}</Typography>
       </div>
     </MainWrapper>
   );
@@ -41,6 +46,8 @@ Card.defaultProps = {
   definition: null,
   onClick: null,
   checked: false,
+  questionCard: false,
+  proposalCard: false,
   value: '',
 };
 
@@ -50,6 +57,8 @@ Card.propTypes = {
   definition: PropTypes.string,
   onClick: PropTypes.func,
   checked: PropTypes.bool,
+  questionCard: PropTypes.bool,
+  proposalCard: PropTypes.bool,
   value: PropTypes.string,
 };
 
