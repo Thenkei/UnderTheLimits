@@ -137,7 +137,7 @@ Lobby.propTypes = {
   currentChannel: PropTypes.shape({
     players: PropTypes.array,
     name: PropTypes.string,
-    id: PropTypes.number,
+    id: PropTypes.string,
     currentStatus: PropTypes.string,
     admin: PropTypes.shape({
       name: PropTypes.string,
