@@ -1,6 +1,95 @@
 import { createMuiTheme } from '../components';
 
-const palette = {
+const generateTheme = (themeName, palette) => {
+  const opacity = {
+    alpha00: '00',
+    alpha10: '1A',
+    alpha25: '40',
+    alpha35: '59',
+    alpha50: '80',
+    alpha75: 'BF',
+    alpha90: 'E6',
+  };
+
+  const headlinesStyle = {
+    textTransform: 'uppercase',
+    fontStyle: 'italic',
+    textShadow: `0 0 0.2em ${palette.common.white}${opacity.alpha10}, 0 0 0.4em ${palette.primary.light}${opacity.alpha35}`,
+  };
+
+  return {
+    themeName,
+
+    opacity,
+
+    layout: {
+      topAppBarHeight: '64px',
+      chatWidth: '312px',
+      avatarSize: '40px',
+    },
+
+    palette,
+
+    typography: {
+      useNextVariants: true,
+      fontFamily: '"Raleway", serif',
+      fontFamilyMonospaced: '"Source Code Pro", monospace',
+      fontWeightMedium: '800',
+      fontWeightRegular: '500',
+
+      h1: headlinesStyle,
+      h2: headlinesStyle,
+      h3: headlinesStyle,
+      h4: headlinesStyle,
+      h5: headlinesStyle,
+      h6: headlinesStyle,
+
+      overline: {
+        ...headlinesStyle,
+        letterSpacing: 0.5,
+      },
+
+      button: headlinesStyle,
+    },
+
+    overrides: {
+      MuiDialog: {
+        paper: {
+          border: `solid 1px ${palette.primary.light}${opacity.alpha10}`,
+          backgroundImage: `radial-gradient( farthest-corner at 0% 50%, ${palette.primary.main}, ${palette.primary.dark} )`,
+        },
+      },
+      MuiMenu: {
+        paper: {
+          backgroundColor: palette.primary.main,
+          backgroundImage: `linear-gradient(141deg, ${palette.primary.main}, ${palette.primary.light}${opacity.alpha25} )`,
+        },
+      },
+      MuiTooltip: {
+        tooltip: {
+          backgroundImage: `linear-gradient(141deg, ${palette.primary.dark}${opacity.alpha75}, ${palette.primary.dark}${opacity.alpha90} )`,
+          backgroundColor: palette.primary.main,
+          borderBottom: `solid 1px ${palette.primary.light}${opacity.alpha25}`,
+          boxShadow: `0 0 2em ${palette.primary.light}${opacity.alpha10}`,
+          opacity: 1,
+          letterSpacing: 0.7,
+          textTransform: 'uppercase',
+          textShadow: `0 0 0.2em ${palette.common.white}${opacity.alpha10}, 0 0 0.4em ${palette.primary.light}${opacity.alpha35}`,
+          fontWeight: 'bolder',
+        },
+      },
+      MuiPopover: {
+        paper: {
+          border: `solid 1px ${palette.primary.light}${opacity.alpha10}`,
+          backgroundColor: palette.primary.main,
+          backgroundImage: `linear-gradient(141deg, ${palette.primary.main}, ${palette.primary.light}${opacity.alpha25} )`,
+        },
+      },
+    },
+  };
+};
+
+const mainPalette = {
   common: {
     white: '#ffffff',
     black: '#000000',
@@ -27,102 +116,18 @@ const palette = {
   },
 };
 
-const opacity = {
-  alpha00: '00',
-  alpha10: '1A',
-  alpha25: '40',
-  alpha35: '59',
-  alpha50: '80',
-  alpha75: 'BF',
-  alpha90: 'E6',
-};
-
-const headlinesStyle = {
-  textTransform: 'uppercase',
-  fontStyle: 'italic',
-  textShadow: `0 0 0.2em ${palette.common.white}${opacity.alpha10}, 0 0 0.4em ${palette.primary.light}${opacity.alpha35}`,
-};
-
-
 // UTL Theme definitiion
-const UtlTheme = createMuiTheme({
-  themeName: 'UtlTheme',
+const UtlTheme = createMuiTheme(generateTheme('UtlTheme', mainPalette));
 
-  opacity,
-
-  layout: {
-    topAppBarHeight: '64px',
-    chatWidth: '312px',
-    avatarSize: '40px',
+const GameMasterTheme = createMuiTheme(generateTheme('UtlTheme', {
+  ...mainPalette,
+  primary: {
+    light: '#2BBFFF',
+    main: '#2e0e70',
+    dark: '#031723',
+    contrastText: '#fff',
   },
-
-  palette,
-
-  tooltip: {
-    color: '#f1f1f1',
-    rippleBackgroundColor: 'blue',
-  },
-
-  typography: {
-    useNextVariants: true,
-    fontFamily: '"Raleway", serif',
-    fontFamilyMonospaced: '"Source Code Pro", monospace',
-    fontWeightMedium: '800',
-    fontWeightRegular: '500',
-
-    h1: headlinesStyle,
-    h2: headlinesStyle,
-    h3: {
-      ...headlinesStyle,
-    },
-    h4: headlinesStyle,
-    h5: headlinesStyle,
-    h6: headlinesStyle,
-
-    overline: {
-      ...headlinesStyle,
-      letterSpacing: 0.5,
-    },
-
-    button: headlinesStyle,
-  },
-
-  overrides: {
-    MuiDialog: {
-      paper: {
-        border: `solid 1px ${palette.primary.light}${opacity.alpha10}`,
-        backgroundImage: `radial-gradient( farthest-corner at 0% 50%, ${palette.primary.main}, ${palette.primary.dark} )`,
-      },
-    },
-    MuiMenu: {
-      paper: {
-        backgroundColor: palette.primary.main,
-        backgroundImage: `linear-gradient(141deg, ${palette.primary.main}, ${palette.primary.light}${opacity.alpha25} )`,
-      },
-    },
-    MuiTooltip: {
-      tooltip: {
-        backgroundImage: `linear-gradient(141deg, ${palette.primary.dark}${opacity.alpha75}, ${palette.primary.dark}${opacity.alpha90} )`,
-        backgroundColor: palette.primary.main,
-        borderBottom: `solid 1px ${palette.primary.light}${opacity.alpha25}`,
-        boxShadow: `0 0 2em ${palette.primary.light}${opacity.alpha10}`,
-        ...headlinesStyle,
-        letterSpacing: 0.7,
-        opacity: 1,
-      },
-    },
-  },
-});
-
-const GameMasterTheme = createMuiTheme({
-  ...UtlTheme,
-  palette: {
-    ...palette,
-    primary: {
-      main: '#ff00ff',
-    },
-  },
-});
+}));
 
 export default {
   UtlTheme,

@@ -37,7 +37,7 @@ const Card = ({
         onClick={() => onClick && onClick()}
         role='none'
       >
-        <Typography className={classes.cardBody} color='inherit' variant={questionCard && 'h5'}>{value}</Typography>
+        <Typography className={classes.cardBody} color='inherit' variant={questionCard ? 'h5' : 'body1'}>{value}</Typography>
       </div>
     </MainWrapper>
   );

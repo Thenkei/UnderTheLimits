@@ -8,7 +8,9 @@ import {
   InputAdornment,
   IconButton,
   Input,
+  ListSubheader,
   ListItem,
+  ListItemText,
   Popover,
   SendIcon,
 } from '..';
@@ -76,18 +78,17 @@ const Chat = ({
           }}
           onClose={() => setAnchorEl(null)}
         >
-          <Typography>
-            Envoyer un message privé à :
-          </Typography>
+          <ListSubheader component='div'>Envoyer un message privé à :</ListSubheader>
           {playersWithoutSelf.length && playersWithoutSelf.map(p => (
             <ListItem
+              button
               key={p.name}
               onClick={() => {
                 setAnchorEl(null);
-                setMessage(`/mp ${p.name}`);
+                setMessage(`/mp ${p.name} `);
               }}
             >
-              {p.name}
+              <ListItemText primary={p.name} />
             </ListItem>
           ))}
         </Popover>
@@ -101,7 +102,7 @@ const Chat = ({
           placeholder='Votre message ...'
           value={message}
           onChange={({ target, currentTarget }) => {
-            if (message.startsWith('/mp') && message.length < 4 && playersWithoutSelf.length >= 1) {
+            if (target.value.startsWith('/mp') && message.length < 4 && playersWithoutSelf.length >= 1) {
               setAnchorEl(currentTarget);
             }
             setMessage(target.value);
