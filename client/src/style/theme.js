@@ -110,4 +110,17 @@ const UtlTheme = createMuiTheme({
   },
 });
 
-export default UtlTheme;
+const GameMasterTheme = createMuiTheme({
+  ...UtlTheme,
+  palette: {
+    ...palette,
+    primary: {
+      main: '#ff00ff',
+    },
+  },
+});
+
+export default {
+  UtlTheme,
+  GameMasterTheme,
+};

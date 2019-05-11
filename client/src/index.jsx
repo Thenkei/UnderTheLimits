@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 
 import {
   BrowserRouter as Router,
@@ -21,7 +22,7 @@ import UnderTheLimits from './screens/Games/UnderTheLimits';
 import NoMatch from './screens/NoMatch';
 
 
-import UtlTheme from './style/theme';
+import themes from './style/theme';
 import reducers from './reducers';
 
 /**
@@ -34,23 +35,39 @@ const store = createStore(
   composeEnhancers(applyMiddleware(thunkMiddleware)),
 );
 
+let Main = props => (
+  <MuiThemeProvider theme={themes[props.theme]}>
+    <Router>
+      <RootLayout>
+        <Switch>
+          <Route exact path='/' component={Index} />
+          <Route exact path='/lobby' component={Lobby} />
+          <Route path='/underthelimits/:id' component={UnderTheLimits} />
+          <Route component={NoMatch} />
+        </Switch>
+      </RootLayout>
+    </Router>
+    <CssBaseline />
+  </MuiThemeProvider>
+);
+
+Main.propTypes = {
+  theme: PropTypes.string.isRequired,
+};
+
+const mapStateToProps = state => ({
+  theme: state.player && state.player.isGameMaster ? 'GameMasterTheme' : 'UtlTheme',
+});
+
+Main = connect(mapStateToProps, null)(Main);
+
 const router = (
   <Provider store={store}>
-    <MuiThemeProvider theme={UtlTheme}>
-      <Router>
-        <RootLayout>
-          <Switch>
-            <Route exact path='/' component={Index} />
-            <Route exact path='/lobby' component={Lobby} />
-            <Route path='/underthelimits/:id' component={UnderTheLimits} />
-            <Route component={NoMatch} />
-          </Switch>
-        </RootLayout>
-      </Router>
-      <CssBaseline />
-    </MuiThemeProvider>
+    <Main />
   </Provider>
 );
+
+
 ReactDOM.render(router, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
