@@ -57,7 +57,7 @@ class UsersManager {
   }
 
   findUser(userName) {
-    return this.users.find(c => c.username === userName);
+    return this.users.find(c => c.username.toLowerCase() === userName.toLowerCase());
   }
 
   getUserBySocket(id) {

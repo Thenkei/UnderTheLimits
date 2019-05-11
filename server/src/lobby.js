@@ -127,21 +127,27 @@ class Lobby {
         const channel = this.channelsManager.getChannelByPlayerId(currentPlayer.id);
         const message = { player: currentPlayer.name, message: encodeURI(msg), date: Date.now() };
 
-        if (msg.startsWith('/mp') && msg.split(' ').length > 2) {
-          const [, to, realMessage] = RegExp(/\/mp (.*?) (.*)/g).exec(msg);
-          const toPlayer = this.usersManager.findUser(to);
-          message.isSystem = true;
-          if (!realMessage) {
+        if (msg.startsWith('/mp')) {
+          const msgExec = RegExp(/\/mp (.*?) (.*)/g).exec(msg);
+          if (!msgExec || msgExec.length < 2) {
+            message.isSystem = true;
             message.message = 'Le message est vide!';
-          } else if (toPlayer && toPlayer.id !== currentPlayer.id) {
-            message.message = encodeURI(realMessage);
-            message.isPrivate = true;
-            message.isSystem = false;
-            io.to(`${toPlayer.id}`).emit('chat/message', message);
-          } else if (toPlayer && toPlayer.id === currentPlayer.id) {
-            message.message = 'Tu fais n\'imp.';
           } else {
-            message.message = 'Ce joueur n\'existe pas !';
+            const [, to, realMessage] = msgExec;
+            const toPlayer = this.usersManager.findUser(to);
+            message.isSystem = true;
+            if (!realMessage) {
+              message.message = 'Le message est vide!';
+            } else if (toPlayer && toPlayer.id !== currentPlayer.id) {
+              message.message = encodeURI(realMessage);
+              message.isPrivate = true;
+              message.isSystem = false;
+              io.to(`${toPlayer.id}`).emit('chat/message', message);
+            } else if (toPlayer && toPlayer.id === currentPlayer.id) {
+              message.message = 'Tu fais n\'imp.';
+            } else {
+              message.message = 'Ce joueur n\'existe pas !';
+            }
           }
         } else {
           client.broadcast.to(channel ? channel.id : SOCKET_ROOM_LOBBY).emit('chat/message', message);
