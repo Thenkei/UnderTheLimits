@@ -23,9 +23,17 @@ spec:
           value: "8080"
         - name: "SHA1"
           value: 'WillBeChangedOnK8SApply'
+        - name: "DB_STORAGE"
+          value: "/app/server/db/db.sqlite3"
         ports:
         - containerPort: 8080
-
+        volumeMounts:
+        - mountPath: /app/server/db
+          name: utl-dev-db
+      volumes:
+      - name: utl-dev-db
+        persistentVolumeClaim:
+          claimName: utl-dev-db
 
 
         
