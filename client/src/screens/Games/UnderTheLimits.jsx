@@ -31,8 +31,7 @@ const UnderTheLimitsGame = ({
           || currentChannel.currentStatus === 'IDLE') && (
           <Button
             variant='contained'
-            color='primary'
-            style={{ marginBottom: '20px' }}
+            color='secondary'
             onClick={() => {
               startGame();
             }}

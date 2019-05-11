@@ -12,11 +12,13 @@ const palette = {
     dark: '#031723',
     contrastText: '#fff',
   },
+
   secondary: {
     light: '#c11400',
     main: '#980f00',
     dark: '#3b0e0f',
   },
+
   text: {
     primary: 'rgba(255, 255, 255, 0.87)',
     secondary: 'rgba(255, 255, 255, 0.54)',
@@ -38,9 +40,11 @@ const opacity = {
 const headlinesStyle = {
   textTransform: 'uppercase',
   fontStyle: 'italic',
-  textShadow: `0 0 0.2em #FFFFFF${opacity.alpha10}, 0 0 0.4em ${palette.primary.light}${opacity.alpha35}`,
+  textShadow: `0 0 0.2em ${palette.common.white}${opacity.alpha10}, 0 0 0.4em ${palette.primary.light}${opacity.alpha35}`,
 };
 
+
+// UTL Theme definitiion
 const UtlTheme = createMuiTheme({
   themeName: 'UtlTheme',
 

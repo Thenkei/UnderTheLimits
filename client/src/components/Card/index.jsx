@@ -11,7 +11,7 @@ import {
 import styles from './styles';
 
 const Card = ({
-  classes, definition, onClick, checked, questionCard, proposalCard, value,
+  classes, className, definition, onClick, checked, questionCard, proposalCard, value,
 }) => {
   let MainWrapper = React.Fragment;
   let wrapperProps = {};
@@ -32,7 +32,8 @@ const Card = ({
           [classes.questionCard]: questionCard,
           [classes.proposalCard]: proposalCard,
           [classes.cardChecked]: checked,
-        })}
+        },
+        className)}
         onClick={() => onClick && onClick()}
         role='none'
       >
@@ -49,10 +50,12 @@ Card.defaultProps = {
   questionCard: false,
   proposalCard: false,
   value: '',
+  className: null,
 };
 
 Card.propTypes = {
   classes: PropTypes.object.isRequired,
+  className: PropTypes.string,
 
   definition: PropTypes.string,
   onClick: PropTypes.func,

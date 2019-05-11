@@ -1,32 +1,37 @@
 export default theme => ({
+
   card: {
     display: 'flex',
     position: 'relative',
     flexDirection: 'column',
     width: 175,
     minHeight: 230,
-    maxHeight: 300,
+    maxHeight: 230,
     overflow: 'auto',
-    margin: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 2}px 0`,
+    margin: `${theme.spacing.unit * 2}px ${theme.spacing.unit}px 0`,
     backfaceVisibility: 'hidden',
     transition: `all ${theme.transitions.easing.easeInOut} ${theme.transitions.duration.short}ms`,
     border: `2px solid ${theme.palette.primary.main}`,
-    borderRadius: '8px',
+    borderRadius: 8,
     backgroundColor: theme.palette.common.white,
     color: theme.palette.primary.main,
     boxShadow: theme.shadows[1],
     wordWrap: 'break-word',
     cursor: 'pointer',
     willChange: 'transform',
+    animationDuration: '0.75s',
+    animationFillMode: 'forwards',
+    animationName: 'bounceIn',
 
     '&:hover': {
-      transform: 'translate3d( 0, -6px, 0 )',
-      boxShadow: theme.shadows[4],
+      marginTop: theme.spacing.unit,
+      boxShadow: theme.shadows[6],
     },
   },
 
   cardChecked: {
-    border: '30px solid red',
+    border: `4px solid ${theme.palette.secondary.main}`,
+    color: theme.palette.secondary.main,
   },
 
   cardBody: {
@@ -55,6 +60,39 @@ export default theme => ({
   proposalCard: {
     backgroundColor: 'transparent',
     color: theme.palette.common.white,
+  },
+
+  '@keyframes bounceIn': {
+    'from, 20%, 40%, 60%, 80%, to': {
+      animationTimingFunction: 'cubic-bezier(0.215, 0.61, 0.355, 1)',
+    },
+
+    '0%': {
+      opacity: 0,
+      transform: 'scale3d(0.3, 0.3, 0.3)',
+    },
+
+    '20%': {
+      transform: 'scale3d(1.1, 1.1, 1.1)',
+    },
+
+    '40%': {
+      transform: 'scale3d(0.9, 0.9, 0.9)',
+    },
+
+    '60%': {
+      opacity: 1,
+      transform: 'scale3d(1.03, 1.03, 1.03)',
+    },
+
+    '80%': {
+      transform: 'scale3d(0.97, 0.97, 0.97)',
+    },
+
+    '100%': {
+      opacity: 1,
+      transform: 'scale3d(1, 1, 1)',
+    },
   },
 
 });
