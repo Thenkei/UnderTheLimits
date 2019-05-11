@@ -92,7 +92,7 @@ const TopAppBar = (props) => {
       />
       {props.channel && (
         <div className={props.classes.channelInfosContainer}>
-          <Typography className={props.classes.channelMainInfo} variant='h6'>{generateText()}</Typography>
+          <Typography className={props.classes.channelMainInfo} key={props.channel.currentStatus} variant='h6'>{generateText()}</Typography>
           <div className={props.classes.channelSecondaryInfos}>
             {props.channel.currentStatus === 'PLAYING_CARD' && (
               <React.Fragment>
@@ -135,7 +135,6 @@ const TopAppBar = (props) => {
         >
           <MenuItem
             disabled={!props.channel}
-            // TODO finish copy
             onClick={() => {
               copyToClipboard(anchorEl);
               setMenuOpen(false);
