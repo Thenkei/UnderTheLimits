@@ -32,6 +32,7 @@ const palette = {
 };
 
 const opacity = {
+  alpha00: '00',
   alpha10: '1A',
   alpha25: '40',
   alpha35: '59',

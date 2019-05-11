@@ -90,7 +90,7 @@ const CreateChannel = ({ classes, onCreateChannel, displayError }) => {
             <Input
               required
               autoFocus
-              autoComplete
+              autoComplete='true'
               type='text'
               value={channelName}
               placeholder='Nom du salon'

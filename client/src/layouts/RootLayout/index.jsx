@@ -77,8 +77,8 @@ RootLayout.defaultProps = {
 
 RootLayout.propTypes = {
   classes: PropTypes.object.isRequired,
-  history: PropTypes.arrayOf(PropTypes.any).isRequired,
-  children: PropTypes.shape({}).isRequired,
+  history: PropTypes.object.isRequired,
+  children: PropTypes.object.isRequired,
 
   error: PropTypes.string,
   success: PropTypes.string,

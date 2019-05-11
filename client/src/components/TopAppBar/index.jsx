@@ -28,6 +28,27 @@ import { toggleSound } from '../../reducers/app';
 
 import styles from './styles';
 
+const copyToClipboard = (el) => {
+  const range = document.createRange();
+  const selection = document.getSelection();
+
+  const mark = document.createElement('span');
+  mark.textContent = window.location.href;
+  mark.style.webkitUserSelect = 'text';
+  mark.style.MozUserSelect = 'text';
+  mark.style.msUserSelect = 'text';
+  mark.style.userSelect = 'text';
+
+  el.appendChild(mark);
+
+  range.selectNodeContents(mark);
+  selection.removeAllRanges();
+  selection.addRange(range);
+
+  document.execCommand('copy');
+  el.removeChild(mark);
+};
+
 const TopAppBar = (props) => {
   const [open, setOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -112,7 +133,14 @@ const TopAppBar = (props) => {
           open={menuOpen}
           onClose={() => setMenuOpen(false)}
         >
-          <MenuItem disabled={!props.channel}>
+          <MenuItem
+            disabled={!props.channel}
+            // TODO finish copy
+            onClick={() => {
+              copyToClipboard(anchorEl);
+              setMenuOpen(false);
+            }}
+          >
             <ListItemIcon>
               <Icon>
                 file_copy
@@ -184,7 +212,14 @@ const TopAppBar = (props) => {
         </DialogActions>
       </Dialog>
       {props.channel && props.channel.currentStatus === 'PLAYING_CARD' && (
-      <LinearProgress className={props.classes.timerProgress} color='secondary' variant='buffer' value={0} valueBuffer={(props.channel.timer * 2)} />
+        <LinearProgress
+          className={props.classes.timerProgress}
+          classes={{ bar: props.classes.timerProgressBar, dashed: props.classes.timerProgressDashed }}
+          color='secondary'
+          variant='buffer'
+          value={0}
+          valueBuffer={(props.channel.timer * 2)}
+        />
       )}
     </header>
   );
@@ -203,7 +238,7 @@ TopAppBar.propTypes = {
   player: PropTypes.object,
 
   toggleSound: PropTypes.func.isRequired,
-  gotoHomepage: PropTypes.bool.isRequired,
+  gotoHomepage: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
