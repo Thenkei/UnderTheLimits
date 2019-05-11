@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const http = require('http');
+const morgan = require('morgan');
 
 const start = require('./server');
 
@@ -12,6 +13,7 @@ const socketServer = http.createServer(app);
 
 (async () => {
   await start(socketServer);
+  app.use(morgan('combined'))
   app.use(express.static(path.join(__dirname, './client/dist')));
   app.use('/avatars', express.static('./server/avatars'));
   app.get('*', (req, res) => {
