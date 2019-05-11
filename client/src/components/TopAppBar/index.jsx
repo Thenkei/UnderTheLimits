@@ -86,8 +86,10 @@ const TopAppBar = (props) => {
         alt='under-the-limits'
         className={props.classes.topAppBarLogo}
         onClick={() => {
-          setSelectedDialog('quit');
-          setOpen(true);
+          if (window.location.pathname !== '/') {
+            setSelectedDialog('quit');
+            setOpen(true);
+          }
         }}
       />
       {props.channel && (

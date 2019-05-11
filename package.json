@@ -28,8 +28,7 @@
   "homepage": "https://github.com/Thenkei/UnderTheLimits#readme",
   "devDependencies": {
     "husky": "^2.1.0",
-    "node-cipher": "^6.3.3",
-    "node-sass": "^4.11.0"
+    "node-cipher": "^6.3.3"
   },
   "private": true,
   "workspaces": [

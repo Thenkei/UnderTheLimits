@@ -13,7 +13,7 @@ const socketServer = http.createServer(app);
 
 (async () => {
   await start(socketServer);
-  app.use(morgan('combined'))
+  app.use(morgan('combined'));
   app.use(express.static(path.join(__dirname, './client/dist')));
   app.use('/avatars', express.static('./server/avatars'));
   app.get('*', (req, res) => {

@@ -13,7 +13,6 @@ RUN cd /app && yarn --ignore-scripts
 
 RUN cd /app && npm rebuild sqlite3
 RUN cd /app && npm rebuild canvas
-RUN cd /app && npm rebuild node-sass
 RUN yarn --cwd /app/client build:qa
 EXPOSE 80
 
