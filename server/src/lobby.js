@@ -96,9 +96,9 @@ class Lobby {
           client.join(channel.id);
           channel.register(io, client, this.usersManager);
           client.emit('updateChannel', channel.serialize());
-          if (!(channelReq.opts.isPrivate === true)) {
-            io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', this.serialize());
-          }
+          // if (!(channelReq.opts.isPrivate === true)) {
+          io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', this.serialize());
+          // }
         } catch (err) {
           client.emit('err', err.message);
         }
@@ -116,6 +116,7 @@ class Lobby {
           client.join(channelId);
           channel.register(io, client, this.usersManager);
           io.to(channel.id).emit('updateChannel', channel.serialize());
+          io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', this.serialize());
         } catch (err) {
           client.emit('err', err.message);
         }
