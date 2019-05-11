@@ -9,7 +9,7 @@ const Legals = () => (
     <Typography variant='h5'>
       Déroulement de la partie
     </Typography>
-    <Typography variant='body1'>
+    <Typography variant='caption'>
       Le but du jeu est de réaliser la meilleure combinaison de cartes possible.
       Pour ce faire, chaque joueur dispose de 10 cartes réponse tirées au hasard parmi plusieurs milliers de
       cartes exclusives créées par nos soins. Ces cartes servent à compléter les cartes questions qui sont des
@@ -22,7 +22,7 @@ const Legals = () => (
     <Typography variant='h5'>
       À savoir
     </Typography>
-    <Typography variant='body1'>
+    <Typography variant='caption'>
       Rejoignez-nous sur Discord afin de rendre votre expérience de jeu beaucoup plus conviviale !
       UnderTheLimits est librement inspiré du jeu « Cards Against Humanity » sous licence Creative
       Commons.
