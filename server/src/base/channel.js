@@ -1,5 +1,6 @@
 const { CHANNEL_STATUS } = require('../status');
 
+const MAX_ROUND_KICK = 2;
 
 class Channel {
   constructor(name, minPlayersCount = 2, maxPlayersCount = 8, isPrivate = false) {
@@ -64,10 +65,20 @@ class Channel {
     return this.currentStatus !== CHANNEL_STATUS.IDLE;
   }
 
-  nextRound() {
+  nextRound(io) {
     // Check channel cannot start
     if (this.players.length < this.minPlayersCount) {
+      this.currentStatus = CHANNEL_STATUS.IDLE;
       throw new Error('Il n\'y a pas assez de joueurs dans ce salon !');
+    }
+
+    if (this.isRunning()) {
+      this.players.forEach((p) => {
+        if (p.afkCount >= MAX_ROUND_KICK) {
+          io.sockets.sockets[p.id].disconnect();
+          console.log('[Channel] Kick', p.name, 'for inactivity into channel', this.name);
+        }
+      });
     }
   }
 

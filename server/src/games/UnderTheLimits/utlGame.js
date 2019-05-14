@@ -56,8 +56,8 @@ class UTLGame extends Channel {
     super.addPlayer(new UTLPlayer(user.id, user.username));
   }
 
-  nextRound(updateUser) {
-    super.nextRound();
+  nextRound(io, updateUser) {
+    super.nextRound(io);
 
     if (this.currentStatus === UTL_STATUS.IDLE) {
       console.log('[UTLGame] ', this.name, 'starting new game !');
@@ -201,7 +201,7 @@ class UTLGame extends Channel {
   register(io, client, usersManager) {
     client.on('nextRound', () => {
       try {
-        this.nextRound((player) => {
+        this.nextRound(io, (player) => {
           usersManager.updateUserStatsPlayed(player.id);
         });
         io.to(this.id).emit('updateChannel', this.serialize());
