@@ -55,7 +55,7 @@ class UTLPlus extends UTLGame {
       if (resultat) {
         // TODO Check if several players have the required scrore to win
         // and find the one with the highest score in resultat
-        userPoint(resultat[0], `Le vainqueur est ${resultat[0].name}`);
+        userPoint(resultat, `Le vainqueur est ${resultat.name}`);
         this.currentStatus = UTL_STATUS.IDLE;
       } else {
         this.currentStatus = UTL_STATUS.WAITING_GAME;
