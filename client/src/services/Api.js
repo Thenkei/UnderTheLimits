@@ -63,6 +63,17 @@ function sendMessage(msg) {
   global.socket.emit('chat/message', msg);
 }
 
+function disconnect(cb) {
+  addListener('disconnect', (reason) => {
+    let res = false;
+    if (reason === 'io server disconnect') {
+      // the disconnection was initiated by the server, you have been kicked
+      res = true;
+    }
+    cb(res);
+  });
+}
+
 export {
   createPlayer,
   chatMessages,
@@ -76,4 +87,5 @@ export {
   gotoChannel,
   error,
   success,
+  disconnect,
 };

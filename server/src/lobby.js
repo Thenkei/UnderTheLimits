@@ -37,7 +37,7 @@ class Lobby {
       client.join(SOCKET_ROOM_LOBBY);
 
       // DISCONNECT FROM LOBBY
-      client.on('disconnect', () => {
+      client.once('disconnect', () => {
         const disconnected = this.usersManager.removeUserById(client.id);
         const updateLobby = () => io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', this.serialize());
         if (!disconnected) { return; }
