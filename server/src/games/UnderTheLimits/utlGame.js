@@ -237,18 +237,22 @@ class UTLGame extends Channel {
     });
 
     client.on('selectedJudgment', (judgment) => {
-      this.judge(
-        judgment,
-        (player, score, response) => {
-          usersManager.updateUserStatsCumul(player.id, score);
-          io.to(this.id).emit('success', response);
-        },
-        (player, response) => {
-          usersManager.updateUserStatsPoint(player.id);
-          io.to(this.id).emit('success', response);
-        },
-        io,
-      );
+      try {
+        this.judge(
+          judgment,
+          (player, score, response) => {
+            usersManager.updateUserStatsCumul(player.id, score);
+            io.to(this.id).emit('success', response);
+          },
+          (player, response) => {
+            usersManager.updateUserStatsPoint(player.id);
+            io.to(this.id).emit('success', response);
+          },
+          io,
+        );
+      } catch (err) {
+        client.emit('err', err.message);
+      }
 
       io.to(this.id).emit('updateChannel', this.serialize());
     });
