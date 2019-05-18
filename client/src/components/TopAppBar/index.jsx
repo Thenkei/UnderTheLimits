@@ -81,17 +81,19 @@ const TopAppBar = (props) => {
 
   return (
     <header className={props.classes.topAppBar}>
-      <img
-        src='/public/images/UTL_Logo.png'
-        alt='under-the-limits'
-        className={props.classes.topAppBarLogo}
-        onClick={() => {
-          if (window.location.pathname !== '/') {
-            setSelectedDialog('quit');
-            setOpen(true);
-          }
-        }}
-      />
+      {props.player && (
+        <img
+          src='/public/images/UTL-Logo_topAppBar.png'
+          alt='under-the-limits'
+          className={props.classes.topAppBarLogo}
+          onClick={() => {
+            if (window.location.pathname !== '/') {
+              setSelectedDialog('quit');
+              setOpen(true);
+            }
+          }}
+        />
+      )}
       {props.channel && (
         <div className={props.classes.channelInfosContainer}>
           <Typography className={props.classes.channelMainInfo} key={props.channel.currentStatus} variant='h6'>{generateText()}</Typography>

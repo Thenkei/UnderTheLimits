@@ -48,37 +48,46 @@ const Index = ({
   }
 
   return (
-    <div className={classes.LoginFormWrapper}>
-      <form
-        onSubmit={submit}
-        className={classes.LoginFormAnimated}
-      >
-        <Input
-          type='text'
-          value={playerName || ''}
-          placeholder='Surnom'
-          onChange={(e) => {
-            setPlayerName(e.target.value);
-          }}
-          onKeyPress={(ev) => {
-            if (ev.key === 'Enter') {
-              submit(ev);
-            }
-          }}
+    <div className={classes.UTLLogoWrapper}>
+      <div style={{ width: '100%', padding: '0 12px' }}>
+        <img
+          src='/public/images/UTL-Logo_splashScreen.svg'
+          alt='under-the-limits'
+          className={classes.UTLLogo}
         />
-        <IconButton
-          variant='contained'
-          color='primary'
-          onClick={() => {
-            setPlayerName(RUN());
-          }}
-        >
-          <Icon>refresh</Icon>
-        </IconButton>
-        <Button variant='contained' color='primary' type='submit'>
-          Ok
-        </Button>
-      </form>
+        <div className={classes.LoginFormWrapper}>
+          <form
+            onSubmit={submit}
+            className={classes.LoginFormAnimated}
+          >
+            <Input
+              type='text'
+              value={playerName || ''}
+              placeholder='Surnom'
+              onChange={(e) => {
+                setPlayerName(e.target.value);
+              }}
+              onKeyPress={(ev) => {
+                if (ev.key === 'Enter') {
+                  submit(ev);
+                }
+              }}
+            />
+            <IconButton
+              variant='contained'
+              color='primary'
+              onClick={() => {
+                setPlayerName(RUN());
+              }}
+            >
+              <Icon>refresh</Icon>
+            </IconButton>
+            <Button variant='contained' color='primary' type='submit'>
+              Ok
+            </Button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };

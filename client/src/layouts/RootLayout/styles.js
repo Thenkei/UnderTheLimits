@@ -12,32 +12,34 @@ export default theme => ({
   },
 
   underTheLimitsContent: {
-    zIndex: '1',
+    zIndex: 1,
     width: '100%',
     height: `calc( 100vh - ${theme.layout.topAppBarHeight} )`,
   },
 
   underTheLimitsCardsBackground: {
     position: 'absolute',
-    zIndex: '0',
-    top: '0',
-    right: '0',
-    bottom: '0',
-    left: '0',
+    zIndex: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
     overflow: 'hidden',
     pointerEvents: 'none',
 
     '&:before': {
       content: '""',
       position: 'absolute',
-      zIndex: '0',
-      top: '0',
-      right: '0',
-      bottom: '0',
-      left: '0',
-      transform: 'scale3d( 1.33, 1.33, 1.33 )',
+      zIndex: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      opacity: 0,
       transformOrigin: 'center 40%',
       animation: 'bckgrdEntrance 6s ease-out',
+      animationDelay: '.45s',
+      animationFillMode: 'forwards',
       // background: {
       //   image: 'url( "/public/images/CardsBckgrd.svg" )',
       //   repeat: 'no-repeat',
@@ -55,12 +57,17 @@ export default theme => ({
     from: {
       transform: 'scale3d( .1, .1, .1 )',
       animationTimingFunction: 'cubic-bezier( .55, .055, .675, .19 )',
-      opacity: '0',
+      opacity: 0,
     },
 
     '8%': {
       transform: 'scale3d( .9, .9, .9 )',
       animationTimingFunction: 'cubic-bezier( .175, .885, .32, 1 )',
+      opacity: '.75',
+    },
+
+    to: {
+      transform: 'scale3d( 1.33, 1.33, 1.33 )',
       opacity: '.75',
     },
   },

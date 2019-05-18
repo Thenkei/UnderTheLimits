@@ -4,7 +4,7 @@ export default theme => ({
     display: 'flex',
     alignItems: 'center',
     width: '100%',
-    zIndex: '9',
+    zIndex: 9,
     height: theme.layout.topAppBarHeight,
     padding: theme.spacing.unit * 2,
     overflow: 'visible',
@@ -14,10 +14,10 @@ export default theme => ({
   },
 
   topAppBarLogo: {
-    height: '62px',
+    width: 140,
     cursor: 'pointer',
-    marginTop: '26px',
-    zIndex: '9',
+    marginTop: 38,
+    zIndex: 9,
   },
 
   topAppBarButtonContainer: {
@@ -55,12 +55,12 @@ export default theme => ({
     },
 
     '40%': {
-      marginLeft: '12px',
+      marginLeft: 12,
       opacity: 1,
     },
 
     '80%': {
-      marginLeft: '-4px',
+      marginLeft: -4,
     },
 
     '99%': {

@@ -53,6 +53,31 @@ const generateTheme = (themeName, palette) => {
     },
 
     overrides: {
+      // MuiButtonBase: {
+      //   root: {
+      //     zIndex: 1,
+      //     position: 'relative',
+      //     fontSize: 'inherit',
+      //     overflow: 'hidden',
+
+      //     '&::after': {
+      //       content: '""',
+      //       zIndex: -1,
+      //       backgroundColor: 'hsla(0, 0%, 100%, 0.2)',
+      //       position: 'absolute',
+      //       top: '-50%',
+      //       bottom: '-50%',
+      //       left: '-100%',
+      //       width: '1.25em',
+      //       transform: 'translateX(-525%) rotate(35deg)',
+      //     },
+
+      //     '&:hover::after': {
+      //       transition: 'all 0.45s ease-in-out',
+      //       right: 0,
+      //     },
+      //   },
+      // },
       MuiDialog: {
         paper: {
           border: `solid 1px ${palette.primary.light}${opacity.alpha10}`,
