@@ -37,8 +37,12 @@ const Message = ({
   return (
     <div className={classes.fullMessage}>
       <Avatar className={classes.avatar} src={`${window.location.origin}/avatars/${avatar}.png`} />
+      {isPrivate && <Avatar className={classes.avatar} src={`${window.location.origin}/avatars/${isPrivate.name}.png`} />}
       <div className={classes.sendedMessage}>
-        <Typography className={classes.playerName} align='left' variant='h6'>{username}</Typography>
+        <Typography className={classes.playerName} align='left' variant='h6'>
+          {username}
+          { isPrivate && ` - ${isPrivate.name}`}
+        </Typography>
         <Typography
           className={classNames(classes.text, {
             [classes.isPlayer]: isPlayer,

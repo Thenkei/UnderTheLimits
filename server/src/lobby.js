@@ -141,7 +141,7 @@ class Lobby {
               message.message = 'Le message est vide!';
             } else if (toPlayer && toPlayer.id !== currentPlayer.id) {
               message.message = encodeURI(realMessage);
-              message.isPrivate = true;
+              message.isPrivate = toPlayer;
               message.isSystem = false;
               io.to(`${toPlayer.id}`).emit('chat/message', message);
             } else if (toPlayer && toPlayer.id === currentPlayer.id) {
