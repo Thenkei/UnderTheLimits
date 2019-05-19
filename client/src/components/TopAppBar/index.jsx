@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { connect } from 'react-redux';
 
 import {
@@ -80,7 +81,12 @@ const TopAppBar = (props) => {
   };
 
   return (
-    <header className={props.classes.topAppBar}>
+    <header
+      className={classNames(
+        props.classes.topAppBar,
+        { [props.classes.homePage]: !props.player },
+      )}
+    >
       {props.player && (
         <img
           src='/public/images/UTL-Logo_topAppBar.png'

@@ -49,7 +49,7 @@ export default theme => ({
     transformOrigin: 'center center',
     width: '100%',
     maxWidth: 600,
-    marginRight: '-7%',
+    marginRight: '-2%',
   },
 
   '@keyframes IncommingLogo': {
