@@ -1,32 +1,58 @@
 export default theme => ({
 
-  card: {
-    display: 'flex',
+  cardWrapper: {
     position: 'relative',
-    flexDirection: 'column',
     width: 187,
     minHeight: 280,
     maxHeight: 280,
-    overflow: 'auto',
     margin: `${theme.spacing.unit * 2}px ${theme.spacing.unit}px 0`,
+    animationDuration: '0.75s',
+    animationFillMode: 'forwards',
+    animationName: 'bounceIn',
+
+    '&:hover': {
+      '& $card': {
+        transform: 'rotate(-2deg)',
+      },
+
+      '& $cardShadow': {
+        transform: 'rotate(12deg)',
+        opacity: 0.8,
+      },
+    },
+  },
+
+  card: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'auto',
     backfaceVisibility: 'hidden',
     transition: `all ${theme.transitions.easing.easeInOut} ${theme.transitions.duration.short}ms`,
     border: `2px solid ${theme.palette.primary.main}`,
-    borderRadius: 8,
     backgroundColor: theme.palette.common.white,
     color: theme.palette.primary.main,
     boxShadow: theme.shadows[1],
     wordWrap: 'break-word',
     cursor: 'pointer',
     willChange: 'transform',
-    animationDuration: '0.75s',
-    animationFillMode: 'forwards',
-    animationName: 'bounceIn',
+    zIndex: 2,
+  },
 
-    '&:hover': {
-      marginTop: theme.spacing.unit,
-      boxShadow: theme.shadows[6],
-    },
+  cardShadow: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    backgroundColor: theme.palette.primary.main,
+    transform: 'scale(1.02, 1.02) rotate(4deg)',
+    opacity: 0.4,
+    transition: `all ${theme.transitions.easing.easeInOut} ${theme.transitions.duration.short}ms`,
   },
 
   cardChecked: {

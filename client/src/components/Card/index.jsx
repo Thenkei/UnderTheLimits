@@ -26,18 +26,20 @@ const Card = ({
 
   return (
     <MainWrapper {...wrapperProps}>
-      <div
-        className={classNames({
-          [classes.card]: !questionCard,
-          [classes.questionCard]: questionCard,
-          [classes.proposalCard]: proposalCard,
-          [classes.cardChecked]: checked,
-        },
-        className)}
-        onClick={() => onClick && onClick()}
-        role='none'
-      >
-        <Typography className={classes.cardBody} color='inherit' variant={questionCard ? 'h5' : 'body1'}>{value}</Typography>
+      <div className={classNames({ [classes.cardWrapper]: !questionCard }, className)}>
+        <div
+          className={classNames({
+            [classes.card]: !questionCard,
+            [classes.questionCard]: questionCard,
+            [classes.proposalCard]: proposalCard,
+            [classes.cardChecked]: checked,
+          })}
+          onClick={() => onClick && onClick()}
+          role='none'
+        >
+          <Typography className={classes.cardBody} color='inherit' variant={questionCard ? 'h5' : 'body1'}>{value}</Typography>
+        </div>
+        {!questionCard && <div className={classes.cardShadow} />}
       </div>
     </MainWrapper>
   );
