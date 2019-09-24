@@ -64,7 +64,7 @@ workflows:
   build_and_dockerize:
     jobs:
       - build
-      # Since dockerize need approval, no need to check for master branch
+      # Since dockerize need approval, no need to check for master branch 
       - request_dockerize:
           type: approval
           requires:
