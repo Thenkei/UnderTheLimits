@@ -11,6 +11,9 @@ COPY . /app
 
 RUN cd /app && yarn --ignore-scripts
 
+RUN /app /node_modules/.bin/nodecipher decrypt /app/server/scripts/populate_question.sql.enc /app/server/scripts/populate_question.sql -p $MDP_MOMO
+RUN /app /node_modules/.bin/nodecipher decrypt /app/server/scripts/populate_answer.sql.enc /app/server/scripts/populate_answer.sql -p $MDP_MOMO
+
 RUN cd /app && npm rebuild sqlite3
 RUN cd /app && npm rebuild canvas
 RUN yarn --cwd /app/client build:qa

@@ -31,14 +31,8 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run:
-          name: DataBase Questions
-          command: ./node_modules/.bin/nodecipher decrypt server/scripts/populate_question.sql.enc server/scripts/populate_question.sql -p $MDP_MOMO
-      - run:
-          name: DataBase Answers
-          command: ./node_modules/.bin/nodecipher decrypt server/scripts/populate_answer.sql.enc server/scripts/populate_answer.sql -p $MDP_MOMO
       - run: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
-      - run: docker build -f Dockerfile --rm=false -t eu.gcr.io/${GCP_PROJECT}/utl:$CIRCLE_BRANCH-$CIRCLE_SHA1 .
+      - run: docker build -f Dockerfile --build-arg MDP_MOMO=$MDP_MOMO  --rm=false -t eu.gcr.io/${GCP_PROJECT}/utl:$CIRCLE_BRANCH-$CIRCLE_SHA1 .
       - run: docker tag eu.gcr.io/${GCP_PROJECT}/utl:$CIRCLE_BRANCH-$CIRCLE_SHA1 eu.gcr.io/${GCP_PROJECT}/utl:master-latest
       - run: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
       - run: gcloud --quiet config set project ${GCP_PROJECT}
