@@ -11,8 +11,9 @@ COPY . /app
 
 RUN cd /app && yarn --ignore-scripts
 
-RUN echo "$momo"
+ARG momo
 RUN /app/node_modules/.bin/nodecipher decrypt /app/server/scripts/populate_question.sql.enc /app/server/scripts/populate_question.sql -p $momo
+ARG momo
 RUN /app/node_modules/.bin/nodecipher decrypt /app/server/scripts/populate_answer.sql.enc /app/server/scripts/populate_answer.sql -p $momo
 
 RUN cd /app && npm rebuild sqlite3
