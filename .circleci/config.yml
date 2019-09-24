@@ -24,6 +24,12 @@ jobs:
       - run:
           name: Test
           command: yarn --cwd client test
+      - run:
+          name: DataBase Questions
+          command: ./node_modules/.bin/nodecipher decrypt server/scripts/populate_question.sql.enc server/scripts/populate_question.sql -p $MDP_MOMO
+          - run:
+          name: DataBase Answers
+          command: ./node_modules/.bin/nodecipher decrypt server/scripts/populate_answer.sql.enc server/scripts/populate_answer.sql -p $MDP_MOMO
   dockerize:
     working_directory: ~/UnderTheLimits
     docker:
