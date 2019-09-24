@@ -27,7 +27,7 @@ jobs:
       - run:
           name: DataBase Questions
           command: ./node_modules/.bin/nodecipher decrypt server/scripts/populate_question.sql.enc server/scripts/populate_question.sql -p $MDP_MOMO
-          - run:
+      - run:
           name: DataBase Answers
           command: ./node_modules/.bin/nodecipher decrypt server/scripts/populate_answer.sql.enc server/scripts/populate_answer.sql -p $MDP_MOMO
   dockerize:
@@ -64,7 +64,7 @@ workflows:
   build_and_dockerize:
     jobs:
       - build
-      # Since dockerize need approval, no need to check for master branch 
+      # Since dockerize need approval, no need to check for master branch
       - request_dockerize:
           type: approval
           requires:
