@@ -31,6 +31,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
+      - run: echo ${MDP_MOMO} 
       - run: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
       - run: docker build --build-arg momo=${MDP_MOMO} -f Dockerfile  --rm=false -t eu.gcr.io/${GCP_PROJECT}/utl:$CIRCLE_BRANCH-$CIRCLE_SHA1 .
       - run: docker tag eu.gcr.io/${GCP_PROJECT}/utl:$CIRCLE_BRANCH-$CIRCLE_SHA1 eu.gcr.io/${GCP_PROJECT}/utl:master-latest
