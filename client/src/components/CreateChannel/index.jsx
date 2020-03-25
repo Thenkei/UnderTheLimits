@@ -31,18 +31,27 @@ const CreateChannel = ({ classes, onCreateChannel, displayError }) => {
   const games = [{
     value: 'utlgame',
     text: 'UTL Game (Simple)',
+    minPlayersChoices: range(2, maxPlayersCount),
+    maxPlayersChoices: range(minPlayersCount + 1, 9),
+    maxPointsChoices: range(1, 10),
   }, {
     value: 'utlplus',
     text: 'UTL Plus (Difficile)',
+    minPlayersChoices: range(4, maxPlayersCount),
+    maxPlayersChoices: range(minPlayersCount + 1, 12),
+    maxPointsChoices: range(6, 20),
   }, {
     value: 'ninety-nine',
     text: 'Ninety-nine (Get Drunk)',
+    minPlayersChoices: range(2, maxPlayersCount),
+    maxPlayersChoices: range(minPlayersCount + 1, 8),
+    maxPointsChoices: range(1, 8),
   }];
 
   const gamesChoices = {
-    minPlayersChoices: (gameType === 'utlgame' ? range(2, maxPlayersCount) : range(4, maxPlayersCount)),
-    maxPlayersChoices: (gameType === 'utlgame' ? range(minPlayersCount + 1, 9) : range(minPlayersCount + 1, 12)),
-    maxPointsChoices: (gameType === 'utlgame' ? range(1, 10) : range(6, 20)),
+    minPlayersChoices: games.find(g => g.value === gameType).minPlayersChoices,
+    maxPlayersChoices: games.find(g => g.value === gameType).maxPlayersChoices,
+    maxPointsChoices: games.find(g => g.value === gameType).maxPointsChoices,
   };
 
   return (

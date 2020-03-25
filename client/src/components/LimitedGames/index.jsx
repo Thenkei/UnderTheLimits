@@ -28,7 +28,7 @@ class LimitedGames extends Component {
             <Card
               questionCard
               key='questioncard'
-              value={this.props.currentChannel.lastCard}
+              value={this.props.currentChannel.lastCard.text}
             />
             <div className={this.props.classes.cardsContainer}>
               {this.props.player.hand.map((answer, index) => (

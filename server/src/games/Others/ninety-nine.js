@@ -22,6 +22,10 @@ class Ninetynine extends Channel {
     super(name, minPlayersCount, maxPlayersCount, isPrivate);
   }
 
+  async init() {
+    this.score = 0;
+  }
+
   addPlayer(user) {
     super.addPlayer(new UTLPlayer(user.id, user.username));
   }
@@ -77,7 +81,7 @@ class Ninetynine extends Channel {
     });
 
     // Default starting card (No card played)
-    this.lastCard = { text: 'Posez donc une carte ! Miladiou', definition: '' };
+    this.lastCard = { text: 'Posez donc une carte ! Miladiou' };
     this.currentStatus = UTL_STATUS.PLAYING_CARD;
   }
 
@@ -108,9 +112,12 @@ class Ninetynine extends Channel {
     if (roundEnded) {
       this.currentStatus = UTL_STATUS.WAITING_GAME;
     } else {
+      // Pick a card
+      p.hand.push(...this.deck.splice(0, PLAYER_CARD_COUNT - p.hand.length));
+
       // Roll to next player or previous
       const len = this.players.length;
-      const currentIndex = this.players.findIndex(p);
+      const currentIndex = this.players.findIndex(player => p === player);
       // eslint-disable-next-line no-unused-expressions
       this.clockwise ? this.players[(currentIndex + 1) % len].setGameMaster(true) : this.players[(currentIndex + len - 1) % len].setGameMaster(true);
       p.setGameMaster(false);
