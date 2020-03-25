@@ -175,7 +175,6 @@ class UTLGame extends Channel {
       channel: {
         id: this.id,
         admin: this.admin,
-        type: 'UTL',
         name: this.name,
         players: this.players,
         currentStatus: this.currentStatus,

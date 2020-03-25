@@ -65,9 +65,14 @@ class Lobby extends Component {
       return <Typography>Loading ...</Typography>;
     }
 
-    if (this.props.currentChannel) {
+    if (this.props.currentChannel && this.props.currentChannel.type === 'UTL') {
       return <Redirect to={`/underthelimits/${this.props.currentChannel.id}`} />;
     }
+
+    if (this.props.currentChannel && this.props.currentChannel.type === 'LIMITED') {
+      return <Redirect to={`/limitedgames/${this.props.currentChannel.id}`} />;
+    }
+
     return (
       <InGameLayout players={this.props.lobby.waitingPlayers} isLobby>
         <div className={classes.listHeader}>
@@ -135,6 +140,7 @@ Lobby.propTypes = {
   displayError: PropTypes.func.isRequired,
 
   currentChannel: PropTypes.shape({
+    type: PropTypes.string,
     players: PropTypes.array,
     name: PropTypes.string,
     id: PropTypes.string,

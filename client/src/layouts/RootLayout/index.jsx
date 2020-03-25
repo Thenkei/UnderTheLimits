@@ -49,7 +49,7 @@ class RootLayout extends React.Component {
         <Sound
           url={`/public/sounds/${sound}`}
           playStatus={isPlaySound ? Sound.status.PLAYING : Sound.status.STOPPED}
-          volume={isSoundMuted ? 0 : 100}
+          volume={isSoundMuted ? 0 : 33}
           onFinishedPlaying={() => appStopSound()}
         />
         <div className={classes.underTheLimitsContent}>

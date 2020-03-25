@@ -12,6 +12,15 @@ function addListener(name, cb) {
   }
 }
 
+// ADMINISTRATOR
+function updateAdmin(cb) {
+  addListener('updateAdmin', (response) => {
+    cb(response.admin);
+  });
+}
+
+
+// LOBBY
 function createPlayer(playerName, cb) {
   global.socket.emit('createPlayer', playerName);
   addListener('playerCreated', lobbyResponse => cb(lobbyResponse.player));
@@ -23,6 +32,7 @@ function updateLobby(cb) {
   });
 }
 
+// GAMES
 function updateChannel(cb) {
   addListener('updateChannel', channelResponse => cb(channelResponse.channel));
 }
@@ -75,6 +85,7 @@ function disconnect(cb) {
 }
 
 export {
+  updateAdmin,
   createPlayer,
   chatMessages,
   sendMessage,

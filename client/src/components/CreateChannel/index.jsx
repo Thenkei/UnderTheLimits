@@ -34,6 +34,9 @@ const CreateChannel = ({ classes, onCreateChannel, displayError }) => {
   }, {
     value: 'utlplus',
     text: 'UTL Plus (Difficile)',
+  }, {
+    value: 'ninety-nine',
+    text: 'Ninety-nine (Get Drunk)',
   }];
 
   const gamesChoices = {

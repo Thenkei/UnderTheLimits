@@ -50,6 +50,7 @@ import Player from './Player';
 import Players from './Players';
 import TopAppBar from './TopAppBar';
 import UnderTheLimits from './UnderTheLimits';
+import LimitedGames from './LimitedGames';
 
 export {
   Avatar,
@@ -101,4 +102,5 @@ export {
   Players,
   TopAppBar,
   UnderTheLimits,
+  LimitedGames,
 };

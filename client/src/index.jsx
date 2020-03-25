@@ -19,6 +19,7 @@ import { RootLayout } from './layouts';
 import Index from './screens/Index';
 import Lobby from './screens/Lobby';
 import UnderTheLimits from './screens/Games/UnderTheLimits';
+import LimitedGames from './screens/Games/LimitedGames';
 import NoMatch from './screens/NoMatch';
 
 
@@ -42,7 +43,9 @@ let Main = props => (
         <Switch>
           <Route exact path='/' component={Index} />
           <Route exact path='/lobby' component={Lobby} />
+          <Route exact path='/admin' component={Lobby} />
           <Route path='/underthelimits/:id' component={UnderTheLimits} />
+          <Route path='/limitedgames/:id' component={LimitedGames} />
           <Route component={NoMatch} />
         </Switch>
       </RootLayout>
