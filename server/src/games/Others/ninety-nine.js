@@ -134,12 +134,12 @@ class Ninetynine extends Channel {
       // Player win
       p.score += 1;
       roundEnded = true;
-      io.broadcast.to(`${this.id}`).emit('chat/message', `${p.name} a gagné.\n${CITATION[Math.round(Math.random() * CITATION.length)]}\nBref, donne un bon cul sec à qui le mérite !`);
+      io.broadcast.to(`${this.id}`).emit('chat/message', `${p.name} a gagné.\n${CITATION[Math.floor(Math.random() * CITATION.length)]}\nBref, donne un bon cul sec à qui le mérite !`);
     } else if (this.score > 99) {
       // Player loose
       p.score -= 1;
       roundEnded = true;
-      io.broadcast.to(`${this.id}`).emit('chat/message', `${p.name} tu es mauvais Jack.\n${CITATION[Math.round(Math.random() * CITATION.length)]}\nPrends donc un gros cul sec dans la tronche. <3<3<3`);
+      io.broadcast.to(`${this.id}`).emit('chat/message', `${p.name} tu es mauvais Jack.\n${CITATION[Math.floor(Math.random() * CITATION.length)]}\nPrends donc un gros cul sec dans la tronche. <3<3<3`);
   } else if (this.score % 10 === 0) {
       io.broadcast.to(`${this.id}`).emit('chat/message', `${p.name} distribue ${this.score/10} gorgées`);
   }
