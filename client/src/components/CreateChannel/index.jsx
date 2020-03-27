@@ -32,7 +32,7 @@ const CreateChannel = ({ classes, onCreateChannel, displayError }) => {
     value: 'utlgame',
     text: 'UTL Game (Simple)',
     minPlayersChoices: range(2, maxPlayersCount),
-    maxPlayersChoices: range(minPlayersCount + 1, 9),
+    maxPlayersChoices: range(minPlayersCount + 1, 10),
     maxPointsChoices: range(1, 10),
   }, {
     value: 'utlplus',
@@ -44,7 +44,7 @@ const CreateChannel = ({ classes, onCreateChannel, displayError }) => {
     value: 'ninety-nine',
     text: 'Ninety-nine (Get Drunk)',
     minPlayersChoices: range(2, maxPlayersCount),
-    maxPlayersChoices: range(minPlayersCount + 1, 8),
+    maxPlayersChoices: range(minPlayersCount + 1, 10),
     maxPointsChoices: range(1, 8),
   }];
 
