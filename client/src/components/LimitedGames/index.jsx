@@ -9,45 +9,37 @@ import styles from './styles';
 
 class LimitedGames extends Component {
   handleChange = (i) => {
-    const index = this.props.player.answers.indexOf(i);
-    if (index < 0) {
-      this.props.player.answers.push(i);
-    } else {
-      this.props.player.answers.splice(index, 1);
-    }
-
+    this.props.player.answers.push(i);
     this.props.selectedAnswers(this.props.player.answers);
   };
 
   render() {
-    if (this.props.player && this.props.player.hand) {
+    if (this.props.player && this.props.player.hand && this.props.currentChannel.currentStatus === 'PLAYING_CARD') {
       return (
         <React.Fragment>
-          {this.props.currentChannel.currentStatus === 'PLAYING_CARD' && (
-          <div className={this.props.classes.game}>
-            <Card
-              questionCard
-              key='questioncard'
-              value={this.props.currentChannel.lastCard.text}
-            />
-            <div className={this.props.classes.cardsContainer}>
-              {this.props.player.hand.map((answer, index) => (
-                <Card
-                  className={this.props.classes.cardGame.text}
-                  key={answer.text}
-                  value={answer.text}
-                  definition={answer.definition}
-                  onClick={
+          <div className={this.props.classes.cardsContainer}>
+            {
+              <Card
+                key='lastcard'
+                value={this.props.currentChannel.lastCard.text}
+                onClick={() => { }}
+              />
+            }
+          </div>
+          <div className={this.props.classes.cardsContainer}>
+            {this.props.player.hand.map((answer, index) => (
+              <Card
+                className={this.props.classes.cardGame.text}
+                key={answer.text}
+                value={answer.text}
+                definition={answer.definition}
+                onClick={
                     this.props.player.isGameMaster
                       ? () => this.handleChange(index)
-                      : () => { }
-                  }
-                  checked={this.props.player.answers.indexOf(index) >= 0}
-                />
-              ))}
-            </div>
+                      : () => { }}
+              />
+            ))}
           </div>
-          )}
         </React.Fragment>
       );
     }

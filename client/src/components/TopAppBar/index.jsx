@@ -58,6 +58,16 @@ const TopAppBar = (props) => {
 
   const generateText = () => {
     let text = 'En attente...';
+
+    if (props.channel.currentStatus === 'PLAYING_CARD' && props.channel.type === 'LIMITED') {
+      if (props.player.isGameMaster) {
+        text = `${props.player.username} à vous de jouer`;
+      } else {
+        text = 'Attends ton tour !';
+      }
+      return text;
+    }
+
     switch (props.channel.currentStatus) {
       case 'PLAYING_CARD':
         if (!props.player.isGameMaster) {

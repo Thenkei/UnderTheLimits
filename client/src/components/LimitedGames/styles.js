@@ -1,4 +1,4 @@
-const animationCardDelay = 0.12;
+const animationCardDelay = 0.24;
 
 export default theme => ({
   cardGame: {
@@ -14,7 +14,7 @@ export default theme => ({
     padding: 20,
     overflow: 'auto',
     backgroundColor: `${theme.palette.primary.dark}${theme.opacity.alpha50}`,
-    height: '100%',
+    height: '50%',
 
     '& > $cardGame': {
       '&:nth-of-type(2)': {
