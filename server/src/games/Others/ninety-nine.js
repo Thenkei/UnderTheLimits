@@ -113,7 +113,8 @@ class Ninetynine extends Channel {
   playCard(p, io) {
     // Change top card
     [this.lastCard] = p.clearAnswers();
-
+    this.deck.push(this.lastCard);
+    
     // Update score
     if (this.lastCard.score === 70) { this.score = 70; } else { this.score += this.lastCard.score; }
 
