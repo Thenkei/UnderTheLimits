@@ -6,6 +6,31 @@ const PLAYER_CARD_COUNT = 4;
 const MAX_POINTS = 99;
 const LOG = '[LimitedGame Ninety-nine] ';
 
+const CITATION = [
+    "Tout ce que tu peux faire dans la vie, c'est être toi-même. Certains t'aimerons pour qui tu es. La plupart t'aimeront pour les services que tu peux leur rendre, d'autres ne t'aimeront pas.",
+    "La beauté est dans les yeux de celui qui regarde.",
+    "Si tu diffères de moi, mon frère, loin de me léser, tu m'enrichis.",
+    "Sourire mobilise 15 muscles, mais faire la gueule en sollicite 40. Reposez-vous : souriez !",
+    "On sait bien quand on part, mais jamais quand on revient.",
+    "Ce que l'on doit faire on le sait bien mieux que les philosophes.",
+    "Il faut accepter les déceptions passagères, mais conserver l'espoir pour l'éternité.",
+    "C'est dans l'angoisse que l'homme prend conscience de sa liberté.",
+    "Ne vaut-il pas cent fois mieux rester chez soi à ne rien faire que de perdre son temps à s'occuper des affaires d'autrui !",
+    "Le temps fait du bien à l'amour contrairement à ce qu'on pense, les regrets c'est quand on se goure concrètement.",
+    "L'inquiétude, c'est stupide. C'est comme si on marchait dans la rue avec un parapluie ouvert en attendant qu'il pleuve.",
+    "Nous sommes ce que nous pensons. Tout ce que nous sommes résulte de nos pensées. Avec nos pensées, nous bâtissons notre monde.",
+    "Il est dur d'échouer ; mais il est pire de n'avoir jamais tenté de réussir.",
+    "Oublie les conséquences de l'échec. L'échec est un passage transitoire qui te prépare pour ton prochain succès.",
+    "C'est difficile de mettre une laisse à un chien une fois qu'on lui a posé une couronne sur la tête.",
+    "Exige beaucoup de toi-même et attends peu des autres. Ainsi beaucoup d'ennuis te seront épargnés.",
+    "On se sépare deux fois, une première fois quand l'amour est mort, une seconde quand un sentiment renaît.",
+    "Tirez le rideau, la farce est terminée !",
+    "Un pigeon, c'est plus con qu'un dauphin, d'accord... mais ça vole.",
+    "Il faut cueillir les cerises avec la queue. J'avais déjà du mal avec la main !",
+    "Si l'herbe est plus verte dans le jardin de ton voisin, laisse-le s'emmerder à la tondre.",
+    "Boire du café empêche de dormir. Par contre, dormir empêche de boire du café."
+];
+
 const UTL_STATUS = {
   IDLE: 'IDLE',
   WAITING_GAME: 'WAITING_GAME',
@@ -85,7 +110,7 @@ class Ninetynine extends Channel {
     this.currentStatus = UTL_STATUS.PLAYING_CARD;
   }
 
-  playCard(p) {
+  playCard(p, io) {
     // Change top card
     [this.lastCard] = p.clearAnswers();
 
@@ -97,17 +122,27 @@ class Ninetynine extends Channel {
       this.score -= 10;
     }
 
+    // Speciale case Player wanted to play VALET
+    if (this.lastCard.score === 0) {
+      io.broadcast.to(`${this.id}`).emit('chat/message', "Mettez le corps devant Sur le corps derrière Li tourné, li tourné Il met son corps devant Sur le corps derrière Li tourné, li tourné");
+      this.clockwise = !this.clockwise;
+    }
+
     let roundEnded = false;
     // Check if score hits 99 or more
     if (this.score === 99) {
       // Player win
       p.score += 1;
       roundEnded = true;
+      io.broadcast.to(`${this.id}`).emit('chat/message', `${p.name} a gagné.\n${CITATION[Math.round(Math.random() * CITATION.length)]}\nBref, donne un bon cul sec à qui le mérite !`);
     } else if (this.score > 99) {
       // Player loose
       p.score -= 1;
       roundEnded = true;
-    }
+      io.broadcast.to(`${this.id}`).emit('chat/message', `${p.name} tu es mauvais Jack.\n${CITATION[Math.round(Math.random() * CITATION.length)]}\nPrends donc un gros cul sec dans la tronche. <3<3<3`);
+  } else if (this.score % 10 === 0) {
+      io.broadcast.to(`${this.id}`).emit('chat/message', `${p.name} distribue ${this.score/10} gorgées`);
+  }
 
     if (roundEnded) {
       this.currentStatus = UTL_STATUS.WAITING_GAME;
@@ -172,7 +207,7 @@ class Ninetynine extends Channel {
       const currentGamePlayer = this.players.find(p => p.id === client.id);
       currentGamePlayer.answers = answers;
 
-      this.playCard(currentGamePlayer);
+      this.playCard(currentGamePlayer, io);
 
       io.to(this.id).emit('updateChannel', this.serialize());
     });
