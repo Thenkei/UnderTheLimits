@@ -92,6 +92,12 @@ export default theme => ({
     margin: '12px 0 0 0',
   },
 
+  isInfo: {
+    color: 'red',
+    borderColor: 'rgba(34, 167, 240, .30)',
+    margin: '12px 0 0 0',
+  },
+
   isPrivate: {
     borderColor: 'transparent',
     color: 'rgba(255, 255, 255, .35)',
