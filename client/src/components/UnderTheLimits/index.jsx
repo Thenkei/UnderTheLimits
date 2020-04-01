@@ -147,9 +147,9 @@ class UnderTheLimits extends Component {
           )}
           {this.props.currentChannel.currentStatus === 'IDLE' && (
             <Leaderboard
-            data={this.props.currentChannel.players}
-            sortBy='score'
-            labelBy='name'
+              data={this.props.currentChannel.players}
+              sortBy='score'
+              labelBy='name'
             />
           )}
         </React.Fragment>

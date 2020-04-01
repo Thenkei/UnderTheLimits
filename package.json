@@ -12,8 +12,8 @@
     "populate:dev": "node server/scripts/populate.js",
     "test:client": "cd client && yarn test",
     "test": "yarn test:client",
-    "lint:client": "cd client && yarn lint",
-    "lint:server": "cd server && yarn lint",
+    "lint:client": "$(npm bin)/eslint --ext=jsx --ext=js client/src/",
+    "lint:server": "$(npm bin)/eslint server/src",
     "lint": "yarn lint:client && yarn lint:server"
   },
   "repository": {
