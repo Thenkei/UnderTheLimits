@@ -16,7 +16,7 @@ class UTLPlus extends UTLGame {
     name,
     minPlayersCount = 4,
     maxPlayersCount = 8,
-    playerMaxPoint = 5,
+    playerMaxPoint = 7,
     isPrivate = false,
   ) {
     super(name, minPlayersCount, maxPlayersCount, playerMaxPoint, isPrivate);
