@@ -51,6 +51,7 @@ import Players from './Players';
 import TopAppBar from './TopAppBar';
 import UnderTheLimits from './UnderTheLimits';
 import LimitedGames from './LimitedGames';
+import Leaderboard from './Leaderboard';
 
 export {
   Avatar,
@@ -103,4 +104,5 @@ export {
   TopAppBar,
   UnderTheLimits,
   LimitedGames,
+  Leaderboard,
 };

@@ -18,13 +18,11 @@ class LimitedGames extends Component {
       return (
         <React.Fragment>
           <div className={this.props.classes.cardsContainer}>
-            {
-              <Card
-                key='lastcard'
-                value={this.props.currentChannel.lastCard.text}
-                onClick={() => { }}
-              />
-            }
+            <Card
+              key='lastcard'
+              value={this.props.currentChannel.lastCard.text}
+              onClick={() => { }}
+            />
           </div>
           <div className={this.props.classes.cardsContainer}>
             {this.props.player.hand.map((answer, index) => (

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Card from '../Card';
 import Header from './header';
+import Leaderboard from '../Leaderboard';
 import { withStyles } from '..';
 
 import styles from './styles';
@@ -91,16 +92,14 @@ class UnderTheLimits extends Component {
         return (
           <React.Fragment>
             <div className={this.props.classes.cardsContainer}>
-              {
-                <Card
-                  key={`p${player.id}`}
-                  value={this.getFilledQuestionText(
-                    player.answers,
-                    player.hand,
-                  )}
-                  onClick={() => { }}
-                />
-              }
+              <Card
+                key={`p${player.id}`}
+                value={this.getFilledQuestionText(
+                  player.answers,
+                  player.hand,
+                )}
+                onClick={() => { }}
+              />
             </div>
             <div className={this.props.classes.cardsContainer}>
               {this.props.player.hand.map(answer => (
@@ -145,6 +144,13 @@ class UnderTheLimits extends Component {
               ))}
             </div>
           </div>
+          )}
+          {this.props.currentChannel.currentStatus === 'IDLE' && (
+            <Leaderboard
+            data={this.props.currentChannel.players}
+            sortBy='score'
+            labelBy='name'
+            />
           )}
         </React.Fragment>
       );

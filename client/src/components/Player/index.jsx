@@ -15,8 +15,7 @@ const Player = ({ classes, value }) => (
     <Tooltip title={value.name} placement='right'>
       <Avatar
         src={`${window.location.origin}/avatars/${value.name}.png`}
-        className={classNames({
-          [classes.highlightAvatar]: value.isGameMaster},
+        className={classNames({ [classes.highlightAvatar]: value.isGameMaster },
           classes.playerAvatar)}
       />
     </Tooltip>
