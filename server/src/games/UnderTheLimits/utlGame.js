@@ -154,7 +154,7 @@ class UTLGame extends Channel {
 
     const resultat = this.players.find(p => p.score >= this.playerMaxPoint);
     if (resultat) {
-      userPoint(winner, `Le vainqueur est ${winner.name}`);
+      userPoint(winner, `Le vainqueur de la partie est ${winner.name}`);
       this.currentStatus = UTL_STATUS.IDLE;
     } else {
       this.currentStatus = UTL_STATUS.WAITING_GAME;
@@ -244,10 +244,18 @@ class UTLGame extends Channel {
           (player, score, response) => {
             usersManager.updateUserStatsCumul(player.id, score);
             io.to(this.id).emit('success', response);
+
+            // Awesome message
+            const message = { isSystem: true, message: response, date: Date.now() };
+            io.to(`${this.id}`).emit('chat/message', message);
           },
           (player, response) => {
             usersManager.updateUserStatsPoint(player.id);
             io.to(this.id).emit('success', response);
+
+            // Awesome message
+            const message = { isSystem: true, message: response, date: Date.now() };
+            io.to(`${this.id}`).emit('chat/message', message);
           },
           io,
         );
