@@ -7,8 +7,9 @@ module.exports = (async () => {
     const config = createDBConfig();
     // Force no log ouput for db
     config.db_log = false;
-    // Force db to sync data
-    config.forceSync = true;
+    // Force db to drop old data
+    config.forceSync = false;
+
     console.log('Connection to db...'); // eslint-disable-line no-console
     const db = await DB(config);
 
