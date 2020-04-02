@@ -14,6 +14,8 @@ class Lobby {
 
   serialize() {
     const waitingUsers = this.usersManager.waitingUsers();
+    const leaderboard = this.usersManager.leaderBoard().slice(0, 5);
+
     return {
       lobby:
       {
@@ -25,6 +27,7 @@ class Lobby {
             name: c.name,
             id: c.id,
           })),
+          leaderboard: leaderboard,
       },
     };
   }

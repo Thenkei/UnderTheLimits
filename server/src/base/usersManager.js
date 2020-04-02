@@ -5,9 +5,23 @@ const MAX_USER_CONNECTED = 100;
 class UsersManager {
   constructor() {
     this.users = [];
+    this.leaderboard = [];
   }
 
   async findOrCreateUserFromDB(playerName, socket) {
+
+    // Later change this and update every 10 minutes
+    try {
+      this.leaderboard = await DBProvider.get().models.User.findAll({
+        attributes: ['username', 'points', 'cumulative', 'played'],
+        order: [
+          ['points', 'DESC'],
+        ],
+      });
+    } catch (err) {
+      throw err;
+    }
+
     const waitingPlayers = this.waitingUsers();
     if (waitingPlayers.length >= MAX_USER_CONNECTED) {
       throw new Error('Impossible de créer un nouveau joueur, le lobby est plein !');
@@ -102,15 +116,8 @@ class UsersManager {
   }
 
 
-  static leaderBoard() {
-    const leaderBoard = DBProvider.get().models.User.findAll({
-      attributes: ['username', 'points', 'cumulative', 'played'],
-      order: [
-        ['points', 'DESC'],
-      ],
-    });
-    console.log(leaderBoard);
-    return leaderBoard;
+  leaderBoard() {
+    return this.leaderboard;
   }
 }
 

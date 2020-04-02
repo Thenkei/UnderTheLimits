@@ -91,25 +91,22 @@ class UnderTheLimits extends Component {
 
         return (
           <React.Fragment>
-            <div className={this.props.classes.cardsContainer}>
-              <Card
-                key={`p${player.id}`}
-                value={this.getFilledQuestionText(
-                  player.answers,
-                  player.hand,
-                )}
-                onClick={() => { }}
-              />
-            </div>
-            <div className={this.props.classes.cardsContainer}>
-              {this.props.player.hand.map(answer => (
+            <div className={this.props.classes.game}>
+              <div className={this.props.classes.cardsContainer}>
                 <Card
-                  key={answer.text}
-                  value={answer.text}
-                  definition={answer.definition}
+                  key={`p${player.id}`}
+                  value={this.getFilledQuestionText(
+                    player.answers,
+                    player.hand,
+                  )}
                   onClick={() => { }}
                 />
-              ))}
+              </div>
+            <Leaderboard
+              data={this.props.currentChannel.players}
+              sortBy='score'
+              labelBy='name'
+            />
             </div>
           </React.Fragment>
         );

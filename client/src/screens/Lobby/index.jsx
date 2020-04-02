@@ -8,6 +8,7 @@ import { InGameLayout } from '../../layouts';
 import {
   CreateChannel,
   Icon,
+  Leaderboard,
   List,
   ListItem,
   ListItemText,
@@ -115,6 +116,15 @@ class Lobby extends Component {
             </ListItem>
           ))}
         </List>
+        <Leaderboard
+          title='Leaderboard'
+          data={this.props.lobby.leaderboard}
+          sortBy='points'
+          labelBy='username'
+          label='parties gagnées'
+          other1={{ label: 'points (cumulés)', prop: 'cumulative' }}
+          other2={{ label: 'parties jouées', prop: 'played' }}
+        />
       </InGameLayout>
     );
   }
@@ -152,6 +162,7 @@ Lobby.propTypes = {
   lobby: PropTypes.shape({
     channels: PropTypes.arrayOf(PropTypes.shape({})),
     waitingPlayers: PropTypes.arrayOf(PropTypes.shape({})),
+    leaderboard: PropTypes.arrayOf(PropTypes.shape({})),
   }),
   player: PropTypes.shape({
     isGameMaster: PropTypes.bool,

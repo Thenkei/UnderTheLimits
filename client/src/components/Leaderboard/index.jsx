@@ -5,7 +5,11 @@ import {
   withStyles,
   List,
   ListItem,
+  ListItemAvatar,
   ListItemText,
+  Divider,
+  Typography,
+  Avatar,
 } from '..';
 
 import styles from './styles';
@@ -42,18 +46,60 @@ class Leaderboard extends Component {
     if (!sortedData) return null;
     return (
       <React.Fragment>
+        <div className={this.props.classes.listHeader}>
+          <Typography align='center' variant='h3'>{this.props.title}</Typography>
+        </div>
         <List component='nav' className={this.props.classes.list}>
-          {(sortedData.map((item, index) => (
-            <ListItem
+          {sortedData.map((item, index) => (
+            <React.Fragment>
+            <ListItem alignItems="flex-start"
               key={item.id}
               className={this.props.classes}
             >
-              <ListItemText primary={parseInt(index, 10) + 1} />
-              <ListItemText primary={item[this.props.labelBy]} />
-              <ListItemText primary={item[this.props.sortBy] || 0} />
+              <ListItemAvatar>
+                <Avatar
+                  src={`${window.location.origin}/avatars/${item[this.props.labelBy]}.png`}
+                  className={this.props.classes.playerAvatar}
+                />
+              </ListItemAvatar>
+              <ListItemText
+                primary={
+                  <React.Fragment>
+                    <Typography
+                      component="span"
+                      variant="overline"
+                      className={this.props.classes.inline}
+                      color="textPrimary"
+                    >
+                      {item[this.props.labelBy]}
+                    </Typography>
+                    {` — ${item[this.props.sortBy] || 0} ${this.props.label}`}
+                  </React.Fragment>
+                }
+                // primary={parseInt(index, 10) + 1}
+                secondary={
+                  <React.Fragment>
+                    <Typography
+                      component="span"
+                      variant="caption"
+                      color="textPrimary"
+                    >
+                      { this.props.other1 && `${item[this.props.other1.prop] || 0} ${this.props.other1.label}` }
+                    </Typography>
+                    <Typography
+                      component="span"
+                      variant="caption"
+                      color="textPrimary"
+                    >
+                      { this.props.other2 && `${item[this.props.other2.prop] || 0} ${this.props.other2.label}` }
+                    </Typography>
+                  </React.Fragment>
+                }
+              />
             </ListItem>
-          )))
-                    }
+            <Divider variant="inset" component="li" />
+            </React.Fragment>
+          ))}
         </List>
       </React.Fragment>
     );
@@ -62,6 +108,11 @@ class Leaderboard extends Component {
 
 Leaderboard.defaultProps = {
   data: [],
+
+  title: 'Classement',
+  label: 'pts',
+  other1: null,
+  other2: null,
 };
 
 Leaderboard.propTypes = {
@@ -71,6 +122,11 @@ Leaderboard.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object),
   sortBy: PropTypes.string.isRequired,
   labelBy: PropTypes.string.isRequired,
+
+  title: PropTypes.string,
+  label: PropTypes.string,
+  other1: PropTypes.object,
+  other2: PropTypes.object,
 };
 
 export default withStyles(styles, { withTheme: true })(Leaderboard);

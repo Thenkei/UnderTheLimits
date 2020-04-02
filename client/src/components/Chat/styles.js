@@ -93,7 +93,7 @@ export default theme => ({
   },
 
   isInfo: {
-    color: 'red',
+    color: 'white',
     borderColor: 'rgba(34, 167, 240, .30)',
     margin: '12px 0 0 0',
   },

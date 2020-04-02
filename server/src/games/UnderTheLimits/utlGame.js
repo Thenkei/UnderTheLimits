@@ -117,7 +117,7 @@ class UTLGame extends Channel {
   }
 
   getQuestionCard() {
-    return this.deckQuestions[0] || 'error empty questions deck';
+    return this.deckQuestions[0] || { id: 0, text: 'error empty questions deck' };
   }
 
   judge(judgment, userCumul, userPoint) {
