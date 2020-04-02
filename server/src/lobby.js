@@ -14,6 +14,8 @@ class Lobby {
 
   serialize() {
     const waitingUsers = this.usersManager.waitingUsers();
+    const leaderboard = this.usersManager.leaderBoard().slice(0, 5);
+
     return {
       lobby:
       {
@@ -25,6 +27,7 @@ class Lobby {
             name: c.name,
             id: c.id,
           })),
+          leaderboard: leaderboard,
       },
     };
   }
@@ -73,9 +76,13 @@ class Lobby {
             client.id,
           );
           client.emit('playerCreated', { player });
+
           const send = this.serialize();
           send.lobby.event = 'playerCreated';
           io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', send);
+
+          const message = { isSystem: true, message: `${player.username} a rejoint le serveur.`, date: Date.now() };
+          io.to(SOCKET_ROOM_LOBBY).emit('chat/message', message);
         } catch (err) {
           client.emit('err', err.message);
         }
@@ -96,9 +103,7 @@ class Lobby {
           client.join(channel.id);
           channel.register(io, client, this.usersManager);
           client.emit('updateChannel', channel.serialize());
-          // if (!(channelReq.opts.isPrivate === true)) {
           io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', this.serialize());
-          // }
         } catch (err) {
           client.emit('err', err.message);
         }
@@ -116,6 +121,10 @@ class Lobby {
           client.join(channelId);
           channel.register(io, client, this.usersManager);
           io.to(channel.id).emit('updateChannel', channel.serialize());
+
+          const message = { isSystem: true, message: `${currentPlayer.username} a rejoint la partie.`, date: Date.now() };
+          io.to(channel.id).emit('chat/message', message);
+
           io.to(SOCKET_ROOM_LOBBY).emit('updateLobby', this.serialize());
         } catch (err) {
           client.emit('err', err.message);

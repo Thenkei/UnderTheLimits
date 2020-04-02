@@ -10,6 +10,7 @@ import {
   DialogActions,
   DialogTitle,
   DialogContent,
+  Divider,
   FormControl,
   FormControlLabel,
   Icon,
@@ -20,6 +21,7 @@ import {
   LinearProgress,
   List,
   ListItem,
+  ListItemAvatar,
   ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
@@ -51,6 +53,7 @@ import Players from './Players';
 import TopAppBar from './TopAppBar';
 import UnderTheLimits from './UnderTheLimits';
 import LimitedGames from './LimitedGames';
+import Leaderboard from './Leaderboard';
 
 export {
   Avatar,
@@ -63,6 +66,7 @@ export {
   DialogActions,
   DialogTitle,
   DialogContent,
+  Divider,
   FormControl,
   FormControlLabel,
   Icon,
@@ -73,6 +77,7 @@ export {
   LinearProgress,
   List,
   ListItem,
+  ListItemAvatar,
   ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
@@ -103,4 +108,5 @@ export {
   TopAppBar,
   UnderTheLimits,
   LimitedGames,
+  Leaderboard,
 };

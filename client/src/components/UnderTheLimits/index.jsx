@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Card from '../Card';
 import Header from './header';
+import Leaderboard from '../Leaderboard';
 import { withStyles } from '..';
 
 import styles from './styles';
@@ -90,8 +91,8 @@ class UnderTheLimits extends Component {
 
         return (
           <React.Fragment>
-            <div className={this.props.classes.cardsContainer}>
-              {
+            <div className={this.props.classes.game}>
+              <div className={this.props.classes.cardsContainer}>
                 <Card
                   key={`p${player.id}`}
                   value={this.getFilledQuestionText(
@@ -100,17 +101,12 @@ class UnderTheLimits extends Component {
                   )}
                   onClick={() => { }}
                 />
-              }
-            </div>
-            <div className={this.props.classes.cardsContainer}>
-              {this.props.player.hand.map(answer => (
-                <Card
-                  key={answer.text}
-                  value={answer.text}
-                  definition={answer.definition}
-                  onClick={() => { }}
-                />
-              ))}
+              </div>
+            <Leaderboard
+              data={this.props.currentChannel.players}
+              sortBy='score'
+              labelBy='name'
+            />
             </div>
           </React.Fragment>
         );
@@ -145,6 +141,13 @@ class UnderTheLimits extends Component {
               ))}
             </div>
           </div>
+          )}
+          {this.props.currentChannel.currentStatus === 'IDLE' && (
+            <Leaderboard
+              data={this.props.currentChannel.players}
+              sortBy='score'
+              labelBy='name'
+            />
           )}
         </React.Fragment>
       );

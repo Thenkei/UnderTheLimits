@@ -10,6 +10,10 @@ export default theme => ({
     animationName: 'PoppinAvatar',
   },
 
+  highlightAvatar: {
+    boxShadow: 'inset 0px 0px 10px 3px rgba(255,255,225,1)',
+  },
+
   '@keyframes PoppinAvatar': {
     '0%, 20%, 40%, 60%, 80%, 100%': {
       animationTimingFunction: theme.transitions.easing.easeInOut,

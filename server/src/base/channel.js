@@ -1,6 +1,6 @@
 const { CHANNEL_STATUS } = require('../status');
 
-const MAX_ROUND_KICK = 2;
+const MAX_ROUND_KICK = 4;
 
 class Channel {
   constructor(name, minPlayersCount = 2, maxPlayersCount = 8, isPrivate = false) {

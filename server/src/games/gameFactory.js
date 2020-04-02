@@ -28,7 +28,7 @@ const GameFactory = (
       channelOpts.channelName,
       channelOpts.minPlayersCount,
       channelOpts.maxPlayersCount,
-      channelOpts.playerMaxPoint,
+      channelOpts.maxPoints,
       channelOpts.isPrivate,
     );
   }

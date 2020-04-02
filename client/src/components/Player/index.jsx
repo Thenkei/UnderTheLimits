@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import {
   Avatar,
@@ -14,7 +15,8 @@ const Player = ({ classes, value }) => (
     <Tooltip title={value.name} placement='right'>
       <Avatar
         src={`${window.location.origin}/avatars/${value.name}.png`}
-        className={classes.playerAvatar}
+        className={classNames({ [classes.highlightAvatar]: value.isGameMaster },
+          classes.playerAvatar)}
       />
     </Tooltip>
   </React.Fragment>

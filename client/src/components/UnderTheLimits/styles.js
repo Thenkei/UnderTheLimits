@@ -59,6 +59,6 @@ export default theme => ({
   game: {
     display: 'flex',
     flexDirection: 'column',
-    height: '100%',
+    height: '90%',
   },
 });

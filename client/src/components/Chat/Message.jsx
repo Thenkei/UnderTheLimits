@@ -24,7 +24,7 @@ const Message = ({
       >
         <div className={classes.sendedMessage}>
           <Typography
-            className={classNames(classes.text, classes.isSystem)}
+            className={classNames(classes.text, classes.isInfo)}
             align='left'
           >
             {decodeURI(message)}

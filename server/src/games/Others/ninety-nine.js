@@ -114,7 +114,7 @@ class Ninetynine extends Channel {
     // Change top card
     [this.lastCard] = p.clearAnswers();
     this.deck.push(this.lastCard);
-    
+
     // Update score
     if (this.lastCard.score === 70) { this.score = 70; } else { this.score += this.lastCard.score; }
 
@@ -160,7 +160,9 @@ class Ninetynine extends Channel {
       const len = this.players.length;
       const currentIndex = this.players.findIndex(player => p === player);
       // eslint-disable-next-line no-unused-expressions
-      this.clockwise ? this.players[(currentIndex + 1) % len].setGameMaster(true) : this.players[(currentIndex + len - 1) % len].setGameMaster(true);
+      this.clockwise
+        ? this.players[(currentIndex + 1) % len].setGameMaster(true)
+        : this.players[(currentIndex + len - 1) % len].setGameMaster(true);
       p.setGameMaster(false);
     }
   }

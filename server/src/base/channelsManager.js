@@ -1,7 +1,7 @@
 const GameFactory = require('../games/gameFactory');
 
-const MAX_DISCONNECTED_TIME = 60000;
-const MAX_CHANNEL_COUNT = 12;
+const MAX_DISCONNECTED_TIME = 120000;
+const MAX_CHANNEL_COUNT = 24;
 
 class ChannelsManager {
   constructor() {
@@ -44,6 +44,9 @@ class ChannelsManager {
     const removed = channel.removePlayerById(socket);
 
     if (removed) {
+      const message = { isSystem: true, message: `${removed.name} a quité la partie.`, date: Date.now() };
+      io.to(channel.id).emit('chat/message', message);
+
       console.log('[ChannelsManager] Player', removed.name, 'disconnected from channel', channel.name);
       io.to(channel.id).emit('updateChannel', channel.serialize());
 
