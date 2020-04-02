@@ -1,14 +1,14 @@
 const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const webpackConfig = {
   entry: './src/index.jsx',
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx|es6)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -34,13 +34,13 @@ const webpackConfig = {
     ]),
   ],
   optimization: {
+    minimize: true,
     minimizer: [
-      new UglifyJsPlugin({
+      new TerserPlugin({
         cache: true,
         parallel: true,
         sourceMap: true,
       }),
-      new TerserPlugin(),
     ],
   },
   resolve: {
