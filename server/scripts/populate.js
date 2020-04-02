@@ -8,18 +8,35 @@ module.exports = (async () => {
     // Force no log ouput for db
     config.db_log = false;
     // Force db to drop old data
-    config.forceSync = false;
+    // config.forceSync = true;
 
     console.log('Connection to db...'); // eslint-disable-line no-console
     const db = await DB(config);
 
-    console.log('Populate...'); // eslint-disable-line no-console
+    // ANSWER
+    db.models.Answer.destroy({
+      truncate: true
+    });
+
+    console.log('Populate answers...'); // eslint-disable-line no-console
     let sql = await fs.readFile(`${__dirname}/populate_answer.sql`, 'utf8');
     await db.query(sql);
 
-    console.log('Populate...'); // eslint-disable-line no-console
+    const countAnswer = await db.models.Answer.count();
+
+    console.log(countAnswer + ' answers...'); // eslint-disable-line no-console
+
+    // QUESTION
+    db.models.Question.destroy({
+      truncate: true
+    });
+
+    console.log('Populate questions...'); // eslint-disable-line no-console
     sql = await fs.readFile(`${__dirname}/populate_question.sql`, 'utf8');
     await db.query(sql);
+
+    const countQuestion = await db.models.Question.count();
+    console.log(countQuestion + ' questions...'); // eslint-disable-line no-console
 
     console.log('Populate done'); // eslint-disable-line no-console
     process.exit();

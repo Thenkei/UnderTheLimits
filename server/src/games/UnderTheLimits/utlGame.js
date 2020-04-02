@@ -150,7 +150,7 @@ class UTLGame extends Channel {
 
     winner.score += 1;
     winner.setGameMaster(true);
-    userCumul(winner, 1, `${winner.name} remporte la manche !`);
+    userCumul(winner, 1, `${winner.name} remporte le point !`);
 
     const resultat = this.players.find(p => p.score >= this.playerMaxPoint);
     if (resultat) {
