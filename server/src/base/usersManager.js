@@ -1,17 +1,16 @@
-const DBProvider = require('../utils/dbProvider');
-
 const MAX_USER_CONNECTED = 100;
 
 class UsersManager {
-  constructor() {
+  constructor(sequelizeInstance) {
     this.users = [];
     this.leaderboard = [];
+    this.sequelizeInstance = sequelizeInstance;
   }
 
   async findOrCreateUserFromDB(playerName, socket) {
     // Later change this and update every 10 minutes
     try {
-      this.leaderboard = await DBProvider.get().models.User.findAll({
+      this.leaderboard = await this.sequelizeInstance.models.User.findAll({
         attributes: ['username', 'points', 'cumulative', 'played'],
         order: [
           ['points', 'DESC'],
@@ -33,7 +32,7 @@ class UsersManager {
     }
 
     let user;
-    const db = DBProvider.get();
+    const db = this.sequelizeInstance;
     try {
       await db.models.User.findOrCreate(
         {
@@ -81,7 +80,7 @@ class UsersManager {
     const index = this.users.findIndex(c => c.socket === id);
     if (index === -1) { return null; }
     const disconnected = this.users.splice(index, 1)[0];
-    DBProvider.get().models.User.update(
+    this.sequelizeInstance.models.User.update(
       {
         points: disconnected.points,
         cumulative: disconnected.cumulative,

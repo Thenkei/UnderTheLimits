@@ -130,7 +130,7 @@ class Ninetynine extends Channel {
       this.clockwise = !this.clockwise;
     }
 
-    const message = { isSystem: true, message: 'Allé du nerf !', date: Date.now() };
+    const message = { isSystem: true, message: 'Allez du nerf !', date: Date.now() };
     let roundEnded = false;
     // Check if score hits 99 or more
     if (this.score === 99) {
@@ -143,7 +143,7 @@ class Ninetynine extends Channel {
       // Player loose
       p.score -= 1;
       roundEnded = true;
-      message.message = `${p.name} tu es mauvais Jack.\n${CITATION[Math.floor(Math.random() * CITATION.length)]}\nPrends donc un gros cul sec dans la tronche. <3<3<3`;
+      message.message = `${p.name}, tu es mauvais Jack.\n${CITATION[Math.floor(Math.random() * CITATION.length)]}\nPrends donc un gros cul sec dans la tronche. ❤️❤️❤️`;
       io.to(`${this.id}`).emit('chat/message', message);
     } else if (this.score % 10 === 0) {
       message.message = `${p.name} distribue ${this.score / 10} gorgées`;

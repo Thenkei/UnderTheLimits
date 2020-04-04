@@ -118,6 +118,7 @@ export const handlers = {
   }),
   [PLAY_SOUND]: (state, { url }) => {
     if (state.isPlaySound) return state;
+
     return {
       ...state,
       sound: url,

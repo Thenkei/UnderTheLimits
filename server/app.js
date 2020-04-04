@@ -5,27 +5,30 @@ const morgan = require('morgan');
 const IO = require('socket.io');
 
 const DataBase = require('./src/models');
-const DBProvider = require('./src/utils/dbProvider');
 const Lobby = require('./src/lobby');
 
 const createDBConfig = require('./createDBConfig');
 
 const APP_PORT = process.env.PORT || 3000;
 
-const app = express();
-
-const socketServer = http.createServer(app);
 
 (async () => {
+  console.info('Building http server...');
+  const app = express();
+  const socketServer = http.createServer(app);
+
+  console.info('Create socket.io instance...');
   const io = IO(socketServer, { path: '/api/socket.io' });
 
+  console.info('Connect to the database...');
   const config = createDBConfig();
-  const dataBase = await DataBase(config);
+  const sequelizeInstance = await DataBase(config);
 
-  DBProvider.set(dataBase);
-
-  const lobby = new Lobby(io);
+  console.info('Initializing lobby...');
+  const lobby = new Lobby(io, sequelizeInstance);
   lobby.register();
+
+  console.info('Initializing morgan logger...');
   app.use(morgan('combined'));
 
   console.info('Hosting dist files...');

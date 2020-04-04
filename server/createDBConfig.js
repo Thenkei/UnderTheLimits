@@ -6,9 +6,10 @@ module.exports = (env = process.env.NODE_ENV) => (env === 'production' ? {
   db_host: process.env.DB_HOST || 'mysql',
   db_port: process.env.DB_PORT || 3306,
   db_dialect: process.env.DB_DIALECT || 'mysql',
-  db_log: false,
+  db_log: () => {},
 } : {
   db_dialect: process.env.DB_DIALECT || 'sqlite',
   db_storage: process.env.DB_STORAGE || `${__dirname}/db.sqlite3`,
-  db_log: true,
+  db_log: () => {},
+  // db_log: console.log,
 });

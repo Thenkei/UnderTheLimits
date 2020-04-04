@@ -57,6 +57,7 @@ class UnderTheLimits extends Component {
   render() {
     if (this.props.player && this.props.player.hand) {
       if (this.props.currentChannel.currentStatus === 'JUDGING_CARD') {
+        console.log(this.props.currentChannel.players);
         return (
           <div className={this.props.classes.cardsContainer}>
             {this.props.currentChannel.players.map((player) => {

@@ -4,17 +4,17 @@ const MAX_DISCONNECTED_TIME = 120000;
 const MAX_CHANNEL_COUNT = 24;
 
 class ChannelsManager {
-  constructor() {
+  constructor(sequelizeInstance) {
     this.channels = [];
+    this.sequelizeInstance = sequelizeInstance;
   }
 
-  // adminPlayer.currentStatus = 'IN_CHANNEL';
   async createUtlChanel(admin, channelOpts = {}) {
     if (this.channels.length >= MAX_CHANNEL_COUNT) {
       throw new Error('Le serveur est complet, attendez qu\'un salon se libère !');
     }
-
     const utlGame = GameFactory(
+      this.sequelizeInstance,
       channelOpts,
     );
 

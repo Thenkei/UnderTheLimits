@@ -1,5 +1,4 @@
 const Channel = require('../../base/channel');
-const DBProvider = require('../../utils/dbProvider');
 const UTLPlayer = require('./player');
 
 const PLAYER_CARD_COUNT = 10;
@@ -31,7 +30,7 @@ class UTLGame extends Channel {
   }
 
   async init() {
-    const dataBase = DBProvider.get();
+    const dataBase = this.sequelizeInstance;
     try {
       this.deckAnswers = await dataBase.models.Answer.findAll({
         order: [
@@ -136,7 +135,7 @@ class UTLGame extends Channel {
           machineLearningHandAnswers.push(a.id);
         });
 
-        DBProvider.get().models.MLAnswer.create(
+        this.sequelizeInstance.models.MLAnswer.create(
           {
             questionId: this.deckQuestions[0].id,
             answerIds: machineLearningAnswers.toString(),

@@ -3,7 +3,13 @@ const { CHANNEL_STATUS } = require('../status');
 const MAX_ROUND_KICK = 4;
 
 class Channel {
-  constructor(name, minPlayersCount = 2, maxPlayersCount = 8, isPrivate = false) {
+  constructor(
+    sequelizeInstance,
+    name,
+    minPlayersCount = 2,
+    maxPlayersCount = 8,
+    isPrivate = false,
+  ) {
     this.id = Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
     this.name = name || '';
     this.admin = {};
@@ -14,6 +20,8 @@ class Channel {
     this.maxPlayersCount = maxPlayersCount;
 
     this.isPrivate = isPrivate;
+
+    this.sequelizeInstance = sequelizeInstance;
   }
 
   addPlayer(player) {

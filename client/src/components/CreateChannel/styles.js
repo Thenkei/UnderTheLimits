@@ -5,7 +5,7 @@ export default theme => ({
   },
 
   createChanelDialogTitle: {
-    '& $h6': {
+    '& h6': {
       fontSize: '28px',
     },
   },
