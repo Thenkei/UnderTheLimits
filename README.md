@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="150" src="https://dev.underthelimits.fr/public/images/UTL_Logo.png" alt="UTL logo">
+  UNDER THE LIMITS
 </p>
 <div align="center">
   An open-source and horrible french card game

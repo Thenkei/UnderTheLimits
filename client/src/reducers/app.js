@@ -116,11 +116,14 @@ export const handlers = {
     ...state,
     success: message,
   }),
-  [PLAY_SOUND]: (state, { url }) => ({
-    ...state,
-    sound: url,
-    isPlaySound: true,
-  }),
+  [PLAY_SOUND]: (state, { url }) => {
+    if (state.isPlaySound) return state;
+    return {
+      ...state,
+      sound: url,
+      isPlaySound: true,
+    };
+  },
   [STOP_SOUND]: state => ({
     ...state,
     isPlaySound: false,

@@ -36,7 +36,7 @@ const Message = ({
   }
   return (
     <div className={classes.fullMessage}>
-      <Avatar className={classes.avatar} src={`${window.location.origin}/avatars/${avatar}.png`} />
+      {avatar && <Avatar className={classes.avatar} src={`${window.location.origin}/avatars/${avatar}.png`} />}
       {isPrivate && <Avatar className={classes.avatar} src={`${window.location.origin}/avatars/${isPrivate.name}.png`} />}
       <div className={classes.sendedMessage}>
         <Typography className={classes.playerName} align='left' variant='h6'>
@@ -62,6 +62,7 @@ Message.defaultProps = {
   isPlayer: false,
   isPrivate: false,
   isSystem: false,
+  avatar: null,
 };
 
 Message.propTypes = {
@@ -69,7 +70,7 @@ Message.propTypes = {
 
   message: PropType.string.isRequired,
   username: PropType.string.isRequired,
-  avatar: PropType.string.isRequired,
+  avatar: PropType.string,
   date: PropType.number.isRequired,
   isPlayer: PropType.bool,
   isPrivate: PropType.bool,

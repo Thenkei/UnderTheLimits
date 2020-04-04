@@ -1,15 +1,15 @@
 const ChannelsManager = require('./base/channelsManager');
 const UsersManager = require('./base/usersManager');
-const SocketProvider = require('./utils/socketProvider');
 const AvataGenerator = require('./utils/avatarGenerator');
 
 const SOCKET_ROOM_LOBBY = 'LOBBY';
 
 class Lobby {
-  constructor() {
+  constructor(ioInstance) {
     this.usersManager = new UsersManager();
     this.channelsManager = new ChannelsManager();
     this.avataGenerator = new AvataGenerator();
+    this.io = ioInstance;
   }
 
   serialize() {
@@ -33,7 +33,7 @@ class Lobby {
   }
 
   register() {
-    const io = SocketProvider.get();
+    const { io } = this;
 
     io.on('connection', (client) => {
       // JOIN CHANNEL LOBBY

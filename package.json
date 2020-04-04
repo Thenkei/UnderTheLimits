@@ -2,14 +2,12 @@
   "name": "underthelimits",
   "version": "0.0.0",
   "description": "Under the limits - The game",
-  "main": "index.js",
+  "main": "server/app.js",
   "scripts": {
     "postinstall": "./server/scripts/postinstall.sh",
     "clean": "rm -rf server/db.sqlite3; rm -rf server/scripts/*.sql; rm -rf server/node_modules; rm -rf client/node_modules && rm -rf node_modules",
-    "dev": "yarn --cwd client build:dev & nodemon --ignore './server/avatars/' index.js && fg",
-    "start:dev": "yarn dev",
-    "start:qa": "node index.js && fg",
-    "populate:dev": "node server/scripts/populate.js",
+    "start:dev": "yarn --cwd client build:dev & nodemon --ignore './server/avatars/' index.js && fg",
+    "populate:dev": "yarn --cwd server populate",
     "lint": "yarn --cwd client lint; yarn --cwd server lint"
   },
   "repository": {
@@ -25,16 +23,6 @@
   "devDependencies": {
     "husky": "^2.1.0",
     "node-cipher": "^6.3.3"
-  },
-  "private": true,
-  "workspaces": [
-    "client",
-    "server"
-  ],
-  "dependencies": {
-    "express": "^4.16.4",
-    "morgan": "^1.9.1",
-    "sqlite3": "^4.0.6"
   },
   "husky": {
     "hooks": {

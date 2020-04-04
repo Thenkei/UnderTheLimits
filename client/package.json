@@ -2,6 +2,12 @@
   "name": "utl-client",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "lint": "$(npm bin)/eslint src --ext=jsx --ext=js",
+    "test": "$(npm bin)/jest --detectOpenHandles",
+    "build:dev": "webpack --mode development --module-bind js=babel-loader --watch",
+    "start:dev": "webpack-dev-server --mode development --port 3000 --hot --host 0.0.0.0"
+  },
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
@@ -50,15 +56,6 @@
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.1.14"
-  },
-  "scripts": {
-    "lint": "$(npm bin)/eslint src --ext=jsx --ext=js",
-    "test": "$(npm bin)/jest --detectOpenHandles",
-    "build:clean": "rm -rf dist",
-    "build:dev": "webpack --mode development --module-bind js=babel-loader --watch",
-    "build:qa": "yarn build:clean && webpack --mode production --module-bind js=babel-loader --display=verbose",
-    "dev": "yarn start:dev",
-    "start:dev": "webpack-dev-server --mode development --port 3000 --hot --host 0.0.0.0"
   },
   "browserslist": [
     ">0.2%",

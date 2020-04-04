@@ -51,10 +51,10 @@ class Leaderboard extends Component {
         </div>
         <List component='nav' className={this.props.classes.list}>
           {sortedData.map(item => (
-            <React.Fragment key={item.id}>
+            <React.Fragment key={item.username}>
               <ListItem
                 alignItems='flex-start'
-                className={this.props.classes}
+                className={this.props.classes.listItem}
               >
                 <ListItemAvatar>
                   <Avatar
