@@ -11,7 +11,7 @@ class UsersManager {
     // Later change this and update every 10 minutes
     try {
       this.leaderboard = await this.sequelizeInstance.models.User.findAll({
-        attributes: ['username', 'points', 'cumulative', 'played'],
+        attributes: ['id', 'username', 'points', 'cumulative', 'played'],
         order: [
           ['points', 'DESC'],
         ],

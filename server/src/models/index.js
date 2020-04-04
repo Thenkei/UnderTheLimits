@@ -9,14 +9,14 @@ module.exports = async (config) => {
     // init sequelize
     const db = new Sequelize(
       config.db,
-      config.db_user,
-      config.db_pwd, {
-        host: config.db_host,
-        dialect: config.db_dialect,
-        storage: config.db_storage,
-        port: config.db_port,
+      config.user,
+      config.pwd, {
+        host: config.host,
+        dialect: config.dialect,
+        storage: config.storage,
+        port: config.port,
         operatorsAliases: false,
-        logging: config.db_log,
+        logging: config.log,
         pool: {
           max: 5,
           min: 0,

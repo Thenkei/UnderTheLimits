@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import Leaderboard from '../Leaderboard';
 import Card from '../Card';
 import Header from './header';
 import { withStyles } from '..';
+
 
 import styles from './styles';
 
@@ -32,13 +34,24 @@ class LimitedGames extends Component {
                 value={answer.text}
                 definition={answer.definition}
                 onClick={
-                    this.props.player.isGameMaster
-                      ? () => this.handleChange(index)
-                      : () => { }}
+                  this.props.player.isGameMaster
+                    ? () => this.handleChange(index)
+                    : () => { }
+                }
               />
             ))}
           </div>
         </React.Fragment>
+      );
+    }
+
+    if (this.props.currentChannel.currentStatus === 'IDLE') {
+      return (
+        <Leaderboard
+          data={this.props.currentChannel.players}
+          sortBy='score'
+          labelBy='name'
+        />
       );
     }
     return null;
