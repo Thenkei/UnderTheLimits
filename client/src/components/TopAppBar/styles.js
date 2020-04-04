@@ -6,7 +6,7 @@ export default theme => ({
     width: '100%',
     zIndex: 9,
     height: theme.layout.topAppBarHeight,
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
     overflow: 'visible',
     backgroundImage: `linear-gradient(141deg, ${theme.palette.primary.dark}${theme.opacity.alpha90}, ${theme.palette.primary.dark}${theme.opacity.alpha10} )`,
     backgroundColor: theme.palette.primary.main,
@@ -41,13 +41,13 @@ export default theme => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    padding: `0 ${theme.spacing.unit}px 0 ${theme.spacing.unit * 2}px`,
+    padding: theme.spacing(0, 0, 2),
   },
 
   channelMainInfo: {
     textAlign: 'left',
     width: '100%',
-    padding: `0 ${theme.spacing.unit * 2}px`,
+    padding: theme.spacing(0, 2),
     animationDuration: theme.transitions.duration.complex,
     animationTimingFunction: theme.transitions.easing.easeInOut,
     animationName: 'MainInfoApparition',
@@ -83,7 +83,7 @@ export default theme => ({
   },
 
   timerTextSeparator: {
-    margin: `0 ${theme.spacing.unit * 2.5}px`,
+    margin: theme.spacing(0, 2.5),
     fontStyle: 'normal',
   },
 
@@ -100,7 +100,7 @@ export default theme => ({
   channelName: {
     textAlign: 'right',
     lineHeight: 'normal',
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
   },
 
   timerProgress: {

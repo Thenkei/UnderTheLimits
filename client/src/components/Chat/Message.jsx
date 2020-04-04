@@ -26,6 +26,7 @@ const Message = ({
           <Typography
             className={classNames(classes.text, classes.isInfo)}
             align='left'
+            variant='body2'
           >
             {decodeURI(message)}
           </Typography>
@@ -36,7 +37,7 @@ const Message = ({
   }
   return (
     <div className={classes.fullMessage}>
-      {avatar && <Avatar className={classes.avatar} src={`${window.location.origin}/avatars/${avatar}.png`} />}
+      <Avatar className={classes.avatar} src={`${window.location.origin}/avatars/${avatar}.png`} />
       {isPrivate && <Avatar className={classes.avatar} src={`${window.location.origin}/avatars/${isPrivate.name}.png`} />}
       <div className={classes.sendedMessage}>
         <Typography className={classes.playerName} align='left' variant='h6'>
@@ -49,6 +50,7 @@ const Message = ({
             [classes.isPrivate]: isPrivate,
           })}
           align='left'
+          variant='body2'
         >
           {decodeURI(message)}
         </Typography>

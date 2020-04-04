@@ -2,8 +2,8 @@ export default theme => ({
   playerAvatar: {
     width: '52px',
     height: '52px',
-    padding: theme.spacing.unit,
-    margin: `${theme.spacing.unit}px 0`,
+    padding: theme.spacing(1),
+    margin: theme.spacing(1, 0),
     backgroundColor: `${theme.palette.primary.dark}${theme.opacity.alpha75}`,
     borderRadius: '100%',
     animationDuration: theme.transitions.duration.complex,

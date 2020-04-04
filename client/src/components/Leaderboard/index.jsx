@@ -63,27 +63,30 @@ class Leaderboard extends Component {
                   />
                 </ListItemAvatar>
                 <ListItemText
+                  disableTypography={true}
                   primary={(
                     <React.Fragment>
                       <Typography
-                        component='span'
                         variant='overline'
-                        className={this.props.classes.inline}
                         color='textPrimary'
                       >
                         {item[this.props.labelBy]}
                       </Typography>
-                      {` — ${item[this.props.sortBy] || 0} ${this.props.label}`}
+                      <Typography
+                        component='span'
+                      >
+                        {` - ${item[this.props.sortBy] || 0} ${this.props.label}`}
+                      </Typography>
                     </React.Fragment>
                   )}
                   secondary={(
                     <React.Fragment>
                       {this.props.extraInfos.map(extraInfo => (
                         <Typography
-                          component='span'
+                          key={extraInfo.prop}
                           variant='caption'
                           color='textPrimary'
-                          key={extraInfo.prop}
+                          component='p'
                         >
                           {`${item[extraInfo.prop] || 0} ${extraInfo.label}` }
                         </Typography>

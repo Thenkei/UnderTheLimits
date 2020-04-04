@@ -3,13 +3,13 @@ export default theme => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: `${theme.spacing.unit * 4}px ${theme.spacing.unit * 4}px ${theme.spacing.unit * 3}px`,
+    padding: theme.spacing(4, 4, 3),
     width: '33%',
     margin: 'auto',
   },
 
   list: {
-    padding: `0 ${theme.spacing.unit * 4}px`,
+    padding: theme.spacing(0, 4),
     margin: 'auto',
     width: '33%',
   },
@@ -20,9 +20,5 @@ export default theme => ({
     '&:first-child': {
       borderTop: `solid 1px ${theme.palette.primary.light}${theme.opacity.alpha35}`,
     },
-  },
-
-  inline: {
-    display: 'inline',
   },
 });

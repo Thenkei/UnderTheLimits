@@ -56,7 +56,7 @@ UnderTheLimitsGame.propTypes = {
   selectedAnswers: PropTypes.func.isRequired,
   selectJudgment: PropTypes.func.isRequired,
   currentChannel: PropTypes.shape({
-    players: PropTypes.shape({}),
+    players: PropTypes.arrayOf(PropTypes.object),
     admin: PropTypes.shape({
       name: PropTypes.string,
     }),

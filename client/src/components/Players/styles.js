@@ -48,7 +48,7 @@ export default theme => ({
     borderRight: `solid 1px ${theme.palette.primary.light}${theme.opacity.alpha25}`,
     display: 'flex',
     alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit / 2}px`,
+    padding: theme.spacing(2, 0.5),
     backgroundColor: 'rgba(0, 0, 0, .25)',
     fontWeight: 'bold',
     width: '20px',
@@ -58,7 +58,7 @@ export default theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    padding: theme.spacing.unit / 2,
+    padding: theme.spacing(0.5),
   },
 
 });

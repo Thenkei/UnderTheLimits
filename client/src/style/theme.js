@@ -31,7 +31,6 @@ const generateTheme = (themeName, palette) => {
     palette,
 
     typography: {
-      useNextVariants: true,
       fontFamily: '"Raleway", serif',
       fontFamilyMonospaced: '"Source Code Pro", monospace',
       fontWeightMedium: '800',

@@ -37,7 +37,7 @@ export default theme => ({
       left: 0,
       opacity: 0,
       transformOrigin: 'center 40%',
-      animation: 'bckgrdEntrance 6s ease-out',
+      animation: '$bckgrdEntrance 6s ease-out',
       animationDelay: '.45s',
       animationFillMode: 'forwards',
       // background: {
