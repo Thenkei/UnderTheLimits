@@ -33,8 +33,11 @@ Player.defaultProps = {
 Player.propTypes = {
   classes: PropTypes.object.isRequired,
 
-  value: PropTypes.shape({ name: PropTypes.string, score: PropTypes.number }),
-
+  value: PropTypes.shape({
+    name: PropTypes.string,
+    score: PropTypes.number,
+    isGameMaster: PropTypes.bool,
+  }),
 };
 
 

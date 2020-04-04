@@ -9,7 +9,6 @@ class UsersManager {
   }
 
   async findOrCreateUserFromDB(playerName, socket) {
-
     // Later change this and update every 10 minutes
     try {
       this.leaderboard = await DBProvider.get().models.User.findAll({

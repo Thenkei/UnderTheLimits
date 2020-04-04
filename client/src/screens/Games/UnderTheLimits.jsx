@@ -55,8 +55,16 @@ UnderTheLimitsGame.propTypes = {
   startGame: PropTypes.func.isRequired,
   selectedAnswers: PropTypes.func.isRequired,
   selectJudgment: PropTypes.func.isRequired,
-  currentChannel: PropTypes.shape({}),
-  player: PropTypes.shape({}),
+  currentChannel: PropTypes.shape({
+    players: PropTypes.shape({}),
+    admin: PropTypes.shape({
+      name: PropTypes.string,
+    }),
+    currentStatus: PropTypes.string,
+  }),
+  player: PropTypes.shape({
+    name: PropTypes.string,
+  }),
 };
 
 const mapStateToProps = state => ({

@@ -52,8 +52,16 @@ LimitedGamesGame.propTypes = {
 
   startGame: PropTypes.func.isRequired,
   selectedAnswers: PropTypes.func.isRequired,
-  currentChannel: PropTypes.shape({}),
-  player: PropTypes.shape({}),
+  currentChannel: PropTypes.shape({
+    players: PropTypes.object,
+    currentStatus: PropTypes.string,
+    admin: PropTypes.shape({
+      name: PropTypes.string,
+    }),
+  }),
+  player: PropTypes.shape({
+    name: PropTypes.string,
+  }),
 };
 
 const mapStateToProps = state => ({

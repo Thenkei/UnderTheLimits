@@ -102,11 +102,13 @@ class UnderTheLimits extends Component {
                   onClick={() => { }}
                 />
               </div>
-            <Leaderboard
-              data={this.props.currentChannel.players}
-              sortBy='score'
-              labelBy='name'
-            />
+              {this.props.currentChannel && this.props.currentChannel.players && (
+                <Leaderboard
+                  data={this.props.currentChannel.players}
+                  sortBy='score'
+                  labelBy='name'
+                />
+              )}
             </div>
           </React.Fragment>
         );

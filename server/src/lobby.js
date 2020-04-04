@@ -20,6 +20,7 @@ class Lobby {
       lobby:
       {
         waitingPlayers: waitingUsers,
+        leaderboard,
         channels: this.channelsManager.channels.filter(c => !c.isPrivate).map(c => (
           {
             maxPlayersCount: c.maxPlayersCount,
@@ -27,7 +28,6 @@ class Lobby {
             name: c.name,
             id: c.id,
           })),
-          leaderboard: leaderboard,
       },
     };
   }
