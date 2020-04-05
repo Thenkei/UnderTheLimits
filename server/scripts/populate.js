@@ -12,10 +12,14 @@ module.exports = (async () => {
     console.info('Populate answers...');
     const sqlAnswers = await fs.readFile(`${__dirname}/populate_answer.sql`, 'utf8');
     await sequelize.query(sqlAnswers);
+    const answersCount = await models.Answer.count();
+    console.log(`${answersCount} answers`);
 
     console.info('Populate questions...');
     const sqlQuestions = await fs.readFile(`${__dirname}/populate_question.sql`, 'utf8');
     await sequelize.query(sqlQuestions);
+    const questionsCount = await models.Answer.count();
+    console.log(`${questionsCount} questions`);
     console.log('Populate done...');
     process.exit();
   } catch (err) {
