@@ -4,7 +4,6 @@ const MAX_ROUND_KICK = 4;
 
 class Channel {
   constructor(
-    sequelizeInstance,
     name,
     minPlayersCount = 2,
     maxPlayersCount = 8,
@@ -20,8 +19,6 @@ class Channel {
     this.maxPlayersCount = maxPlayersCount;
 
     this.isPrivate = isPrivate;
-
-    this.sequelizeInstance = sequelizeInstance;
   }
 
   addPlayer(player) {

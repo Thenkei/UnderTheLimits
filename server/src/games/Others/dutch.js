@@ -1,6 +1,8 @@
+const Sequelize = require('sequelize');
+
 const Channel = require('../../base/channel');
 const UTLPlayer = require('./player');
-
+const { models } = require('../../models');
 const PLAYER_CARD_COUNT = 10;
 
 const TIMER = 40;
@@ -30,17 +32,16 @@ class UTLGame extends Channel {
   }
 
   async init() {
-    const dataBase = this.sequelizeInstance;
     try {
-      this.deckAnswers = await dataBase.models.Answer.findAll({
+      this.deckAnswers = await models.Answer.findAll({
         order: [
-          dataBase.Sequelize.fn('random'),
+          Sequelize.fn('random'),
         ],
         raw: true,
       });
-      this.deckQuestions = await dataBase.models.Question.findAll({
+      this.deckQuestions = await models.Question.findAll({
         order: [
-          dataBase.Sequelize.fn('random'),
+          Sequelize.fn('random'),
         ],
         raw: true,
       });
@@ -135,7 +136,7 @@ class UTLGame extends Channel {
           machineLearningHandAnswers.push(a.id);
         });
 
-        this.sequelizeInstance.models.MLAnswer.create(
+        models.MLAnswer.create(
           {
             questionId: this.deckQuestions[0].id,
             answerIds: machineLearningAnswers.toString(),

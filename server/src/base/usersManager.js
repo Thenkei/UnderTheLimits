@@ -1,16 +1,17 @@
+const { models } = require('../models');
+
 const MAX_USER_CONNECTED = 100;
 
 class UsersManager {
-  constructor(sequelizeInstance) {
+  constructor() {
     this.users = [];
     this.leaderboard = [];
-    this.sequelizeInstance = sequelizeInstance;
   }
 
   async findOrCreateUserFromDB(playerName, socket) {
     // Later change this and update every 10 minutes
     try {
-      this.leaderboard = await this.sequelizeInstance.models.User.findAll({
+      this.leaderboard = await models.User.findAll({
         attributes: ['id', 'username', 'points', 'cumulative', 'played'],
         order: [
           ['points', 'DESC'],
@@ -32,9 +33,8 @@ class UsersManager {
     }
 
     let user;
-    const db = this.sequelizeInstance;
     try {
-      await db.models.User.findOrCreate(
+      user = await models.User.findOrCreate(
         {
           where: { username: playerName },
           defaults:
@@ -44,14 +44,11 @@ class UsersManager {
             played: 0,
           },
         },
-      )
-        .spread((userDB) => {
-          user = userDB.get({ raw: true });
-        });
+      );
     } catch (err) {
       throw err;
     }
-
+    user = user[0];
     // TODO TWICK LATER JUST FOR DEV COMPATIBILITY
     user.dbid = user.id;
     user.id = socket;
@@ -80,7 +77,7 @@ class UsersManager {
     const index = this.users.findIndex(c => c.socket === id);
     if (index === -1) { return null; }
     const disconnected = this.users.splice(index, 1)[0];
-    this.sequelizeInstance.models.User.update(
+    models.User.update( // NEED AWAIT
       {
         points: disconnected.points,
         cumulative: disconnected.cumulative,
