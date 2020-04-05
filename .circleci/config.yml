@@ -19,6 +19,12 @@ jobs:
           paths:
             - ~/.cache/yarn
       - run:
+          name: Install client app
+          command: yarn --cwd client
+      - run:
+          name: Install server app
+          command: yarn --cwd server
+      - run:
           name: Lint
           command: yarn lint
 workflows:
