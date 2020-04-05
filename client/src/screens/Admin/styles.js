@@ -4,12 +4,12 @@ export default theme => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: `${theme.spacing.unit * 4}px ${theme.spacing.unit * 4}px ${theme.spacing.unit * 3}px`,
+    padding: theme.spacing(4, 4, 3),
     width: '100%',
   },
 
   channelList: {
-    padding: `0 ${theme.spacing.unit * 4}px`,
+    padding: theme.spacing(0, 4),
   },
 
   channelListItem: {
@@ -26,7 +26,7 @@ export default theme => ({
   },
 
   channelListItemIcon: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
   },
 
   channelListItemSecondary: {
@@ -35,7 +35,7 @@ export default theme => ({
   },
 
   channelListItemSecondaryIcon: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
     color: theme.palette.primary.light,
     opacity: 0.35,
   },

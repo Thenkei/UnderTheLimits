@@ -3,7 +3,12 @@ const { CHANNEL_STATUS } = require('../status');
 const MAX_ROUND_KICK = 4;
 
 class Channel {
-  constructor(name, minPlayersCount = 2, maxPlayersCount = 8, isPrivate = false) {
+  constructor(
+    name,
+    minPlayersCount = 2,
+    maxPlayersCount = 8,
+    isPrivate = false,
+  ) {
     this.id = Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
     this.name = name || '';
     this.admin = {};
@@ -21,7 +26,7 @@ class Channel {
   }
 
   removePlayerById(id) {
-    const toBeRemovedId = this.players.findIndex(p => p.id === id);
+    const toBeRemovedId = this.players.findIndex((p) => p.id === id);
     if (toBeRemovedId !== -1) {
       const p = this.players.splice(toBeRemovedId, 1)[0];
 
@@ -35,7 +40,7 @@ class Channel {
   }
 
   removePlayerByName(name) {
-    const toBeRemovedId = this.players.findIndex(p => p.name === name);
+    const toBeRemovedId = this.players.findIndex((p) => p.name === name);
     if (toBeRemovedId !== -1) {
       const p = this.players.splice(toBeRemovedId, 1)[0];
 
@@ -83,7 +88,7 @@ class Channel {
   }
 
   tryReconnectOrConnect(user, socket) {
-    const canReconnect = this.players.find(p => (p.name === user.name));
+    const canReconnect = this.players.find((p) => (p.name === user.name));
     if (canReconnect) {
       canReconnect.id = socket;
       console.log('[Channel] Reconnect ', user.name, 'into channel', this.name);

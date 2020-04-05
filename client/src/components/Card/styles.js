@@ -5,10 +5,10 @@ export default theme => ({
     width: 187,
     minHeight: 280,
     maxHeight: 280,
-    margin: `${theme.spacing.unit * 2}px ${theme.spacing.unit}px 0`,
+    margin: theme.spacing(2, 1, 0),
     animationDuration: '0.75s',
     animationFillMode: 'forwards',
-    animationName: 'bounceIn',
+    animationName: '$bounceIn',
 
     '&:hover': {
       '& $card': {
@@ -62,7 +62,7 @@ export default theme => ({
 
   cardBody: {
     flex: '1 1 auto',
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
   },
 
   questionCard: {
@@ -70,7 +70,7 @@ export default theme => ({
     backgroundColor: 'transparent',
     color: theme.palette.common.white,
     width: '100%',
-    padding: `${theme.spacing.unit * 4}px`,
+    padding: theme.spacing(4),
     borderBottom: `solid 1px ${theme.palette.primary.dark}${theme.opacity.alpha50}`,
     boxShadow: theme.shadows[6],
     zIndex: 9,

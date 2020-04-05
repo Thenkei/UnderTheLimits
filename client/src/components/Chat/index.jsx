@@ -94,7 +94,7 @@ const Chat = ({
         </Popover>
         <Input
           className={classes.sendMessageInput}
-          classes={{ inputType: classes.sendMessageInputType }}
+          classes={{ input: classes.sendMessageInputType }}
           fullWidth
           multiline
           rows='2'

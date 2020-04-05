@@ -16,7 +16,7 @@ export default theme => ({
     width: '100%',
     minHeight: '32px',
     marginBottom: '0',
-    padding: `0 ${theme.spacing.unit}px`,
+    padding: theme.spacing(0, 1),
     background: theme.palette.primary.main,
     color: 'white',
     fontSize: '10px',
@@ -34,7 +34,7 @@ export default theme => ({
   messagesFlow: {
     flex: '1 1 auto',
     height: '100%',
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
     overflow: 'auto',
     display: 'flex',
     flexDirection: 'column-reverse',
@@ -43,7 +43,7 @@ export default theme => ({
   fullMessage: {
     display: 'flex',
     flexDirection: 'row',
-    marginBottom: theme.spacing.unit * 2,
+    marginBottom: theme.spacing(2),
     animationDuration: theme.transitions.duration.complex,
     animationTimingFunction: theme.transitions.easing.easeInOut,
     animationName: 'PoppinMessage',
@@ -60,15 +60,15 @@ export default theme => ({
 
   playerName: {
     fontSize: '14px',
-    marginBottom: theme.spacing.unit / 2,
+    marginBottom: theme.spacing(0.5),
   },
 
   avatar: {
     backgroundColor: theme.palette.primary.dark,
-    width: `calc(${theme.layout.avatarSize} + ${theme.spacing.unit}px)`,
-    height: `calc(${theme.layout.avatarSize} + ${theme.spacing.unit}px)`,
-    padding: theme.spacing.unit,
-    marginRight: theme.spacing.unit / 2,
+    width: `calc(${theme.layout.avatarSize} + ${theme.spacing(1)})`,
+    height: `calc(${theme.layout.avatarSize} + ${theme.spacing(1)})`,
+    padding: theme.spacing(1),
+    marginRight: theme.spacing(0.5),
     border: `solid 1px ${theme.palette.primary.main}`,
   },
 
@@ -77,8 +77,8 @@ export default theme => ({
     borderRadius: theme.shape.borderRadius,
     border: 'solid 1px',
     borderColor: `${theme.palette.primary.light}${theme.opacity.alpha35}`,
-    padding: theme.spacing.unit * 2,
-    margin: `${-theme.spacing.unit * 2}px 0 0 ${-theme.spacing.unit * 2}px`,
+    padding: theme.spacing(2),
+    margin: theme.spacing(-2, 0, 0, -2),
     wordBreak: 'break-word',
   },
 
@@ -144,7 +144,7 @@ export default theme => ({
     flex: '0 0 auto',
     flexDirection: 'row',
     width: '100%',
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
     backgroundColor: theme.palette.primary.main,
   },
 
@@ -155,7 +155,7 @@ export default theme => ({
 
   sendMessageInputType: {
     height: '100%',
-    padding: theme.spacing.unit / 2,
+    padding: theme.spacing(0.5),
     lineHeight: '140%',
   },
 

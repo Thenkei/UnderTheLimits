@@ -122,8 +122,10 @@ class Lobby extends Component {
           sortBy='points'
           labelBy='username'
           label='parties gagnées'
-          other1={{ label: 'points (cumulés)', prop: 'cumulative' }}
-          other2={{ label: 'parties jouées', prop: 'played' }}
+          extraInfos={[
+            { label: 'points (cumulés)', prop: 'cumulative' },
+            { label: 'parties jouées', prop: 'played' },
+          ]}
         />
       </InGameLayout>
     );

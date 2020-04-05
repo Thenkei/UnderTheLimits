@@ -26,6 +26,7 @@ const Message = ({
           <Typography
             className={classNames(classes.text, classes.isInfo)}
             align='left'
+            variant='body2'
           >
             {decodeURI(message)}
           </Typography>
@@ -49,6 +50,7 @@ const Message = ({
             [classes.isPrivate]: isPrivate,
           })}
           align='left'
+          variant='body2'
         >
           {decodeURI(message)}
         </Typography>
@@ -62,6 +64,7 @@ Message.defaultProps = {
   isPlayer: false,
   isPrivate: false,
   isSystem: false,
+  avatar: null,
 };
 
 Message.propTypes = {
@@ -69,7 +72,7 @@ Message.propTypes = {
 
   message: PropType.string.isRequired,
   username: PropType.string.isRequired,
-  avatar: PropType.string.isRequired,
+  avatar: PropType.string,
   date: PropType.number.isRequired,
   isPlayer: PropType.bool,
   isPrivate: PropType.bool,

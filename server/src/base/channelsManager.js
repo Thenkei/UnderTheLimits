@@ -8,12 +8,10 @@ class ChannelsManager {
     this.channels = [];
   }
 
-  // adminPlayer.currentStatus = 'IN_CHANNEL';
   async createUtlChanel(admin, channelOpts = {}) {
     if (this.channels.length >= MAX_CHANNEL_COUNT) {
       throw new Error('Le serveur est complet, attendez qu\'un salon se libère !');
     }
-
     const utlGame = GameFactory(
       channelOpts,
     );
@@ -27,11 +25,11 @@ class ChannelsManager {
   }
 
   getChannelById(channelId) {
-    return this.channels.find(c => c.id === channelId);
+    return this.channels.find((c) => c.id === channelId);
   }
 
   getChannelByPlayerId(playerId) {
-    return this.channels.find(c => c.players.find(p => playerId === p.id));
+    return this.channels.find((c) => c.players.find((p) => playerId === p.id));
   }
 
   setTimeoutDisconnectedFromChannel(socket, channel, io, updateLobby) {
@@ -51,7 +49,7 @@ class ChannelsManager {
       io.to(channel.id).emit('updateChannel', channel.serialize());
 
       if (channel.players.length === 0) {
-        this.channels.splice(this.channels.findIndex(c => c.id === channel.id), 1);
+        this.channels.splice(this.channels.findIndex((c) => c.id === channel.id), 1);
         console.log('[ChannelsManager] Remove channel', channel.name);
         updateLobby();
       }

@@ -5,7 +5,7 @@ export default theme => ({
   },
 
   createChanelDialogTitle: {
-    '& $h6': {
+    '& h6': {
       fontSize: '28px',
     },
   },
@@ -16,7 +16,7 @@ export default theme => ({
   },
 
   createChannelFormControl: {
-    margin: `${theme.spacing.unit * 1.5}px 0}`,
+    margin: theme.spacing(1.5, 0),
   },
 
 });

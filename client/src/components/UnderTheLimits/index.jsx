@@ -18,12 +18,14 @@ class UnderTheLimits extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const currentDeckQuestion = this.props.currentChannel.deckQuestion.text;
-    const prevDeckQuestion = prevProps.currentChannel.deckQuestion.text;
-    if (currentDeckQuestion !== prevDeckQuestion) {
-      const occurences = (currentDeckQuestion.match(/______/g) || []).length;
-      // eslint-disable-next-line
-      this.setState({ answerSelectNum: occurences });
+    if (this.props.currentChannel.deckQuestion) {
+      const currentDeckQuestion = this.props.currentChannel.deckQuestion.text;
+      const prevDeckQuestion = prevProps.currentChannel.deckQuestion.text;
+      if (currentDeckQuestion !== prevDeckQuestion) {
+        const occurences = (currentDeckQuestion.match(/______/g) || []).length;
+        // eslint-disable-next-line
+        this.setState({ answerSelectNum: occurences });
+      }
     }
   }
 
@@ -102,13 +104,11 @@ class UnderTheLimits extends Component {
                   onClick={() => { }}
                 />
               </div>
-              {this.props.currentChannel && this.props.currentChannel.players && (
-                <Leaderboard
-                  data={this.props.currentChannel.players}
-                  sortBy='score'
-                  labelBy='name'
-                />
-              )}
+              <Leaderboard
+                data={this.props.currentChannel.players}
+                sortBy='score'
+                labelBy='name'
+              />
             </div>
           </React.Fragment>
         );

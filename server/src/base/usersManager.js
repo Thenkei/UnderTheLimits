@@ -1,4 +1,4 @@
-const DBProvider = require('../utils/dbProvider');
+const { models } = require('../models');
 
 const MAX_USER_CONNECTED = 100;
 
@@ -10,16 +10,12 @@ class UsersManager {
 
   async findOrCreateUserFromDB(playerName, socket) {
     // Later change this and update every 10 minutes
-    try {
-      this.leaderboard = await DBProvider.get().models.User.findAll({
-        attributes: ['username', 'points', 'cumulative', 'played'],
-        order: [
-          ['points', 'DESC'],
-        ],
-      });
-    } catch (err) {
-      throw err;
-    }
+    this.leaderboard = await models.User.findAll({
+      attributes: ['id', 'username', 'points', 'cumulative', 'played'],
+      order: [
+        ['points', 'DESC'],
+      ],
+    });
 
     const waitingPlayers = this.waitingUsers();
     if (waitingPlayers.length >= MAX_USER_CONNECTED) {
@@ -32,27 +28,18 @@ class UsersManager {
       throw new Error('Ce nom existe déjà !');
     }
 
-    let user;
-    const db = DBProvider.get();
-    try {
-      await db.models.User.findOrCreate(
+    let user = await models.User.findOrCreate(
+      {
+        where: { username: playerName },
+        defaults:
         {
-          where: { username: playerName },
-          defaults:
-          {
-            points: 0,
-            cumulative: 0,
-            played: 0,
-          },
+          points: 0,
+          cumulative: 0,
+          played: 0,
         },
-      )
-        .spread((userDB) => {
-          user = userDB.get({ raw: true });
-        });
-    } catch (err) {
-      throw err;
-    }
-
+      },
+    );
+    user = user[0].get({ raw: true });
     // TODO TWICK LATER JUST FOR DEV COMPATIBILITY
     user.dbid = user.id;
     user.id = socket;
@@ -66,22 +53,22 @@ class UsersManager {
   }
 
   waitingUsers() {
-    return this.users.filter(c => c.currentStatus === 'LOBBY');
+    return this.users.filter((c) => c.currentStatus === 'LOBBY');
   }
 
   findUser(userName) {
-    return this.users.find(c => c.username.toLowerCase() === userName.toLowerCase());
+    return this.users.find((c) => c.username.toLowerCase() === userName.toLowerCase());
   }
 
   getUserBySocket(id) {
-    return this.users.find(c => c.socket === id);
+    return this.users.find((c) => c.socket === id);
   }
 
   removeUserById(id) {
-    const index = this.users.findIndex(c => c.socket === id);
+    const index = this.users.findIndex((c) => c.socket === id);
     if (index === -1) { return null; }
     const disconnected = this.users.splice(index, 1)[0];
-    DBProvider.get().models.User.update(
+    models.User.update( // NEED AWAIT
       {
         points: disconnected.points,
         cumulative: disconnected.cumulative,

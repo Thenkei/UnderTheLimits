@@ -18,7 +18,7 @@ export default theme => ({
       left: 0,
       opacity: 0,
       background: `radial-gradient(${theme.palette.primary.light}, ${theme.palette.primary.main}${theme.opacity.alpha00})`,
-      animation: 'flash .2s ease-out',
+      animation: '$flash .2s ease-out',
       animationDelay: '.65s',
     },
   },
@@ -42,7 +42,7 @@ export default theme => ({
   },
 
   UTLLogo: {
-    animation: 'IncommingLogo .5s ease-out',
+    animation: '$IncommingLogo .5s ease-out',
     animationDelay: '.5s',
     animationFillMode: 'forwards',
     opacity: 0,
@@ -83,11 +83,11 @@ export default theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-    marginTop: `${theme.spacing.unit * 2}px`,
+    marginTop: theme.spacing(2),
   },
 
   LoginFormAnimated: {
-    animation: 'fadeInDown .5s',
+    animation: '$fadeInDown .5s',
     animationTimingFunction: 'cubic-bezier( .55, .055, .675, .19 )',
     animationDelay: '1s',
     animationFillMode: 'forwards',
