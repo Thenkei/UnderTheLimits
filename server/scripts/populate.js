@@ -1,46 +1,28 @@
-const fs = require('fs-extra'); // eslint-disable-line import/no-extraneous-dependencies
-const DB = require('../src/models');
-const createDBConfig = require('../createDBConfig');
+/* eslint-disable no-console */
+const fs = require('fs-extra');
+const { models, sequelize } = require('../src/models');
 
 module.exports = (async () => {
   try {
-    const config = createDBConfig();
-    // Force no log ouput for db
-    config.db_log = false;
-    // Force db to drop old data
-    // config.forceSync = true;
+    console.info('Populate started...');
+    const dbExists = await fs.pathExists(`${__dirname}/db.sqlite3`);
+    if (!dbExists) {
+      await sequelize.sync({ force: true });
+    }
+    console.info('Populate answers...');
+    const sqlAnswers = await fs.readFile(`${__dirname}/populate_answer.sql`, 'utf8');
+    await sequelize.query(sqlAnswers);
+    const answersCount = await models.Answer.count();
+    console.log(`${answersCount} answers`);
 
-    console.log('Connection to db...'); // eslint-disable-line no-console
-    const db = await DB(config);
-
-    // ANSWER
-    db.models.Answer.destroy({
-      truncate: true
-    });
-
-    console.log('Populate answers...'); // eslint-disable-line no-console
-    let sql = await fs.readFile(`${__dirname}/populate_answer.sql`, 'utf8');
-    await db.query(sql);
-
-    const countAnswer = await db.models.Answer.count();
-
-    console.log(countAnswer + ' answers...'); // eslint-disable-line no-console
-
-    // QUESTION
-    db.models.Question.destroy({
-      truncate: true
-    });
-
-    console.log('Populate questions...'); // eslint-disable-line no-console
-    sql = await fs.readFile(`${__dirname}/populate_question.sql`, 'utf8');
-    await db.query(sql);
-
-    const countQuestion = await db.models.Question.count();
-    console.log(countQuestion + ' questions...'); // eslint-disable-line no-console
-
-    console.log('Populate done'); // eslint-disable-line no-console
+    console.info('Populate questions...');
+    const sqlQuestions = await fs.readFile(`${__dirname}/populate_question.sql`, 'utf8');
+    await sequelize.query(sqlQuestions);
+    const questionsCount = await models.Answer.count();
+    console.log(`${questionsCount} questions`);
+    console.log('Populate done...');
     process.exit();
   } catch (err) {
-    console.error(err.message);
+    console.error(err);
   }
 })();

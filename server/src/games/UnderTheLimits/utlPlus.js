@@ -29,15 +29,15 @@ class UTLPlus extends UTLGame {
     super.judgementState(io);
     const message = { isSystem: true, message: '', date: Date.now() };
     message.message = encodeURI(JUDGMENTS_HINTS[this.judgment]);
-    const toMaster = this.players.find(p => p.isGameMaster === true);
+    const toMaster = this.players.find((p) => p.isGameMaster === true);
     io.to(`${toMaster.id}`).emit('chat/message', message);
   }
 
   judge(judgment, userCumul, userPoint, io) {
-    if (this.judgedIds.find(id => id === judgment)) throw new Error('Vous avez déjà voté pour ce joueur...');
+    if (this.judgedIds.find((id) => id === judgment)) throw new Error('Vous avez déjà voté pour ce joueur...');
 
     this.judgedIds.push(judgment);
-    const winner = this.players.find(p => p.id === judgment);
+    const winner = this.players.find((p) => p.id === judgment);
 
     winner.score += JUDGMENTS_SCORE[this.judgment];
     userCumul(winner, JUDGMENTS_SCORE[this.judgment], `${winner.name} ${JUDGMENTS_SENTENCE[this.judgment]}`);
@@ -51,7 +51,7 @@ class UTLPlus extends UTLGame {
       winner.setGameMaster(true);
       this.judgment = 0;
 
-      const resultat = this.players.find(p => p.score >= this.playerMaxPoint);
+      const resultat = this.players.find((p) => p.score >= this.playerMaxPoint);
       if (resultat) {
         // TODO Check if several players have the required scrore to win
         // and find the one with the highest score in resultat
@@ -63,7 +63,7 @@ class UTLPlus extends UTLGame {
     } else {
       const message = { isSystem: true, message: '', date: Date.now() };
       message.message = encodeURI(JUDGMENTS_HINTS[this.judgment]);
-      const toMaster = this.players.find(p => p.isGameMaster === true);
+      const toMaster = this.players.find((p) => p.isGameMaster === true);
       io.to(`${toMaster.id}`).emit('chat/message', message);
     }
   }

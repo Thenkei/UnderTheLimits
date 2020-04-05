@@ -4,10 +4,7 @@ const http = require('http');
 const morgan = require('morgan');
 const IO = require('socket.io');
 
-const DataBase = require('./src/models');
 const Lobby = require('./src/lobby');
-
-const createDBConfig = require('./createDBConfig');
 
 const APP_PORT = process.env.PORT || 3000;
 
@@ -20,12 +17,8 @@ const APP_PORT = process.env.PORT || 3000;
   console.info('Create socket.io instance...');
   const io = IO(socketServer, { path: '/api/socket.io' });
 
-  console.info('Connect to the database...');
-  const config = createDBConfig();
-  const sequelizeInstance = await DataBase(config);
-
   console.info('Initializing lobby...');
-  const lobby = new Lobby(io, sequelizeInstance);
+  const lobby = new Lobby(io);
   lobby.register();
 
   console.info('Initializing morgan logger...');

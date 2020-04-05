@@ -2,39 +2,27 @@ const Sequelize = require('sequelize');
 const Answer = require('./answer');
 const Question = require('./question');
 const User = require('./user');
-const MLAnswer = require('./mlAnswer');
+const createDBConfig = require('../../createDBConfig');
 
-module.exports = async (config) => {
-  try {
-    // init sequelize
-    const db = new Sequelize(
-      config.db,
-      config.user,
-      config.pwd, {
-        host: config.host,
-        dialect: config.dialect,
-        storage: config.storage,
-        port: config.port,
-        operatorsAliases: false,
-        logging: config.log,
-        pool: {
-          max: 5,
-          min: 0,
-          acquire: 30000,
-          idle: 10000,
-        },
-      },
-    );
+const config = createDBConfig();
 
-    Answer(db, Sequelize);
-    Question(db, Sequelize);
-    User(db, Sequelize);
-    MLAnswer(db, Sequelize);
+const sequelize = new Sequelize(config);
 
-    await db.sync({ force: config.forceSync });
-
-    return db;
-  } catch (err) {
-    throw err;
-  }
+const models = {
+  Answer: Answer.init(sequelize, Sequelize),
+  Question: Question.init(sequelize, Sequelize),
+  User: User.init(sequelize, Sequelize),
 };
+
+// Run `.associate` if it exists,
+// ie create relationships in the ORM
+Object.values(models)
+  .filter((model) => typeof model.associate === 'function')
+  .forEach((model) => model.associate(models));
+
+const db = {
+  models,
+  sequelize,
+};
+
+module.exports = db;

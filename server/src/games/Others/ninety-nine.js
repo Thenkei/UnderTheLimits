@@ -158,7 +158,7 @@ class Ninetynine extends Channel {
 
       // Roll to next player or previous
       const len = this.players.length;
-      const currentIndex = this.players.findIndex(player => p === player);
+      const currentIndex = this.players.findIndex((player) => p === player);
       // eslint-disable-next-line no-unused-expressions
       this.clockwise
         ? this.players[(currentIndex + 1) % len].setGameMaster(true)
@@ -212,7 +212,7 @@ class Ninetynine extends Channel {
     });
 
     client.on('selectedAnswers', (answers) => {
-      const currentGamePlayer = this.players.find(p => p.id === client.id);
+      const currentGamePlayer = this.players.find((p) => p.id === client.id);
       currentGamePlayer.answers = answers;
 
       this.playCard(currentGamePlayer, io);

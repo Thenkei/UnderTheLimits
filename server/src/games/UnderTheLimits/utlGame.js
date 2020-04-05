@@ -1,5 +1,8 @@
+const Sequelize = require('sequelize');
+
 const Channel = require('../../base/channel');
 const UTLPlayer = require('./player');
+const { models } = require('../../models');
 
 const PLAYER_CARD_COUNT = 10;
 
@@ -30,25 +33,20 @@ class UTLGame extends Channel {
   }
 
   async init() {
-    const dataBase = this.sequelizeInstance;
-    try {
-      this.deckAnswers = await dataBase.models.Answer.findAll({
-        order: [
-          dataBase.Sequelize.fn('random'),
-        ],
-        raw: true,
-      });
-      this.deckQuestions = await dataBase.models.Question.findAll({
-        order: [
-          dataBase.Sequelize.fn('random'),
-        ],
-        raw: true,
-      });
-      this.deckAnswers = this.deckAnswers.map(a => a);
-      this.deckQuestions = this.deckQuestions.map(q => q);
-    } catch (err) {
-      throw err;
-    }
+    this.deckAnswers = await models.Answer.findAll({
+      order: [
+        Sequelize.fn('random'),
+      ],
+      raw: true,
+    });
+    this.deckQuestions = await models.Question.findAll({
+      order: [
+        Sequelize.fn('random'),
+      ],
+      raw: true,
+    });
+    this.deckAnswers = this.deckAnswers.map((a) => a);
+    this.deckQuestions = this.deckQuestions.map((q) => q);
   }
 
   addPlayer(user) {
@@ -98,10 +96,10 @@ class UTLGame extends Channel {
     this.currentStatus = UTL_STATUS.JUDGING_CARD;
     if (!this.hasAllPlayersAnswered()) {
       const occurences = (this.deckQuestions[0].text.match(/______/g) || []).length;
-      const pls = this.players.filter(p => !p.isGameMaster && p.answers.length < occurences);
+      const pls = this.players.filter((p) => !p.isGameMaster && p.answers.length < occurences);
 
       pls.forEach((p) => {
-        const answers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].filter(v => !p.answers.includes(v));
+        const answers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].filter((v) => !p.answers.includes(v));
 
         while (p.answers.length < occurences) {
           const selectedAnswer = answers.splice(Math.floor((Math.random() * answers.length)), 1);
@@ -120,7 +118,7 @@ class UTLGame extends Channel {
   }
 
   judge(judgment, userCumul, userPoint) {
-    const winner = this.players.find(p => p.id === judgment);
+    const winner = this.players.find((p) => p.id === judgment);
 
     this.players.forEach((p) => {
       if (!p.isGameMaster) {
@@ -134,15 +132,6 @@ class UTLGame extends Channel {
         p.hand.forEach((a) => {
           machineLearningHandAnswers.push(a.id);
         });
-
-        this.sequelizeInstance.models.MLAnswer.create(
-          {
-            questionId: this.deckQuestions[0].id,
-            answerIds: machineLearningAnswers.toString(),
-            handIds: machineLearningHandAnswers.toString(),
-            chosen: (winner.id === p.id),
-          },
-        );
       }
       p.setGameMaster(false);
     });
@@ -151,7 +140,7 @@ class UTLGame extends Channel {
     winner.setGameMaster(true);
     userCumul(winner, 1, `${winner.name} remporte le point !`);
 
-    const resultat = this.players.find(p => p.score >= this.playerMaxPoint);
+    const resultat = this.players.find((p) => p.score >= this.playerMaxPoint);
     if (resultat) {
       userPoint(winner, `Le vainqueur de la partie est ${winner.name}`);
       this.currentStatus = UTL_STATUS.IDLE;
@@ -162,7 +151,7 @@ class UTLGame extends Channel {
 
   hasAllPlayersAnswered() {
     const occurences = (this.deckQuestions[0].text.match(/______/g) || []).length;
-    return this.players.find(p => !p.isGameMaster && p.answers.length < occurences) == null;
+    return this.players.find((p) => !p.isGameMaster && p.answers.length < occurences) == null;
   }
 
   getAnwersTime() {
@@ -220,7 +209,7 @@ class UTLGame extends Channel {
 
     client.on('selectedAnswers', (answers) => {
       if (!answers) { return; }
-      const currentGamePlayer = this.players.find(p => p.id === client.id);
+      const currentGamePlayer = this.players.find((p) => p.id === client.id);
       currentGamePlayer.answers = answers;
 
       if (this.timer > 5 && this.hasAllPlayersAnswered()) {

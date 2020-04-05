@@ -5,9 +5,9 @@ const AvataGenerator = require('./utils/avatarGenerator');
 const SOCKET_ROOM_LOBBY = 'LOBBY';
 
 class Lobby {
-  constructor(ioInstance, sequelizeInstance) {
-    this.usersManager = new UsersManager(sequelizeInstance);
-    this.channelsManager = new ChannelsManager(sequelizeInstance);
+  constructor(ioInstance) {
+    this.usersManager = new UsersManager();
+    this.channelsManager = new ChannelsManager();
     this.avataGenerator = new AvataGenerator();
     this.io = ioInstance;
   }
@@ -21,7 +21,7 @@ class Lobby {
       {
         waitingPlayers: waitingUsers,
         leaderboard,
-        channels: this.channelsManager.channels.filter(c => !c.isPrivate).map(c => (
+        channels: this.channelsManager.channels.filter((c) => !c.isPrivate).map((c) => (
           {
             maxPlayersCount: c.maxPlayersCount,
             playersCount: c.players.length,

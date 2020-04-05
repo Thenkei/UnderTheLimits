@@ -15,8 +15,8 @@ class AvatarGenerator {
   }
 
   static guid(seed) {
-    const i = seed.split('').map(s => s.charCodeAt(0)).join('');
-    const ii = seed.split('').reverse().map(s => s.charCodeAt(0)).join('');
+    const i = seed.split('').map((s) => s.charCodeAt(0)).join('');
+    const ii = seed.split('').reverse().map((s) => s.charCodeAt(0)).join('');
     let f = `${i}${ii}`;
     f = `${i}${f.length}${ii}`;
     const s = f.length / 5;
