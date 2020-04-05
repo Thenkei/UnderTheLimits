@@ -12,7 +12,7 @@ jobs:
             - yarn-packages-{{ checksum "yarn.lock" }}
       - run:
           name: Install Dependencies
-          command: yarn install --frozen-lockfile --ignore-scripts
+          command: yarn install --ignore-scripts
       - save_cache:
           name: Save Yarn Package Cache
           key: yarn-packages-{{ checksum "yarn.lock" }}
@@ -21,52 +21,9 @@ jobs:
       - run:
           name: Lint
           command: yarn lint
-      - run:
-          name: Test
-          command: yarn --cwd client test
-  dockerize:
-    working_directory: ~/UnderTheLimits
-    docker:
-      - image: google/cloud-sdk
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
-      - run: docker build --build-arg momo=${MDP_MOMO} -f Dockerfile  --rm=false -t eu.gcr.io/${GCP_PROJECT}/utl:$CIRCLE_BRANCH-$CIRCLE_SHA1 .
-      - run: docker tag eu.gcr.io/${GCP_PROJECT}/utl:$CIRCLE_BRANCH-$CIRCLE_SHA1 eu.gcr.io/${GCP_PROJECT}/utl:master-latest
-      - run: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
-      - run: gcloud --quiet config set project ${GCP_PROJECT}
-      - run: gcloud docker -- push eu.gcr.io/${GCP_PROJECT}/utl:master-latest
-  deploy_dev:
-    working_directory: ~/UnderTheLimits
-    docker:
-      - image: google/cloud-sdk
-    environment:
-      - GCZ: "europe-west1-b"
-      - CLUSTER_NAME: "utl-dev"
-    steps:
-      - checkout
-      - run: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
-      - run: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
-      - run: gcloud --quiet config set project ${GCP_PROJECT}
-      - run: gcloud --quiet config set compute/zone ${GCZ}
-      - run: gcloud container clusters get-credentials ${CLUSTER_NAME}
-      - run: sed -ie "s/WillBeChangedOnK8SApply/$(date)/g" infra/utl-deployment.yml
-      - run: kubectl apply -f infra/utl-deployment.yml
 workflows:
   version: 2
   build_and_dockerize:
     jobs:
       - build
-      # Since dockerize need approval, no need to check for master branch
-      - request_dockerize:
-          type: approval
-          requires:
-            - build
-      - dockerize:
-          requires:
-            - build
-            - request_dockerize
-      - deploy_dev:
-          requires:
-            - dockerize
+
