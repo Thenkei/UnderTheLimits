@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const Answer = require('./answer');
-const MLAnswer = require('./mlAnswer');
 const Question = require('./question');
 const User = require('./user');
 const createDBConfig = require('../../createDBConfig');
@@ -11,7 +10,6 @@ const sequelize = new Sequelize(config);
 
 const models = {
   Answer: Answer.init(sequelize, Sequelize),
-  MLAnswer: MLAnswer.init(sequelize, Sequelize),
   Question: Question.init(sequelize, Sequelize),
   User: User.init(sequelize, Sequelize),
 };

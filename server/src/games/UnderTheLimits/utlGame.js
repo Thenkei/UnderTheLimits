@@ -136,15 +136,6 @@ class UTLGame extends Channel {
         p.hand.forEach((a) => {
           machineLearningHandAnswers.push(a.id);
         });
-
-        models.MLAnswer.create( // NEED AWAIT
-          {
-            questionId: this.deckQuestions[0].id,
-            answerIds: machineLearningAnswers.toString(),
-            handIds: machineLearningHandAnswers.toString(),
-            chosen: (winner.id === p.id),
-          },
-        );
       }
       p.setGameMaster(false);
     });

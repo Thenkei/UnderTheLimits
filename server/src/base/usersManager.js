@@ -48,7 +48,7 @@ class UsersManager {
     } catch (err) {
       throw err;
     }
-    user = user[0];
+    user = user[0].get({ raw: true });
     // TODO TWICK LATER JUST FOR DEV COMPATIBILITY
     user.dbid = user.id;
     user.id = socket;
