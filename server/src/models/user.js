@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
+
 class User extends Sequelize.Model {
-  static init(sequelize, DataTypes) {
+  static init(sequelize) {
     return super.init({
       id: {
         type: Sequelize.INTEGER,
@@ -13,16 +14,16 @@ class User extends Sequelize.Model {
       played: Sequelize.INTEGER,
       createdAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
       updatedAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
     }, {
       sequelize,
-    }
-  )}
+    });
+  }
 }
 
 module.exports = User;

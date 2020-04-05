@@ -26,7 +26,7 @@ class Channel {
   }
 
   removePlayerById(id) {
-    const toBeRemovedId = this.players.findIndex(p => p.id === id);
+    const toBeRemovedId = this.players.findIndex((p) => p.id === id);
     if (toBeRemovedId !== -1) {
       const p = this.players.splice(toBeRemovedId, 1)[0];
 
@@ -40,7 +40,7 @@ class Channel {
   }
 
   removePlayerByName(name) {
-    const toBeRemovedId = this.players.findIndex(p => p.name === name);
+    const toBeRemovedId = this.players.findIndex((p) => p.name === name);
     if (toBeRemovedId !== -1) {
       const p = this.players.splice(toBeRemovedId, 1)[0];
 
@@ -88,7 +88,7 @@ class Channel {
   }
 
   tryReconnectOrConnect(user, socket) {
-    const canReconnect = this.players.find(p => (p.name === user.name));
+    const canReconnect = this.players.find((p) => (p.name === user.name));
     if (canReconnect) {
       canReconnect.id = socket;
       console.log('[Channel] Reconnect ', user.name, 'into channel', this.name);

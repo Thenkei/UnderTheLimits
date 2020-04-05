@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
+
 class Question extends Sequelize.Model {
-  static init(sequelize, DataTypes) {
+  static init(sequelize) {
     return super.init({
       id: {
         type: Sequelize.INTEGER,
@@ -9,16 +10,16 @@ class Question extends Sequelize.Model {
       text: Sequelize.STRING,
       createdAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
       updatedAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
     }, {
       sequelize,
-    }
-  )}
+    });
+  }
 }
 
 module.exports = Question;

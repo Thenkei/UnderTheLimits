@@ -17,8 +17,8 @@ const models = {
 // Run `.associate` if it exists,
 // ie create relationships in the ORM
 Object.values(models)
-  .filter(model => typeof model.associate === 'function')
-  .forEach(model => model.associate(models));
+  .filter((model) => typeof model.associate === 'function')
+  .forEach((model) => model.associate(models));
 
 const db = {
   models,
