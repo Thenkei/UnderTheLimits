@@ -8,7 +8,7 @@ export default theme => ({
     margin: theme.spacing(2, 1, 0),
     animationDuration: '0.75s',
     animationFillMode: 'forwards',
-    animationName: 'bounceIn',
+    animationName: '$bounceIn',
 
     '&:hover': {
       '& $card': {
