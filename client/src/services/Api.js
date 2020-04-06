@@ -33,6 +33,7 @@ function updateLobby(cb) {
 }
 
 // GAMES
+/** UpdateChannel - Update the channel objects */
 function updateChannel(cb) {
   addListener('updateChannel', channelResponse => cb(channelResponse.channel));
 }
@@ -79,6 +80,9 @@ function disconnect(cb) {
     if (reason === 'io server disconnect') {
       // the disconnection was initiated by the server, you have been kicked
       res = true;
+
+      // Try reconnect
+      socket.open();
     }
     cb(res);
   });

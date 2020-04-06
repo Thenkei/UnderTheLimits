@@ -14,6 +14,7 @@ class UnderTheLimits extends Component {
 
     this.state = {
       answerSelectNum: 1,
+      answers: [],
     };
   }
 
@@ -25,6 +26,7 @@ class UnderTheLimits extends Component {
         const occurences = (currentDeckQuestion.match(/______/g) || []).length;
         // eslint-disable-next-line
         this.setState({ answerSelectNum: occurences });
+        this.setState({ answers: [] });
       }
     }
   }
@@ -39,71 +41,61 @@ class UnderTheLimits extends Component {
   }
 
   handleChange = (i) => {
-    const index = this.props.player.answers.indexOf(i);
+    const index = this.state.answers.indexOf(i);
     if (index < 0) {
-      if (this.props.player.answers.length >= this.state.answerSelectNum) {
+      if (this.state.answers.length >= this.state.answerSelectNum) {
         // eslint-disable-next-line
         console.warn(
           'Vous ne pouvez pas jouer davantage de réponses pour cette question !',
         ); // TODO Change with <Alert color='primary'>
       } else {
-        this.props.player.answers.push(i);
+        this.state.answers.push(i);
       }
     } else {
-      this.props.player.answers.splice(index, 1);
+      this.state.answers.splice(index, 1);
     }
 
-    this.props.selectedAnswers(this.props.player.answers);
+    this.props.selectedAnswers(this.state.answers);
   };
 
   render() {
-    if (this.props.player && this.props.player.hand) {
-      if (this.props.currentChannel.currentStatus === 'JUDGING_CARD') {
+    if (this.props.player && this.props.currentChannel.secret) {
+      if (this.props.currentChannel.cards && this.props.currentChannel.currentStatus === 'JUDGING_CARD') {
         return (
           <div className={this.props.classes.cardsContainer}>
-            {this.props.currentChannel.players.map((player) => {
-              if (!player.isGameMaster) {
-                return (
-                  <Card
-                    proposalCard
-                    key={`p${player.id}`}
-                    value={this.getFilledQuestionText(
-                      player.answers,
-                      player.hand,
-                    )}
-                    onClick={
-                      this.props.player.isGameMaster
-                        ? () => this.props.selectedJudgment(
-                          player.id,
-                        )
-                        : () => { }
-                    }
-                  />
-                );
-              }
-              return null;
-            })}
+            {this.props.currentChannel.cards.map(card => (
+                <Card
+                  proposalCard
+                  key={`p${card.id}`}
+                  value={card.value}
+                  onClick={
+                    this.props.player.isGameMaster
+                      ? () => this.props.selectedJudgment(
+                        card.id,
+                      )
+                      : () => { }
+                  }
+                />
+            ))}
           </div>
         );
       }
       if (this.props.currentChannel.currentStatus === 'WAITING_GAME') {
-        const player = this.props.currentChannel.players.find(
-          p => p.isGameMaster,
-        );
-
         return (
           <React.Fragment>
             <div className={this.props.classes.game}>
-              <div className={this.props.classes.cardsContainer}>
-                <Card
-                  key={`p${player.id}`}
-                  value={this.getFilledQuestionText(
-                    player.answers,
-                    player.hand,
-                  )}
-                  onClick={() => { }}
-                />
-              </div>
+              {this.props.currentChannel.results
+              && <div className={this.props.classes.cardsContainer}>
+                {this.props.currentChannel.results.map(card => (
+                  <Card
+                    proposalCard
+                    key={`p${card.id}`}
+                    value={card.value}
+                    info={card.info}
+                    onClick={() => { }}
+                  />
+                ))}
+              </div>}
               <Leaderboard
                 data={this.props.currentChannel.players}
                 sortBy='score'
@@ -122,12 +114,12 @@ class UnderTheLimits extends Component {
               questionCard
               key='questioncard'
               value={this.getFilledQuestionText(
-                this.props.player.answers,
-                this.props.player.hand,
+                this.state.answers,
+                this.props.currentChannel.secret.hand,
               )}
             />
             <div className={this.props.classes.cardsContainer}>
-              {this.props.player.hand.map((answer, index) => (
+              {this.props.currentChannel.secret.hand.map((answer, index) => (
                 <Card
                   className={this.props.classes.cardGame}
                   key={answer.text}
@@ -138,7 +130,7 @@ class UnderTheLimits extends Component {
                       ? () => { }
                       : () => this.handleChange(index)
                   }
-                  checked={this.props.player.answers.indexOf(index) >= 0}
+                  checked={this.state.answers.indexOf(index) >= 0}
                 />
               ))}
             </div>
@@ -177,6 +169,9 @@ UnderTheLimits.propTypes = {
     players: PropTypes.arrayOf(PropTypes.object),
     timer: PropTypes.number,
     id: PropTypes.string,
+    secret: PropTypes.object,
+    cards: PropTypes.arrayOf(PropTypes.object),
+    results: PropTypes.arrayOf(PropTypes.object),
   }),
   // eslint-disable-next-line
   player: PropTypes.object
