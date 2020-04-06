@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "./server/scripts/postinstall.sh",
     "clean": "rm -rf server/db.sqlite3; rm -rf server/scripts/*.sql; rm -rf server/node_modules; rm -rf client/node_modules && rm -rf node_modules",
-    "start:dev": "yarn --cwd client build:dev & nodemon --ignore './server/avatars/' index.js && fg",
+    "start:dev": "yarn --cwd client build:dev & yarn --cwd server start && fg",
     "populate:dev": "yarn --cwd server populate",
     "lint": "yarn --cwd client lint; yarn --cwd server lint"
   },
