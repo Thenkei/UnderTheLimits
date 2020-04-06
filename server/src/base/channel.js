@@ -109,17 +109,21 @@ class Channel {
     user.currentStatus = 'IN_CHANNEL';
   }
 
-  serialize() {
-    return {
-      channel:
-      {
-        id: this.id,
-        admin: this.admin,
-        name: this.name,
-        players: this.players,
-        currentStatus: this.currentStatus,
-      },
-    };
+  /**
+   * UpdatePlayersIntimate
+   * Send intimate objects which are private so just shared to one client
+   * */
+  updatePlayersIntimate(io) {
+    this.players.forEach(
+      (p) => io.to(`${p.id}`).emit('updateChannel', { channel: { secret: p.serializeIntimate() } }),
+    );
+  }
+
+  /**
+   * Update - Send channel objects which are shared to all players
+   * */
+  update(io, data) {
+    io.to(this.id).emit('updateChannel', data || this.serialize());
   }
 }
 

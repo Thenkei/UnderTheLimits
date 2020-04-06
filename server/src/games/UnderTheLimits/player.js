@@ -35,6 +35,27 @@ class Player {
     this.answers = [];
     this.isGameMaster = false;
   }
+
+  /**
+   * Serialize the entity - only data members visible by anyone.
+   */
+  serialize() {
+    return {
+      id: this.id,
+      name: this.name,
+      score: this.score,
+      isGameMaster: this.isGameMaster,
+    };
+  }
+
+  /**
+   * SerializeIntimate the entity - secret data members.
+   */
+  serializeIntimate() {
+    return {
+      hand: this.hand,
+    };
+  }
 }
 
 module.exports = Player;
