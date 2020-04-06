@@ -120,7 +120,7 @@ class Lobby {
           client.leave(SOCKET_ROOM_LOBBY);
           client.join(channelId);
           channel.register(io, client, this.usersManager);
-          io.to(channel.id).emit('updateChannel', channel.serialize());
+          io.to(channel.id).emit('updateChannel', channel.serializeAll());
 
           const message = { isSystem: true, message: `${currentPlayer.username} a rejoint la partie.`, date: Date.now() };
           io.to(channel.id).emit('chat/message', message);

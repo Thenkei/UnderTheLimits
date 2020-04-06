@@ -2,9 +2,9 @@
   "name": "utl-server",
   "version": "0.0.0",
   "description": "Under the limits",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon app.js",
     "lint": "$(npm bin)/eslint src",
     "populate": "node ./scripts/populate.js"
   },

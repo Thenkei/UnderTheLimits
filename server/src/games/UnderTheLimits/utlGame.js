@@ -17,6 +17,15 @@ const UTL_STATUS = {
   JUDGING_CARD: 'JUDGING_CARD',
 };
 
+const fillQuestionCards = (question, p) => {
+  let questionText = question.text;
+  p.answers.map(
+    // eslint-disable-next-line no-return-assign
+    (i) => (questionText = questionText.replace('______', p.hand[i].text)),
+  );
+  return questionText;
+};
+
 class UTLGame extends Channel {
   constructor(
     name,
@@ -80,18 +89,6 @@ class UTLGame extends Channel {
     console.log('[UTLGame] ', this.name, 'starting new round...');
   }
 
-  shufflePlayer() {
-    const playersShuffle = this.players.slice();
-    for (let i = playersShuffle.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [playersShuffle[i], playersShuffle[j]] = [
-        playersShuffle[j],
-        playersShuffle[i],
-      ];
-    }
-    return playersShuffle;
-  }
-
   judgementState() {
     this.currentStatus = UTL_STATUS.JUDGING_CARD;
     if (!this.hasAllPlayersAnswered()) {
@@ -109,8 +106,6 @@ class UTLGame extends Channel {
         p.hasAfk();
       });
     }
-
-    this.players = this.shufflePlayer();
   }
 
   getQuestionCard() {
@@ -120,26 +115,26 @@ class UTLGame extends Channel {
   judge(judgment, userCumul, userPoint) {
     const winner = this.players.find((p) => p.id === judgment);
 
-    this.players.forEach((p) => {
-      if (!p.isGameMaster) {
-        // Machine learning data training set creation
-        const machineLearningAnswers = [];
-        p.answers.forEach((a) => {
-          machineLearningAnswers.push(p.hand[a].id);
-        });
+    // Create result
+    this.results = [{
+      id: winner.id,
+      value: fillQuestionCards(this.deckQuestions[0], winner),
+      info: { title: '1st', text: winner.name },
+    }];
 
-        const machineLearningHandAnswers = [];
-        p.hand.forEach((a) => {
-          machineLearningHandAnswers.push(a.id);
-        });
-      }
+    // Change Gamemaster
+    this.players.forEach((p) => {
       p.setGameMaster(false);
     });
-
-    winner.score += 1;
     winner.setGameMaster(true);
+
+    // Give winner a pts
+    winner.score += 1;
+
+    // User stats
     userCumul(winner, 1, `${winner.name} remporte le point !`);
 
+    // Handle end game
     const resultat = this.players.find((p) => p.score >= this.playerMaxPoint);
     if (resultat) {
       userPoint(winner, `Le vainqueur de la partie est ${winner.name}`);
@@ -165,10 +160,12 @@ class UTLGame extends Channel {
         admin: this.admin,
         type: 'UTL',
         name: this.name,
-        players: this.players,
+        players: this.players.map((p) => p.serialize()),
         currentStatus: this.currentStatus,
         timer: this.timer,
         deckQuestion: this.deckQuestions[0],
+        cards: [],
+        results: [],
         opts: {
           minPlayersCount: this.minPlayersCount,
           maxPlayersCount: this.maxPlayersCount,
@@ -187,20 +184,84 @@ class UTLGame extends Channel {
     };
   }
 
+  serializeJudgmentCards() {
+    // Creates cards
+    const cards = this.players.map(
+      (p) => (p.isGameMaster ? null : {
+        id: p.id,
+        value: fillQuestionCards(this.deckQuestions[0], p),
+      }),
+    ).filter((n) => n);
+
+    // Suffle cards
+    for (let i = cards.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [cards[i], cards[j]] = [
+        cards[j],
+        cards[i],
+      ];
+    }
+
+    return {
+      channel:
+        {
+          currentStatus: this.currentStatus,
+          cards,
+        },
+    };
+  }
+
+  serializeResultsCards() {
+    return {
+      channel:
+        {
+          currentStatus: this.currentStatus,
+          players: this.players.map((p) => p.serialize()),
+          results: this.results,
+        },
+    };
+  }
+
+  /**
+   * Use when someone reconnect to the channel
+   */
+  serializeAll() {
+    return {
+      ...this.serialize(),
+      ...(this.currentStatus === UTL_STATUS.JUDGING_CARD && this.serializeJudgmentCards()),
+      ...(this.currentStatus === UTL_STATUS.WAITING_GAME && this.serializeResultsCards()),
+    };
+  }
+
+  // Register Socket IO
+
+  /**
+   * Register - Listener to all events
+   * @param {*} io Socket to server io instance
+   * @param {*} client Socket to the client
+   * @param {*} usersManager User manager to records data (NEED to be removed later)
+   */
   register(io, client, usersManager) {
     client.on('nextRound', () => {
       try {
         this.nextRound(io, (player) => {
           usersManager.updateUserStatsPlayed(player.id);
         });
-        io.to(this.id).emit('updateChannel', this.serialize());
+
+        // Update players secret data
+        this.updatePlayersIntimate(io);
+        this.update(io);
 
         this.launchJudge = () => {
           clearInterval(this.interval);
           this.judgementState(io);
-          io.to(this.id).emit('updateChannel', this.serialize());
+
+          this.update(io, this.serializeJudgmentCards());
         };
-        this.interval = setInterval(() => { this.timer -= 1; io.to(this.id).emit('updateChannel', this.serializeTimer()); }, 1000);
+        this.interval = setInterval(
+          () => { this.timer -= 1; this.update(io, this.serializeTimer()); }, 1000,
+        );
+
         this.timeout = setTimeout(this.launchJudge, this.getAnwersTime());
       } catch (err) {
         client.emit('err', err.message);
@@ -222,7 +283,7 @@ class UTLGame extends Channel {
         }
       }
 
-      io.to(this.id).emit('updateChannel', this.serialize());
+      this.update(io);
     });
 
     client.on('selectedJudgment', (judgment) => {
@@ -251,7 +312,7 @@ class UTLGame extends Channel {
         client.emit('err', err.message);
       }
 
-      io.to(this.id).emit('updateChannel', this.serialize());
+      this.update(io, this.serializeResultsCards());
     });
   }
 }
