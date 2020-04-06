@@ -11,7 +11,7 @@ import {
 import styles from './styles';
 
 const Card = ({
-  classes, className, definition, onClick, checked, questionCard, proposalCard, value,
+  classes, className, definition, onClick, checked, questionCard, proposalCard, value, info,
 }) => {
   let MainWrapper = React.Fragment;
   let wrapperProps = {};
@@ -37,9 +37,12 @@ const Card = ({
           onClick={() => onClick && onClick()}
           role='none'
         >
+
           <Typography className={classes.cardBody} color='inherit' variant={questionCard ? 'h5' : 'body1'}>{value}</Typography>
         </div>
         {!questionCard && <div className={classes.cardShadow} />}
+        {info && <Typography className={classes.overlayTop} color='inherit' variant='h2'>{info.title}</Typography>}
+        {info && <Typography className={classes.overlayBot} color='inherit' variant='h2'>{info.text}</Typography>}
       </div>
     </MainWrapper>
   );
@@ -53,6 +56,7 @@ Card.defaultProps = {
   proposalCard: false,
   value: '',
   className: null,
+  info: null,
 };
 
 Card.propTypes = {
@@ -65,6 +69,10 @@ Card.propTypes = {
   questionCard: PropTypes.bool,
   proposalCard: PropTypes.bool,
   value: PropTypes.string,
+  info: PropTypes.shape({
+    title: PropTypes.string,
+    text: PropTypes.string,
+  }),
 };
 
 export default withStyles(styles, { withTheme: true })(Card);

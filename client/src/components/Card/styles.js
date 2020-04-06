@@ -65,6 +65,23 @@ export default theme => ({
     padding: theme.spacing(2),
   },
 
+  overlayTop: {
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    lineHeight: 0.1,
+  },
+
+  overlayBot: {
+    position: 'absolute',
+    bottom: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    lineHeight: 0.1,
+  },
+
   questionCard: {
     margin: 0,
     backgroundColor: 'transparent',
