@@ -37,6 +37,8 @@ class UTLGame extends Channel {
     super(name, minPlayersCount, maxPlayersCount, isPrivate);
     this.deckAnswers = [];
     this.deckQuestions = [];
+    this.cards = [];
+    this.results = [];
     this.timer = 0;
     this.playerMaxPoint = playerMaxPoint;
   }
@@ -164,72 +166,14 @@ class UTLGame extends Channel {
         currentStatus: this.currentStatus,
         timer: this.timer,
         deckQuestion: this.deckQuestions[0],
-        cards: [],
-        results: [],
+        cards: this.cards,
+        results: this.results,
         opts: {
           minPlayersCount: this.minPlayersCount,
           maxPlayersCount: this.maxPlayersCount,
           playerMaxPoint: this.playerMaxPoint,
         },
       },
-    };
-  }
-
-  serializeTimer() {
-    return {
-      channel:
-        {
-          timer: this.timer,
-        },
-    };
-  }
-
-  serializeJudgmentCards() {
-    // Creates cards
-    const cards = this.players.map(
-      (p) => (p.isGameMaster ? null : {
-        id: p.id,
-        value: fillQuestionCards(this.deckQuestions[0], p),
-      }),
-    ).filter((n) => n);
-
-    // Suffle cards
-    for (let i = cards.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [cards[i], cards[j]] = [
-        cards[j],
-        cards[i],
-      ];
-    }
-
-    return {
-      channel:
-        {
-          currentStatus: this.currentStatus,
-          cards,
-        },
-    };
-  }
-
-  serializeResultsCards() {
-    return {
-      channel:
-        {
-          currentStatus: this.currentStatus,
-          players: this.players.map((p) => p.serialize()),
-          results: this.results,
-        },
-    };
-  }
-
-  /**
-   * Use when someone reconnect to the channel
-   */
-  serializeAll() {
-    return {
-      ...this.serialize(),
-      ...(this.currentStatus === UTL_STATUS.JUDGING_CARD && this.serializeJudgmentCards()),
-      ...(this.currentStatus === UTL_STATUS.WAITING_GAME && this.serializeResultsCards()),
     };
   }
 
@@ -256,10 +200,41 @@ class UTLGame extends Channel {
           clearInterval(this.interval);
           this.judgementState(io);
 
-          this.update(io, this.serializeJudgmentCards());
+          // Creates cards
+          const cards = this.players.map(
+            (p) => (p.isGameMaster ? null : {
+              id: p.id,
+              value: fillQuestionCards(this.deckQuestions[0], p),
+            }),
+          ).filter((n) => n);
+
+          // Suffle cards
+          for (let i = cards.length - 1; i > 0; i -= 1) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [cards[i], cards[j]] = [
+              cards[j],
+              cards[i],
+            ];
+          }
+          this.cards = cards;
+
+          this.update(io, {
+            channel:
+              {
+                currentStatus: this.currentStatus,
+                cards: this.cards,
+              },
+          });
         };
         this.interval = setInterval(
-          () => { this.timer -= 1; this.update(io, this.serializeTimer()); }, 1000,
+          () => {
+            this.timer -= 1; this.update(io, {
+              channel:
+              {
+                timer: this.timer,
+              },
+            });
+          }, 1000,
         );
 
         this.timeout = setTimeout(this.launchJudge, this.getAnwersTime());
@@ -312,7 +287,14 @@ class UTLGame extends Channel {
         client.emit('err', err.message);
       }
 
-      this.update(io, this.serializeResultsCards());
+      this.update(io, {
+        channel:
+        {
+          currentStatus: this.currentStatus,
+          players: this.players.map((p) => p.serialize()),
+          results: this.results,
+        },
+      });
     });
   }
 }
